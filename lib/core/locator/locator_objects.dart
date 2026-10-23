@@ -13,13 +13,15 @@ import 'package:scoreboard/services/update_service.dart';
 import 'package:scoreboard/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void setupLocatorObjects() {
+void setupLocatorObjects({bool isTesting = false}) {
   getIt.registerSingletonAsync<SharedPreference>(
       () async => SharedPreference(await SharedPreferences.getInstance()));
   getIt.registerSingletonAsync<PackageInfoService>(
       () async => PackageInfoService(await PackageInfo.fromPlatform()));
   getIt.registerSingletonWithDependencies<ScoreboardRepository>(
-      () => MockScoreboardRepository(getIt<SharedPreference>()),
+      () => MockScoreboardRepository(getIt<SharedPreference>(),
+          latency:
+              isTesting ? Duration.zero : const Duration(milliseconds: 300)),
       dependsOn: [SharedPreference]);
   getIt.registerSingleton<FilePickerService>(FilePickerService());
   getIt.registerSingleton<ImageStorageService>(ImageStorageService());

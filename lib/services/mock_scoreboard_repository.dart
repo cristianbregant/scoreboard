@@ -25,7 +25,8 @@ class MockScoreboardRepository implements ScoreboardRepository {
   static const String demoEmail = 'mario.rossi@northwind.dev';
   static const String demoPassword = 'scoreboard';
 
-  static const Duration _latency = Duration(milliseconds: 300);
+  /// Simulated network delay of every call; tests pass [Duration.zero].
+  final Duration _latency;
 
   final SharedPreference _preferences;
 
@@ -64,7 +65,9 @@ class MockScoreboardRepository implements ScoreboardRepository {
       .map((json) => jsonDecode(json)['id'] as String)
       .toSet();
 
-  MockScoreboardRepository(this._preferences);
+  MockScoreboardRepository(this._preferences,
+      {Duration latency = const Duration(milliseconds: 300)})
+      : _latency = latency;
 
   @override
   String? get sessionUserId => _preferences.sessionUserId;

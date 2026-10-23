@@ -453,11 +453,15 @@ class _CardBack extends StatelessWidget {
             const Icon(Icons.verified_rounded,
                 size: 13, color: AppColors.verified),
             const SizedBox(width: 4),
-            Text(l10n.cardVerifiedAchievement,
-                style: const TextStyle(
-                    fontSize: 10.5,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.verified)),
+            Flexible(
+              child: Text(l10n.cardVerifiedAchievement,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontSize: 10.5,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.verified)),
+            ),
           ],
         ),
         const Spacer(),

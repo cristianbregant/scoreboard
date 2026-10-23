@@ -141,12 +141,14 @@ lib/
 
 ```sh
 flutter analyze        # lints (flutter_lints)
-dart format lib        # formatting
+flutter test           # unit and widget tests
+dart format lib test   # formatting
 flutter build macos    # release build (also: windows, linux)
 ```
 
 Notes:
 
+- Tests live in `test/unit` (models and interactors, run against the mock backend) and `test/widget` (screens and components). `test/helpers/test_app.dart` builds the app as `main` does, on in-memory preferences, with the mock backend's latency turned off and fakes for system notifications and the GitHub update check. Tests compare against the localized strings rather than hard-coded text, and seed data is relative to today, so they assert on rules rather than on fixed values.
 - The UI uses the **Inter** typeface, bundled in `assets/fonts` under the SIL Open Font License (`OFL.txt`, also shown in the app's licenses). The certificate PDFs embed it too.
 - Picking and saving images on macOS needs `com.apple.security.files.user-selected.read-write`, which is also enabled.
 - On macOS, `package_info_plus`, `screen_retriever` and `window_manager` don't support Swift Package Manager yet. Flutter prints a warning and falls back to CocoaPods.
@@ -157,7 +159,7 @@ Notes:
 
 1. Set `version:` in `pubspec.yaml` (for example `0.2.0+1`).
 2. Commit, then tag and push it: `git tag v0.2.0 && git push origin v0.2.0`.
-3. The workflow checks that the tag matches the version, then builds:
+3. The workflow checks that the tag matches the version and runs the CI checks, then builds:
    - a DMG for macOS;
    - a zip for Windows;
    - a tarball for Linux.

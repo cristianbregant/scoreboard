@@ -9,7 +9,7 @@ import 'package:scoreboard/core/locator/locator_view_models.dart';
 GetIt getIt = GetIt.instance;
 
 void setupLocator({bool isTesting = false, bool isIntegrationTesting = false}) {
-  setupLocatorObjects();
+  setupLocatorObjects(isTesting: isTesting);
   setupLocatorViews();
   setupLocatorInteractors();
   setupLocatorStates();

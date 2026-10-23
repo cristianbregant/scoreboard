@@ -1,0 +1,56 @@
+# Checks every push and pull request: generated translations up to date,
+# formatting, lints and tests. The release workflow runs it too, before
+# building anything.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  # Only superseded pull request runs are cancelled; main keeps every run.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  FLUTTER_VERSION: '3.47.6'
+
+jobs:
+  check:
+    name: Analyze and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+
+      # lib/generated is committed: editing an .arb file without running
+      # the generator would ship stale strings.
+      - name: Translations are generated
+        run: |
+          dart run intl_utils:generate
+          dart format lib/generated > /dev/null
+          if ! git diff --quiet -- lib/generated; then
+            git diff --stat -- lib/generated
+            echo "::error::lib/generated is out of date. Run 'dart run intl_utils:generate && dart format lib/generated' and commit the result."
+            exit 1
+          fi
+
+      - name: Formatting
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test --test-randomize-ordering-seed random
