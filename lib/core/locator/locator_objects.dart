@@ -5,6 +5,7 @@ import 'package:scoreboard/services/image_storage_service.dart';
 import 'package:scoreboard/services/mock_scoreboard_repository.dart';
 import 'package:scoreboard/services/package_info_service.dart';
 import 'package:scoreboard/services/scoreboard_repository.dart';
+import 'package:scoreboard/services/share_service.dart';
 import 'package:scoreboard/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,4 +19,5 @@ void setupLocatorObjects() {
       dependsOn: [SharedPreference]);
   getIt.registerSingleton<FilePickerService>(FilePickerService());
   getIt.registerSingleton<ImageStorageService>(ImageStorageService());
+  getIt.registerSingleton<ShareService>(ShareService());
 }

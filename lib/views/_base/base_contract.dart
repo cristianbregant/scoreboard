@@ -5,7 +5,8 @@ abstract class BaseViewContract {
 
   void hideLoader();
 
-  void openExternalLink(String url);
+  /// Opens [url] in the default browser; false if it couldn't.
+  Future<bool> openExternalLink(String url);
 
   void dismissScreen([Object parameter]);
 }

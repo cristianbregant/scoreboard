@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:scoreboard/core/locator/locator.dart';
 import 'package:scoreboard/views/_base/base_contract.dart';
 import 'package:scoreboard/views/_base/base_stateful_widget.dart';
@@ -43,11 +44,11 @@ abstract class BaseState<
   }
 
   @override
-  void openExternalLink(
-    String url,
-  ) async {
-    // if (!await launchUrlString(url, mode: mode)) {
-    //   throw 'Could not launch $url';
-    // }
+  Future<bool> openExternalLink(String url) async {
+    try {
+      return await launchUrlString(url, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      return false;
+    }
   }
 }

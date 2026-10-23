@@ -17,6 +17,10 @@ A desktop app for workplace recognition, for macOS, Windows and Linux. Companies
   - *Your company*: team ranking with a top-3 podium.
   - *Community*: everyone and every company, with search.
 - **Profile.** Photo, cover (six patterns or your own image), bio, level progress and recent achievements.
+- **Share on LinkedIn.**
+  - Open a post with ready-made text.
+  - Add a verified achievement to your profile under *Licenses & certifications*.
+  - Save a 1200×627 image of the card to attach to the post.
 - **Accounts.** Sign in, registration, email and password changes, sign out.
 - **Light and dark themes**, with the choice remembered.
 
@@ -109,7 +113,7 @@ flutter build macos    # release build (also: windows, linux)
 Notes:
 
 - The UI uses the **Inter** typeface through `google_fonts`. It is downloaded at runtime and cached. On macOS, both the Debug and Release entitlements include `com.apple.security.network.client` for that.
-- Picking images on macOS needs `com.apple.security.files.user-selected.read-only`, which is also enabled.
+- Picking and saving images on macOS needs `com.apple.security.files.user-selected.read-write`, which is also enabled.
 - On macOS, `package_info_plus`, `screen_retriever` and `window_manager` don't support Swift Package Manager yet. Flutter prints a warning and falls back to CocoaPods.
 
 ## Localization

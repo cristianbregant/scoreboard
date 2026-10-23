@@ -16,7 +16,7 @@ void setupLocatorViewModels() {
       getIt<AppConfigurationInteractor>()));
 
   getIt.registerFactory<AchievementViewModelContract>(
-      () => AchievementViewModel());
+      () => AchievementViewModel(getIt<ShareInteractor>()));
 
   getIt.registerFactory<ProfileViewModelContract>(
       () => ProfileViewModel(getIt<ScoreboardInteractor>()));

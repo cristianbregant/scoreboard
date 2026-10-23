@@ -397,5 +397,48 @@
       "template": {},
       "colleague": {}
     }
-  }
+  },
+  "shareOnLinkedIn": "Condividi su LinkedIn",
+  "shareDialogSubtitle": "Pubblica un post o aggiungilo al tuo profilo LinkedIn.",
+  "sharePostLabel": "Testo del post",
+  "shareOpenLinkedIn": "Pubblica su LinkedIn",
+  "shareAddToProfile": "Aggiungi al profilo",
+  "shareAddToProfileHint": "Lo aggiunge a Licenze e certificazioni, con {company} come ente emittente.",
+  "@shareAddToProfileHint": {
+    "placeholders": {
+      "company": {}
+    }
+  },
+  "shareCopyText": "Copia testo",
+  "shareSaveImage": "Salva immagine",
+  "shareImageHint": "LinkedIn non permette di allegare immagini da un link: salvala e aggiungila al post.",
+  "shareTextCopied": "Testo copiato negli appunti",
+  "shareOpened": "Testo copiato: se LinkedIn non lo inserisce, incollalo nel post.",
+  "shareImageSaved": "Immagine salvata",
+  "shareSaveError": "Impossibile salvare l'immagine. Riprova.",
+  "shareOpenError": "Impossibile aprire LinkedIn.",
+  "sharePostVerified": "🏆 Ho ottenuto il traguardo “{name}”, rilasciato da {company}.\n\n{description}\n\n#Scoreboard",
+  "@sharePostVerified": {
+    "placeholders": {
+      "name": {},
+      "company": {},
+      "description": {}
+    }
+  },
+  "sharePostPeer": "🤝 {sender} mi ha assegnato il traguardo “{name}”.\n\n{description}\n\n#Scoreboard",
+  "@sharePostPeer": {
+    "placeholders": {
+      "sender": {},
+      "name": {},
+      "description": {}
+    }
+  },
+  "shareImageHeadline": "TRAGUARDO SBLOCCATO",
+  "shareImageIssuedBy": "Rilasciato da {company}",
+  "@shareImageIssuedBy": {
+    "placeholders": {
+      "company": {}
+    }
+  },
+  "commonClose": "Chiudi"
 }

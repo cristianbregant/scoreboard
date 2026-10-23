@@ -74,20 +74,31 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m24(count) => "Inviati da te · ${count}";
 
-  static String m25(name) => "“${name}” aggiunto alla libreria";
+  static String m25(company) =>
+      "Lo aggiunge a Licenze e certificazioni, con ${company} come ente emittente.";
 
-  static String m26(name) => "“${name}” eliminato";
+  static String m26(company) => "Rilasciato da ${company}";
 
-  static String m27(count) =>
+  static String m27(sender, name, description) =>
+      "🤝 ${sender} mi ha assegnato il traguardo “${name}”.\n\n${description}\n\n#Scoreboard";
+
+  static String m28(name, company, description) =>
+      "🏆 Ho ottenuto il traguardo “${name}”, rilasciato da ${company}.\n\n${description}\n\n#Scoreboard";
+
+  static String m29(name) => "“${name}” aggiunto alla libreria";
+
+  static String m30(name) => "“${name}” eliminato";
+
+  static String m31(count) =>
       "${Intl.plural(count, one: '1 verificato', other: '${count} verificati')}";
 
-  static String m28(version) => "Versione ${version}";
+  static String m32(version) => "Versione ${version}";
 
-  static String m29(points, level) => "${points} XP al livello ${level}";
+  static String m33(points, level) => "${points} XP al livello ${level}";
 
-  static String m30(points) => "${points} XP";
+  static String m34(points) => "${points} XP";
 
-  static String m31(name) => "${name} (tu)";
+  static String m35(name) => "${name} (tu)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -162,6 +173,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "commonBack": MessageLookupByLibrary.simpleMessage("Indietro"),
         "commonCancel": MessageLookupByLibrary.simpleMessage("Annulla"),
+        "commonClose": MessageLookupByLibrary.simpleMessage("Chiudi"),
         "commonCreate": MessageLookupByLibrary.simpleMessage("Crea"),
         "commonDelete": MessageLookupByLibrary.simpleMessage("Elimina"),
         "commonPreview": MessageLookupByLibrary.simpleMessage("ANTEPRIMA"),
@@ -395,6 +407,47 @@ class MessageLookup extends MessageLookupByLibrary {
         "settingsAbout": MessageLookupByLibrary.simpleMessage("Informazioni"),
         "settingsAccount": MessageLookupByLibrary.simpleMessage("Account"),
         "settingsAppearance": MessageLookupByLibrary.simpleMessage("Aspetto"),
+        "shareAddToProfile": MessageLookupByLibrary.simpleMessage(
+          "Aggiungi al profilo",
+        ),
+        "shareAddToProfileHint": m25,
+        "shareCopyText": MessageLookupByLibrary.simpleMessage("Copia testo"),
+        "shareDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Pubblica un post o aggiungilo al tuo profilo LinkedIn.",
+        ),
+        "shareImageHeadline": MessageLookupByLibrary.simpleMessage(
+          "TRAGUARDO SBLOCCATO",
+        ),
+        "shareImageHint": MessageLookupByLibrary.simpleMessage(
+          "LinkedIn non permette di allegare immagini da un link: salvala e aggiungila al post.",
+        ),
+        "shareImageIssuedBy": m26,
+        "shareImageSaved":
+            MessageLookupByLibrary.simpleMessage("Immagine salvata"),
+        "shareOnLinkedIn": MessageLookupByLibrary.simpleMessage(
+          "Condividi su LinkedIn",
+        ),
+        "shareOpenError": MessageLookupByLibrary.simpleMessage(
+          "Impossibile aprire LinkedIn.",
+        ),
+        "shareOpenLinkedIn": MessageLookupByLibrary.simpleMessage(
+          "Pubblica su LinkedIn",
+        ),
+        "shareOpened": MessageLookupByLibrary.simpleMessage(
+          "Testo copiato: se LinkedIn non lo inserisce, incollalo nel post.",
+        ),
+        "sharePostLabel":
+            MessageLookupByLibrary.simpleMessage("Testo del post"),
+        "sharePostPeer": m27,
+        "sharePostVerified": m28,
+        "shareSaveError": MessageLookupByLibrary.simpleMessage(
+          "Impossibile salvare l\'immagine. Riprova.",
+        ),
+        "shareSaveImage":
+            MessageLookupByLibrary.simpleMessage("Salva immagine"),
+        "shareTextCopied": MessageLookupByLibrary.simpleMessage(
+          "Testo copiato negli appunti",
+        ),
         "showPassword": MessageLookupByLibrary.simpleMessage("Mostra password"),
         "signIn": MessageLookupByLibrary.simpleMessage("Accedi"),
         "signOut": MessageLookupByLibrary.simpleMessage("Esci"),
@@ -418,14 +471,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "teamLeaderboard": MessageLookupByLibrary.simpleMessage(
           "Classifica del team",
         ),
-        "templateAdded": m25,
+        "templateAdded": m29,
         "templateCreateError": MessageLookupByLibrary.simpleMessage(
           "Impossibile creare il traguardo. Riprova.",
         ),
         "templateDeleteError": MessageLookupByLibrary.simpleMessage(
           "Impossibile eliminare il traguardo. Riprova.",
         ),
-        "templateDeleted": m26,
+        "templateDeleted": m30,
         "templateNameRequired": MessageLookupByLibrary.simpleMessage(
           "Dagli un nome",
         ),
@@ -445,11 +498,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "verifiedByCompany": MessageLookupByLibrary.simpleMessage(
           "Verificato dall\'azienda",
         ),
-        "verifiedCount": m27,
-        "versionLabel": m28,
+        "verifiedCount": m31,
+        "versionLabel": m32,
         "workEmail": MessageLookupByLibrary.simpleMessage("Email di lavoro"),
-        "xpToNextLevel": m29,
-        "xpValue": m30,
-        "youSuffix": m31,
+        "xpToNextLevel": m33,
+        "xpValue": m34,
+        "youSuffix": m35,
       };
 }

@@ -1760,6 +1760,191 @@ class AppLocalization {
       args: [template, colleague],
     );
   }
+
+  /// `Condividi su LinkedIn`
+  String get shareOnLinkedIn {
+    return Intl.message(
+      'Condividi su LinkedIn',
+      name: 'shareOnLinkedIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pubblica un post o aggiungilo al tuo profilo LinkedIn.`
+  String get shareDialogSubtitle {
+    return Intl.message(
+      'Pubblica un post o aggiungilo al tuo profilo LinkedIn.',
+      name: 'shareDialogSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Testo del post`
+  String get sharePostLabel {
+    return Intl.message(
+      'Testo del post',
+      name: 'sharePostLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pubblica su LinkedIn`
+  String get shareOpenLinkedIn {
+    return Intl.message(
+      'Pubblica su LinkedIn',
+      name: 'shareOpenLinkedIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Aggiungi al profilo`
+  String get shareAddToProfile {
+    return Intl.message(
+      'Aggiungi al profilo',
+      name: 'shareAddToProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lo aggiunge a Licenze e certificazioni, con {company} come ente emittente.`
+  String shareAddToProfileHint(Object company) {
+    return Intl.message(
+      'Lo aggiunge a Licenze e certificazioni, con $company come ente emittente.',
+      name: 'shareAddToProfileHint',
+      desc: '',
+      args: [company],
+    );
+  }
+
+  /// `Copia testo`
+  String get shareCopyText {
+    return Intl.message(
+      'Copia testo',
+      name: 'shareCopyText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Salva immagine`
+  String get shareSaveImage {
+    return Intl.message(
+      'Salva immagine',
+      name: 'shareSaveImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `LinkedIn non permette di allegare immagini da un link: salvala e aggiungila al post.`
+  String get shareImageHint {
+    return Intl.message(
+      'LinkedIn non permette di allegare immagini da un link: salvala e aggiungila al post.',
+      name: 'shareImageHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Testo copiato negli appunti`
+  String get shareTextCopied {
+    return Intl.message(
+      'Testo copiato negli appunti',
+      name: 'shareTextCopied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Testo copiato: se LinkedIn non lo inserisce, incollalo nel post.`
+  String get shareOpened {
+    return Intl.message(
+      'Testo copiato: se LinkedIn non lo inserisce, incollalo nel post.',
+      name: 'shareOpened',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Immagine salvata`
+  String get shareImageSaved {
+    return Intl.message(
+      'Immagine salvata',
+      name: 'shareImageSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Impossibile salvare l'immagine. Riprova.`
+  String get shareSaveError {
+    return Intl.message(
+      'Impossibile salvare l\'immagine. Riprova.',
+      name: 'shareSaveError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Impossibile aprire LinkedIn.`
+  String get shareOpenError {
+    return Intl.message(
+      'Impossibile aprire LinkedIn.',
+      name: 'shareOpenError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `🏆 Ho ottenuto il traguardo “{name}”, rilasciato da {company}.\n\n{description}\n\n#Scoreboard`
+  String sharePostVerified(Object name, Object company, Object description) {
+    return Intl.message(
+      '🏆 Ho ottenuto il traguardo “$name”, rilasciato da $company.\n\n$description\n\n#Scoreboard',
+      name: 'sharePostVerified',
+      desc: '',
+      args: [name, company, description],
+    );
+  }
+
+  /// `🤝 {sender} mi ha assegnato il traguardo “{name}”.\n\n{description}\n\n#Scoreboard`
+  String sharePostPeer(Object sender, Object name, Object description) {
+    return Intl.message(
+      '🤝 $sender mi ha assegnato il traguardo “$name”.\n\n$description\n\n#Scoreboard',
+      name: 'sharePostPeer',
+      desc: '',
+      args: [sender, name, description],
+    );
+  }
+
+  /// `TRAGUARDO SBLOCCATO`
+  String get shareImageHeadline {
+    return Intl.message(
+      'TRAGUARDO SBLOCCATO',
+      name: 'shareImageHeadline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rilasciato da {company}`
+  String shareImageIssuedBy(Object company) {
+    return Intl.message(
+      'Rilasciato da $company',
+      name: 'shareImageIssuedBy',
+      desc: '',
+      args: [company],
+    );
+  }
+
+  /// `Chiudi`
+  String get commonClose {
+    return Intl.message('Chiudi', name: 'commonClose', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {

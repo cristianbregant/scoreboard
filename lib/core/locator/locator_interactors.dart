@@ -4,6 +4,7 @@ import 'package:scoreboard/services/file_picker_service.dart';
 import 'package:scoreboard/services/image_storage_service.dart';
 import 'package:scoreboard/services/package_info_service.dart';
 import 'package:scoreboard/services/scoreboard_repository.dart';
+import 'package:scoreboard/services/share_service.dart';
 import 'package:scoreboard/services/shared_preferences.dart';
 
 void setupLocatorInteractors() {
@@ -16,4 +17,6 @@ void setupLocatorInteractors() {
       getIt<ImageStorageService>()));
   getIt.registerFactory<AuthInteractor>(
       () => AuthInteractor(getIt<ScoreboardRepository>()));
+  getIt.registerFactory<ShareInteractor>(
+      () => ShareInteractor(getIt<ShareService>()));
 }

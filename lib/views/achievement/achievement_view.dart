@@ -6,6 +6,7 @@ import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/widgets/achievement_style.dart';
 import 'package:scoreboard/widgets/common/company_logo.dart';
 import 'package:scoreboard/widgets/common/stat_tile.dart';
+import 'package:scoreboard/widgets/dialogs/share_achievement_dialog.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/views/_base/base_stateful_widget.dart';
@@ -25,6 +26,28 @@ class _AchievementViewState extends BaseState<
     AchievementView,
     AchievementViewModelContract,
     AchievementState> implements AchievementViewContract {
+  @override
+  void openShareDialog(Achievement achievement, String postText,
+      {required bool canAddToProfile}) {
+    showShareAchievementDialog(
+      context,
+      achievement: achievement,
+      postText: postText,
+      onPost: viewModel.onPostOnLinkedIn,
+      onCopy: viewModel.onCopyPostText,
+      onSaveImage: (png) => viewModel.onSaveShareImage(png, achievement),
+      onAddToProfile: canAddToProfile
+          ? () => viewModel.onAddToLinkedInProfile(achievement)
+          : null,
+    );
+  }
+
+  @override
+  void showMessage(String message) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     final achievement = widget.achievement;
@@ -199,9 +222,20 @@ class _AchievementViewState extends BaseState<
               color: AppColors.success),
         ]),
         const SizedBox(height: 20),
-        Text(context.l10n.detailId(achievement.id ?? '-'),
-            style:
-                TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant)),
+        Row(
+          children: [
+            Expanded(
+              child: Text(context.l10n.detailId(achievement.id ?? '-'),
+                  style: TextStyle(
+                      fontSize: 12, color: colorScheme.onSurfaceVariant)),
+            ),
+            FilledButton.icon(
+              onPressed: () => viewModel.onTapShare(achievement),
+              icon: const Icon(Icons.share_rounded, size: 18),
+              label: Text(context.l10n.shareOnLinkedIn),
+            ),
+          ],
+        ),
       ],
     );
   }
