@@ -1,3 +1,5 @@
+import 'package:scoreboard/core/l10n_messages.dart';
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/core/formatters.dart';
 import 'package:scoreboard/core/theme.dart';
 import 'package:scoreboard/model/achievement.dart';
@@ -44,12 +46,12 @@ class _AchievementViewState extends BaseState<
                       child: Row(
                         children: [
                           IconButton.filledTonal(
-                            tooltip: "Back",
+                            tooltip: context.l10n.commonBack,
                             onPressed: () => Navigator.of(context).maybePop(),
                             icon: const Icon(Icons.arrow_back_rounded),
                           ),
                           const SizedBox(width: 12),
-                          Text("Achievement",
+                          Text(context.l10n.achievementDetailTitle,
                               style: TextStyle(
                                   fontSize: 14,
                                   color: colorScheme.onSurfaceVariant)),
@@ -108,7 +110,7 @@ class _AchievementViewState extends BaseState<
                 Icon(Icons.flip_rounded,
                     size: 14, color: colorScheme.onSurfaceVariant),
                 const SizedBox(width: 6),
-                Text("Click the card to flip it",
+                Text(context.l10n.flipHint,
                     style: TextStyle(
                         fontSize: 12, color: colorScheme.onSurfaceVariant)),
               ],
@@ -130,16 +132,16 @@ class _AchievementViewState extends BaseState<
           children: [
             if (achievement.verified == true) ...[
               TagChip(
-                  label: tier.label,
+                  label: tier.localized(context.l10n),
                   icon: Icons.workspace_premium_rounded,
                   color: tier.color),
-              const TagChip(
-                  label: "Verified by the company",
+              TagChip(
+                  label: context.l10n.verifiedByCompany,
                   icon: Icons.verified_rounded,
                   color: AppColors.verified),
             ] else
               TagChip(
-                  label: "From a colleague",
+                  label: context.l10n.fromAColleague,
                   icon: Icons.handshake_rounded,
                   color: tier.color),
           ],
@@ -164,12 +166,12 @@ class _AchievementViewState extends BaseState<
         const SizedBox(height: 28),
         StatRow(tiles: [
           StatTile(
-              label: "Experience",
-              value: "${achievement.points ?? 0} XP",
+              label: context.l10n.detailExperience,
+              value: context.l10n.xpValue(achievement.points ?? 0),
               icon: Icons.bolt_rounded),
           StatTile(
-              label: "Tier",
-              value: tier.label,
+              label: context.l10n.detailTier,
+              value: tier.localized(context.l10n),
               icon: Icons.workspace_premium_rounded,
               color: tier.color),
         ]),
@@ -177,7 +179,7 @@ class _AchievementViewState extends BaseState<
         StatRow(tiles: [
           if (achievement.verified == true)
             StatTile(
-                label: "Company",
+                label: context.l10n.detailCompany,
                 value: achievement.company ?? '-',
                 icon: Icons.business_rounded,
                 leading: CompanyLogo(
@@ -186,18 +188,18 @@ class _AchievementViewState extends BaseState<
                     size: 42))
           else
             StatTile(
-                label: "Sent by",
+                label: context.l10n.detailSentBy,
                 value: achievement.awardedByName ?? '-',
                 icon: Icons.person_rounded,
                 color: AppColors.verified),
           StatTile(
-              label: "Earned on",
+              label: context.l10n.detailEarnedOn,
               value: formatDate(achievement.date),
               icon: Icons.event_rounded,
               color: AppColors.success),
         ]),
         const SizedBox(height: 20),
-        Text("ID ${achievement.id ?? '-'}",
+        Text(context.l10n.detailId(achievement.id ?? '-'),
             style:
                 TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant)),
       ],
@@ -220,7 +222,8 @@ class _AchievementViewState extends BaseState<
               style: const TextStyle(
                   fontSize: 15, height: 1.4, fontStyle: FontStyle.italic)),
           const SizedBox(height: 6),
-          Text("\u2014 ${achievement.awardedByName ?? 'A colleague'}",
+          Text(
+              "\u2014 ${achievement.awardedByName ?? context.l10n.noteAuthorFallback}",
               style:
                   TextStyle(fontSize: 13, color: colorScheme.onSurfaceVariant)),
         ],

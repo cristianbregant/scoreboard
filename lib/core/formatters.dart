@@ -1,5 +1,7 @@
+import 'package:intl/intl.dart';
+
+/// Medium date in the current locale, e.g. "25 set 2026" or "Sep 25, 2026".
 String formatDate(DateTime? date) {
   if (date == null) return '-';
-  String twoDigits(int value) => value.toString().padLeft(2, '0');
-  return '${twoDigits(date.day)}/${twoDigits(date.month)}/${date.year}';
+  return DateFormat.yMMMd().format(date);
 }

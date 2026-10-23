@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/views/_base/base_contract.dart';
 
@@ -26,9 +27,10 @@ class ContentStateView extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline, size: 48),
             const SizedBox(height: 12),
-            const Text("Something went wrong while loading data."),
+            Text(context.l10n.loadError),
             const SizedBox(height: 12),
-            FilledButton(onPressed: onRetry, child: const Text("Retry")),
+            FilledButton(
+                onPressed: onRetry, child: Text(context.l10n.commonRetry)),
           ],
         ),
       );

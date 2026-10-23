@@ -7,6 +7,7 @@ import 'package:scoreboard/interactors/app_configuration_interactor.dart';
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => UploadStatusProvider()),
   ChangeNotifierProvider(create: (_) => DarkThemeProvider()),
+  ChangeNotifierProvider(create: (_) => LocaleProvider()),
 ];
 
 enum UploadStatus {
@@ -72,6 +73,18 @@ class DarkThemeProvider extends ChangeNotifier {
     _darkTheme = value;
     getIt<AppConfigurationInteractor>()
         .setAppTheme(value ? ThemeMode.dark : ThemeMode.light);
+    notifyListeners();
+  }
+}
+
+/// Language chosen in the settings; null follows the system.
+class LocaleProvider extends ChangeNotifier {
+  Locale? _locale = getIt<AppConfigurationInteractor>().getAppLocale();
+
+  Locale? get locale => _locale;
+  set locale(Locale? value) {
+    _locale = value;
+    getIt<AppConfigurationInteractor>().setAppLocale(value);
     notifyListeners();
   }
 }

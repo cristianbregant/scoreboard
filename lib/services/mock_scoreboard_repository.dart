@@ -61,7 +61,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
 
   UserProfile _currentUser() {
     final user = _users.where((user) => user.id == sessionUserId).firstOrNull;
-    if (user == null) throw const AuthException("You are not signed in.");
+    if (user == null) throw const AuthException(AuthError.notSignedIn);
     return user;
   }
 
@@ -71,7 +71,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
     final credential = _credentials[_normalize(email)];
     if (credential == null ||
         credential.hash != _hash(password, credential.salt)) {
-      throw const AuthException("Wrong email or password.");
+      throw const AuthException(AuthError.wrongCredentials);
     }
     await _preferences.setSessionUserId(credential.userId);
     return _currentUser();
@@ -82,7 +82,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
     await Future.delayed(_latency);
     final email = _normalize(draft.email);
     if (_isEmailTaken(email)) {
-      throw const AuthException("An account with this email already exists.");
+      throw const AuthException(AuthError.emailTaken);
     }
     final user = UserProfile(
       id: 'u_${DateTime.now().microsecondsSinceEpoch}',
@@ -116,7 +116,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
     final credential = _credentials[email];
     if (credential == null ||
         credential.hash != _hash(currentPassword, credential.salt)) {
-      throw const AuthException("The current password is wrong.");
+      throw const AuthException(AuthError.wrongCurrentPassword);
     }
     _credentials[email] = _Credential.create(user.id, newPassword);
     await _persistCredentials();
@@ -130,7 +130,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
     final newEmail = _normalize(profile.email);
     if (newEmail != oldEmail) {
       if (_isEmailTaken(newEmail)) {
-        throw const AuthException("An account with this email already exists.");
+        throw const AuthException(AuthError.emailTaken);
       }
       final credential = _credentials.remove(oldEmail);
       if (credential != null) _credentials[newEmail] = credential;

@@ -1,3 +1,6 @@
+import 'package:scoreboard/core/l10n_messages.dart';
+import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/generated/l10n.dart';
 import 'dart:math' as math;
 
 import 'package:scoreboard/core/formatters.dart';
@@ -245,13 +248,14 @@ class _CardFront extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildArtwork(achievement.tier),
-        Expanded(child: _buildInfo(Theme.of(context).colorScheme)),
+        _buildArtwork(achievement.tier, context.l10n),
+        Expanded(
+            child: _buildInfo(Theme.of(context).colorScheme, context.l10n)),
       ],
     );
   }
 
-  Widget _buildArtwork(AchievementTier tier) {
+  Widget _buildArtwork(AchievementTier tier, AppLocalization l10n) {
     return Container(
       height: 150,
       decoration: BoxDecoration(gradient: tier.gradient),
@@ -286,7 +290,7 @@ class _CardFront extends StatelessWidget {
             left: 10,
             top: 10,
             child: _Pill(
-              text: "${achievement.points ?? 0} XP",
+              text: l10n.xpValue(achievement.points ?? 0),
               background: Colors.black.withValues(alpha: 0.28),
             ),
           ),
@@ -294,7 +298,7 @@ class _CardFront extends StatelessWidget {
             right: 10,
             top: 10,
             child: _Pill(
-              text: tier.label.toUpperCase(),
+              text: tier.localized(l10n).toUpperCase(),
               background: Colors.white.withValues(alpha: 0.22),
             ),
           ),
@@ -303,7 +307,7 @@ class _CardFront extends StatelessWidget {
     );
   }
 
-  Widget _buildInfo(ColorScheme colorScheme) {
+  Widget _buildInfo(ColorScheme colorScheme, AppLocalization l10n) {
     final mutedStyle =
         TextStyle(fontSize: 10.5, color: colorScheme.onSurfaceVariant);
     final Widget originIcon;
@@ -317,11 +321,11 @@ class _CardFront extends StatelessWidget {
     } else if (achievement.awardedByName != null) {
       originIcon = Icon(Icons.person_rounded,
           size: 12, color: colorScheme.onSurfaceVariant);
-      originLabel = "From ${achievement.awardedByName}";
+      originLabel = l10n.cardFrom(achievement.awardedByName!);
     } else {
       originIcon = Icon(Icons.handshake_rounded,
           size: 12, color: colorScheme.onSurfaceVariant);
-      originLabel = "Base achievement";
+      originLabel = l10n.cardBaseAchievement;
     }
 
     return Container(
@@ -362,10 +366,10 @@ class _CardFront extends StatelessWidget {
               ],
               const Spacer(),
               if (achievement.verified == true)
-                const Tooltip(
-                  message: "Verified",
+                Tooltip(
+                  message: l10n.labelVerified,
                   child: Icon(Icons.verified_rounded,
-                      semanticLabel: "Verified",
+                      semanticLabel: l10n.labelVerified,
                       color: AppColors.verified,
                       size: 16),
                 ),
@@ -410,8 +414,8 @@ class _CardBack extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(14, 16, 14, 12),
             child: verified
-                ? _buildCompany(colorScheme)
-                : _buildColleague(colorScheme),
+                ? _buildCompany(colorScheme, context.l10n)
+                : _buildColleague(colorScheme, context.l10n),
           ),
         ],
       ),
@@ -425,10 +429,10 @@ class _CardBack extends StatelessWidget {
           fontWeight: FontWeight.w700,
           color: colorScheme.onSurfaceVariant));
 
-  Widget _buildCompany(ColorScheme colorScheme) {
+  Widget _buildCompany(ColorScheme colorScheme, AppLocalization l10n) {
     return Column(
       children: [
-        _label(colorScheme, "ISSUED BY"),
+        _label(colorScheme, l10n.cardIssuedBy),
         const SizedBox(height: 12),
         CompanyLogo(
             name: achievement.company ?? '',
@@ -443,12 +447,12 @@ class _CardBack extends StatelessWidget {
                 fontWeight: FontWeight.w800,
                 color: colorScheme.onSurface)),
         const SizedBox(height: 8),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.verified_rounded, size: 13, color: AppColors.verified),
             SizedBox(width: 4),
-            Text("Verified achievement",
+            Text(l10n.cardVerifiedAchievement,
                 style: TextStyle(
                     fontSize: 10.5,
                     fontWeight: FontWeight.w600,
@@ -467,7 +471,7 @@ class _CardBack extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 color: colorScheme.onSurface)),
         const SizedBox(height: 2),
-        Text("Issued on ${formatDate(achievement.date)}",
+        Text(l10n.cardIssuedOn(formatDate(achievement.date)),
             style:
                 TextStyle(fontSize: 10, color: colorScheme.onSurfaceVariant)),
         const SizedBox(height: 4),
@@ -481,13 +485,13 @@ class _CardBack extends StatelessWidget {
     );
   }
 
-  Widget _buildColleague(ColorScheme colorScheme) {
+  Widget _buildColleague(ColorScheme colorScheme, AppLocalization l10n) {
     final sender = achievement.awardedByName ?? '';
     final message = achievement.note ?? achievement.description ?? '';
 
     return Column(
       children: [
-        _label(colorScheme, "SENT BY"),
+        _label(colorScheme, l10n.cardSentBy),
         const SizedBox(height: 12),
         UserAvatar(initials: _initials(sender), radius: 28),
         const SizedBox(height: 8),
@@ -519,7 +523,7 @@ class _CardBack extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Text("Received on ${formatDate(achievement.date)}",
+        Text(l10n.cardReceivedOn(formatDate(achievement.date)),
             style:
                 TextStyle(fontSize: 10, color: colorScheme.onSurfaceVariant)),
       ],
@@ -542,7 +546,7 @@ class _FlipButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: "Flip card",
+      message: context.l10n.cardFlip,
       child: GestureDetector(
         onTap: onTap,
         child: Container(

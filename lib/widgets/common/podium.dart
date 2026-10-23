@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/widgets/common/leaderboard_tile.dart';
 
@@ -86,7 +87,7 @@ class Podium extends StatelessWidget {
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
                         color: color)),
-                Text("${entry.points} XP",
+                Text(context.l10n.xpValue(entry.points),
                     style: const TextStyle(
                         fontSize: 12, fontWeight: FontWeight.w600)),
               ],

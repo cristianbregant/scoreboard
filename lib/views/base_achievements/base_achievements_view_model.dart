@@ -1,3 +1,5 @@
+import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/model/achievement_template.dart';
 import 'package:scoreboard/model/send_achievement.dart';
@@ -46,11 +48,11 @@ class BaseAchievementsViewModel
     if (draft == null) return;
     try {
       await interactor.createTemplate(draft);
-      sourceView.showMessage("\"${draft.name.trim()}\" added to the library");
+      sourceView.showMessage(l10n.templateAdded(draft.name.trim()));
     } on SendAchievementException catch (e) {
-      sourceView.showMessage(e.message);
+      sourceView.showMessage(e.localized(l10n));
     } catch (_) {
-      sourceView.showMessage("Could not create the achievement. Try again.");
+      sourceView.showMessage(l10n.templateCreateError);
     }
   }
 
@@ -59,11 +61,11 @@ class BaseAchievementsViewModel
     if (!await sourceView.confirmDeleteTemplate(template)) return;
     try {
       await interactor.deleteTemplate(template.id);
-      sourceView.showMessage("\"${template.name}\" deleted");
+      sourceView.showMessage(l10n.templateDeleted(template.name));
     } on SendAchievementException catch (e) {
-      sourceView.showMessage(e.message);
+      sourceView.showMessage(e.localized(l10n));
     } catch (_) {
-      sourceView.showMessage("Could not delete the achievement. Try again.");
+      sourceView.showMessage(l10n.templateDeleteError);
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/core/theme.dart';
 
@@ -73,7 +74,7 @@ class DialogScaffold extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("PREVIEW",
+                  Text(context.l10n.commonPreview,
                       style: TextStyle(
                           fontSize: 11,
                           letterSpacing: 1.2,

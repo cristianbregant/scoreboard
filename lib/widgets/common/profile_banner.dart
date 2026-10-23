@@ -6,29 +6,28 @@ import 'package:flutter/material.dart';
 enum BannerPattern { grid, topography, dots, waves, diagonal, plain }
 
 class BannerPreset {
+  /// Stored on the profile; the display name is in `bannerPresetLabel`.
   final String key;
-  final String label;
   final Color background;
   final Color ink;
   final BannerPattern pattern;
 
-  const BannerPreset(
-      this.key, this.label, this.background, this.ink, this.pattern);
+  const BannerPreset(this.key, this.background, this.ink, this.pattern);
 }
 
 const List<BannerPreset> bannerPresets = [
-  BannerPreset('graphite_grid', 'Graphite', Color(0xFF24272C),
-      Color(0x14FFFFFF), BannerPattern.grid),
-  BannerPreset('gold_topography', 'Gold', Color(0xFF2B2416), Color(0x55E9B949),
+  BannerPreset('graphite_grid', Color(0xFF24272C), Color(0x14FFFFFF),
+      BannerPattern.grid),
+  BannerPreset('gold_topography', Color(0xFF2B2416), Color(0x55E9B949),
       BannerPattern.topography),
-  BannerPreset('forest_dots', 'Forest', Color(0xFF233A2E), Color(0x26FFFFFF),
-      BannerPattern.dots),
-  BannerPreset('ocean_waves', 'Ocean', Color(0xFF1C3347), Color(0x2EA9CFEE),
-      BannerPattern.waves),
-  BannerPreset('clay_diagonal', 'Clay', Color(0xFF6B3F2E), Color(0x1FFFFFFF),
+  BannerPreset(
+      'forest_dots', Color(0xFF233A2E), Color(0x26FFFFFF), BannerPattern.dots),
+  BannerPreset(
+      'ocean_waves', Color(0xFF1C3347), Color(0x2EA9CFEE), BannerPattern.waves),
+  BannerPreset('clay_diagonal', Color(0xFF6B3F2E), Color(0x1FFFFFFF),
       BannerPattern.diagonal),
-  BannerPreset('sand_plain', 'Sand', Color(0xFFD8CCB4), Color(0x00000000),
-      BannerPattern.plain),
+  BannerPreset(
+      'sand_plain', Color(0xFFD8CCB4), Color(0x00000000), BannerPattern.plain),
 ];
 
 BannerPreset bannerPresetOf(String key) => bannerPresets

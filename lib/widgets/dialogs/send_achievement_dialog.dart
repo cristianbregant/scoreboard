@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/model/achievement_template.dart';
 import 'package:scoreboard/model/send_achievement.dart';
@@ -82,12 +83,12 @@ class _SendAchievementDialogState extends State<_SendAchievementDialog> {
     final template = _template;
 
     return DialogScaffold(
-      title: "Send an achievement",
-      subtitle: "Recognize a colleague with one of your base achievements.",
+      title: context.l10n.sendAnAchievement,
+      subtitle: context.l10n.sendDialogSubtitle,
       preview: template == null
           ? Padding(
               padding: const EdgeInsets.all(24),
-              child: Text("Pick an achievement to see how it will look.",
+              child: Text(context.l10n.sendPreviewHint,
                   textAlign: TextAlign.center,
                   style: TextStyle(color: colorScheme.onSurfaceVariant)),
             )
@@ -100,16 +101,16 @@ class _SendAchievementDialogState extends State<_SendAchievementDialog> {
       actions: [
         TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Cancel")),
+            child: Text(context.l10n.commonCancel)),
         FilledButton.icon(
             onPressed: _canSend ? _onSend : null,
             icon: const Icon(Icons.send_rounded),
-            label: const Text("Send")),
+            label: Text(context.l10n.commonSend)),
       ],
       form: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const FieldLabel("Colleague"),
+          FieldLabel(context.l10n.fieldColleague),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -127,16 +128,15 @@ class _SendAchievementDialogState extends State<_SendAchievementDialog> {
             ],
           ),
           const SizedBox(height: 20),
-          const FieldLabel("Achievement"),
+          FieldLabel(context.l10n.fieldAchievement),
           for (final t in options.templates) _buildTemplateOption(t),
           const SizedBox(height: 12),
-          const FieldLabel("Message (optional)"),
+          FieldLabel(context.l10n.fieldMessageOptional),
           TextField(
             controller: _noteController,
             maxLength: 140,
             maxLines: 2,
-            decoration: const InputDecoration(
-                hintText: "Tell them why they deserve it"),
+            decoration: InputDecoration(hintText: context.l10n.messageHint),
           ),
         ],
       ),
@@ -193,7 +193,7 @@ class _SendAchievementDialogState extends State<_SendAchievementDialog> {
                                 const TextStyle(fontWeight: FontWeight.w600)),
                         Text(
                             sent
-                                ? "Already sent to this colleague"
+                                ? context.l10n.alreadySentToColleague
                                 : template.description,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -204,7 +204,7 @@ class _SendAchievementDialogState extends State<_SendAchievementDialog> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Text("${template.points} XP",
+                  Text(context.l10n.xpValue(template.points),
                       style: TextStyle(
                           fontWeight: FontWeight.w700, color: peerColor)),
                 ],

@@ -14,6 +14,15 @@ class AppConfigurationInteractor {
   Future<void> setAppTheme(ThemeMode mode) =>
       _preferences.setDarkTheme(mode == ThemeMode.dark);
 
+  /// Chosen language, null to follow the system.
+  Locale? getAppLocale() {
+    final code = _preferences.languageCode;
+    return code == null ? null : Locale(code);
+  }
+
+  Future<void> setAppLocale(Locale? locale) =>
+      _preferences.setLanguageCode(locale?.languageCode);
+
   String get appName => _packageInfo.appName;
   String get appVersion =>
       '${_packageInfo.version} (${_packageInfo.buildNumber})';

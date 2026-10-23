@@ -1,3 +1,401 @@
 {
-    "@@locale": "it"
+  "@@locale": "it",
+  "commonCancel": "Annulla",
+  "commonSave": "Salva",
+  "commonSend": "Invia",
+  "commonDelete": "Elimina",
+  "commonRetry": "Riprova",
+  "commonBack": "Indietro",
+  "commonCreate": "Crea",
+  "commonRemove": "Rimuovi",
+  "commonPreview": "ANTEPRIMA",
+  "loadError": "Qualcosa è andato storto durante il caricamento dei dati.",
+  "genericError": "Qualcosa è andato storto. Riprova.",
+  "xpValue": "{points} XP",
+  "@xpValue": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "rankValue": "#{rank}",
+  "@rankValue": {
+    "placeholders": {
+      "rank": {}
+    }
+  },
+  "youSuffix": "{name} (tu)",
+  "@youSuffix": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "roleAtCompany": "{role} in {company}",
+  "@roleAtCompany": {
+    "placeholders": {
+      "role": {},
+      "company": {}
+    }
+  },
+  "achievementsCount": "{count, plural, one{1 traguardo} other{{count} traguardi}}",
+  "@achievementsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "membersCount": "{count, plural, one{1 membro} other{{count} membri}}",
+  "@membersCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "verifiedCount": "{count, plural, one{1 verificato} other{{count} verificati}}",
+  "@verifiedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "labelVerified": "Verificato",
+  "menuLabel": "MENU",
+  "navAchievements": "Traguardi",
+  "navBaseAchievements": "Traguardi base",
+  "navYourCompany": "La tua azienda",
+  "navCommunity": "Community",
+  "navProfile": "Profilo",
+  "navSettings": "Impostazioni",
+  "levelAndXp": "Livello {level} · {points} XP",
+  "@levelAndXp": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      },
+      "points": {
+        "type": "int"
+      }
+    }
+  },
+  "tierPeer": "Colleghi",
+  "tierBronze": "Bronzo",
+  "tierSilver": "Argento",
+  "tierGold": "Oro",
+  "tierPlatinum": "Platino",
+  "achievementsTitle": "I tuoi traguardi",
+  "achievementsSubtitle": "Ogni traguardo raggiunto lungo il percorso",
+  "sendAchievement": "Invia traguardo",
+  "statTotalXp": "XP totali",
+  "statAchievements": "Traguardi",
+  "statVerified": "Verificati",
+  "filterAll": "Tutti · {count}",
+  "@filterAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "filterTier": "{tier} · {count}",
+  "@filterTier": {
+    "placeholders": {
+      "tier": {},
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noAchievementsInTier": "Nessun traguardo in questa categoria.",
+  "achievementDetailTitle": "Traguardo",
+  "flipHint": "Clicca la card per girarla",
+  "verifiedByCompany": "Verificato dall'azienda",
+  "fromAColleague": "Da un collega",
+  "detailExperience": "Esperienza",
+  "detailTier": "Categoria",
+  "detailCompany": "Azienda",
+  "detailSentBy": "Inviato da",
+  "detailEarnedOn": "Ottenuto il",
+  "detailId": "ID {id}",
+  "@detailId": {
+    "placeholders": {
+      "id": {}
+    }
+  },
+  "noteAuthorFallback": "Un collega",
+  "cardFrom": "Da {name}",
+  "@cardFrom": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "cardBaseAchievement": "Traguardo base",
+  "cardIssuedBy": "RILASCIATO DA",
+  "cardVerifiedAchievement": "Traguardo verificato",
+  "cardIssuedOn": "Rilasciato il {date}",
+  "@cardIssuedOn": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "cardSentBy": "INVIATO DA",
+  "cardReceivedOn": "Ricevuto il {date}",
+  "@cardReceivedOn": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "cardFlip": "Gira la card",
+  "statMembers": "Membri",
+  "statYourRank": "La tua posizione",
+  "topPerformers": "I migliori",
+  "teamLeaderboard": "Classifica del team",
+  "sendAnAchievement": "Invia un traguardo",
+  "companySince": "Dal {year}",
+  "@companySince": {
+    "placeholders": {
+      "year": {}
+    }
+  },
+  "communityTitle": "Community",
+  "communitySubtitle": "Scopri come ti posizioni rispetto agli altri",
+  "communityPeople": "Persone",
+  "communityCompanies": "Aziende",
+  "searchPeopleHint": "Cerca per nome, ruolo o azienda",
+  "searchCompaniesHint": "Cerca per nome o settore",
+  "top3": "Top 3",
+  "leaderboard": "Classifica",
+  "noSearchResults": "Nessun risultato per la tua ricerca.",
+  "statCompanyRank": "Posizione in azienda",
+  "statGlobalRank": "Posizione globale",
+  "recentAchievements": "Traguardi recenti",
+  "noAchievementsYet": "Ancora nessun traguardo.",
+  "editProfile": "Modifica profilo",
+  "memberSince": "Membro dal {date}",
+  "@memberSince": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "levelN": "Livello {level}",
+  "@levelN": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "xpToNextLevel": "{points} XP al livello {level}",
+  "@xpToNextLevel": {
+    "placeholders": {
+      "points": {
+        "type": "int"
+      },
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "profileUpdated": "Profilo aggiornato",
+  "profileSaveError": "Impossibile salvare il profilo. Riprova.",
+  "baseSubtitle": "Crea traguardi e inviali ai tuoi colleghi",
+  "newBaseAchievement": "Nuovo traguardo base",
+  "libraryCount": "Libreria · {count}",
+  "@libraryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "libraryEmpty": "Ancora nessun traguardo base. Crea il primo!",
+  "sentByYouCount": "Inviati da te · {count}",
+  "@sentByYouCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sentEmpty": "Non hai ancora inviato traguardi. Scegline uno dalla libreria e fai felice un collega.",
+  "baseExplanation": "I traguardi base si scambiano tra colleghi e valgono fino a {maxPoints} XP. Quelli verificati li rilascia solo la tua azienda. Puoi inviare ogni traguardo base allo stesso collega una sola volta.",
+  "@baseExplanation": {
+    "placeholders": {
+      "maxPoints": {
+        "type": "int"
+      }
+    }
+  },
+  "createdByYou": "Creato da te",
+  "createdBy": "Di {name}",
+  "@createdBy": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "sentToConnector": "a",
+  "deleteTemplateTitle": "Eliminare “{name}”?",
+  "@deleteTemplateTitle": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "deleteTemplateBody": "Verrà rimosso dalla libreria. I colleghi che l'hanno già ricevuto lo conservano.",
+  "templateAdded": "“{name}” aggiunto alla libreria",
+  "@templateAdded": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "templateCreateError": "Impossibile creare il traguardo. Riprova.",
+  "templateDeleted": "“{name}” eliminato",
+  "@templateDeleted": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "templateDeleteError": "Impossibile eliminare il traguardo. Riprova.",
+  "sendLoadError": "Impossibile caricare i tuoi colleghi. Riprova.",
+  "sendNoColleagues": "Nella tua azienda non ci sono ancora colleghi.",
+  "sendNoTemplates": "Crea prima un traguardo base.",
+  "sendSuccess": "Traguardo inviato a {name}",
+  "@sendSuccess": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "sendError": "Impossibile inviare il traguardo. Riprova.",
+  "sendDialogSubtitle": "Riconosci il merito di un collega con uno dei tuoi traguardi base.",
+  "sendPreviewHint": "Scegli un traguardo per vedere come apparirà.",
+  "fieldColleague": "Collega",
+  "fieldAchievement": "Traguardo",
+  "fieldMessageOptional": "Messaggio (facoltativo)",
+  "messageHint": "Spiega perché se lo merita",
+  "alreadySentToColleague": "Già inviato a questo collega",
+  "createDialogSubtitle": "Chiunque nella tua azienda può inviarlo a un collega.",
+  "achievementNamePlaceholder": "Nome del traguardo",
+  "fieldName": "Nome",
+  "nameHint": "es. Team Player",
+  "templateNameRequired": "Dagli un nome",
+  "fieldDescription": "Descrizione",
+  "descriptionHint": "Cosa bisogna fare per meritarlo?",
+  "descriptionRequired": "Aggiungi una breve descrizione",
+  "fieldExperience": "Esperienza",
+  "experienceNote": "I traguardi base valgono meno di quelli verificati rilasciati dalla tua azienda.",
+  "fieldIcon": "Icona",
+  "fieldPhoto": "Foto",
+  "uploadPhoto": "Carica foto",
+  "fieldCover": "Copertina",
+  "fieldFullName": "Nome e cognome",
+  "nameRequired": "Inserisci il tuo nome",
+  "fieldRole": "Ruolo",
+  "roleRequired": "Inserisci il tuo ruolo",
+  "fieldBio": "Bio",
+  "bioHint": "Una riga su di te e su cosa fai",
+  "saveProfile": "Salva profilo",
+  "replaceImage": "Sostituisci immagine",
+  "uploadImage": "Carica immagine",
+  "bannerGraphite": "Grafite",
+  "bannerGold": "Oro",
+  "bannerForest": "Foresta",
+  "bannerOcean": "Oceano",
+  "bannerClay": "Argilla",
+  "bannerSand": "Sabbia",
+  "settingsAppearance": "Aspetto",
+  "settingsAccount": "Account",
+  "settingsAbout": "Informazioni",
+  "appearanceSubtitle": "Scegli l'aspetto di Scoreboard",
+  "themeTitle": "Tema",
+  "themeLight": "Chiaro",
+  "themeDark": "Scuro",
+  "languageTitle": "Lingua",
+  "languageSystem": "Sistema",
+  "accountSubtitle": "Dati di accesso. Nome, foto e copertina si modificano dal profilo.",
+  "fieldEmail": "Email",
+  "invalidEmail": "Inserisci un indirizzo email valido",
+  "passwordSection": "Password",
+  "currentPassword": "Password attuale",
+  "currentPasswordRequired": "Inserisci la password attuale",
+  "newPassword": "Nuova password",
+  "passwordMinLength": "Almeno {min} caratteri",
+  "@passwordMinLength": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "confirmNewPassword": "Conferma nuova password",
+  "passwordsDontMatch": "Le password non coincidono",
+  "changePassword": "Cambia password",
+  "sessionSection": "Sessione",
+  "signOutDescription": "Esci da Scoreboard su questo computer.",
+  "signOut": "Esci",
+  "versionLabel": "Versione {version}",
+  "@versionLabel": {
+    "placeholders": {
+      "version": {}
+    }
+  },
+  "emailUpdated": "Email aggiornata",
+  "emailSaveError": "Impossibile salvare l'email. Riprova.",
+  "passwordChanged": "Password cambiata",
+  "passwordChangeError": "Impossibile cambiare la password. Riprova.",
+  "signOutError": "Impossibile uscire. Riprova.",
+  "authWelcomeBack": "Ti diamo il bentornato",
+  "authSignInSubtitle": "Accedi per vedere i tuoi traguardi.",
+  "authCreateTitle": "Crea il tuo account",
+  "authCreateSubtitle": "Entra nello scoreboard della tua azienda.",
+  "signIn": "Accedi",
+  "createAccount": "Crea account",
+  "showPassword": "Mostra password",
+  "hidePassword": "Nascondi password",
+  "workEmail": "Email di lavoro",
+  "passwordLabel": "Password",
+  "passwordRequired": "Inserisci la password",
+  "chooseCompany": "Scegli la tua azienda",
+  "confirmLabel": "Conferma",
+  "demoAccount": "Account demo: {email} / {password}",
+  "@demoAccount": {
+    "placeholders": {
+      "email": {},
+      "password": {}
+    }
+  },
+  "useDemo": "Usalo",
+  "authTagline": "Ogni traguardo,\nnero su bianco.",
+  "authPitch": "Raccogli i traguardi rilasciati dalla tua azienda e riconosci il merito dei colleghi che fanno la differenza.",
+  "errorNotSignedIn": "Non hai effettuato l'accesso.",
+  "errorWrongCredentials": "Email o password errate.",
+  "errorEmailTaken": "Esiste già un account con questa email.",
+  "errorWrongCurrentPassword": "La password attuale non è corretta.",
+  "errorMissingCredentials": "Inserisci email e password.",
+  "errorMissingNameOrRole": "Inserisci nome e ruolo.",
+  "errorPasswordTooShort": "La password deve avere almeno {min} caratteri.",
+  "@errorPasswordTooShort": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "errorInvalidPoints": "I traguardi base possono valere {values} XP.",
+  "@errorInvalidPoints": {
+    "placeholders": {
+      "values": {}
+    }
+  },
+  "errorNotTemplateOwner": "Puoi eliminare solo i traguardi base che hai creato tu.",
+  "errorNotAColleague": "Puoi inviare traguardi solo ai colleghi della tua azienda.",
+  "errorTemplateNotFound": "Questo traguardo base non esiste più.",
+  "errorAlreadySent": "Hai già inviato “{template}” a {colleague}.",
+  "@errorAlreadySent": {
+    "placeholders": {
+      "template": {},
+      "colleague": {}
+    }
+  }
 }

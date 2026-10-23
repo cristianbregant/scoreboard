@@ -1,6 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -18,8 +19,10 @@ class AppLocalization {
   static AppLocalization? _current;
 
   static AppLocalization get current {
-    assert(_current != null,
-        'No instance of AppLocalization was loaded. Try to initialize the AppLocalization delegate before accessing AppLocalization.current.');
+    assert(
+      _current != null,
+      'No instance of AppLocalization was loaded. Try to initialize the AppLocalization delegate before accessing AppLocalization.current.',
+    );
     return _current!;
   }
 
@@ -41,13 +44,1721 @@ class AppLocalization {
 
   static AppLocalization of(BuildContext context) {
     final instance = AppLocalization.maybeOf(context);
-    assert(instance != null,
-        'No instance of AppLocalization present in the widget tree. Did you add AppLocalization.delegate in localizationsDelegates?');
+    assert(
+      instance != null,
+      'No instance of AppLocalization present in the widget tree. Did you add AppLocalization.delegate in localizationsDelegates?',
+    );
     return instance!;
   }
 
   static AppLocalization? maybeOf(BuildContext context) {
     return Localizations.of<AppLocalization>(context, AppLocalization);
+  }
+
+  /// `Annulla`
+  String get commonCancel {
+    return Intl.message('Annulla', name: 'commonCancel', desc: '', args: []);
+  }
+
+  /// `Salva`
+  String get commonSave {
+    return Intl.message('Salva', name: 'commonSave', desc: '', args: []);
+  }
+
+  /// `Invia`
+  String get commonSend {
+    return Intl.message('Invia', name: 'commonSend', desc: '', args: []);
+  }
+
+  /// `Elimina`
+  String get commonDelete {
+    return Intl.message('Elimina', name: 'commonDelete', desc: '', args: []);
+  }
+
+  /// `Riprova`
+  String get commonRetry {
+    return Intl.message('Riprova', name: 'commonRetry', desc: '', args: []);
+  }
+
+  /// `Indietro`
+  String get commonBack {
+    return Intl.message('Indietro', name: 'commonBack', desc: '', args: []);
+  }
+
+  /// `Crea`
+  String get commonCreate {
+    return Intl.message('Crea', name: 'commonCreate', desc: '', args: []);
+  }
+
+  /// `Rimuovi`
+  String get commonRemove {
+    return Intl.message('Rimuovi', name: 'commonRemove', desc: '', args: []);
+  }
+
+  /// `ANTEPRIMA`
+  String get commonPreview {
+    return Intl.message('ANTEPRIMA', name: 'commonPreview', desc: '', args: []);
+  }
+
+  /// `Qualcosa è andato storto durante il caricamento dei dati.`
+  String get loadError {
+    return Intl.message(
+      'Qualcosa è andato storto durante il caricamento dei dati.',
+      name: 'loadError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Qualcosa è andato storto. Riprova.`
+  String get genericError {
+    return Intl.message(
+      'Qualcosa è andato storto. Riprova.',
+      name: 'genericError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{points} XP`
+  String xpValue(int points) {
+    return Intl.message(
+      '$points XP',
+      name: 'xpValue',
+      desc: '',
+      args: [points],
+    );
+  }
+
+  /// `#{rank}`
+  String rankValue(Object rank) {
+    return Intl.message('#$rank', name: 'rankValue', desc: '', args: [rank]);
+  }
+
+  /// `{name} (tu)`
+  String youSuffix(Object name) {
+    return Intl.message(
+      '$name (tu)',
+      name: 'youSuffix',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `{role} in {company}`
+  String roleAtCompany(Object role, Object company) {
+    return Intl.message(
+      '$role in $company',
+      name: 'roleAtCompany',
+      desc: '',
+      args: [role, company],
+    );
+  }
+
+  /// `{count, plural, one{1 traguardo} other{{count} traguardi}}`
+  String achievementsCount(int count) {
+    return Intl.plural(
+      count,
+      one: '1 traguardo',
+      other: '$count traguardi',
+      name: 'achievementsCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, one{1 membro} other{{count} membri}}`
+  String membersCount(int count) {
+    return Intl.plural(
+      count,
+      one: '1 membro',
+      other: '$count membri',
+      name: 'membersCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, one{1 verificato} other{{count} verificati}}`
+  String verifiedCount(int count) {
+    return Intl.plural(
+      count,
+      one: '1 verificato',
+      other: '$count verificati',
+      name: 'verifiedCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Verificato`
+  String get labelVerified {
+    return Intl.message(
+      'Verificato',
+      name: 'labelVerified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `MENU`
+  String get menuLabel {
+    return Intl.message('MENU', name: 'menuLabel', desc: '', args: []);
+  }
+
+  /// `Traguardi`
+  String get navAchievements {
+    return Intl.message(
+      'Traguardi',
+      name: 'navAchievements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Traguardi base`
+  String get navBaseAchievements {
+    return Intl.message(
+      'Traguardi base',
+      name: 'navBaseAchievements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `La tua azienda`
+  String get navYourCompany {
+    return Intl.message(
+      'La tua azienda',
+      name: 'navYourCompany',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community`
+  String get navCommunity {
+    return Intl.message('Community', name: 'navCommunity', desc: '', args: []);
+  }
+
+  /// `Profilo`
+  String get navProfile {
+    return Intl.message('Profilo', name: 'navProfile', desc: '', args: []);
+  }
+
+  /// `Impostazioni`
+  String get navSettings {
+    return Intl.message(
+      'Impostazioni',
+      name: 'navSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Livello {level} · {points} XP`
+  String levelAndXp(int level, int points) {
+    return Intl.message(
+      'Livello $level · $points XP',
+      name: 'levelAndXp',
+      desc: '',
+      args: [level, points],
+    );
+  }
+
+  /// `Colleghi`
+  String get tierPeer {
+    return Intl.message('Colleghi', name: 'tierPeer', desc: '', args: []);
+  }
+
+  /// `Bronzo`
+  String get tierBronze {
+    return Intl.message('Bronzo', name: 'tierBronze', desc: '', args: []);
+  }
+
+  /// `Argento`
+  String get tierSilver {
+    return Intl.message('Argento', name: 'tierSilver', desc: '', args: []);
+  }
+
+  /// `Oro`
+  String get tierGold {
+    return Intl.message('Oro', name: 'tierGold', desc: '', args: []);
+  }
+
+  /// `Platino`
+  String get tierPlatinum {
+    return Intl.message('Platino', name: 'tierPlatinum', desc: '', args: []);
+  }
+
+  /// `I tuoi traguardi`
+  String get achievementsTitle {
+    return Intl.message(
+      'I tuoi traguardi',
+      name: 'achievementsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ogni traguardo raggiunto lungo il percorso`
+  String get achievementsSubtitle {
+    return Intl.message(
+      'Ogni traguardo raggiunto lungo il percorso',
+      name: 'achievementsSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invia traguardo`
+  String get sendAchievement {
+    return Intl.message(
+      'Invia traguardo',
+      name: 'sendAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `XP totali`
+  String get statTotalXp {
+    return Intl.message('XP totali', name: 'statTotalXp', desc: '', args: []);
+  }
+
+  /// `Traguardi`
+  String get statAchievements {
+    return Intl.message(
+      'Traguardi',
+      name: 'statAchievements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verificati`
+  String get statVerified {
+    return Intl.message('Verificati', name: 'statVerified', desc: '', args: []);
+  }
+
+  /// `Tutti · {count}`
+  String filterAll(int count) {
+    return Intl.message(
+      'Tutti · $count',
+      name: 'filterAll',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{tier} · {count}`
+  String filterTier(Object tier, int count) {
+    return Intl.message(
+      '$tier · $count',
+      name: 'filterTier',
+      desc: '',
+      args: [tier, count],
+    );
+  }
+
+  /// `Nessun traguardo in questa categoria.`
+  String get noAchievementsInTier {
+    return Intl.message(
+      'Nessun traguardo in questa categoria.',
+      name: 'noAchievementsInTier',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Traguardo`
+  String get achievementDetailTitle {
+    return Intl.message(
+      'Traguardo',
+      name: 'achievementDetailTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clicca la card per girarla`
+  String get flipHint {
+    return Intl.message(
+      'Clicca la card per girarla',
+      name: 'flipHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verificato dall'azienda`
+  String get verifiedByCompany {
+    return Intl.message(
+      'Verificato dall\'azienda',
+      name: 'verifiedByCompany',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Da un collega`
+  String get fromAColleague {
+    return Intl.message(
+      'Da un collega',
+      name: 'fromAColleague',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Esperienza`
+  String get detailExperience {
+    return Intl.message(
+      'Esperienza',
+      name: 'detailExperience',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Categoria`
+  String get detailTier {
+    return Intl.message('Categoria', name: 'detailTier', desc: '', args: []);
+  }
+
+  /// `Azienda`
+  String get detailCompany {
+    return Intl.message('Azienda', name: 'detailCompany', desc: '', args: []);
+  }
+
+  /// `Inviato da`
+  String get detailSentBy {
+    return Intl.message('Inviato da', name: 'detailSentBy', desc: '', args: []);
+  }
+
+  /// `Ottenuto il`
+  String get detailEarnedOn {
+    return Intl.message(
+      'Ottenuto il',
+      name: 'detailEarnedOn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ID {id}`
+  String detailId(Object id) {
+    return Intl.message('ID $id', name: 'detailId', desc: '', args: [id]);
+  }
+
+  /// `Un collega`
+  String get noteAuthorFallback {
+    return Intl.message(
+      'Un collega',
+      name: 'noteAuthorFallback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Da {name}`
+  String cardFrom(Object name) {
+    return Intl.message('Da $name', name: 'cardFrom', desc: '', args: [name]);
+  }
+
+  /// `Traguardo base`
+  String get cardBaseAchievement {
+    return Intl.message(
+      'Traguardo base',
+      name: 'cardBaseAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `RILASCIATO DA`
+  String get cardIssuedBy {
+    return Intl.message(
+      'RILASCIATO DA',
+      name: 'cardIssuedBy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Traguardo verificato`
+  String get cardVerifiedAchievement {
+    return Intl.message(
+      'Traguardo verificato',
+      name: 'cardVerifiedAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rilasciato il {date}`
+  String cardIssuedOn(Object date) {
+    return Intl.message(
+      'Rilasciato il $date',
+      name: 'cardIssuedOn',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `INVIATO DA`
+  String get cardSentBy {
+    return Intl.message('INVIATO DA', name: 'cardSentBy', desc: '', args: []);
+  }
+
+  /// `Ricevuto il {date}`
+  String cardReceivedOn(Object date) {
+    return Intl.message(
+      'Ricevuto il $date',
+      name: 'cardReceivedOn',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `Gira la card`
+  String get cardFlip {
+    return Intl.message('Gira la card', name: 'cardFlip', desc: '', args: []);
+  }
+
+  /// `Membri`
+  String get statMembers {
+    return Intl.message('Membri', name: 'statMembers', desc: '', args: []);
+  }
+
+  /// `La tua posizione`
+  String get statYourRank {
+    return Intl.message(
+      'La tua posizione',
+      name: 'statYourRank',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I migliori`
+  String get topPerformers {
+    return Intl.message(
+      'I migliori',
+      name: 'topPerformers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Classifica del team`
+  String get teamLeaderboard {
+    return Intl.message(
+      'Classifica del team',
+      name: 'teamLeaderboard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invia un traguardo`
+  String get sendAnAchievement {
+    return Intl.message(
+      'Invia un traguardo',
+      name: 'sendAnAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dal {year}`
+  String companySince(Object year) {
+    return Intl.message(
+      'Dal $year',
+      name: 'companySince',
+      desc: '',
+      args: [year],
+    );
+  }
+
+  /// `Community`
+  String get communityTitle {
+    return Intl.message(
+      'Community',
+      name: 'communityTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scopri come ti posizioni rispetto agli altri`
+  String get communitySubtitle {
+    return Intl.message(
+      'Scopri come ti posizioni rispetto agli altri',
+      name: 'communitySubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Persone`
+  String get communityPeople {
+    return Intl.message('Persone', name: 'communityPeople', desc: '', args: []);
+  }
+
+  /// `Aziende`
+  String get communityCompanies {
+    return Intl.message(
+      'Aziende',
+      name: 'communityCompanies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cerca per nome, ruolo o azienda`
+  String get searchPeopleHint {
+    return Intl.message(
+      'Cerca per nome, ruolo o azienda',
+      name: 'searchPeopleHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cerca per nome o settore`
+  String get searchCompaniesHint {
+    return Intl.message(
+      'Cerca per nome o settore',
+      name: 'searchCompaniesHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top 3`
+  String get top3 {
+    return Intl.message('Top 3', name: 'top3', desc: '', args: []);
+  }
+
+  /// `Classifica`
+  String get leaderboard {
+    return Intl.message('Classifica', name: 'leaderboard', desc: '', args: []);
+  }
+
+  /// `Nessun risultato per la tua ricerca.`
+  String get noSearchResults {
+    return Intl.message(
+      'Nessun risultato per la tua ricerca.',
+      name: 'noSearchResults',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Posizione in azienda`
+  String get statCompanyRank {
+    return Intl.message(
+      'Posizione in azienda',
+      name: 'statCompanyRank',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Posizione globale`
+  String get statGlobalRank {
+    return Intl.message(
+      'Posizione globale',
+      name: 'statGlobalRank',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Traguardi recenti`
+  String get recentAchievements {
+    return Intl.message(
+      'Traguardi recenti',
+      name: 'recentAchievements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ancora nessun traguardo.`
+  String get noAchievementsYet {
+    return Intl.message(
+      'Ancora nessun traguardo.',
+      name: 'noAchievementsYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modifica profilo`
+  String get editProfile {
+    return Intl.message(
+      'Modifica profilo',
+      name: 'editProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Membro dal {date}`
+  String memberSince(Object date) {
+    return Intl.message(
+      'Membro dal $date',
+      name: 'memberSince',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `Livello {level}`
+  String levelN(int level) {
+    return Intl.message(
+      'Livello $level',
+      name: 'levelN',
+      desc: '',
+      args: [level],
+    );
+  }
+
+  /// `{points} XP al livello {level}`
+  String xpToNextLevel(int points, int level) {
+    return Intl.message(
+      '$points XP al livello $level',
+      name: 'xpToNextLevel',
+      desc: '',
+      args: [points, level],
+    );
+  }
+
+  /// `Profilo aggiornato`
+  String get profileUpdated {
+    return Intl.message(
+      'Profilo aggiornato',
+      name: 'profileUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Impossibile salvare il profilo. Riprova.`
+  String get profileSaveError {
+    return Intl.message(
+      'Impossibile salvare il profilo. Riprova.',
+      name: 'profileSaveError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Crea traguardi e inviali ai tuoi colleghi`
+  String get baseSubtitle {
+    return Intl.message(
+      'Crea traguardi e inviali ai tuoi colleghi',
+      name: 'baseSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nuovo traguardo base`
+  String get newBaseAchievement {
+    return Intl.message(
+      'Nuovo traguardo base',
+      name: 'newBaseAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Libreria · {count}`
+  String libraryCount(int count) {
+    return Intl.message(
+      'Libreria · $count',
+      name: 'libraryCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Ancora nessun traguardo base. Crea il primo!`
+  String get libraryEmpty {
+    return Intl.message(
+      'Ancora nessun traguardo base. Crea il primo!',
+      name: 'libraryEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inviati da te · {count}`
+  String sentByYouCount(int count) {
+    return Intl.message(
+      'Inviati da te · $count',
+      name: 'sentByYouCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Non hai ancora inviato traguardi. Scegline uno dalla libreria e fai felice un collega.`
+  String get sentEmpty {
+    return Intl.message(
+      'Non hai ancora inviato traguardi. Scegline uno dalla libreria e fai felice un collega.',
+      name: 'sentEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I traguardi base si scambiano tra colleghi e valgono fino a {maxPoints} XP. Quelli verificati li rilascia solo la tua azienda. Puoi inviare ogni traguardo base allo stesso collega una sola volta.`
+  String baseExplanation(int maxPoints) {
+    return Intl.message(
+      'I traguardi base si scambiano tra colleghi e valgono fino a $maxPoints XP. Quelli verificati li rilascia solo la tua azienda. Puoi inviare ogni traguardo base allo stesso collega una sola volta.',
+      name: 'baseExplanation',
+      desc: '',
+      args: [maxPoints],
+    );
+  }
+
+  /// `Creato da te`
+  String get createdByYou {
+    return Intl.message(
+      'Creato da te',
+      name: 'createdByYou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Di {name}`
+  String createdBy(Object name) {
+    return Intl.message('Di $name', name: 'createdBy', desc: '', args: [name]);
+  }
+
+  /// `a`
+  String get sentToConnector {
+    return Intl.message('a', name: 'sentToConnector', desc: '', args: []);
+  }
+
+  /// `Eliminare “{name}”?`
+  String deleteTemplateTitle(Object name) {
+    return Intl.message(
+      'Eliminare “$name”?',
+      name: 'deleteTemplateTitle',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Verrà rimosso dalla libreria. I colleghi che l'hanno già ricevuto lo conservano.`
+  String get deleteTemplateBody {
+    return Intl.message(
+      'Verrà rimosso dalla libreria. I colleghi che l\'hanno già ricevuto lo conservano.',
+      name: 'deleteTemplateBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `“{name}” aggiunto alla libreria`
+  String templateAdded(Object name) {
+    return Intl.message(
+      '“$name” aggiunto alla libreria',
+      name: 'templateAdded',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Impossibile creare il traguardo. Riprova.`
+  String get templateCreateError {
+    return Intl.message(
+      'Impossibile creare il traguardo. Riprova.',
+      name: 'templateCreateError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `“{name}” eliminato`
+  String templateDeleted(Object name) {
+    return Intl.message(
+      '“$name” eliminato',
+      name: 'templateDeleted',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Impossibile eliminare il traguardo. Riprova.`
+  String get templateDeleteError {
+    return Intl.message(
+      'Impossibile eliminare il traguardo. Riprova.',
+      name: 'templateDeleteError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Impossibile caricare i tuoi colleghi. Riprova.`
+  String get sendLoadError {
+    return Intl.message(
+      'Impossibile caricare i tuoi colleghi. Riprova.',
+      name: 'sendLoadError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nella tua azienda non ci sono ancora colleghi.`
+  String get sendNoColleagues {
+    return Intl.message(
+      'Nella tua azienda non ci sono ancora colleghi.',
+      name: 'sendNoColleagues',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Crea prima un traguardo base.`
+  String get sendNoTemplates {
+    return Intl.message(
+      'Crea prima un traguardo base.',
+      name: 'sendNoTemplates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Traguardo inviato a {name}`
+  String sendSuccess(Object name) {
+    return Intl.message(
+      'Traguardo inviato a $name',
+      name: 'sendSuccess',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Impossibile inviare il traguardo. Riprova.`
+  String get sendError {
+    return Intl.message(
+      'Impossibile inviare il traguardo. Riprova.',
+      name: 'sendError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Riconosci il merito di un collega con uno dei tuoi traguardi base.`
+  String get sendDialogSubtitle {
+    return Intl.message(
+      'Riconosci il merito di un collega con uno dei tuoi traguardi base.',
+      name: 'sendDialogSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scegli un traguardo per vedere come apparirà.`
+  String get sendPreviewHint {
+    return Intl.message(
+      'Scegli un traguardo per vedere come apparirà.',
+      name: 'sendPreviewHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collega`
+  String get fieldColleague {
+    return Intl.message('Collega', name: 'fieldColleague', desc: '', args: []);
+  }
+
+  /// `Traguardo`
+  String get fieldAchievement {
+    return Intl.message(
+      'Traguardo',
+      name: 'fieldAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Messaggio (facoltativo)`
+  String get fieldMessageOptional {
+    return Intl.message(
+      'Messaggio (facoltativo)',
+      name: 'fieldMessageOptional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Spiega perché se lo merita`
+  String get messageHint {
+    return Intl.message(
+      'Spiega perché se lo merita',
+      name: 'messageHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Già inviato a questo collega`
+  String get alreadySentToColleague {
+    return Intl.message(
+      'Già inviato a questo collega',
+      name: 'alreadySentToColleague',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chiunque nella tua azienda può inviarlo a un collega.`
+  String get createDialogSubtitle {
+    return Intl.message(
+      'Chiunque nella tua azienda può inviarlo a un collega.',
+      name: 'createDialogSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nome del traguardo`
+  String get achievementNamePlaceholder {
+    return Intl.message(
+      'Nome del traguardo',
+      name: 'achievementNamePlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nome`
+  String get fieldName {
+    return Intl.message('Nome', name: 'fieldName', desc: '', args: []);
+  }
+
+  /// `es. Team Player`
+  String get nameHint {
+    return Intl.message(
+      'es. Team Player',
+      name: 'nameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dagli un nome`
+  String get templateNameRequired {
+    return Intl.message(
+      'Dagli un nome',
+      name: 'templateNameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Descrizione`
+  String get fieldDescription {
+    return Intl.message(
+      'Descrizione',
+      name: 'fieldDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cosa bisogna fare per meritarlo?`
+  String get descriptionHint {
+    return Intl.message(
+      'Cosa bisogna fare per meritarlo?',
+      name: 'descriptionHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Aggiungi una breve descrizione`
+  String get descriptionRequired {
+    return Intl.message(
+      'Aggiungi una breve descrizione',
+      name: 'descriptionRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Esperienza`
+  String get fieldExperience {
+    return Intl.message(
+      'Esperienza',
+      name: 'fieldExperience',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I traguardi base valgono meno di quelli verificati rilasciati dalla tua azienda.`
+  String get experienceNote {
+    return Intl.message(
+      'I traguardi base valgono meno di quelli verificati rilasciati dalla tua azienda.',
+      name: 'experienceNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Icona`
+  String get fieldIcon {
+    return Intl.message('Icona', name: 'fieldIcon', desc: '', args: []);
+  }
+
+  /// `Foto`
+  String get fieldPhoto {
+    return Intl.message('Foto', name: 'fieldPhoto', desc: '', args: []);
+  }
+
+  /// `Carica foto`
+  String get uploadPhoto {
+    return Intl.message('Carica foto', name: 'uploadPhoto', desc: '', args: []);
+  }
+
+  /// `Copertina`
+  String get fieldCover {
+    return Intl.message('Copertina', name: 'fieldCover', desc: '', args: []);
+  }
+
+  /// `Nome e cognome`
+  String get fieldFullName {
+    return Intl.message(
+      'Nome e cognome',
+      name: 'fieldFullName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inserisci il tuo nome`
+  String get nameRequired {
+    return Intl.message(
+      'Inserisci il tuo nome',
+      name: 'nameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ruolo`
+  String get fieldRole {
+    return Intl.message('Ruolo', name: 'fieldRole', desc: '', args: []);
+  }
+
+  /// `Inserisci il tuo ruolo`
+  String get roleRequired {
+    return Intl.message(
+      'Inserisci il tuo ruolo',
+      name: 'roleRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bio`
+  String get fieldBio {
+    return Intl.message('Bio', name: 'fieldBio', desc: '', args: []);
+  }
+
+  /// `Una riga su di te e su cosa fai`
+  String get bioHint {
+    return Intl.message(
+      'Una riga su di te e su cosa fai',
+      name: 'bioHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Salva profilo`
+  String get saveProfile {
+    return Intl.message(
+      'Salva profilo',
+      name: 'saveProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sostituisci immagine`
+  String get replaceImage {
+    return Intl.message(
+      'Sostituisci immagine',
+      name: 'replaceImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Carica immagine`
+  String get uploadImage {
+    return Intl.message(
+      'Carica immagine',
+      name: 'uploadImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Grafite`
+  String get bannerGraphite {
+    return Intl.message('Grafite', name: 'bannerGraphite', desc: '', args: []);
+  }
+
+  /// `Oro`
+  String get bannerGold {
+    return Intl.message('Oro', name: 'bannerGold', desc: '', args: []);
+  }
+
+  /// `Foresta`
+  String get bannerForest {
+    return Intl.message('Foresta', name: 'bannerForest', desc: '', args: []);
+  }
+
+  /// `Oceano`
+  String get bannerOcean {
+    return Intl.message('Oceano', name: 'bannerOcean', desc: '', args: []);
+  }
+
+  /// `Argilla`
+  String get bannerClay {
+    return Intl.message('Argilla', name: 'bannerClay', desc: '', args: []);
+  }
+
+  /// `Sabbia`
+  String get bannerSand {
+    return Intl.message('Sabbia', name: 'bannerSand', desc: '', args: []);
+  }
+
+  /// `Aspetto`
+  String get settingsAppearance {
+    return Intl.message(
+      'Aspetto',
+      name: 'settingsAppearance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account`
+  String get settingsAccount {
+    return Intl.message('Account', name: 'settingsAccount', desc: '', args: []);
+  }
+
+  /// `Informazioni`
+  String get settingsAbout {
+    return Intl.message(
+      'Informazioni',
+      name: 'settingsAbout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scegli l'aspetto di Scoreboard`
+  String get appearanceSubtitle {
+    return Intl.message(
+      'Scegli l\'aspetto di Scoreboard',
+      name: 'appearanceSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tema`
+  String get themeTitle {
+    return Intl.message('Tema', name: 'themeTitle', desc: '', args: []);
+  }
+
+  /// `Chiaro`
+  String get themeLight {
+    return Intl.message('Chiaro', name: 'themeLight', desc: '', args: []);
+  }
+
+  /// `Scuro`
+  String get themeDark {
+    return Intl.message('Scuro', name: 'themeDark', desc: '', args: []);
+  }
+
+  /// `Lingua`
+  String get languageTitle {
+    return Intl.message('Lingua', name: 'languageTitle', desc: '', args: []);
+  }
+
+  /// `Sistema`
+  String get languageSystem {
+    return Intl.message('Sistema', name: 'languageSystem', desc: '', args: []);
+  }
+
+  /// `Dati di accesso. Nome, foto e copertina si modificano dal profilo.`
+  String get accountSubtitle {
+    return Intl.message(
+      'Dati di accesso. Nome, foto e copertina si modificano dal profilo.',
+      name: 'accountSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get fieldEmail {
+    return Intl.message('Email', name: 'fieldEmail', desc: '', args: []);
+  }
+
+  /// `Inserisci un indirizzo email valido`
+  String get invalidEmail {
+    return Intl.message(
+      'Inserisci un indirizzo email valido',
+      name: 'invalidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get passwordSection {
+    return Intl.message(
+      'Password',
+      name: 'passwordSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password attuale`
+  String get currentPassword {
+    return Intl.message(
+      'Password attuale',
+      name: 'currentPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inserisci la password attuale`
+  String get currentPasswordRequired {
+    return Intl.message(
+      'Inserisci la password attuale',
+      name: 'currentPasswordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nuova password`
+  String get newPassword {
+    return Intl.message(
+      'Nuova password',
+      name: 'newPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Almeno {min} caratteri`
+  String passwordMinLength(int min) {
+    return Intl.message(
+      'Almeno $min caratteri',
+      name: 'passwordMinLength',
+      desc: '',
+      args: [min],
+    );
+  }
+
+  /// `Conferma nuova password`
+  String get confirmNewPassword {
+    return Intl.message(
+      'Conferma nuova password',
+      name: 'confirmNewPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Le password non coincidono`
+  String get passwordsDontMatch {
+    return Intl.message(
+      'Le password non coincidono',
+      name: 'passwordsDontMatch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cambia password`
+  String get changePassword {
+    return Intl.message(
+      'Cambia password',
+      name: 'changePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sessione`
+  String get sessionSection {
+    return Intl.message('Sessione', name: 'sessionSection', desc: '', args: []);
+  }
+
+  /// `Esci da Scoreboard su questo computer.`
+  String get signOutDescription {
+    return Intl.message(
+      'Esci da Scoreboard su questo computer.',
+      name: 'signOutDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Esci`
+  String get signOut {
+    return Intl.message('Esci', name: 'signOut', desc: '', args: []);
+  }
+
+  /// `Versione {version}`
+  String versionLabel(Object version) {
+    return Intl.message(
+      'Versione $version',
+      name: 'versionLabel',
+      desc: '',
+      args: [version],
+    );
+  }
+
+  /// `Email aggiornata`
+  String get emailUpdated {
+    return Intl.message(
+      'Email aggiornata',
+      name: 'emailUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Impossibile salvare l'email. Riprova.`
+  String get emailSaveError {
+    return Intl.message(
+      'Impossibile salvare l\'email. Riprova.',
+      name: 'emailSaveError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password cambiata`
+  String get passwordChanged {
+    return Intl.message(
+      'Password cambiata',
+      name: 'passwordChanged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Impossibile cambiare la password. Riprova.`
+  String get passwordChangeError {
+    return Intl.message(
+      'Impossibile cambiare la password. Riprova.',
+      name: 'passwordChangeError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Impossibile uscire. Riprova.`
+  String get signOutError {
+    return Intl.message(
+      'Impossibile uscire. Riprova.',
+      name: 'signOutError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ti diamo il bentornato`
+  String get authWelcomeBack {
+    return Intl.message(
+      'Ti diamo il bentornato',
+      name: 'authWelcomeBack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accedi per vedere i tuoi traguardi.`
+  String get authSignInSubtitle {
+    return Intl.message(
+      'Accedi per vedere i tuoi traguardi.',
+      name: 'authSignInSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Crea il tuo account`
+  String get authCreateTitle {
+    return Intl.message(
+      'Crea il tuo account',
+      name: 'authCreateTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Entra nello scoreboard della tua azienda.`
+  String get authCreateSubtitle {
+    return Intl.message(
+      'Entra nello scoreboard della tua azienda.',
+      name: 'authCreateSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accedi`
+  String get signIn {
+    return Intl.message('Accedi', name: 'signIn', desc: '', args: []);
+  }
+
+  /// `Crea account`
+  String get createAccount {
+    return Intl.message(
+      'Crea account',
+      name: 'createAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mostra password`
+  String get showPassword {
+    return Intl.message(
+      'Mostra password',
+      name: 'showPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nascondi password`
+  String get hidePassword {
+    return Intl.message(
+      'Nascondi password',
+      name: 'hidePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email di lavoro`
+  String get workEmail {
+    return Intl.message(
+      'Email di lavoro',
+      name: 'workEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get passwordLabel {
+    return Intl.message('Password', name: 'passwordLabel', desc: '', args: []);
+  }
+
+  /// `Inserisci la password`
+  String get passwordRequired {
+    return Intl.message(
+      'Inserisci la password',
+      name: 'passwordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scegli la tua azienda`
+  String get chooseCompany {
+    return Intl.message(
+      'Scegli la tua azienda',
+      name: 'chooseCompany',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Conferma`
+  String get confirmLabel {
+    return Intl.message('Conferma', name: 'confirmLabel', desc: '', args: []);
+  }
+
+  /// `Account demo: {email} / {password}`
+  String demoAccount(Object email, Object password) {
+    return Intl.message(
+      'Account demo: $email / $password',
+      name: 'demoAccount',
+      desc: '',
+      args: [email, password],
+    );
+  }
+
+  /// `Usalo`
+  String get useDemo {
+    return Intl.message('Usalo', name: 'useDemo', desc: '', args: []);
+  }
+
+  /// `Ogni traguardo,\nnero su bianco.`
+  String get authTagline {
+    return Intl.message(
+      'Ogni traguardo,\nnero su bianco.',
+      name: 'authTagline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Raccogli i traguardi rilasciati dalla tua azienda e riconosci il merito dei colleghi che fanno la differenza.`
+  String get authPitch {
+    return Intl.message(
+      'Raccogli i traguardi rilasciati dalla tua azienda e riconosci il merito dei colleghi che fanno la differenza.',
+      name: 'authPitch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Non hai effettuato l'accesso.`
+  String get errorNotSignedIn {
+    return Intl.message(
+      'Non hai effettuato l\'accesso.',
+      name: 'errorNotSignedIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email o password errate.`
+  String get errorWrongCredentials {
+    return Intl.message(
+      'Email o password errate.',
+      name: 'errorWrongCredentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Esiste già un account con questa email.`
+  String get errorEmailTaken {
+    return Intl.message(
+      'Esiste già un account con questa email.',
+      name: 'errorEmailTaken',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `La password attuale non è corretta.`
+  String get errorWrongCurrentPassword {
+    return Intl.message(
+      'La password attuale non è corretta.',
+      name: 'errorWrongCurrentPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inserisci email e password.`
+  String get errorMissingCredentials {
+    return Intl.message(
+      'Inserisci email e password.',
+      name: 'errorMissingCredentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inserisci nome e ruolo.`
+  String get errorMissingNameOrRole {
+    return Intl.message(
+      'Inserisci nome e ruolo.',
+      name: 'errorMissingNameOrRole',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `La password deve avere almeno {min} caratteri.`
+  String errorPasswordTooShort(int min) {
+    return Intl.message(
+      'La password deve avere almeno $min caratteri.',
+      name: 'errorPasswordTooShort',
+      desc: '',
+      args: [min],
+    );
+  }
+
+  /// `I traguardi base possono valere {values} XP.`
+  String errorInvalidPoints(Object values) {
+    return Intl.message(
+      'I traguardi base possono valere $values XP.',
+      name: 'errorInvalidPoints',
+      desc: '',
+      args: [values],
+    );
+  }
+
+  /// `Puoi eliminare solo i traguardi base che hai creato tu.`
+  String get errorNotTemplateOwner {
+    return Intl.message(
+      'Puoi eliminare solo i traguardi base che hai creato tu.',
+      name: 'errorNotTemplateOwner',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Puoi inviare traguardi solo ai colleghi della tua azienda.`
+  String get errorNotAColleague {
+    return Intl.message(
+      'Puoi inviare traguardi solo ai colleghi della tua azienda.',
+      name: 'errorNotAColleague',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Questo traguardo base non esiste più.`
+  String get errorTemplateNotFound {
+    return Intl.message(
+      'Questo traguardo base non esiste più.',
+      name: 'errorTemplateNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hai già inviato “{template}” a {colleague}.`
+  String errorAlreadySent(Object template, Object colleague) {
+    return Intl.message(
+      'Hai già inviato “$template” a $colleague.',
+      name: 'errorAlreadySent',
+      desc: '',
+      args: [template, colleague],
+    );
   }
 }
 
@@ -57,6 +1768,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'it'),
+      Locale.fromSubtags(languageCode: 'en'),
     ];
   }
 

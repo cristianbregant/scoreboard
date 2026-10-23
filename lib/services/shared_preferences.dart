@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreference {
   static const String _darkThemeKey = 'dark_theme';
+  static const String _languageCodeKey = 'language_code';
   static const String _sessionUserIdKey = 'session_user_id';
   static const String _storedUsersKey = 'stored_users';
   static const String _credentialsKey = 'credentials';
@@ -15,6 +16,12 @@ class SharedPreference {
   bool? get darkTheme => _preferences.getBool(_darkThemeKey);
   Future<void> setDarkTheme(bool value) =>
       _preferences.setBool(_darkThemeKey, value);
+
+  /// Chosen language, null to follow the system.
+  String? get languageCode => _preferences.getString(_languageCodeKey);
+  Future<void> setLanguageCode(String? value) => value == null
+      ? _preferences.remove(_languageCodeKey)
+      : _preferences.setString(_languageCodeKey, value);
 
   /// Id of the signed-in user, null when signed out.
   String? get sessionUserId => _preferences.getString(_sessionUserIdKey);

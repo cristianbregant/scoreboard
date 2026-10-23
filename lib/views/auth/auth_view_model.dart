@@ -1,3 +1,5 @@
+import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/interactors/auth_interactor.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/views/_base/base_view_model.dart';
@@ -43,9 +45,9 @@ class AuthViewModel extends BaseViewModel<AuthViewContract, AuthState>
       await action();
       sourceView.openApp();
     } on AuthException catch (e) {
-      vmState.errorMessage = e.message;
+      vmState.errorMessage = e.localized(l10n);
     } catch (_) {
-      vmState.errorMessage = "Something went wrong. Try again.";
+      vmState.errorMessage = l10n.genericError;
     }
     vmState.isSubmitting = false;
     notifyListeners();

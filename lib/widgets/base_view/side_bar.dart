@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/widgets/common/nav_button.dart';
 import 'package:scoreboard/core/window_chrome.dart';
@@ -60,7 +61,7 @@ class Sidebar extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text("MENU",
+            child: Text(context.l10n.menuLabel,
                 style: TextStyle(
                     fontSize: 11,
                     letterSpacing: 1.2,

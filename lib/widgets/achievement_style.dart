@@ -4,16 +4,16 @@ import 'package:scoreboard/model/achievement.dart';
 /// Company-issued achievements are ranked by points (bronze to platinum);
 /// achievements sent between colleagues all share the [peer] style.
 enum AchievementTier {
-  peer('Peer', [Color(0xFF3F6B52), Color(0xFF8FBF9F)]),
-  bronze('Bronze', [Color(0xFF8A4B2A), Color(0xFFD08A5B)]),
-  silver('Silver', [Color(0xFF5B6478), Color(0xFFC7CEDB)]),
-  gold('Gold', [Color(0xFFB7791F), Color(0xFFF6D365)]),
-  platinum('Platinum', [Color(0xFF35597A), Color(0xFFA9CFEE)]);
+  peer([Color(0xFF3F6B52), Color(0xFF8FBF9F)]),
+  bronze([Color(0xFF8A4B2A), Color(0xFFD08A5B)]),
+  silver([Color(0xFF5B6478), Color(0xFFC7CEDB)]),
+  gold([Color(0xFFB7791F), Color(0xFFF6D365)]),
+  platinum([Color(0xFF35597A), Color(0xFFA9CFEE)]);
 
-  final String label;
+  /// Gradient stops; the display name is in `AchievementTierText`.
   final List<Color> colors;
 
-  const AchievementTier(this.label, this.colors);
+  const AchievementTier(this.colors);
 
   factory AchievementTier.fromPoints(int points) {
     if (points >= 140) return AchievementTier.platinum;

@@ -1,3 +1,5 @@
+import 'package:scoreboard/core/l10n_messages.dart';
+import 'package:scoreboard/core/localization_manager.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -117,13 +119,13 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const FieldLabel("Photo"),
+                      FieldLabel(context.l10n.fieldPhoto),
                       Row(
                         children: [
                           OutlinedButton.icon(
                             onPressed: _pickAvatar,
                             icon: const Icon(Icons.upload_rounded, size: 18),
-                            label: const Text("Upload photo"),
+                            label: Text(context.l10n.uploadPhoto),
                           ),
                           if (_avatarPath != null) ...[
                             const SizedBox(width: 8),
@@ -132,13 +134,13 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
                                 _newAvatar = null;
                                 _removeAvatar = true;
                               }),
-                              child: const Text("Remove"),
+                              child: Text(context.l10n.commonRemove),
                             ),
                           ],
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const FieldLabel("Cover"),
+                      FieldLabel(context.l10n.fieldCover),
                       _buildCoverOptions(colorScheme),
                       const SizedBox(height: 20),
                       Row(
@@ -148,12 +150,12 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const FieldLabel("Full name"),
+                                FieldLabel(context.l10n.fieldFullName),
                                 TextFormField(
                                   controller: _nameController,
                                   validator: (value) =>
                                       (value == null || value.trim().isEmpty)
-                                          ? "Enter your name"
+                                          ? context.l10n.nameRequired
                                           : null,
                                 ),
                               ],
@@ -164,12 +166,12 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const FieldLabel("Role"),
+                                FieldLabel(context.l10n.fieldRole),
                                 TextFormField(
                                   controller: _roleController,
                                   validator: (value) =>
                                       (value == null || value.trim().isEmpty)
-                                          ? "Enter your role"
+                                          ? context.l10n.roleRequired
                                           : null,
                                 ),
                               ],
@@ -178,14 +180,14 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      const FieldLabel("Bio"),
+                      FieldLabel(context.l10n.fieldBio),
                       TextFormField(
                         controller: _bioController,
                         maxLength: 160,
                         maxLines: 3,
                         minLines: 2,
-                        decoration: const InputDecoration(
-                            hintText: "A line about you and what you do"),
+                        decoration:
+                            InputDecoration(hintText: context.l10n.bioHint),
                       ),
                     ],
                   ),
@@ -199,10 +201,11 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
                 children: [
                   TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("Cancel")),
+                      child: Text(context.l10n.commonCancel)),
                   const SizedBox(width: 8),
                   FilledButton(
-                      onPressed: _onSave, child: const Text("Save profile")),
+                      onPressed: _onSave,
+                      child: Text(context.l10n.saveProfile)),
                 ],
               ),
             ),
@@ -259,7 +262,7 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
             left: 28 + avatarRadius * 2 + 16,
             top: bannerHeight + 10,
             right: 28,
-            child: Text("Edit profile",
+            child: Text(context.l10n.editProfile,
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
@@ -306,7 +309,7 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
       children: [
         for (final preset in bannerPresets)
           option(
-            tooltip: preset.label,
+            tooltip: bannerPresetLabel(context.l10n, preset.key),
             selected: !hasCustom && preset.key == _bannerPreset,
             onTap: () => setState(() {
               _bannerPreset = preset.key;
@@ -316,7 +319,8 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
             child: BannerPatternView(preset: preset),
           ),
         option(
-          tooltip: hasCustom ? "Replace image" : "Upload image",
+          tooltip:
+              hasCustom ? context.l10n.replaceImage : context.l10n.uploadImage,
           selected: hasCustom,
           onTap: _pickBanner,
           child: hasCustom

@@ -8,6 +8,7 @@
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -19,6 +20,436 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'it';
 
+  static String m0(count) =>
+      "${Intl.plural(count, one: '1 traguardo', other: '${count} traguardi')}";
+
+  static String m1(maxPoints) =>
+      "I traguardi base si scambiano tra colleghi e valgono fino a ${maxPoints} XP. Quelli verificati li rilascia solo la tua azienda. Puoi inviare ogni traguardo base allo stesso collega una sola volta.";
+
+  static String m2(name) => "Da ${name}";
+
+  static String m3(date) => "Rilasciato il ${date}";
+
+  static String m4(date) => "Ricevuto il ${date}";
+
+  static String m5(year) => "Dal ${year}";
+
+  static String m6(name) => "Di ${name}";
+
+  static String m7(name) => "Eliminare “${name}”?";
+
+  static String m8(email, password) => "Account demo: ${email} / ${password}";
+
+  static String m9(id) => "ID ${id}";
+
+  static String m10(template, colleague) =>
+      "Hai già inviato “${template}” a ${colleague}.";
+
+  static String m11(values) => "I traguardi base possono valere ${values} XP.";
+
+  static String m12(min) => "La password deve avere almeno ${min} caratteri.";
+
+  static String m13(count) => "Tutti · ${count}";
+
+  static String m14(tier, count) => "${tier} · ${count}";
+
+  static String m15(level, points) => "Livello ${level} · ${points} XP";
+
+  static String m16(level) => "Livello ${level}";
+
+  static String m17(count) => "Libreria · ${count}";
+
+  static String m18(date) => "Membro dal ${date}";
+
+  static String m19(count) =>
+      "${Intl.plural(count, one: '1 membro', other: '${count} membri')}";
+
+  static String m20(min) => "Almeno ${min} caratteri";
+
+  static String m21(rank) => "#${rank}";
+
+  static String m22(role, company) => "${role} in ${company}";
+
+  static String m23(name) => "Traguardo inviato a ${name}";
+
+  static String m24(count) => "Inviati da te · ${count}";
+
+  static String m25(name) => "“${name}” aggiunto alla libreria";
+
+  static String m26(name) => "“${name}” eliminato";
+
+  static String m27(count) =>
+      "${Intl.plural(count, one: '1 verificato', other: '${count} verificati')}";
+
+  static String m28(version) => "Versione ${version}";
+
+  static String m29(points, level) => "${points} XP al livello ${level}";
+
+  static String m30(points) => "${points} XP";
+
+  static String m31(name) => "${name} (tu)";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accountSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Dati di accesso. Nome, foto e copertina si modificano dal profilo.",
+        ),
+        "achievementDetailTitle":
+            MessageLookupByLibrary.simpleMessage("Traguardo"),
+        "achievementNamePlaceholder": MessageLookupByLibrary.simpleMessage(
+          "Nome del traguardo",
+        ),
+        "achievementsCount": m0,
+        "achievementsSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Ogni traguardo raggiunto lungo il percorso",
+        ),
+        "achievementsTitle": MessageLookupByLibrary.simpleMessage(
+          "I tuoi traguardi",
+        ),
+        "alreadySentToColleague": MessageLookupByLibrary.simpleMessage(
+          "Già inviato a questo collega",
+        ),
+        "appearanceSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Scegli l\'aspetto di Scoreboard",
+        ),
+        "authCreateSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Entra nello scoreboard della tua azienda.",
+        ),
+        "authCreateTitle": MessageLookupByLibrary.simpleMessage(
+          "Crea il tuo account",
+        ),
+        "authPitch": MessageLookupByLibrary.simpleMessage(
+          "Raccogli i traguardi rilasciati dalla tua azienda e riconosci il merito dei colleghi che fanno la differenza.",
+        ),
+        "authSignInSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Accedi per vedere i tuoi traguardi.",
+        ),
+        "authTagline": MessageLookupByLibrary.simpleMessage(
+          "Ogni traguardo,\nnero su bianco.",
+        ),
+        "authWelcomeBack": MessageLookupByLibrary.simpleMessage(
+          "Ti diamo il bentornato",
+        ),
+        "bannerClay": MessageLookupByLibrary.simpleMessage("Argilla"),
+        "bannerForest": MessageLookupByLibrary.simpleMessage("Foresta"),
+        "bannerGold": MessageLookupByLibrary.simpleMessage("Oro"),
+        "bannerGraphite": MessageLookupByLibrary.simpleMessage("Grafite"),
+        "bannerOcean": MessageLookupByLibrary.simpleMessage("Oceano"),
+        "bannerSand": MessageLookupByLibrary.simpleMessage("Sabbia"),
+        "baseExplanation": m1,
+        "baseSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Crea traguardi e inviali ai tuoi colleghi",
+        ),
+        "bioHint": MessageLookupByLibrary.simpleMessage(
+          "Una riga su di te e su cosa fai",
+        ),
+        "cardBaseAchievement": MessageLookupByLibrary.simpleMessage(
+          "Traguardo base",
+        ),
+        "cardFlip": MessageLookupByLibrary.simpleMessage("Gira la card"),
+        "cardFrom": m2,
+        "cardIssuedBy": MessageLookupByLibrary.simpleMessage("RILASCIATO DA"),
+        "cardIssuedOn": m3,
+        "cardReceivedOn": m4,
+        "cardSentBy": MessageLookupByLibrary.simpleMessage("INVIATO DA"),
+        "cardVerifiedAchievement": MessageLookupByLibrary.simpleMessage(
+          "Traguardo verificato",
+        ),
+        "changePassword":
+            MessageLookupByLibrary.simpleMessage("Cambia password"),
+        "chooseCompany": MessageLookupByLibrary.simpleMessage(
+          "Scegli la tua azienda",
+        ),
+        "commonBack": MessageLookupByLibrary.simpleMessage("Indietro"),
+        "commonCancel": MessageLookupByLibrary.simpleMessage("Annulla"),
+        "commonCreate": MessageLookupByLibrary.simpleMessage("Crea"),
+        "commonDelete": MessageLookupByLibrary.simpleMessage("Elimina"),
+        "commonPreview": MessageLookupByLibrary.simpleMessage("ANTEPRIMA"),
+        "commonRemove": MessageLookupByLibrary.simpleMessage("Rimuovi"),
+        "commonRetry": MessageLookupByLibrary.simpleMessage("Riprova"),
+        "commonSave": MessageLookupByLibrary.simpleMessage("Salva"),
+        "commonSend": MessageLookupByLibrary.simpleMessage("Invia"),
+        "communityCompanies": MessageLookupByLibrary.simpleMessage("Aziende"),
+        "communityPeople": MessageLookupByLibrary.simpleMessage("Persone"),
+        "communitySubtitle": MessageLookupByLibrary.simpleMessage(
+          "Scopri come ti posizioni rispetto agli altri",
+        ),
+        "communityTitle": MessageLookupByLibrary.simpleMessage("Community"),
+        "companySince": m5,
+        "confirmLabel": MessageLookupByLibrary.simpleMessage("Conferma"),
+        "confirmNewPassword": MessageLookupByLibrary.simpleMessage(
+          "Conferma nuova password",
+        ),
+        "createAccount": MessageLookupByLibrary.simpleMessage("Crea account"),
+        "createDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Chiunque nella tua azienda può inviarlo a un collega.",
+        ),
+        "createdBy": m6,
+        "createdByYou": MessageLookupByLibrary.simpleMessage("Creato da te"),
+        "currentPassword":
+            MessageLookupByLibrary.simpleMessage("Password attuale"),
+        "currentPasswordRequired": MessageLookupByLibrary.simpleMessage(
+          "Inserisci la password attuale",
+        ),
+        "deleteTemplateBody": MessageLookupByLibrary.simpleMessage(
+          "Verrà rimosso dalla libreria. I colleghi che l\'hanno già ricevuto lo conservano.",
+        ),
+        "deleteTemplateTitle": m7,
+        "demoAccount": m8,
+        "descriptionHint": MessageLookupByLibrary.simpleMessage(
+          "Cosa bisogna fare per meritarlo?",
+        ),
+        "descriptionRequired": MessageLookupByLibrary.simpleMessage(
+          "Aggiungi una breve descrizione",
+        ),
+        "detailCompany": MessageLookupByLibrary.simpleMessage("Azienda"),
+        "detailEarnedOn": MessageLookupByLibrary.simpleMessage("Ottenuto il"),
+        "detailExperience": MessageLookupByLibrary.simpleMessage("Esperienza"),
+        "detailId": m9,
+        "detailSentBy": MessageLookupByLibrary.simpleMessage("Inviato da"),
+        "detailTier": MessageLookupByLibrary.simpleMessage("Categoria"),
+        "editProfile": MessageLookupByLibrary.simpleMessage("Modifica profilo"),
+        "emailSaveError": MessageLookupByLibrary.simpleMessage(
+          "Impossibile salvare l\'email. Riprova.",
+        ),
+        "emailUpdated":
+            MessageLookupByLibrary.simpleMessage("Email aggiornata"),
+        "errorAlreadySent": m10,
+        "errorEmailTaken": MessageLookupByLibrary.simpleMessage(
+          "Esiste già un account con questa email.",
+        ),
+        "errorInvalidPoints": m11,
+        "errorMissingCredentials": MessageLookupByLibrary.simpleMessage(
+          "Inserisci email e password.",
+        ),
+        "errorMissingNameOrRole": MessageLookupByLibrary.simpleMessage(
+          "Inserisci nome e ruolo.",
+        ),
+        "errorNotAColleague": MessageLookupByLibrary.simpleMessage(
+          "Puoi inviare traguardi solo ai colleghi della tua azienda.",
+        ),
+        "errorNotSignedIn": MessageLookupByLibrary.simpleMessage(
+          "Non hai effettuato l\'accesso.",
+        ),
+        "errorNotTemplateOwner": MessageLookupByLibrary.simpleMessage(
+          "Puoi eliminare solo i traguardi base che hai creato tu.",
+        ),
+        "errorPasswordTooShort": m12,
+        "errorTemplateNotFound": MessageLookupByLibrary.simpleMessage(
+          "Questo traguardo base non esiste più.",
+        ),
+        "errorWrongCredentials": MessageLookupByLibrary.simpleMessage(
+          "Email o password errate.",
+        ),
+        "errorWrongCurrentPassword": MessageLookupByLibrary.simpleMessage(
+          "La password attuale non è corretta.",
+        ),
+        "experienceNote": MessageLookupByLibrary.simpleMessage(
+          "I traguardi base valgono meno di quelli verificati rilasciati dalla tua azienda.",
+        ),
+        "fieldAchievement": MessageLookupByLibrary.simpleMessage("Traguardo"),
+        "fieldBio": MessageLookupByLibrary.simpleMessage("Bio"),
+        "fieldColleague": MessageLookupByLibrary.simpleMessage("Collega"),
+        "fieldCover": MessageLookupByLibrary.simpleMessage("Copertina"),
+        "fieldDescription": MessageLookupByLibrary.simpleMessage("Descrizione"),
+        "fieldEmail": MessageLookupByLibrary.simpleMessage("Email"),
+        "fieldExperience": MessageLookupByLibrary.simpleMessage("Esperienza"),
+        "fieldFullName": MessageLookupByLibrary.simpleMessage("Nome e cognome"),
+        "fieldIcon": MessageLookupByLibrary.simpleMessage("Icona"),
+        "fieldMessageOptional": MessageLookupByLibrary.simpleMessage(
+          "Messaggio (facoltativo)",
+        ),
+        "fieldName": MessageLookupByLibrary.simpleMessage("Nome"),
+        "fieldPhoto": MessageLookupByLibrary.simpleMessage("Foto"),
+        "fieldRole": MessageLookupByLibrary.simpleMessage("Ruolo"),
+        "filterAll": m13,
+        "filterTier": m14,
+        "flipHint": MessageLookupByLibrary.simpleMessage(
+          "Clicca la card per girarla",
+        ),
+        "fromAColleague": MessageLookupByLibrary.simpleMessage("Da un collega"),
+        "genericError": MessageLookupByLibrary.simpleMessage(
+          "Qualcosa è andato storto. Riprova.",
+        ),
+        "hidePassword":
+            MessageLookupByLibrary.simpleMessage("Nascondi password"),
+        "invalidEmail": MessageLookupByLibrary.simpleMessage(
+          "Inserisci un indirizzo email valido",
+        ),
+        "labelVerified": MessageLookupByLibrary.simpleMessage("Verificato"),
+        "languageSystem": MessageLookupByLibrary.simpleMessage("Sistema"),
+        "languageTitle": MessageLookupByLibrary.simpleMessage("Lingua"),
+        "leaderboard": MessageLookupByLibrary.simpleMessage("Classifica"),
+        "levelAndXp": m15,
+        "levelN": m16,
+        "libraryCount": m17,
+        "libraryEmpty": MessageLookupByLibrary.simpleMessage(
+          "Ancora nessun traguardo base. Crea il primo!",
+        ),
+        "loadError": MessageLookupByLibrary.simpleMessage(
+          "Qualcosa è andato storto durante il caricamento dei dati.",
+        ),
+        "memberSince": m18,
+        "membersCount": m19,
+        "menuLabel": MessageLookupByLibrary.simpleMessage("MENU"),
+        "messageHint": MessageLookupByLibrary.simpleMessage(
+          "Spiega perché se lo merita",
+        ),
+        "nameHint": MessageLookupByLibrary.simpleMessage("es. Team Player"),
+        "nameRequired": MessageLookupByLibrary.simpleMessage(
+          "Inserisci il tuo nome",
+        ),
+        "navAchievements": MessageLookupByLibrary.simpleMessage("Traguardi"),
+        "navBaseAchievements": MessageLookupByLibrary.simpleMessage(
+          "Traguardi base",
+        ),
+        "navCommunity": MessageLookupByLibrary.simpleMessage("Community"),
+        "navProfile": MessageLookupByLibrary.simpleMessage("Profilo"),
+        "navSettings": MessageLookupByLibrary.simpleMessage("Impostazioni"),
+        "navYourCompany":
+            MessageLookupByLibrary.simpleMessage("La tua azienda"),
+        "newBaseAchievement": MessageLookupByLibrary.simpleMessage(
+          "Nuovo traguardo base",
+        ),
+        "newPassword": MessageLookupByLibrary.simpleMessage("Nuova password"),
+        "noAchievementsInTier": MessageLookupByLibrary.simpleMessage(
+          "Nessun traguardo in questa categoria.",
+        ),
+        "noAchievementsYet": MessageLookupByLibrary.simpleMessage(
+          "Ancora nessun traguardo.",
+        ),
+        "noSearchResults": MessageLookupByLibrary.simpleMessage(
+          "Nessun risultato per la tua ricerca.",
+        ),
+        "noteAuthorFallback":
+            MessageLookupByLibrary.simpleMessage("Un collega"),
+        "passwordChangeError": MessageLookupByLibrary.simpleMessage(
+          "Impossibile cambiare la password. Riprova.",
+        ),
+        "passwordChanged": MessageLookupByLibrary.simpleMessage(
+          "Password cambiata",
+        ),
+        "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
+        "passwordMinLength": m20,
+        "passwordRequired": MessageLookupByLibrary.simpleMessage(
+          "Inserisci la password",
+        ),
+        "passwordSection": MessageLookupByLibrary.simpleMessage("Password"),
+        "passwordsDontMatch": MessageLookupByLibrary.simpleMessage(
+          "Le password non coincidono",
+        ),
+        "profileSaveError": MessageLookupByLibrary.simpleMessage(
+          "Impossibile salvare il profilo. Riprova.",
+        ),
+        "profileUpdated": MessageLookupByLibrary.simpleMessage(
+          "Profilo aggiornato",
+        ),
+        "rankValue": m21,
+        "recentAchievements": MessageLookupByLibrary.simpleMessage(
+          "Traguardi recenti",
+        ),
+        "replaceImage": MessageLookupByLibrary.simpleMessage(
+          "Sostituisci immagine",
+        ),
+        "roleAtCompany": m22,
+        "roleRequired": MessageLookupByLibrary.simpleMessage(
+          "Inserisci il tuo ruolo",
+        ),
+        "saveProfile": MessageLookupByLibrary.simpleMessage("Salva profilo"),
+        "searchCompaniesHint": MessageLookupByLibrary.simpleMessage(
+          "Cerca per nome o settore",
+        ),
+        "searchPeopleHint": MessageLookupByLibrary.simpleMessage(
+          "Cerca per nome, ruolo o azienda",
+        ),
+        "sendAchievement":
+            MessageLookupByLibrary.simpleMessage("Invia traguardo"),
+        "sendAnAchievement": MessageLookupByLibrary.simpleMessage(
+          "Invia un traguardo",
+        ),
+        "sendDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Riconosci il merito di un collega con uno dei tuoi traguardi base.",
+        ),
+        "sendError": MessageLookupByLibrary.simpleMessage(
+          "Impossibile inviare il traguardo. Riprova.",
+        ),
+        "sendLoadError": MessageLookupByLibrary.simpleMessage(
+          "Impossibile caricare i tuoi colleghi. Riprova.",
+        ),
+        "sendNoColleagues": MessageLookupByLibrary.simpleMessage(
+          "Nella tua azienda non ci sono ancora colleghi.",
+        ),
+        "sendNoTemplates": MessageLookupByLibrary.simpleMessage(
+          "Crea prima un traguardo base.",
+        ),
+        "sendPreviewHint": MessageLookupByLibrary.simpleMessage(
+          "Scegli un traguardo per vedere come apparirà.",
+        ),
+        "sendSuccess": m23,
+        "sentByYouCount": m24,
+        "sentEmpty": MessageLookupByLibrary.simpleMessage(
+          "Non hai ancora inviato traguardi. Scegline uno dalla libreria e fai felice un collega.",
+        ),
+        "sentToConnector": MessageLookupByLibrary.simpleMessage("a"),
+        "sessionSection": MessageLookupByLibrary.simpleMessage("Sessione"),
+        "settingsAbout": MessageLookupByLibrary.simpleMessage("Informazioni"),
+        "settingsAccount": MessageLookupByLibrary.simpleMessage("Account"),
+        "settingsAppearance": MessageLookupByLibrary.simpleMessage("Aspetto"),
+        "showPassword": MessageLookupByLibrary.simpleMessage("Mostra password"),
+        "signIn": MessageLookupByLibrary.simpleMessage("Accedi"),
+        "signOut": MessageLookupByLibrary.simpleMessage("Esci"),
+        "signOutDescription": MessageLookupByLibrary.simpleMessage(
+          "Esci da Scoreboard su questo computer.",
+        ),
+        "signOutError": MessageLookupByLibrary.simpleMessage(
+          "Impossibile uscire. Riprova.",
+        ),
+        "statAchievements": MessageLookupByLibrary.simpleMessage("Traguardi"),
+        "statCompanyRank": MessageLookupByLibrary.simpleMessage(
+          "Posizione in azienda",
+        ),
+        "statGlobalRank":
+            MessageLookupByLibrary.simpleMessage("Posizione globale"),
+        "statMembers": MessageLookupByLibrary.simpleMessage("Membri"),
+        "statTotalXp": MessageLookupByLibrary.simpleMessage("XP totali"),
+        "statVerified": MessageLookupByLibrary.simpleMessage("Verificati"),
+        "statYourRank":
+            MessageLookupByLibrary.simpleMessage("La tua posizione"),
+        "teamLeaderboard": MessageLookupByLibrary.simpleMessage(
+          "Classifica del team",
+        ),
+        "templateAdded": m25,
+        "templateCreateError": MessageLookupByLibrary.simpleMessage(
+          "Impossibile creare il traguardo. Riprova.",
+        ),
+        "templateDeleteError": MessageLookupByLibrary.simpleMessage(
+          "Impossibile eliminare il traguardo. Riprova.",
+        ),
+        "templateDeleted": m26,
+        "templateNameRequired": MessageLookupByLibrary.simpleMessage(
+          "Dagli un nome",
+        ),
+        "themeDark": MessageLookupByLibrary.simpleMessage("Scuro"),
+        "themeLight": MessageLookupByLibrary.simpleMessage("Chiaro"),
+        "themeTitle": MessageLookupByLibrary.simpleMessage("Tema"),
+        "tierBronze": MessageLookupByLibrary.simpleMessage("Bronzo"),
+        "tierGold": MessageLookupByLibrary.simpleMessage("Oro"),
+        "tierPeer": MessageLookupByLibrary.simpleMessage("Colleghi"),
+        "tierPlatinum": MessageLookupByLibrary.simpleMessage("Platino"),
+        "tierSilver": MessageLookupByLibrary.simpleMessage("Argento"),
+        "top3": MessageLookupByLibrary.simpleMessage("Top 3"),
+        "topPerformers": MessageLookupByLibrary.simpleMessage("I migliori"),
+        "uploadImage": MessageLookupByLibrary.simpleMessage("Carica immagine"),
+        "uploadPhoto": MessageLookupByLibrary.simpleMessage("Carica foto"),
+        "useDemo": MessageLookupByLibrary.simpleMessage("Usalo"),
+        "verifiedByCompany": MessageLookupByLibrary.simpleMessage(
+          "Verificato dall\'azienda",
+        ),
+        "verifiedCount": m27,
+        "versionLabel": m28,
+        "workEmail": MessageLookupByLibrary.simpleMessage("Email di lavoro"),
+        "xpToNextLevel": m29,
+        "xpValue": m30,
+        "youSuffix": m31,
+      };
 }

@@ -17,17 +17,17 @@ class AuthInteractor {
 
   Future<UserProfile> signIn(String email, String password) async {
     if (email.trim().isEmpty || password.isEmpty) {
-      throw const AuthException("Enter your email and password.");
+      throw const AuthException(AuthError.missingCredentials);
     }
     return _repository.signIn(email, password);
   }
 
   Future<UserProfile> register(RegistrationDraft draft) async {
     if (draft.name.trim().isEmpty || draft.role.trim().isEmpty) {
-      throw const AuthException("Enter your name and role.");
+      throw const AuthException(AuthError.missingNameOrRole);
     }
     if (!isValidEmail(draft.email)) {
-      throw const AuthException("Enter a valid email address.");
+      throw const AuthException(AuthError.invalidEmail);
     }
     _checkPassword(draft.password);
     return _repository.register(draft);
@@ -45,8 +45,7 @@ class AuthInteractor {
 
   void _checkPassword(String password) {
     if (password.length < minPasswordLength) {
-      throw const AuthException(
-          "The password must be at least $minPasswordLength characters.");
+      throw const AuthException(AuthError.passwordTooShort);
     }
   }
 }

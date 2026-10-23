@@ -1,10 +1,22 @@
-class AuthException implements Exception {
-  final String message;
+enum AuthError {
+  notSignedIn,
+  wrongCredentials,
+  emailTaken,
+  wrongCurrentPassword,
+  missingCredentials,
+  missingNameOrRole,
+  invalidEmail,
+  passwordTooShort,
+}
 
-  const AuthException(this.message);
+/// Carries an [AuthError] code; the UI turns it into localized text.
+class AuthException implements Exception {
+  final AuthError error;
+
+  const AuthException(this.error);
 
   @override
-  String toString() => message;
+  String toString() => 'AuthException($error)';
 }
 
 class RegistrationDraft {

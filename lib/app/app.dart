@@ -17,8 +17,8 @@ class CompanyAchievements extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: providers,
-      child: Consumer<DarkThemeProvider>(
-        builder: (context, themeProvider, child) => MaterialApp(
+      child: Consumer2<DarkThemeProvider, LocaleProvider>(
+        builder: (context, themeProvider, localeProvider, child) => MaterialApp(
           title: 'Scoreboard',
           theme: AppTheme.themeDataLight,
           darkTheme: AppTheme.themeDataDark,
@@ -35,8 +35,18 @@ class CompanyAchievements extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: AppLocalization.delegate.supportedLocales,
+          locale: localeProvider.locale,
+          localeResolutionCallback: _resolveLocale,
         ),
       ),
+    );
+  }
+
+  /// Follows the system language when supported, English otherwise.
+  static Locale _resolveLocale(Locale? system, Iterable<Locale> supported) {
+    return supported.firstWhere(
+      (locale) => locale.languageCode == system?.languageCode,
+      orElse: () => const Locale('en'),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/model/auth.dart';
@@ -55,11 +57,11 @@ class ProfileViewModel extends BaseViewModel<ProfileViewContract, ProfileState>
     if (draft == null) return;
     try {
       await _interactor.updateProfile(draft);
-      sourceView.showMessage("Profile updated");
+      sourceView.showMessage(l10n.profileUpdated);
     } on AuthException catch (e) {
-      sourceView.showMessage(e.message);
+      sourceView.showMessage(e.localized(l10n));
     } catch (_) {
-      sourceView.showMessage("Could not save your profile. Try again.");
+      sourceView.showMessage(l10n.profileSaveError);
     }
   }
 

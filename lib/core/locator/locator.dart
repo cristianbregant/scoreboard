@@ -1,5 +1,3 @@
-import 'package:scoreboard/generated/l10n.dart';
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:scoreboard/core/locator/locator_objects.dart';
@@ -16,12 +14,4 @@ void setupLocator({bool isTesting = false, bool isIntegrationTesting = false}) {
   setupLocatorInteractors();
   setupLocatorStates();
   setupLocatorViewModels();
-}
-
-void locatorSetupWithContext({required BuildContext context}) {
-  if (!getIt.isRegistered<AppLocalization>()) {
-    getIt.registerSingleton<AppLocalization>(
-      AppLocalization.of(context),
-    );
-  }
 }

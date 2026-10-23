@@ -43,11 +43,24 @@ class SendAchievementOptions {
       sentPairs.contains((templateId, colleagueId));
 }
 
-class SendAchievementException implements Exception {
-  final String message;
+enum SendAchievementError {
+  invalidPoints,
+  notTemplateOwner,
+  notAColleague,
+  templateNotFound,
+  alreadySent,
+}
 
-  const SendAchievementException(this.message);
+/// Carries a [SendAchievementError] code, plus the names the message
+/// needs; the UI turns it into localized text.
+class SendAchievementException implements Exception {
+  final SendAchievementError error;
+  final String? templateName;
+  final String? colleagueName;
+
+  const SendAchievementException(this.error,
+      {this.templateName, this.colleagueName});
 
   @override
-  String toString() => message;
+  String toString() => 'SendAchievementException($error)';
 }

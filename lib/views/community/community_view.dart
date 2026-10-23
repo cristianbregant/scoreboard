@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/views/community/community_contract.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/views/_base/base_stateful_widget.dart';
@@ -33,19 +34,19 @@ class _CommunityViewState
                     child: Column(
                       children: [
                         PageHeader(
-                          title: "Community",
-                          subtitle: "See how you rank against everyone else",
+                          title: context.l10n.communityTitle,
+                          subtitle: context.l10n.communitySubtitle,
                           trailing: SegmentedButton<CommunityTab>(
                             showSelectedIcon: false,
-                            segments: const [
+                            segments: [
                               ButtonSegment(
                                   value: CommunityTab.people,
                                   icon: Icon(Icons.person_rounded),
-                                  label: Text("People")),
+                                  label: Text(context.l10n.communityPeople)),
                               ButtonSegment(
                                   value: CommunityTab.companies,
                                   icon: Icon(Icons.business_rounded),
-                                  label: Text("Companies")),
+                                  label: Text(context.l10n.communityCompanies)),
                             ],
                             selected: {vmState.tab},
                             onSelectionChanged: (selection) =>
@@ -58,8 +59,8 @@ class _CommunityViewState
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.search_rounded),
                             hintText: vmState.tab == CommunityTab.people
-                                ? "Search by name, role or company"
-                                : "Search by name or industry",
+                                ? context.l10n.searchPeopleHint
+                                : context.l10n.searchCompaniesHint,
                           ),
                         ),
                       ],
@@ -88,7 +89,7 @@ class _CommunityViewState
       padding: pagePadding.copyWith(top: 8),
       children: [
         if (_showPodium) ...[
-          const SectionTitle("Top 3"),
+          SectionTitle(context.l10n.top3),
           Podium(
             entries: entries
                 .take(3)
@@ -103,7 +104,7 @@ class _CommunityViewState
                     ))
                 .toList(),
           ),
-          const SectionTitle("Leaderboard"),
+          SectionTitle(context.l10n.leaderboard),
         ] else
           const SizedBox(height: 16),
         ...entries.map((entry) => LeaderboardTile(
@@ -112,10 +113,10 @@ class _CommunityViewState
                   initials: entry.user.initials,
                   imagePath: entry.user.avatarPath),
               title: entry.user.id == vmState.currentUserId
-                  ? "${entry.user.name} (you)"
+                  ? context.l10n.youSuffix(entry.user.name)
                   : entry.user.name,
               subtitle:
-                  "${entry.user.role} at ${entry.company.name} · ${entry.achievementsCount} achievements",
+                  "${context.l10n.roleAtCompany(entry.user.role, entry.company.name)} · ${context.l10n.achievementsCount(entry.achievementsCount)}",
               points: entry.points,
               highlighted: entry.user.id == vmState.currentUserId,
             )),
@@ -130,7 +131,7 @@ class _CommunityViewState
       padding: pagePadding.copyWith(top: 8),
       children: [
         if (_showPodium) ...[
-          const SectionTitle("Top 3"),
+          SectionTitle(context.l10n.top3),
           Podium(
             entries: entries
                 .take(3)
@@ -145,7 +146,7 @@ class _CommunityViewState
                     ))
                 .toList(),
           ),
-          const SectionTitle("Leaderboard"),
+          SectionTitle(context.l10n.leaderboard),
         ] else
           const SizedBox(height: 16),
         ...entries.map((entry) => LeaderboardTile(
@@ -154,7 +155,7 @@ class _CommunityViewState
                   name: entry.company.name, brand: entry.company.brand),
               title: entry.company.name,
               subtitle:
-                  "${entry.company.industry} · ${entry.membersCount} members · ${entry.achievementsCount} achievements",
+                  "${entry.company.industry} · ${context.l10n.membersCount(entry.membersCount)} · ${context.l10n.achievementsCount(entry.achievementsCount)}",
               points: entry.points,
               highlighted: entry.company.id == vmState.currentCompanyId,
             )),
@@ -171,7 +172,7 @@ class _CommunityViewState
           Icon(Icons.search_off_rounded,
               size: 40, color: colorScheme.onSurfaceVariant),
           const SizedBox(height: 12),
-          Text("No results match your search.",
+          Text(context.l10n.noSearchResults,
               style: TextStyle(color: colorScheme.onSurfaceVariant)),
         ],
       ),

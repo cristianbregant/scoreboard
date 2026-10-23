@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/model/achievement_template.dart';
 import 'package:scoreboard/model/send_achievement.dart';
@@ -59,7 +60,7 @@ class _CreateTemplateDialogState extends State<_CreateTemplateDialog> {
     final preview = AchievementTemplate(
       id: 'new',
       name: _nameController.text.trim().isEmpty
-          ? "Achievement name"
+          ? context.l10n.achievementNamePlaceholder
           : _nameController.text.trim(),
       description: _descriptionController.text,
       icon: _icon,
@@ -70,66 +71,65 @@ class _CreateTemplateDialogState extends State<_CreateTemplateDialog> {
     ).preview();
 
     return DialogScaffold(
-      title: "New base achievement",
-      subtitle: "Anyone in your company can send it to a colleague.",
+      title: context.l10n.newBaseAchievement,
+      subtitle: context.l10n.createDialogSubtitle,
       preview: InteractiveCard(
           achievement: preview, heroTag: 'create_preview', onPressed: () {}),
       actions: [
         TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Cancel")),
+            child: Text(context.l10n.commonCancel)),
         FilledButton.icon(
             onPressed: _onCreate,
             icon: const Icon(Icons.add_rounded),
-            label: const Text("Create")),
+            label: Text(context.l10n.commonCreate)),
       ],
       form: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const FieldLabel("Name"),
+            FieldLabel(context.l10n.fieldName),
             TextFormField(
               controller: _nameController,
               autofocus: true,
               maxLength: 32,
-              decoration: const InputDecoration(hintText: "e.g. Team Player"),
+              decoration: InputDecoration(hintText: context.l10n.nameHint),
               validator: (value) => (value == null || value.trim().isEmpty)
-                  ? "Give it a name"
+                  ? context.l10n.templateNameRequired
                   : null,
             ),
             const SizedBox(height: 8),
-            const FieldLabel("Description"),
+            FieldLabel(context.l10n.fieldDescription),
             TextFormField(
               controller: _descriptionController,
               maxLength: 100,
               maxLines: 2,
-              decoration: const InputDecoration(
-                  hintText: "What does someone do to deserve it?"),
+              decoration:
+                  InputDecoration(hintText: context.l10n.descriptionHint),
               validator: (value) => (value == null || value.trim().isEmpty)
-                  ? "Add a short description"
+                  ? context.l10n.descriptionRequired
                   : null,
             ),
             const SizedBox(height: 8),
-            const FieldLabel("Experience"),
+            FieldLabel(context.l10n.fieldExperience),
             SegmentedButton<int>(
               showSelectedIcon: false,
               segments: [
                 for (final points in AchievementTemplate.allowedPoints)
-                  ButtonSegment(value: points, label: Text("$points XP")),
+                  ButtonSegment(
+                      value: points, label: Text(context.l10n.xpValue(points))),
               ],
               selected: {_points},
               onSelectionChanged: (value) =>
                   setState(() => _points = value.first),
             ),
             const SizedBox(height: 8),
-            Text(
-                "Base achievements are worth less than the verified ones "
-                "issued by your company.",
+            Text(context.l10n.experienceNote,
                 style: TextStyle(
                     fontSize: 12, color: colorScheme.onSurfaceVariant)),
             const SizedBox(height: 20),
-            const FieldLabel("Icon"),
+            FieldLabel(context.l10n.fieldIcon),
             Wrap(
               spacing: 8,
               runSpacing: 8,

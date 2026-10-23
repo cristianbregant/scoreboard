@@ -1,3 +1,5 @@
+import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/model/send_achievement.dart';
@@ -30,15 +32,15 @@ mixin SendAchievementFlow<V extends SendAchievementViewContract,
     try {
       options = await interactor.getSendOptions();
     } catch (_) {
-      sourceView.showMessage("Could not load your colleagues. Try again.");
+      sourceView.showMessage(l10n.sendLoadError);
       return;
     }
     if (options.colleagues.isEmpty) {
-      sourceView.showMessage("There are no colleagues in your company yet.");
+      sourceView.showMessage(l10n.sendNoColleagues);
       return;
     }
     if (options.templates.isEmpty) {
-      sourceView.showMessage("Create a base achievement first.");
+      sourceView.showMessage(l10n.sendNoTemplates);
       return;
     }
 
@@ -50,11 +52,11 @@ mixin SendAchievementFlow<V extends SendAchievementViewContract,
       await interactor.sendAchievement(request);
       final colleague =
           options.colleagues.firstWhere((u) => u.id == request.colleagueId);
-      sourceView.showMessage("Achievement sent to ${colleague.name}");
+      sourceView.showMessage(l10n.sendSuccess(colleague.name));
     } on SendAchievementException catch (e) {
-      sourceView.showMessage(e.message);
+      sourceView.showMessage(e.localized(l10n));
     } catch (_) {
-      sourceView.showMessage("Could not send the achievement. Try again.");
+      sourceView.showMessage(l10n.sendError);
     }
   }
 }

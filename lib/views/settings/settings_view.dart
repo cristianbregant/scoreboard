@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scoreboard/core/providers.dart';
@@ -81,9 +82,9 @@ class _SettingsViewState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.fromLTRB(12, 0, 12, 16),
-                          child: Text("Settings",
+                          child: Text(context.l10n.navSettings,
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w800,
@@ -93,21 +94,21 @@ class _SettingsViewState
                           selected: vmState.currentPage == 0,
                           icon: Icons.palette_outlined,
                           selectedIcon: Icons.palette_rounded,
-                          label: "Appearance",
+                          label: context.l10n.settingsAppearance,
                           onTap: () => viewModel.onTapChangePage(0),
                         ),
                         NavButton(
                           selected: vmState.currentPage == 1,
                           icon: Icons.manage_accounts_outlined,
                           selectedIcon: Icons.manage_accounts_rounded,
-                          label: "Account",
+                          label: context.l10n.settingsAccount,
                           onTap: () => viewModel.onTapChangePage(1),
                         ),
                         NavButton(
                           selected: vmState.currentPage == 2,
                           icon: Icons.info_outline_rounded,
                           selectedIcon: Icons.info_rounded,
-                          label: "About",
+                          label: context.l10n.settingsAbout,
                           onTap: () => viewModel.onTapChangePage(2),
                         ),
                       ],
@@ -127,19 +128,28 @@ class _SettingsViewState
             }));
   }
 
+  /// Language names are written in their own language, so anyone can find
+  /// theirs whatever the current one is.
+  static const Map<String, String> _languages = {
+    'it': 'Italiano',
+    'en': 'English',
+  };
+
   Widget _buildGeneral() {
     final themeProvider = context.watch<DarkThemeProvider>();
+    final localeProvider = context.watch<LocaleProvider>();
     return ListView(
       padding: pagePadding,
       children: [
-        const PageHeader(
-            title: "Appearance", subtitle: "Choose how Scoreboard looks"),
-        const SizedBox(height: 24),
+        PageHeader(
+            title: context.l10n.settingsAppearance,
+            subtitle: context.l10n.appearanceSubtitle),
+        SectionTitle(context.l10n.themeTitle),
         Row(
           children: [
             Expanded(
               child: _ThemePreview(
-                label: "Light",
+                label: context.l10n.themeLight,
                 dark: false,
                 selected: !themeProvider.darkTheme,
                 onTap: () => themeProvider.darkTheme = false,
@@ -148,13 +158,32 @@ class _SettingsViewState
             const SizedBox(width: 16),
             Expanded(
               child: _ThemePreview(
-                label: "Dark",
+                label: context.l10n.themeDark,
                 dark: true,
                 selected: themeProvider.darkTheme,
                 onTap: () => themeProvider.darkTheme = true,
               ),
             ),
           ],
+        ),
+        SectionTitle(context.l10n.languageTitle),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: SegmentedButton<String>(
+            showSelectedIcon: false,
+            segments: [
+              ButtonSegment(
+                  value: '',
+                  icon: const Icon(Icons.computer_rounded),
+                  label: Text(context.l10n.languageSystem)),
+              for (final entry in _languages.entries)
+                ButtonSegment(value: entry.key, label: Text(entry.value)),
+            ],
+            // '' stands for "follow the system".
+            selected: {localeProvider.locale?.languageCode ?? ''},
+            onSelectionChanged: (selection) => localeProvider.locale =
+                selection.first.isEmpty ? null : Locale(selection.first),
+          ),
         ),
       ],
     );
@@ -168,13 +197,12 @@ class _SettingsViewState
       builder: (context) => ListView(
         padding: pagePadding,
         children: [
-          const PageHeader(
-              title: "Account",
-              subtitle: "Sign-in details. Your name, photo and cover are in "
-                  "Profile."),
+          PageHeader(
+              title: context.l10n.settingsAccount,
+              subtitle: context.l10n.accountSubtitle),
           const SizedBox(height: 24),
           _section(
-            title: "Email",
+            title: context.l10n.fieldEmail,
             child: Form(
               key: _emailFormKey,
               child: Row(
@@ -189,7 +217,7 @@ class _SettingsViewState
                       validator: (value) =>
                           AuthInteractor.isValidEmail(value ?? '')
                               ? null
-                              : "Enter a valid email address",
+                              : context.l10n.invalidEmail,
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -201,7 +229,7 @@ class _SettingsViewState
                               viewModel.saveEmail(_emailController.text);
                             }
                           },
-                    child: const Text("Save"),
+                    child: Text(context.l10n.commonSave),
                   ),
                 ],
               ),
@@ -209,7 +237,7 @@ class _SettingsViewState
           ),
           const SizedBox(height: 16),
           _section(
-            title: "Password",
+            title: context.l10n.passwordSection,
             child: Form(
               key: _passwordFormKey,
               child: Column(
@@ -218,10 +246,10 @@ class _SettingsViewState
                   TextFormField(
                     controller: _currentPasswordController,
                     obscureText: true,
-                    decoration:
-                        const InputDecoration(labelText: "Current password"),
+                    decoration: InputDecoration(
+                        labelText: context.l10n.currentPassword),
                     validator: (value) => (value == null || value.isEmpty)
-                        ? "Enter your current password"
+                        ? context.l10n.currentPasswordRequired
                         : null,
                   ),
                   const SizedBox(height: 12),
@@ -232,11 +260,12 @@ class _SettingsViewState
                         child: TextFormField(
                           controller: _newPasswordController,
                           obscureText: true,
-                          decoration:
-                              const InputDecoration(labelText: "New password"),
+                          decoration: InputDecoration(
+                              labelText: context.l10n.newPassword),
                           validator: (value) => (value ?? '').length <
                                   AuthInteractor.minPasswordLength
-                              ? "At least ${AuthInteractor.minPasswordLength} characters"
+                              ? context.l10n.passwordMinLength(
+                                  AuthInteractor.minPasswordLength)
                               : null,
                         ),
                       ),
@@ -245,11 +274,11 @@ class _SettingsViewState
                         child: TextFormField(
                           controller: _confirmPasswordController,
                           obscureText: true,
-                          decoration: const InputDecoration(
-                              labelText: "Confirm new password"),
+                          decoration: InputDecoration(
+                              labelText: context.l10n.confirmNewPassword),
                           validator: (value) =>
                               value != _newPasswordController.text
-                                  ? "Passwords don't match"
+                                  ? context.l10n.passwordsDontMatch
                                   : null,
                         ),
                       ),
@@ -268,7 +297,7 @@ class _SettingsViewState
                                     _newPasswordController.text);
                               }
                             },
-                      child: const Text("Change password"),
+                      child: Text(context.l10n.changePassword),
                     ),
                   ),
                 ],
@@ -277,11 +306,11 @@ class _SettingsViewState
           ),
           const SizedBox(height: 16),
           _section(
-            title: "Session",
+            title: context.l10n.sessionSection,
             child: Row(
               children: [
                 Expanded(
-                  child: Text("Sign out of Scoreboard on this computer.",
+                  child: Text(context.l10n.signOutDescription,
                       style: TextStyle(color: colorScheme.onSurfaceVariant)),
                 ),
                 OutlinedButton.icon(
@@ -292,7 +321,7 @@ class _SettingsViewState
                   ),
                   onPressed: viewModel.signOut,
                   icon: const Icon(Icons.logout_rounded, size: 18),
-                  label: const Text("Sign out"),
+                  label: Text(context.l10n.signOut),
                 ),
               ],
             ),
@@ -325,7 +354,7 @@ class _SettingsViewState
     return ListView(
       padding: pagePadding,
       children: [
-        const PageHeader(title: "About"),
+        PageHeader(title: context.l10n.settingsAbout),
         const SizedBox(height: 24),
         Card(
           child: Padding(
@@ -350,7 +379,7 @@ class _SettingsViewState
                       Text(vmState.appName,
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w700)),
-                      Text("Version ${vmState.appVersion}",
+                      Text(context.l10n.versionLabel(vmState.appVersion),
                           style:
                               TextStyle(color: colorScheme.onSurfaceVariant)),
                     ],

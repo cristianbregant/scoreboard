@@ -1,3 +1,5 @@
+import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/interactors/interactors.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/views/_base/base_view_model.dart';
@@ -44,11 +46,11 @@ class SettingsViewModel
     notifyListeners();
     try {
       await _scoreboardInteractor.updateEmail(email);
-      sourceView.showMessage("Email updated");
+      sourceView.showMessage(l10n.emailUpdated);
     } on AuthException catch (e) {
-      sourceView.showMessage(e.message);
+      sourceView.showMessage(e.localized(l10n));
     } catch (_) {
-      sourceView.showMessage("Could not save your email. Try again.");
+      sourceView.showMessage(l10n.emailSaveError);
     }
     vmState.isSavingEmail = false;
     notifyListeners();
@@ -62,11 +64,11 @@ class SettingsViewModel
     try {
       await _authInteractor.changePassword(currentPassword, newPassword);
       sourceView.clearPasswordForm();
-      sourceView.showMessage("Password changed");
+      sourceView.showMessage(l10n.passwordChanged);
     } on AuthException catch (e) {
-      sourceView.showMessage(e.message);
+      sourceView.showMessage(e.localized(l10n));
     } catch (_) {
-      sourceView.showMessage("Could not change your password. Try again.");
+      sourceView.showMessage(l10n.passwordChangeError);
     }
     vmState.isChangingPassword = false;
     notifyListeners();
@@ -78,7 +80,7 @@ class SettingsViewModel
       await _authInteractor.signOut();
       sourceView.openSignIn();
     } catch (_) {
-      sourceView.showMessage("Could not sign out. Try again.");
+      sourceView.showMessage(l10n.signOutError);
     }
   }
 }

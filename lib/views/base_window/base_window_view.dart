@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/model/player_level.dart';
 import 'package:scoreboard/views/views.dart';
 import 'package:scoreboard/widgets/base_view/side_bar.dart';
@@ -20,18 +21,8 @@ class _BaseWindowViewState extends BaseState<
     BaseWindowState> implements BaseWindowViewContract {
   static const int _profilePageIndex = 4;
 
-  bool appInitialized = false;
-
-  void _appInit(BuildContext context) async {
-    locatorSetupWithContext(context: context);
-    await getIt.allReady();
-    appInitialized = true;
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (!appInitialized) _appInit(context);
-
     return BaseWidget<BaseWindowViewModelContract, BaseWindowState>(
         model: viewModel,
         builder: (context, viewModel, child) => Scaffold(
@@ -40,32 +31,32 @@ class _BaseWindowViewState extends BaseState<
                   Sidebar(
                       items: [
                         SidebarItem(
-                          label: "Achievements",
+                          label: context.l10n.navAchievements,
                           icon: Icons.emoji_events_outlined,
                           selectedIcon: Icons.emoji_events_rounded,
                         ),
                         SidebarItem(
-                          label: "Base achievements",
+                          label: context.l10n.navBaseAchievements,
                           icon: Icons.volunteer_activism_outlined,
                           selectedIcon: Icons.volunteer_activism_rounded,
                         ),
                         SidebarItem(
-                          label: "Your company",
+                          label: context.l10n.navYourCompany,
                           icon: Icons.business_outlined,
                           selectedIcon: Icons.business_rounded,
                         ),
                         SidebarItem(
-                          label: "Community",
+                          label: context.l10n.navCommunity,
                           icon: Icons.people_outline,
                           selectedIcon: Icons.people_rounded,
                         ),
                         SidebarItem(
-                          label: "Profile",
+                          label: context.l10n.navProfile,
                           icon: Icons.person_outline,
                           selectedIcon: Icons.person_rounded,
                         ),
                         SidebarItem(
-                          label: "Settings",
+                          label: context.l10n.navSettings,
                           icon: Icons.tune_outlined,
                           selectedIcon: Icons.tune_rounded,
                         ),
@@ -140,7 +131,7 @@ class _BaseWindowViewState extends BaseState<
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
                                 fontSize: 13.5, fontWeight: FontWeight.w600)),
-                        Text("Level ${level.level} · ${level.points} XP",
+                        Text(context.l10n.levelAndXp(level.level, level.points),
                             style: TextStyle(
                                 fontSize: 12,
                                 color: colorScheme.onSurfaceVariant)),

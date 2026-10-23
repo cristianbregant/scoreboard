@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/core/formatters.dart';
 import 'package:scoreboard/core/routing/dynamic_routes.dart';
 import 'package:scoreboard/core/routing/route_names.dart';
@@ -52,28 +53,31 @@ class _ProfileViewState
                     const SizedBox(height: 16),
                     StatRow(tiles: [
                       StatTile(
-                          label: "Total XP",
+                          label: context.l10n.statTotalXp,
                           value: "${vmState.totalPoints}",
                           icon: Icons.bolt_rounded),
                       StatTile(
-                          label: "${vmState.verifiedCount} verified",
+                          label:
+                              context.l10n.verifiedCount(vmState.verifiedCount),
                           value: "${vmState.achievements.length}",
                           icon: Icons.emoji_events_rounded,
                           color: AchievementTier.gold.color),
                       StatTile(
-                          label: "Company rank",
-                          value: "#${vmState.companyRank ?? '-'}",
+                          label: context.l10n.statCompanyRank,
+                          value: context.l10n
+                              .rankValue('${vmState.companyRank ?? '-'}'),
                           icon: Icons.business_rounded,
                           color: AppColors.verified),
                       StatTile(
-                          label: "Global rank",
-                          value: "#${vmState.globalRank ?? '-'}",
+                          label: context.l10n.statGlobalRank,
+                          value: context.l10n
+                              .rankValue('${vmState.globalRank ?? '-'}'),
                           icon: Icons.public_rounded,
                           color: AppColors.success),
                     ]),
-                    const SectionTitle("Recent achievements"),
+                    SectionTitle(context.l10n.recentAchievements),
                     if (vmState.recentAchievements.isEmpty)
-                      const Text("No achievements yet.")
+                      Text(context.l10n.noAchievementsYet)
                     else
                       SizedBox(
                         // Room for the card's hover scale-up and shadow.
@@ -131,7 +135,7 @@ class _ProfileViewState
                   ),
                   onPressed: viewModel.onTapEditProfile,
                   icon: const Icon(Icons.edit_rounded, size: 16),
-                  label: const Text("Edit profile"),
+                  label: Text(context.l10n.editProfile),
                 ),
               ),
               Positioned(
@@ -161,7 +165,9 @@ class _ProfileViewState
                               fontWeight: FontWeight.w800,
                               letterSpacing: -0.5)),
                       const SizedBox(height: 2),
-                      Text("${user.role} at ${vmState.company?.name ?? '-'}",
+                      Text(
+                          context.l10n.roleAtCompany(
+                              user.role, vmState.company?.name ?? '-'),
                           style: const TextStyle(fontSize: 15)),
                       if (user.bio.isNotEmpty) ...[
                         const SizedBox(height: 8),
@@ -178,8 +184,8 @@ class _ProfileViewState
                         children: [
                           TagChip(label: user.email, icon: Icons.mail_rounded),
                           TagChip(
-                              label:
-                                  "Member since ${formatDate(user.joinedAt)}",
+                              label: context.l10n
+                                  .memberSince(formatDate(user.joinedAt)),
                               icon: Icons.event_rounded),
                         ],
                       ),
@@ -212,7 +218,7 @@ class _ProfileViewState
               Icon(Icons.military_tech_rounded,
                   color: colorScheme.primary, size: 20),
               const SizedBox(width: 6),
-              Text("Level ${level.level}",
+              Text(context.l10n.levelN(level.level),
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.w800)),
               const Spacer(),
@@ -231,7 +237,9 @@ class _ProfileViewState
             ),
           ),
           const SizedBox(height: 8),
-          Text("${level.pointsToNextLevel} XP to level ${level.level + 1}",
+          Text(
+              context.l10n
+                  .xpToNextLevel(level.pointsToNextLevel, level.level + 1),
               style:
                   TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant)),
         ],

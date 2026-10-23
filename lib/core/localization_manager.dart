@@ -1,11 +1,11 @@
+import 'package:flutter/widgets.dart';
 import 'package:scoreboard/generated/l10n.dart';
 
-import 'locator/locator.dart';
+/// Strings of the current locale, for code without a [BuildContext] such as
+/// view models. Widgets should use [L10nContext.l10n], which rebuilds them
+/// when the language changes.
+AppLocalization get l10n => AppLocalization.current;
 
-AppLocalization get l10n {
-  try {
-    return getIt<AppLocalization>();
-  } catch (_) {
-    return AppLocalization();
-  }
+extension L10nContext on BuildContext {
+  AppLocalization get l10n => AppLocalization.of(this);
 }

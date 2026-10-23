@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/core/formatters.dart';
 import 'package:scoreboard/model/achievement.dart';
@@ -36,31 +37,30 @@ class _BaseAchievementsViewState extends BaseState<BaseAchievementsView,
                 padding: pagePadding,
                 children: [
                   PageHeader(
-                    title: "Base achievements",
-                    subtitle: "Create achievements and send them to your "
-                        "colleagues",
+                    title: context.l10n.navBaseAchievements,
+                    subtitle: context.l10n.baseSubtitle,
                     trailing: FilledButton.icon(
                       onPressed: viewModel.onTapCreateTemplate,
                       icon: const Icon(Icons.add_rounded),
-                      label: const Text("New base achievement"),
+                      label: Text(context.l10n.newBaseAchievement),
                     ),
                   ),
                   const SizedBox(height: 20),
                   _buildExplanation(context),
-                  SectionTitle("Library · ${vmState.templates.length}"),
+                  SectionTitle(
+                      context.l10n.libraryCount(vmState.templates.length)),
                   if (vmState.templates.isEmpty)
-                    const Text("No base achievements yet. Create the first!")
+                    Text(context.l10n.libraryEmpty)
                   else
                     Wrap(
                       spacing: 24,
                       runSpacing: 24,
                       children: vmState.templates.map(_buildTemplate).toList(),
                     ),
-                  SectionTitle("Sent by you · ${vmState.sent.length}"),
+                  SectionTitle(
+                      context.l10n.sentByYouCount(vmState.sent.length)),
                   if (vmState.sent.isEmpty)
-                    Text(
-                        "You haven't sent any achievement yet. Pick one from "
-                        "the library and make a colleague's day.",
+                    Text(context.l10n.sentEmpty,
                         style: TextStyle(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant))
@@ -87,10 +87,8 @@ class _BaseAchievementsViewState extends BaseState<BaseAchievementsView,
           const SizedBox(width: 14),
           Expanded(
             child: Text(
-              "Base achievements are sent between colleagues and are worth "
-              "up to 50 XP. Verified achievements are issued only by your "
-              "company. You can send each base achievement to the same "
-              "colleague once.",
+              context.l10n
+                  .baseExplanation(AchievementTemplate.allowedPoints.last),
               style: TextStyle(fontSize: 13, color: colorScheme.onSurface),
             ),
           ),
@@ -115,8 +113,8 @@ class _BaseAchievementsViewState extends BaseState<BaseAchievementsView,
           const SizedBox(height: 10),
           Text(
               vmState.isOwn(template)
-                  ? "Created by you"
-                  : "By ${template.createdByName}",
+                  ? context.l10n.createdByYou
+                  : context.l10n.createdBy(template.createdByName),
               style:
                   TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant)),
           const SizedBox(height: 8),
@@ -129,13 +127,13 @@ class _BaseAchievementsViewState extends BaseState<BaseAchievementsView,
                   onPressed: () =>
                       viewModel.onTapSendAchievement(templateId: template.id),
                   icon: const Icon(Icons.send_rounded, size: 18),
-                  label: const Text("Send"),
+                  label: Text(context.l10n.commonSend),
                 ),
               ),
               if (vmState.isOwn(template)) ...[
                 const SizedBox(width: 8),
                 IconButton.outlined(
-                  tooltip: "Delete",
+                  tooltip: context.l10n.commonDelete,
                   onPressed: () => viewModel.onTapDeleteTemplate(template),
                   icon: const Icon(Icons.delete_outline_rounded, size: 20),
                 ),
@@ -176,7 +174,7 @@ class _BaseAchievementsViewState extends BaseState<BaseAchievementsView,
                         text: achievement.name,
                         style: const TextStyle(fontWeight: FontWeight.w600)),
                     TextSpan(
-                        text: "  to  ",
+                        text: "  ${context.l10n.sentToConnector}  ",
                         style: TextStyle(color: colorScheme.onSurfaceVariant)),
                     TextSpan(
                         text: recipient?.name ?? '-',
@@ -211,19 +209,17 @@ class _BaseAchievementsViewState extends BaseState<BaseAchievementsView,
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Delete \"${template.name}\"?"),
-        content: const Text(
-            "It will be removed from the library. Colleagues who already "
-            "received it keep their achievement."),
+        title: Text(context.l10n.deleteTemplateTitle(template.name)),
+        content: Text(context.l10n.deleteTemplateBody),
         actions: [
           TextButton(
               onPressed: () => Navigator.of(context).pop(false),
-              child: const Text("Cancel")),
+              child: Text(context.l10n.commonCancel)),
           FilledButton(
               style: FilledButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.error),
               onPressed: () => Navigator.of(context).pop(true),
-              child: const Text("Delete")),
+              child: Text(context.l10n.commonDelete)),
         ],
       ),
     );

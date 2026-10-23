@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 
 const List<Color> podiumColors = [
@@ -100,7 +101,7 @@ class PointsBadge extends StatelessWidget {
         color: colorScheme.primary.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Text("$points XP",
+      child: Text(context.l10n.xpValue(points),
           style: TextStyle(
               fontSize: 12.5,
               fontWeight: FontWeight.w700,

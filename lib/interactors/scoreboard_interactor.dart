@@ -26,7 +26,7 @@ class ScoreboardInteractor extends ChangeNotifier {
   /// app's storage and the ones they replace are deleted.
   Future<void> updateProfile(ProfileDraft draft) async {
     if (draft.name.trim().isEmpty || draft.role.trim().isEmpty) {
-      throw const AuthException("Name and role can't be empty.");
+      throw const AuthException(AuthError.missingNameOrRole);
     }
     final user = await getCurrentUser();
 
@@ -61,7 +61,7 @@ class ScoreboardInteractor extends ChangeNotifier {
 
   Future<void> updateEmail(String email) async {
     if (!AuthInteractor.isValidEmail(email)) {
-      throw const AuthException("Enter a valid email address.");
+      throw const AuthException(AuthError.invalidEmail);
     }
     final user = await getCurrentUser();
     await _repository.saveCurrentUser(user.copyWith(email: email.trim()));
@@ -158,8 +158,7 @@ class ScoreboardInteractor extends ChangeNotifier {
 
   Future<void> createTemplate(AchievementTemplateDraft draft) async {
     if (!AchievementTemplate.allowedPoints.contains(draft.points)) {
-      throw const SendAchievementException(
-          "Base achievements can be worth 10, 25 or 50 XP.");
+      throw const SendAchievementException(SendAchievementError.invalidPoints);
     }
     final user = await getCurrentUser();
     final now = DateTime.now();
@@ -184,7 +183,7 @@ class ScoreboardInteractor extends ChangeNotifier {
     final template = templates.firstWhere((t) => t.id == templateId);
     if (template.createdById != user.id) {
       throw const SendAchievementException(
-          "You can only delete base achievements you created.");
+          SendAchievementError.notTemplateOwner);
     }
     await _repository.deleteTemplate(templateId);
     notifyListeners();
@@ -227,16 +226,15 @@ class ScoreboardInteractor extends ChangeNotifier {
     final template =
         options.templates.where((t) => t.id == request.templateId).firstOrNull;
     if (colleague == null) {
-      throw const SendAchievementException(
-          "You can only send achievements to colleagues of your company.");
+      throw const SendAchievementException(SendAchievementError.notAColleague);
     }
     if (template == null) {
       throw const SendAchievementException(
-          "This base achievement no longer exists.");
+          SendAchievementError.templateNotFound);
     }
     if (options.alreadySent(template.id, colleague.id)) {
-      throw SendAchievementException(
-          "You already sent \"${template.name}\" to ${colleague.name}.");
+      throw SendAchievementException(SendAchievementError.alreadySent,
+          templateName: template.name, colleagueName: colleague.name);
     }
 
     final company = await getCompany(colleague.companyId);

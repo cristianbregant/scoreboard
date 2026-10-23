@@ -111,7 +111,25 @@ Notes:
 - The UI uses the **Inter** typeface through `google_fonts`. It is downloaded at runtime and cached. On macOS, both the Debug and Release entitlements include `com.apple.security.network.client` for that.
 - Picking images on macOS needs `com.apple.security.files.user-selected.read-only`, which is also enabled.
 - On macOS, `package_info_plus`, `screen_retriever` and `window_manager` don't support Swift Package Manager yet. Flutter prints a warning and falls back to CocoaPods.
-- Localization is set up with `flutter_intl` (`lib/l10n`), but the strings aren't extracted yet and the UI is in English.
+
+## Localization
+
+The whole UI is translated into **Italian** (the main locale) and **English**, using [`intl_utils`](https://pub.dev/packages/intl_utils) (the `flutter_intl` setup in `pubspec.yaml`).
+
+- The app follows the system language, and falls back to English when the system language isn't supported. Users can override it in *Settings → Appearance*.
+- Strings live in `lib/l10n/intl_it.arb` and `lib/l10n/intl_en.arb`. Parameters and plurals are described in the Italian file.
+- Widgets read them with `context.l10n.someKey`, which rebuilds them when the language changes. View models use the global `l10n`.
+- The domain layer reports errors as codes (`AuthError`, `SendAchievementError`), and [lib/core/l10n_messages.dart](lib/core/l10n_messages.dart) turns them into text.
+- Dates are formatted for the current locale.
+- Seed data (achievement names, companies) is content, not UI, so it isn't translated.
+
+To add or change a string, edit both ARB files and regenerate `lib/generated`:
+
+```sh
+dart run intl_utils:generate
+```
+
+The Flutter Intl IDE plugin does the same thing on save.
 
 ## License
 

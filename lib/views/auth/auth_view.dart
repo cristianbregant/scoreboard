@@ -1,3 +1,5 @@
+import 'package:scoreboard/interactors/auth_interactor.dart';
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/core/routing/route_names.dart';
 import 'package:scoreboard/model/achievement.dart';
@@ -109,7 +111,10 @@ class _AuthViewState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(signIn ? "Welcome back" : "Create your account",
+        Text(
+            signIn
+                ? context.l10n.authWelcomeBack
+                : context.l10n.authCreateTitle,
             style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w800,
@@ -117,16 +122,18 @@ class _AuthViewState
         const SizedBox(height: 6),
         Text(
             signIn
-                ? "Sign in to see your achievements."
-                : "Join your company's scoreboard.",
+                ? context.l10n.authSignInSubtitle
+                : context.l10n.authCreateSubtitle,
             style: TextStyle(color: colorScheme.onSurfaceVariant)),
         const SizedBox(height: 24),
         SegmentedButton<AuthMode>(
           showSelectedIcon: false,
-          segments: const [
-            ButtonSegment(value: AuthMode.signIn, label: Text("Sign in")),
+          segments: [
             ButtonSegment(
-                value: AuthMode.register, label: Text("Create account")),
+                value: AuthMode.signIn, label: Text(context.l10n.signIn)),
+            ButtonSegment(
+                value: AuthMode.register,
+                label: Text(context.l10n.createAccount)),
           ],
           selected: {vmState.mode},
           onSelectionChanged: (value) => viewModel.onChangeMode(value.first),
@@ -161,7 +168,7 @@ class _AuthViewState
                   width: 18,
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2))
-              : Text(signIn ? "Sign in" : "Create account"),
+              : Text(signIn ? context.l10n.signIn : context.l10n.createAccount),
         ),
         if (signIn) ...[
           const SizedBox(height: 20),
@@ -183,7 +190,9 @@ class _AuthViewState
         labelText: label,
         prefixIcon: const Icon(Icons.lock_outline_rounded),
         suffixIcon: IconButton(
-          tooltip: _obscurePassword ? "Show password" : "Hide password",
+          tooltip: _obscurePassword
+              ? context.l10n.showPassword
+              : context.l10n.hidePassword,
           onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
           icon: Icon(_obscurePassword
               ? Icons.visibility_outlined
@@ -198,13 +207,13 @@ class _AuthViewState
     return TextFormField(
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
-      decoration: const InputDecoration(
-          labelText: "Work email",
+      decoration: InputDecoration(
+          labelText: context.l10n.workEmail,
           prefixIcon: Icon(Icons.mail_outline_rounded)),
       validator: (value) =>
           RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value?.trim() ?? '')
               ? null
-              : "Enter a valid email address",
+              : context.l10n.invalidEmail,
     );
   }
 
@@ -217,9 +226,10 @@ class _AuthViewState
           const SizedBox(height: 12),
           _passwordField(
             controller: _passwordController,
-            label: "Password",
-            validator: (value) =>
-                (value == null || value.isEmpty) ? "Enter your password" : null,
+            label: context.l10n.passwordLabel,
+            validator: (value) => (value == null || value.isEmpty)
+                ? context.l10n.passwordRequired
+                : null,
           ),
         ],
       ),
@@ -240,16 +250,20 @@ class _AuthViewState
               Expanded(
                 child: TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(labelText: "Full name"),
-                  validator: (value) => required(value, "Enter your name"),
+                  decoration:
+                      InputDecoration(labelText: context.l10n.fieldFullName),
+                  validator: (value) =>
+                      required(value, context.l10n.nameRequired),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: TextFormField(
                   controller: _roleController,
-                  decoration: const InputDecoration(labelText: "Role"),
-                  validator: (value) => required(value, "Enter your role"),
+                  decoration:
+                      InputDecoration(labelText: context.l10n.fieldRole),
+                  validator: (value) =>
+                      required(value, context.l10n.roleRequired),
                 ),
               ),
             ],
@@ -257,7 +271,7 @@ class _AuthViewState
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
             value: _companyId,
-            decoration: const InputDecoration(labelText: "Company"),
+            decoration: InputDecoration(labelText: context.l10n.detailCompany),
             borderRadius: BorderRadius.circular(12),
             items: [
               for (final Company company in vmState.companies)
@@ -274,7 +288,8 @@ class _AuthViewState
                 ),
             ],
             onChanged: (value) => setState(() => _companyId = value),
-            validator: (value) => value == null ? "Choose your company" : null,
+            validator: (value) =>
+                value == null ? context.l10n.chooseCompany : null,
           ),
           const SizedBox(height: 12),
           _emailField(),
@@ -285,18 +300,21 @@ class _AuthViewState
               Expanded(
                 child: _passwordField(
                   controller: _passwordController,
-                  label: "Password",
-                  validator: (value) =>
-                      (value ?? '').length < 8 ? "At least 8 characters" : null,
+                  label: context.l10n.passwordLabel,
+                  validator: (value) => (value ?? '').length <
+                          AuthInteractor.minPasswordLength
+                      ? context.l10n
+                          .passwordMinLength(AuthInteractor.minPasswordLength)
+                      : null,
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: _passwordField(
                   controller: _confirmController,
-                  label: "Confirm",
+                  label: context.l10n.confirmLabel,
                   validator: (value) => value != _passwordController.text
-                      ? "Passwords don't match"
+                      ? context.l10n.passwordsDontMatch
                       : null,
                 ),
               ),
@@ -321,8 +339,8 @@ class _AuthViewState
           const SizedBox(width: 10),
           Expanded(
             child: Text(
-                "Demo account: ${MockScoreboardRepository.demoEmail} / "
-                "${MockScoreboardRepository.demoPassword}",
+                context.l10n.demoAccount(MockScoreboardRepository.demoEmail,
+                    MockScoreboardRepository.demoPassword),
                 style: TextStyle(
                     fontSize: 12.5, color: colorScheme.onSurfaceVariant)),
           ),
@@ -331,7 +349,7 @@ class _AuthViewState
               _emailController.text = MockScoreboardRepository.demoEmail;
               _passwordController.text = MockScoreboardRepository.demoPassword;
             }),
-            child: const Text("Use it"),
+            child: Text(context.l10n.useDemo),
           ),
         ],
       ),
@@ -438,16 +456,14 @@ class _Showcase extends StatelessWidget {
                 ),
               ),
             ),
-            const Text("Every win,\non the record.",
+            Text(context.l10n.authTagline,
                 style: TextStyle(
                     fontSize: 30,
                     height: 1.15,
                     fontWeight: FontWeight.w800,
                     letterSpacing: -0.8)),
             const SizedBox(height: 10),
-            Text(
-                "Collect the achievements your company issues, and recognize "
-                "the colleagues who make a difference.",
+            Text(context.l10n.authPitch,
                 style: TextStyle(
                     fontSize: 14,
                     height: 1.45,

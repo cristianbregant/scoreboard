@@ -1,3 +1,5 @@
+import 'package:scoreboard/core/l10n_messages.dart';
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/core/routing/dynamic_routes.dart';
 import 'package:scoreboard/core/routing/route_names.dart';
 import 'package:scoreboard/core/theme.dart';
@@ -37,27 +39,27 @@ class _AchievementsViewState extends BaseState<AchievementsView,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   PageHeader(
-                    title: "Your achievements",
-                    subtitle: "Every milestone you unlocked along the way",
+                    title: context.l10n.achievementsTitle,
+                    subtitle: context.l10n.achievementsSubtitle,
                     trailing: FilledButton.icon(
                       onPressed: () => viewModel.onTapSendAchievement(),
                       icon: const Icon(Icons.send_rounded, size: 18),
-                      label: const Text("Send achievement"),
+                      label: Text(context.l10n.sendAchievement),
                     ),
                   ),
                   const SizedBox(height: 24),
                   StatRow(tiles: [
                     StatTile(
-                        label: "Total XP",
+                        label: context.l10n.statTotalXp,
                         value: "${vmState.totalPoints}",
                         icon: Icons.bolt_rounded),
                     StatTile(
-                        label: "Achievements",
+                        label: context.l10n.statAchievements,
                         value: "${vmState.achievements.length}",
                         icon: Icons.emoji_events_rounded,
                         color: AchievementTier.gold.color),
                     StatTile(
-                        label: "Verified",
+                        label: context.l10n.statVerified,
                         value:
                             "${vmState.verifiedCount}/${vmState.achievements.length}",
                         icon: Icons.verified_rounded,
@@ -67,10 +69,10 @@ class _AchievementsViewState extends BaseState<AchievementsView,
                   _buildTierFilter(),
                   const SizedBox(height: 24),
                   if (vmState.visibleAchievements.isEmpty)
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 48),
                       child: Center(
-                          child: Text("No achievements in this tier yet.")),
+                          child: Text(context.l10n.noAchievementsInTier)),
                     )
                   else
                     Wrap(
@@ -96,14 +98,15 @@ class _AchievementsViewState extends BaseState<AchievementsView,
       runSpacing: 8,
       children: [
         ChoiceChip(
-          label: Text("All · ${vmState.achievements.length}"),
+          label: Text(context.l10n.filterAll(vmState.achievements.length)),
           selected: vmState.selectedTier == null,
           onSelected: (_) => viewModel.onSelectTier(null),
         ),
         for (final tier in AchievementTier.values.reversed)
           ChoiceChip(
             avatar: CircleAvatar(radius: 5, backgroundColor: tier.color),
-            label: Text("${tier.label} · ${vmState.countOf(tier)}"),
+            label: Text(context.l10n.filterTier(
+                tier.localized(context.l10n), vmState.countOf(tier))),
             selected: vmState.selectedTier == tier,
             onSelected: (_) => viewModel.onSelectTier(tier),
           ),

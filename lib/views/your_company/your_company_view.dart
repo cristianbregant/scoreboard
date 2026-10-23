@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/core/theme.dart';
 import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 import 'package:scoreboard/views/your_company/your_company_contract.dart';
@@ -40,26 +41,27 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                     const SizedBox(height: 24),
                     StatRow(tiles: [
                       StatTile(
-                          label: "Members",
+                          label: context.l10n.statMembers,
                           value: "${vmState.members.length}",
                           icon: Icons.people_rounded,
                           color: AppColors.verified),
                       StatTile(
-                          label: "Total XP",
+                          label: context.l10n.statTotalXp,
                           value: "${vmState.totalPoints}",
                           icon: Icons.bolt_rounded),
                       StatTile(
-                          label: "Achievements",
+                          label: context.l10n.statAchievements,
                           value: "${vmState.totalAchievements}",
                           icon: Icons.emoji_events_rounded,
                           color: AchievementTier.gold.color),
                       StatTile(
-                          label: "Your rank",
-                          value: "#${vmState.currentUserRank ?? '-'}",
+                          label: context.l10n.statYourRank,
+                          value: context.l10n
+                              .rankValue('${vmState.currentUserRank ?? '-'}'),
                           icon: Icons.leaderboard_rounded,
                           color: AppColors.success),
                     ]),
-                    const SectionTitle("Top performers"),
+                    SectionTitle(context.l10n.topPerformers),
                     Podium(
                       entries: vmState.members
                           .take(3)
@@ -74,23 +76,23 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                               ))
                           .toList(),
                     ),
-                    const SectionTitle("Team leaderboard"),
+                    SectionTitle(context.l10n.teamLeaderboard),
                     ...vmState.members.map((entry) => LeaderboardTile(
                           rank: entry.rank,
                           leading: UserAvatar(
                               initials: entry.user.initials,
                               imagePath: entry.user.avatarPath),
                           title: entry.user.id == vmState.currentUserId
-                              ? "${entry.user.name} (you)"
+                              ? context.l10n.youSuffix(entry.user.name)
                               : entry.user.name,
                           subtitle:
-                              "${entry.user.role} · ${entry.achievementsCount} achievements",
+                              "${entry.user.role} · ${context.l10n.achievementsCount(entry.achievementsCount)}",
                           points: entry.points,
                           highlighted: entry.user.id == vmState.currentUserId,
                           action: entry.user.id == vmState.currentUserId
                               ? null
                               : IconButton(
-                                  tooltip: "Send an achievement",
+                                  tooltip: context.l10n.sendAnAchievement,
                                   onPressed: () =>
                                       viewModel.onTapSendAchievement(
                                           colleagueId: entry.user.id),
@@ -134,7 +136,8 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                       color: colorScheme.primary),
                   TagChip(label: company.location, icon: Icons.place_rounded),
                   TagChip(
-                      label: "Since ${company.foundedYear}",
+                      label:
+                          context.l10n.companySince('${company.foundedYear}'),
                       icon: Icons.history_rounded),
                 ],
               ),
