@@ -17,7 +17,7 @@ import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 import 'package:scoreboard/views/achievements/achievements_contract.dart';
 
 class AchievementsView extends BaseStatefulWidget {
-  AchievementsView({Key? key}) : super(_AchievementsViewState(), key: key);
+  AchievementsView({super.key}) : super(_AchievementsViewState());
 }
 
 class _AchievementsViewState extends BaseState<AchievementsView,
@@ -70,7 +70,7 @@ class _AchievementsViewState extends BaseState<AchievementsView,
                   const SizedBox(height: 24),
                   if (vmState.visibleAchievements.isEmpty)
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 48),
+                      padding: const EdgeInsets.symmetric(vertical: 48),
                       child: Center(
                           child: Text(context.l10n.noAchievementsInTier)),
                     )

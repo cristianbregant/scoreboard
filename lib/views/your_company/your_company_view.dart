@@ -17,8 +17,8 @@ import 'package:scoreboard/widgets/common/user_avatar.dart';
 
 class YourCompanyView extends BaseStatefulWidget {
   YourCompanyView({
-    Key? key,
-  }) : super(_YourCompanyViewState(), key: key);
+    super.key,
+  }) : super(_YourCompanyViewState());
 }
 
 class _YourCompanyViewState extends BaseState<YourCompanyView,

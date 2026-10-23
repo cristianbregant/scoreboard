@@ -66,7 +66,7 @@ class DialogScaffold extends StatelessWidget {
               width: 280,
               decoration: BoxDecoration(
                 color: colorScheme.surface,
-                borderRadius: BorderRadius.horizontal(
+                borderRadius: const BorderRadius.horizontal(
                     right: Radius.circular(AppTheme.radius * 1.25)),
                 border:
                     Border(left: BorderSide(color: colorScheme.outlineVariant)),

@@ -450,10 +450,11 @@ class _CardBack extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.verified_rounded, size: 13, color: AppColors.verified),
-            SizedBox(width: 4),
+            const Icon(Icons.verified_rounded,
+                size: 13, color: AppColors.verified),
+            const SizedBox(width: 4),
             Text(l10n.cardVerifiedAchievement,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 10.5,
                     fontWeight: FontWeight.w600,
                     color: AppColors.verified)),

@@ -23,8 +23,8 @@ import 'package:scoreboard/widgets/interactive_card.dart';
 
 class ProfileView extends BaseStatefulWidget {
   ProfileView({
-    Key? key,
-  }) : super(_ProfileViewState(), key: key);
+    super.key,
+  }) : super(_ProfileViewState());
 }
 
 class _ProfileViewState

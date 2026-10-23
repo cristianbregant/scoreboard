@@ -17,8 +17,8 @@ import 'package:scoreboard/core/window_chrome.dart';
 class AchievementView extends BaseStatefulWidget {
   final Achievement achievement;
   final Object? heroTag;
-  AchievementView({Key? key, required this.achievement, this.heroTag})
-      : super(_AchievementViewState(), key: key);
+  AchievementView({super.key, required this.achievement, this.heroTag})
+      : super(_AchievementViewState());
 }
 
 class _AchievementViewState extends BaseState<

@@ -209,7 +209,7 @@ class _AuthViewState
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
           labelText: context.l10n.workEmail,
-          prefixIcon: Icon(Icons.mail_outline_rounded)),
+          prefixIcon: const Icon(Icons.mail_outline_rounded)),
       validator: (value) =>
           RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value?.trim() ?? '')
               ? null
@@ -270,7 +270,7 @@ class _AuthViewState
           ),
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
-            value: _companyId,
+            initialValue: _companyId,
             decoration: InputDecoration(labelText: context.l10n.detailCompany),
             borderRadius: BorderRadius.circular(12),
             items: [
@@ -457,7 +457,7 @@ class _Showcase extends StatelessWidget {
               ),
             ),
             Text(context.l10n.authTagline,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 30,
                     height: 1.15,
                     fontWeight: FontWeight.w800,

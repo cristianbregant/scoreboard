@@ -13,8 +13,8 @@ import 'package:scoreboard/widgets/common/user_avatar.dart';
 
 class CommunityView extends BaseStatefulWidget {
   CommunityView({
-    Key? key,
-  }) : super(_CommunityViewState(), key: key);
+    super.key,
+  }) : super(_CommunityViewState());
 }
 
 class _CommunityViewState
@@ -41,11 +41,11 @@ class _CommunityViewState
                             segments: [
                               ButtonSegment(
                                   value: CommunityTab.people,
-                                  icon: Icon(Icons.person_rounded),
+                                  icon: const Icon(Icons.person_rounded),
                                   label: Text(context.l10n.communityPeople)),
                               ButtonSegment(
                                   value: CommunityTab.companies,
-                                  icon: Icon(Icons.business_rounded),
+                                  icon: const Icon(Icons.business_rounded),
                                   label: Text(context.l10n.communityCompanies)),
                             ],
                             selected: {vmState.tab},

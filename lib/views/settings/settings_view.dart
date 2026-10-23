@@ -16,7 +16,7 @@ import 'package:scoreboard/widgets/common/nav_button.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
 
 class SettingsView extends BaseStatefulWidget {
-  SettingsView({Key? key}) : super(_SettingsViewState(), key: key);
+  SettingsView({super.key}) : super(_SettingsViewState());
 }
 
 class _SettingsViewState
@@ -83,9 +83,9 @@ class _SettingsViewState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.fromLTRB(12, 0, 12, 16),
+                          padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
                           child: Text(context.l10n.navSettings,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w800,
                                   letterSpacing: -0.4)),
