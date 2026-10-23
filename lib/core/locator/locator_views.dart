@@ -5,12 +5,15 @@ import 'package:scoreboard/views/views.dart';
 void setupLocatorViews() {
   getIt.registerFactory<AchievementsView>(() => AchievementsView());
   getIt.registerFactory<BaseWindowView>(() => BaseWindowView());
+  getIt.registerFactory<AuthView>(() => AuthView());
   getIt.registerFactory<SettingsView>(() => SettingsView());
   getIt.registerFactory<ProfileView>(() => ProfileView());
   getIt.registerFactory<CommunityView>(() => CommunityView());
   getIt.registerFactory<YourCompanyView>(() => YourCompanyView());
-  getIt.registerFactoryParam<AchievementView, Achievement, void>(
-      (item, _) => AchievementView(
+  getIt.registerFactory<BaseAchievementsView>(() => BaseAchievementsView());
+  getIt.registerFactoryParam<AchievementView, Achievement, Object?>(
+      (item, heroTag) => AchievementView(
             achievement: item,
+            heroTag: heroTag,
           ));
 }

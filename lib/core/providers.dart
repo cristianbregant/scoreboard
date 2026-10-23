@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
-// import 'package:scoreboard/core/locator/locator.dart';
-// import 'package:scoreboard/interactors/app_configuration_interactor.dart';
+import 'package:scoreboard/core/locator/locator.dart';
+import 'package:scoreboard/interactors/app_configuration_interactor.dart';
 
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => UploadStatusProvider()),
@@ -59,14 +59,8 @@ class DarkThemeProvider extends ChangeNotifier {
   bool _darkTheme = true;
 
   getThemeAtInit() async {
-    // final interactor = getIt<AppConfigurationInteractor>();
-    // final storedTheme = interactor.getAppTheme();
-
-    // if (storedTheme == ThemeMode.dark) {
-    //   _darkTheme = true;
-    // } else {
-    //   _darkTheme = false;
-    // }
+    final interactor = getIt<AppConfigurationInteractor>();
+    _darkTheme = interactor.getAppTheme() == ThemeMode.dark;
     notifyListeners();
   }
 
@@ -76,6 +70,8 @@ class DarkThemeProvider extends ChangeNotifier {
   bool get darkTheme => _darkTheme;
   set darkTheme(bool value) {
     _darkTheme = value;
+    getIt<AppConfigurationInteractor>()
+        .setAppTheme(value ? ThemeMode.dark : ThemeMode.light);
     notifyListeners();
   }
 }

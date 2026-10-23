@@ -1,3 +1,7 @@
+import 'package:provider/provider.dart';
+import 'package:scoreboard/core/locator/locator.dart';
+import 'package:scoreboard/interactors/auth_interactor.dart';
+import 'package:scoreboard/core/providers.dart';
 import 'package:scoreboard/core/routing/dynamic_routes.dart';
 import 'package:scoreboard/core/routing/route_names.dart';
 import 'package:scoreboard/core/routing/static_routes.dart';
@@ -11,19 +15,28 @@ class CompanyAchievements extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: '3D Interactive Gold Cards',
-      theme: WelcomeDeployerTheme.themeDataDark,
-      initialRoute: RouteNames.baseWindow,
-      routes: staticRoutes,
-      onGenerateRoute: onGenerateRoute,
-      localizationsDelegates: const [
-        AppLocalization.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalization.delegate.supportedLocales,
+    return MultiProvider(
+      providers: providers,
+      child: Consumer<DarkThemeProvider>(
+        builder: (context, themeProvider, child) => MaterialApp(
+          title: 'Scoreboard',
+          theme: AppTheme.themeDataLight,
+          darkTheme: AppTheme.themeDataDark,
+          themeMode: themeProvider.darkTheme ? ThemeMode.dark : ThemeMode.light,
+          initialRoute: getIt<AuthInteractor>().isSignedIn
+              ? RouteNames.baseWindow
+              : RouteNames.auth,
+          routes: staticRoutes,
+          onGenerateRoute: onGenerateRoute,
+          localizationsDelegates: const [
+            AppLocalization.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalization.delegate.supportedLocales,
+        ),
+      ),
     );
   }
 }

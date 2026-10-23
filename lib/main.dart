@@ -22,5 +22,6 @@ Future<void> main() async {
     await windowManager.focus();
   });
   setupLocator();
+  await getIt.allReady();
   runApp(const CompanyAchievements());
 }

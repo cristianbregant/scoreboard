@@ -1,7 +1,8 @@
-import 'package:scoreboard/core/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:scoreboard/widgets/common/nav_button.dart';
+import 'package:window_manager/window_manager.dart';
 
-class Sidebar extends StatefulWidget {
+class Sidebar extends StatelessWidget {
   final List<SidebarItem> items;
   final Function(int index) onItemSelected;
   final int index;
@@ -16,61 +17,74 @@ class Sidebar extends StatefulWidget {
       this.trailing});
 
   @override
-  State<Sidebar> createState() => _SidebarState();
-}
-
-class _SidebarState extends State<Sidebar> {
-  @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      width: 260,
-      color: WelcomeDeployerColors.sidebarBackgroundColor,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      width: 232,
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerLow,
+        border: Border(right: BorderSide(color: colorScheme.outlineVariant)),
+      ),
       child: Column(children: [
-        const SizedBox(
-          height: 16,
-        ),
-        Text("Scoreboard",
-            style: Theme.of(context).textTheme.headline6!.copyWith(
-                color: Theme.of(context).colorScheme.secondary,
-                fontWeight: FontWeight.bold)),
-        const SizedBox(
-          height: 16,
-        ),
-        if (widget.leading != null) widget.leading!,
-        Column(
-          children: [
-            ...widget.items.map((item) {
-              bool isSelected = widget.items.indexOf(item) == widget.index;
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: ListTile(
-                    dense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 2.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    selectedColor: Colors.white,
-                    iconColor: isSelected
-                        ? WelcomeDeployerColors.tertiaryColor
-                        : WelcomeDeployerColors.primaryColor,
-                    selectedTileColor: WelcomeDeployerColors.primaryColor,
-                    selected: isSelected,
-                    onTap: () =>
-                        widget.onItemSelected(widget.items.indexOf(item)),
-                    leading:
-                        isSelected ? Icon(item.selectedIcon) : Icon(item.icon),
-                    title: Text(item.label),
+        // Leaves room for the macOS traffic lights and lets the user drag
+        // the window, since the title bar is hidden.
+        DragToMoveArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 48, 20, 24),
+            child: Row(
+              children: [
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: colorScheme.primary,
+                    borderRadius: BorderRadius.circular(9),
                   ),
+                  child: Icon(Icons.emoji_events_rounded,
+                      color: colorScheme.onPrimary, size: 19),
                 ),
-              );
-            })
-          ],
+                const SizedBox(width: 12),
+                const Text("Scoreboard",
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: -0.4)),
+              ],
+            ),
+          ),
         ),
-        if (widget.trailing != null) widget.trailing!,
+        if (leading != null) leading!,
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text("MENU",
+                style: TextStyle(
+                    fontSize: 11,
+                    letterSpacing: 1.2,
+                    fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurfaceVariant)),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            children: [
+              for (var i = 0; i < items.length; i++)
+                NavButton(
+                  label: items[i].label,
+                  icon: items[i].icon,
+                  selectedIcon: items[i].selectedIcon,
+                  selected: i == index,
+                  onTap: () => onItemSelected(i),
+                ),
+            ],
+          ),
+        ),
+        const Spacer(),
+        if (trailing != null)
+          Padding(padding: const EdgeInsets.all(12), child: trailing!),
       ]),
     );
   }

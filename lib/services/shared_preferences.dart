@@ -1,0 +1,47 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
+class SharedPreference {
+  static const String _darkThemeKey = 'dark_theme';
+  static const String _sessionUserIdKey = 'session_user_id';
+  static const String _storedUsersKey = 'stored_users';
+  static const String _credentialsKey = 'credentials';
+  static const String _customTemplatesKey = 'custom_templates';
+  static const String _sentAchievementsKey = 'sent_achievements';
+
+  final SharedPreferences _preferences;
+
+  SharedPreference(this._preferences);
+
+  bool? get darkTheme => _preferences.getBool(_darkThemeKey);
+  Future<void> setDarkTheme(bool value) =>
+      _preferences.setBool(_darkThemeKey, value);
+
+  /// Id of the signed-in user, null when signed out.
+  String? get sessionUserId => _preferences.getString(_sessionUserIdKey);
+  Future<void> setSessionUserId(String? value) => value == null
+      ? _preferences.remove(_sessionUserIdKey)
+      : _preferences.setString(_sessionUserIdKey, value);
+
+  /// JSON-encoded profiles that were registered or edited in the app.
+  List<String> get storedUsers =>
+      _preferences.getStringList(_storedUsersKey) ?? [];
+  Future<void> setStoredUsers(List<String> value) =>
+      _preferences.setStringList(_storedUsersKey, value);
+
+  /// JSON-encoded map of credentials by email.
+  String? get credentials => _preferences.getString(_credentialsKey);
+  Future<void> setCredentials(String value) =>
+      _preferences.setString(_credentialsKey, value);
+
+  /// JSON-encoded base achievements created in the app.
+  List<String> get customTemplates =>
+      _preferences.getStringList(_customTemplatesKey) ?? [];
+  Future<void> setCustomTemplates(List<String> value) =>
+      _preferences.setStringList(_customTemplatesKey, value);
+
+  /// JSON-encoded achievements sent to colleagues from the app.
+  List<String> get sentAchievements =>
+      _preferences.getStringList(_sentAchievementsKey) ?? [];
+  Future<void> setSentAchievements(List<String> value) =>
+      _preferences.setStringList(_sentAchievementsKey, value);
+}

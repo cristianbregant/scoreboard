@@ -17,7 +17,8 @@ RouteFactory onGenerateRoute = (settings) {
       return MaterialPageRoute(
         fullscreenDialog: navigatorArguments.showAsFullScreenDialog,
         builder: (_) {
-          return getIt<AchievementView>(param1: item);
+          return getIt<AchievementView>(
+              param1: item, param2: navigatorArguments.nativeArgument2);
         },
       );
   }

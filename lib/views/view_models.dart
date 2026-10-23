@@ -5,3 +5,5 @@ export 'package:scoreboard/views/achievement/achievement_view_model.dart';
 export 'package:scoreboard/views/profile/profile_view_model.dart';
 export 'package:scoreboard/views/community/community_view_model.dart';
 export 'package:scoreboard/views/your_company/your_company_view_model.dart';
+export 'package:scoreboard/views/base_achievements/base_achievements_view_model.dart';
+export 'package:scoreboard/views/auth/auth_view_model.dart';
