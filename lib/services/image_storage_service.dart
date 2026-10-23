@@ -15,8 +15,11 @@ class ImageStorageService {
   /// Copies [sourcePath] and returns the path of the copy.
   Future<String> store(String sourcePath, {required String name}) async {
     final directory = await _directory();
-    final dot = sourcePath.lastIndexOf('.');
-    final extension = dot == -1 ? '' : sourcePath.substring(dot);
+    // Look for the extension in the file name only: folders can contain
+    // dots, and Windows paths use backslashes.
+    final fileName = sourcePath.split(RegExp(r'[\\/]')).last;
+    final dot = fileName.lastIndexOf('.');
+    final extension = dot == -1 ? '' : fileName.substring(dot);
     final target =
         '${directory.path}/${name}_${DateTime.now().millisecondsSinceEpoch}$extension';
     await File(sourcePath).copy(target);

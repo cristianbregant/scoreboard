@@ -10,7 +10,7 @@ import 'package:scoreboard/views/_base/base_stateful_widget.dart';
 import 'package:scoreboard/views/_base/base_state.dart';
 import 'package:scoreboard/views/_base/base_widget.dart';
 import 'package:scoreboard/views/achievement/achievement_contract.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:scoreboard/core/window_chrome.dart';
 
 class AchievementView extends BaseStatefulWidget {
   final Achievement achievement;
@@ -36,10 +36,11 @@ class _AchievementViewState extends BaseState<
                   body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DragToMoveArea(
+                  WindowDragArea(
                     child: Padding(
                       // Clears the macOS traffic lights.
-                      padding: const EdgeInsets.fromLTRB(84, 10, 24, 0),
+                      padding: EdgeInsets.fromLTRB(
+                          16 + WindowChrome.leadingInset, 10, 24, 0),
                       child: Row(
                         children: [
                           IconButton.filledTonal(

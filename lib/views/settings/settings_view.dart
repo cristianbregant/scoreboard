@@ -281,7 +281,7 @@ class _SettingsViewState
             child: Row(
               children: [
                 Expanded(
-                  child: Text("Sign out of Scoreboard on this Mac.",
+                  child: Text("Sign out of Scoreboard on this computer.",
                       style: TextStyle(color: colorScheme.onSurfaceVariant)),
                 ),
                 OutlinedButton.icon(

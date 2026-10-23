@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoreboard/widgets/common/nav_button.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:scoreboard/core/window_chrome.dart';
 
 class Sidebar extends StatelessWidget {
   final List<SidebarItem> items;
@@ -28,10 +28,11 @@ class Sidebar extends StatelessWidget {
       ),
       child: Column(children: [
         // Leaves room for the macOS traffic lights and lets the user drag
-        // the window, since the title bar is hidden.
-        DragToMoveArea(
+        // the window where the title bar is hidden.
+        WindowDragArea(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 48, 20, 24),
+            padding:
+                EdgeInsets.fromLTRB(20, 20 + WindowChrome.topInset, 20, 24),
             child: Row(
               children: [
                 Container(

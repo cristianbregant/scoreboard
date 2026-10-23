@@ -1,6 +1,6 @@
 # Scoreboard
 
-A macOS desktop app for workplace recognition. Companies issue **verified achievements** to their people, and colleagues send each other lighter **base achievements**. Everything adds up to XP, levels and leaderboards. Achievements look like collectible cards: they tilt under the cursor and flip over to show who issued them.
+A desktop app for workplace recognition, for macOS, Windows and Linux. Companies issue **verified achievements** to their people, and colleagues send each other lighter **base achievements**. Everything adds up to XP, levels and leaderboards. Achievements look like collectible cards: they tilt under the cursor and flip over to show who issued them.
 
 ![The achievements screen, with one verified card flipped to show the issuing company](docs/images/achievements.png)
 
@@ -28,15 +28,17 @@ A macOS desktop app for workplace recognition. Companies issue **verified achiev
 
 ## Getting started
 
-Requirements:
+Requirements: Flutter 3.47 or newer (Dart 3.3+), plus the toolchain for your platform. Each platform builds only on its own OS.
 
-- macOS with Xcode
-- Flutter 3.47 or newer (Dart 3.3+)
-- CocoaPods (`brew install cocoapods`)
+| Platform | Toolchain |
+|---|---|
+| macOS | Xcode and CocoaPods (`brew install cocoapods`) |
+| Windows | Visual Studio 2022 with the *Desktop development with C++* workload |
+| Linux | `clang cmake ninja-build pkg-config libgtk-3-dev` (e.g. `sudo apt install …` on Debian/Ubuntu) |
 
 ```sh
 flutter pub get
-flutter run -d macos
+flutter run -d macos     # or: -d windows, -d linux
 ```
 
 The first launch opens the sign-in screen. Sign in with the demo account (the **Use it** button fills it in), or create a new account in one of the sample companies.
@@ -45,7 +47,14 @@ The first launch opens the sign-in screen. Sign in with the demo account (the **
 |---|---|
 | `mario.rossi@northwind.dev` | `scoreboard` |
 
-> The `android`, `ios` and `web` folders are the default Flutter scaffolding. The app depends on `window_manager` and is designed and tested for macOS only.
+> The `android`, `ios` and `web` folders are the default Flutter scaffolding. The app depends on `window_manager` and targets desktop only.
+
+### Platform differences
+
+- **macOS**: the title bar is hidden. The content extends under it, next to the traffic lights, and the top edge of the window is draggable.
+- **Windows and Linux**: the native title bar is kept, with its minimize, maximize and close buttons.
+
+Both behaviors are defined in [lib/core/window_chrome.dart](lib/core/window_chrome.dart).
 
 ## Data and persistence
 
@@ -94,14 +103,14 @@ lib/
 ```sh
 flutter analyze        # lints (flutter_lints)
 dart format lib        # formatting
-flutter build macos    # release build
+flutter build macos    # release build (also: windows, linux)
 ```
 
 Notes:
 
-- The UI uses the **Inter** typeface through `google_fonts`. It is downloaded at runtime, so both the Debug and Release entitlements include `com.apple.security.network.client`.
-- Picking images needs `com.apple.security.files.user-selected.read-only`, which is also enabled.
-- `package_info_plus`, `screen_retriever` and `window_manager` don't support Swift Package Manager yet. Flutter prints a warning and falls back to CocoaPods.
+- The UI uses the **Inter** typeface through `google_fonts`. It is downloaded at runtime and cached. On macOS, both the Debug and Release entitlements include `com.apple.security.network.client` for that.
+- Picking images on macOS needs `com.apple.security.files.user-selected.read-only`, which is also enabled.
+- On macOS, `package_info_plus`, `screen_retriever` and `window_manager` don't support Swift Package Manager yet. Flutter prints a warning and falls back to CocoaPods.
 - Localization is set up with `flutter_intl` (`lib/l10n`), but the strings aren't extracted yet and the UI is in English.
 
 ## License

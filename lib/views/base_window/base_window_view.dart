@@ -8,7 +8,7 @@ import 'package:scoreboard/views/_base/base_state.dart';
 import 'package:scoreboard/views/_base/base_widget.dart';
 import 'package:scoreboard/views/base_window/base_window_contract.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:scoreboard/core/window_chrome.dart';
 
 class BaseWindowView extends BaseStatefulWidget {
   BaseWindowView({super.key}) : super(_BaseWindowViewState());
@@ -90,13 +90,15 @@ class _BaseWindowViewState extends BaseState<
                           ],
                         ),
                         // Hidden title bar: keep a strip to drag the window.
-                        const Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          height: 28,
-                          child: DragToMoveArea(child: SizedBox.expand()),
-                        ),
+                        if (WindowChrome.hasHiddenTitleBar)
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            height: WindowChrome.topInset,
+                            child:
+                                const WindowDragArea(child: SizedBox.expand()),
+                          ),
                       ],
                     ),
                   ),

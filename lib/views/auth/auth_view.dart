@@ -10,7 +10,7 @@ import 'package:scoreboard/views/_base/base_widget.dart';
 import 'package:scoreboard/views/auth/auth_contract.dart';
 import 'package:scoreboard/widgets/common/company_logo.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:scoreboard/core/window_chrome.dart';
 
 class AuthView extends BaseStatefulWidget {
   AuthView({super.key}) : super(_AuthViewState());
@@ -85,13 +85,15 @@ class _AuthViewState
                             ),
                           ),
                         ),
-                        const Positioned(
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          height: 28,
-                          child: DragToMoveArea(child: SizedBox.expand()),
-                        ),
+                        if (WindowChrome.hasHiddenTitleBar)
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            height: WindowChrome.topInset,
+                            child:
+                                const WindowDragArea(child: SizedBox.expand()),
+                          ),
                       ],
                     ),
                   ),
@@ -379,13 +381,13 @@ class _Showcase extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return DragToMoveArea(
+    return WindowDragArea(
       child: Container(
         decoration: BoxDecoration(
           color: colorScheme.surfaceContainerLow,
           border: Border(right: BorderSide(color: colorScheme.outlineVariant)),
         ),
-        padding: const EdgeInsets.fromLTRB(40, 48, 40, 40),
+        padding: EdgeInsets.fromLTRB(40, 20 + WindowChrome.topInset, 40, 40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
