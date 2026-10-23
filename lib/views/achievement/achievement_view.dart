@@ -229,6 +229,32 @@ class _AchievementViewState extends BaseState<
                   style: TextStyle(
                       fontSize: 12, color: colorScheme.onSurfaceVariant)),
             ),
+            if (achievement.verified == true) ...[
+              MenuAnchor(
+                menuChildren: [
+                  MenuItemButton(
+                    leadingIcon: const Icon(Icons.picture_as_pdf_outlined),
+                    onPressed: () => viewModel.onExportPdf(achievement),
+                    child: Text(context.l10n.exportPdf),
+                  ),
+                  MenuItemButton(
+                    leadingIcon: const Icon(Icons.data_object_rounded),
+                    onPressed: () => viewModel.onExportOpenBadge(achievement),
+                    child: Tooltip(
+                        message: context.l10n.exportOpenBadgeHint,
+                        child: Text(context.l10n.exportOpenBadge)),
+                  ),
+                ],
+                builder: (context, controller, _) => OutlinedButton.icon(
+                  onPressed: () => controller.isOpen
+                      ? controller.close()
+                      : controller.open(),
+                  icon: const Icon(Icons.download_rounded, size: 18),
+                  label: Text(context.l10n.exportMenu),
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
             FilledButton.icon(
               onPressed: () => viewModel.onTapShare(achievement),
               icon: const Icon(Icons.share_rounded, size: 18),
@@ -257,7 +283,7 @@ class _AchievementViewState extends BaseState<
                   fontSize: 15, height: 1.4, fontStyle: FontStyle.italic)),
           const SizedBox(height: 6),
           Text(
-              "\u2014 ${achievement.awardedByName ?? context.l10n.noteAuthorFallback}",
+              "\u2014 ${(achievement.verified == true ? achievement.company : achievement.awardedByName) ?? context.l10n.noteAuthorFallback}",
               style:
                   TextStyle(fontSize: 13, color: colorScheme.onSurfaceVariant)),
         ],

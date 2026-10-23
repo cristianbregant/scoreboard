@@ -1,6 +1,11 @@
+import 'package:scoreboard/core/formatters.dart';
 import 'package:scoreboard/generated/l10n.dart';
 import 'package:scoreboard/interactors/auth_interactor.dart';
 import 'package:scoreboard/model/achievement_template.dart';
+import 'package:scoreboard/model/admin.dart';
+import 'package:scoreboard/model/app_notification.dart';
+import 'package:scoreboard/model/catalog_achievement.dart';
+import 'package:scoreboard/model/feed.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/model/send_achievement.dart';
 import 'package:scoreboard/widgets/achievement_style.dart';
@@ -53,3 +58,71 @@ String bannerPresetLabel(AppLocalization l10n, String key) => switch (key) {
       'sand_plain' => l10n.bannerSand,
       _ => key,
     };
+
+extension AdminExceptionText on AdminException {
+  String localized(AppLocalization l10n) => switch (error) {
+        AdminError.notAdmin => l10n.errorNotAdmin,
+        AdminError.missingFields => l10n.errorMissingFields,
+        AdminError.invalidPoints => l10n.errorCatalogPoints(
+            CatalogAchievement.minPoints, CatalogAchievement.maxPoints),
+        AdminError.alreadyOwned => l10n.errorAlreadyOwned,
+        AdminError.requestPending => l10n.errorRequestPending,
+        AdminError.invalidUrl => l10n.invalidUrl,
+        AdminError.notFound => l10n.errorNotFound,
+      };
+}
+
+extension AppNotificationText on AppNotification {
+  String title(AppLocalization l10n) => switch (type) {
+        NotificationType.peerAchievementReceived => l10n.notifPeerTitle,
+        NotificationType.verifiedAchievementReceived => l10n.notifVerifiedTitle,
+        NotificationType.levelUp => l10n.notifLevelUpTitle,
+        NotificationType.requestApproved => l10n.notifApprovedTitle,
+        NotificationType.requestRejected => l10n.notifRejectedTitle,
+        NotificationType.newRequest => l10n.notifNewRequestTitle,
+        NotificationType.feedReaction => l10n.notifReactionTitle,
+        NotificationType.feedComment => l10n.notifCommentTitle,
+        NotificationType.weeklyRecap => l10n.notifRecapTitle,
+      };
+
+  String body(AppLocalization l10n) {
+    final actor = actorName ?? '';
+    final name = achievementName ?? '';
+    return switch (type) {
+      NotificationType.peerAchievementReceived =>
+        l10n.notifPeerBody(actor, name),
+      NotificationType.verifiedAchievementReceived =>
+        l10n.notifVerifiedBody(actor, name),
+      NotificationType.levelUp => l10n.notifLevelUpBody(number ?? 0),
+      NotificationType.requestApproved => l10n.notifApprovedBody(name),
+      NotificationType.requestRejected => text == null
+          ? l10n.notifRejectedBody(name)
+          : l10n.notifRejectedBodyReason(name, text!),
+      NotificationType.newRequest => l10n.notifNewRequestBody(actor, name),
+      NotificationType.feedReaction => l10n.notifReactionBody(actor, name),
+      NotificationType.feedComment =>
+        l10n.notifCommentBody(actor, name, text ?? ''),
+      NotificationType.weeklyRecap =>
+        l10n.notifRecapBody(number ?? 0, secondNumber ?? 0),
+    };
+  }
+}
+
+/// "Just now", "5 min ago", "3 h ago", "Yesterday", then a date.
+String timeAgo(AppLocalization l10n, DateTime time) {
+  final elapsed = DateTime.now().difference(time);
+  if (elapsed.inMinutes < 1) return l10n.timeJustNow;
+  if (elapsed.inHours < 1) return l10n.timeMinutes(elapsed.inMinutes);
+  if (elapsed.inDays < 1) return l10n.timeHours(elapsed.inHours);
+  if (elapsed.inDays < 7) return l10n.timeDays(elapsed.inDays);
+  return formatDate(time);
+}
+
+extension ReactionTypeText on ReactionType {
+  String localized(AppLocalization l10n) => switch (this) {
+        ReactionType.like => l10n.reactionLike,
+        ReactionType.celebrate => l10n.reactionCelebrate,
+        ReactionType.love => l10n.reactionLove,
+        ReactionType.insightful => l10n.reactionInsightful,
+      };
+}

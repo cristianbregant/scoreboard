@@ -7,3 +7,5 @@ export 'package:scoreboard/views/community/community_contract.dart';
 export 'package:scoreboard/views/your_company/your_company_contract.dart';
 export 'package:scoreboard/views/base_achievements/base_achievements_contract.dart';
 export 'package:scoreboard/views/auth/auth_contract.dart';
+export 'package:scoreboard/views/feed/feed_contract.dart';
+export 'package:scoreboard/views/console/console_contract.dart';

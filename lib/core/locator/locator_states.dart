@@ -11,4 +11,6 @@ void setupLocatorStates() {
   getIt.registerFactory<CommunityState>(() => CommunityState());
   getIt.registerFactory<YourCompanyState>(() => YourCompanyState());
   getIt.registerFactory<BaseAchievementsState>(() => BaseAchievementsState());
+  getIt.registerFactory<FeedState>(() => FeedState());
+  getIt.registerFactory<ConsoleState>(() => ConsoleState());
 }

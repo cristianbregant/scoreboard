@@ -1,4 +1,8 @@
 import 'package:scoreboard/model/achievement.dart';
+import 'package:scoreboard/model/app_notification.dart';
+import 'package:scoreboard/model/catalog_achievement.dart';
+import 'package:scoreboard/model/feed.dart';
+import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/model/achievement_template.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/model/company.dart';
@@ -34,11 +38,44 @@ abstract class ScoreboardRepository {
 
   Future<List<Achievement>> getAchievements();
 
-  Future<void> addAchievement(Achievement achievement);
+  /// Adds an achievement and notifies its recipient, unless
+  /// [notifyRecipient] is false (e.g. when a request approval says it).
+  Future<void> addAchievement(Achievement achievement,
+      {bool notifyRecipient = true});
 
   Future<List<AchievementTemplate>> getTemplates();
 
   Future<void> addTemplate(AchievementTemplate template);
 
   Future<void> deleteTemplate(String templateId);
+
+  /// The company's catalog of verified achievements, archived ones included.
+  Future<List<CatalogAchievement>> getCatalog(String companyId);
+
+  /// Inserts or updates a catalog achievement.
+  Future<void> saveCatalogAchievement(CatalogAchievement achievement);
+
+  Future<List<VerificationRequest>> getRequests(String companyId);
+
+  /// Inserts or updates a request. A new request notifies the company's
+  /// admins; a decision notifies the requester.
+  Future<void> saveRequest(VerificationRequest request);
+
+  Future<List<FeedReaction>> getReactions();
+
+  /// Sets or, with a null [type], removes the user's reaction. Notifies the
+  /// recipient of the achievement.
+  Future<void> setReaction(
+      String achievementId, String userId, ReactionType? type);
+
+  Future<List<FeedComment>> getComments();
+
+  /// Notifies the recipient of the achievement.
+  Future<void> addComment(FeedComment comment);
+
+  /// The user's notifications, newest first.
+  Future<List<AppNotification>> getNotifications(String userId);
+
+  /// Saves read/delivered changes.
+  Future<void> updateNotifications(List<AppNotification> notifications);
 }

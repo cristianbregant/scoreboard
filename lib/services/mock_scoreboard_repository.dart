@@ -5,6 +5,11 @@ import 'package:crypto/crypto.dart';
 
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/model/achievement_template.dart';
+import 'package:scoreboard/model/app_notification.dart';
+import 'package:scoreboard/model/catalog_achievement.dart';
+import 'package:scoreboard/model/feed.dart';
+import 'package:scoreboard/model/player_level.dart';
+import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/model/company.dart';
 import 'package:scoreboard/model/user_profile.dart';
@@ -42,6 +47,17 @@ class MockScoreboardRepository implements ScoreboardRepository {
 
   /// Only what was created in the app is persisted; seed data is rebuilt.
   final Set<String> _seedAchievementIds = {};
+
+  late final List<CatalogAchievement> _catalog =
+      _load('catalog', CatalogAchievement.fromJson, _buildCatalog);
+  late final List<VerificationRequest> _requests =
+      _load('requests', VerificationRequest.fromJson, _buildRequests);
+  late final List<FeedReaction> _reactions =
+      _load('reactions', FeedReaction.fromJson, _buildReactions);
+  late final List<FeedComment> _comments =
+      _load('comments', FeedComment.fromJson, _buildComments);
+  late final List<AppNotification> _notifications =
+      _load('notifications', AppNotification.fromJson, _buildNotifications);
 
   /// Users whose profile differs from the seed and must be persisted.
   late final Set<String> _storedUserIds = _preferences.storedUsers
@@ -196,14 +212,38 @@ class MockScoreboardRepository implements ScoreboardRepository {
   }
 
   @override
-  Future<void> addAchievement(Achievement achievement) async {
+  Future<void> addAchievement(Achievement achievement,
+      {bool notifyRecipient = true}) async {
     await Future.delayed(_latency);
+    final recipientId = achievement.userId!;
+    final levelBefore = PlayerLevel(_pointsOf(recipientId)).level;
     _achievements.add(achievement);
     await _preferences.setSentAchievements(_achievements
         .where((a) => !_seedAchievementIds.contains(a.id))
         .map((a) => jsonEncode(a.toJson()))
         .toList());
+
+    if (notifyRecipient) {
+      final verified = achievement.verified == true;
+      _notify(
+          recipientId,
+          verified
+              ? NotificationType.verifiedAchievementReceived
+              : NotificationType.peerAchievementReceived,
+          actorName: verified ? achievement.company : achievement.awardedByName,
+          achievementId: achievement.id,
+          achievementName: achievement.name);
+    }
+    final levelAfter = PlayerLevel(_pointsOf(recipientId)).level;
+    if (levelAfter > levelBefore) {
+      _notify(recipientId, NotificationType.levelUp, number: levelAfter);
+    }
+    await _persistNotifications();
   }
+
+  int _pointsOf(String userId) => _achievements
+      .where((a) => a.userId == userId)
+      .fold(0, (sum, a) => sum + (a.points ?? 0));
 
   @override
   Future<List<AchievementTemplate>> getTemplates() async {
@@ -230,6 +270,338 @@ class MockScoreboardRepository implements ScoreboardRepository {
           .where((t) => !_seedTemplates.contains(t))
           .map((t) => jsonEncode(t.toJson()))
           .toList());
+
+  @override
+  Future<List<CatalogAchievement>> getCatalog(String companyId) async {
+    await Future.delayed(_latency);
+    return _catalog.where((item) => item.companyId == companyId).toList();
+  }
+
+  @override
+  Future<void> saveCatalogAchievement(CatalogAchievement achievement) async {
+    await Future.delayed(_latency);
+    _upsert(_catalog, achievement, (item) => item.id == achievement.id);
+    await _save('catalog', _catalog, (item) => item.toJson());
+  }
+
+  @override
+  Future<List<VerificationRequest>> getRequests(String companyId) async {
+    await Future.delayed(_latency);
+    return _requests.where((r) => r.companyId == companyId).toList()
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
+
+  @override
+  Future<void> saveRequest(VerificationRequest request) async {
+    await Future.delayed(_latency);
+    final isNew = !_requests.any((r) => r.id == request.id);
+    _upsert(_requests, request, (r) => r.id == request.id);
+    await _save('requests', _requests, (r) => r.toJson());
+
+    final catalogName =
+        _catalog.where((c) => c.id == request.catalogId).firstOrNull?.name;
+    if (isNew) {
+      for (final admin in _users.where((u) =>
+          u.isCompanyAdmin &&
+          u.companyId == request.companyId &&
+          u.id != request.userId)) {
+        _notify(admin.id, NotificationType.newRequest,
+            actorName: _userName(request.userId), achievementName: catalogName);
+      }
+    } else if (request.status != RequestStatus.pending) {
+      _notify(
+          request.userId,
+          request.status == RequestStatus.approved
+              ? NotificationType.requestApproved
+              : NotificationType.requestRejected,
+          actorName: _userName(request.decidedById),
+          achievementName: catalogName,
+          text: request.rejectionReason);
+    }
+    await _persistNotifications();
+  }
+
+  @override
+  Future<List<FeedReaction>> getReactions() async {
+    await Future.delayed(_latency);
+    return List.unmodifiable(_reactions);
+  }
+
+  @override
+  Future<void> setReaction(
+      String achievementId, String userId, ReactionType? type) async {
+    await Future.delayed(_latency);
+    _reactions.removeWhere(
+        (r) => r.achievementId == achievementId && r.userId == userId);
+    if (type != null) {
+      _reactions.add(FeedReaction(
+          achievementId: achievementId, userId: userId, type: type));
+      _notifyOwner(achievementId, userId, NotificationType.feedReaction);
+      await _persistNotifications();
+    }
+    await _save('reactions', _reactions, (r) => r.toJson());
+  }
+
+  @override
+  Future<List<FeedComment>> getComments() async {
+    await Future.delayed(_latency);
+    return List.unmodifiable(_comments);
+  }
+
+  @override
+  Future<void> addComment(FeedComment comment) async {
+    await Future.delayed(_latency);
+    _comments.add(comment);
+    await _save('comments', _comments, (c) => c.toJson());
+    _notifyOwner(
+        comment.achievementId, comment.userId, NotificationType.feedComment,
+        text: comment.text);
+    await _persistNotifications();
+  }
+
+  @override
+  Future<List<AppNotification>> getNotifications(String userId) async {
+    await Future.delayed(_latency);
+    _addWeeklyRecapIfDue(userId);
+    return _notifications.where((n) => n.userId == userId).toList()
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
+
+  @override
+  Future<void> updateNotifications(List<AppNotification> notifications) async {
+    await Future.delayed(_latency);
+    for (final notification in notifications) {
+      _upsert(_notifications, notification, (n) => n.id == notification.id);
+    }
+    await _persistNotifications();
+  }
+
+  /// Plays the role of a weekly server job: at most one recap every 7 days.
+  void _addWeeklyRecapIfDue(String userId) {
+    final now = DateTime.now();
+    final weekAgo = now.subtract(const Duration(days: 7));
+    final hasRecent = _notifications.any((n) =>
+        n.userId == userId &&
+        n.type == NotificationType.weeklyRecap &&
+        n.createdAt.isAfter(weekAgo));
+    if (hasRecent) return;
+
+    final weekPoints = _achievements
+        .where((a) =>
+            a.userId == userId && a.date != null && a.date!.isAfter(weekAgo))
+        .fold(0, (sum, a) => sum + (a.points ?? 0));
+    // A recap of an empty week would only be noise.
+    if (weekPoints == 0) return;
+    final ranking = _users.map((u) => u.id).toList()
+      ..sort((a, b) => _pointsOf(b).compareTo(_pointsOf(a)));
+    _notify(userId, NotificationType.weeklyRecap,
+        number: weekPoints, secondNumber: ranking.indexOf(userId) + 1);
+    _persistNotifications();
+  }
+
+  void _notifyOwner(String achievementId, String actorId, NotificationType type,
+      {String? text}) {
+    final achievement =
+        _achievements.where((a) => a.id == achievementId).firstOrNull;
+    if (achievement == null || achievement.userId == actorId) return;
+    _notify(achievement.userId!, type,
+        actorName: _userName(actorId),
+        achievementId: achievementId,
+        achievementName: achievement.name,
+        text: text);
+  }
+
+  void _notify(String userId, NotificationType type,
+      {String? actorName,
+      String? achievementId,
+      String? achievementName,
+      int? number,
+      int? secondNumber,
+      String? text}) {
+    _notifications.add(AppNotification(
+      id: 'n_${DateTime.now().microsecondsSinceEpoch}_${_notifications.length}',
+      userId: userId,
+      type: type,
+      createdAt: DateTime.now(),
+      actorName: actorName,
+      achievementId: achievementId,
+      achievementName: achievementName,
+      number: number,
+      secondNumber: secondNumber,
+      text: text,
+    ));
+  }
+
+  String? _userName(String? userId) =>
+      _users.where((u) => u.id == userId).firstOrNull?.name;
+
+  Future<void> _persistNotifications() =>
+      _save('notifications', _notifications, (n) => n.toJson());
+
+  /// Stored records of a collection, or its seed until it's first saved.
+  List<T> _load<T>(String collection, T Function(Map<String, dynamic>) fromJson,
+      List<T> Function() seed) {
+    final stored = _preferences.getRecords(collection);
+    if (stored == null) return seed();
+    return stored.map((json) => fromJson(jsonDecode(json))).toList();
+  }
+
+  Future<void> _save<T>(String collection, List<T> records,
+          Map<String, dynamic> Function(T) toJson) =>
+      _preferences.setRecords(
+          collection, records.map((r) => jsonEncode(toJson(r))).toList());
+
+  static void _upsert<T>(List<T> list, T item, bool Function(T) matches) {
+    final index = list.indexWhere(matches);
+    index == -1 ? list.add(item) : list[index] = item;
+  }
+
+  List<CatalogAchievement> _buildCatalog() => [
+        for (final company in _companies)
+          for (var j = 0; j < _templates.length; j++)
+            CatalogAchievement(
+              id: 'cat_${company.id}_$j',
+              companyId: company.id,
+              name: _templates[j].$1,
+              description: _templates[j].$2,
+              icon: _templates[j].$3,
+              points: _templates[j].$4,
+              createdAt: DateTime(2024, 1, 10),
+            ),
+      ];
+
+  List<VerificationRequest> _buildRequests() {
+    final now = DateTime.now();
+    return [
+      VerificationRequest(
+        id: 'req_seed_1',
+        userId: 'u_02',
+        companyId: 'c_northwind',
+        catalogId: 'cat_c_northwind_3',
+        message: 'I maintain two libraries we use in production.',
+        evidenceUrl: 'https://github.com/northwind-labs',
+        createdAt: now.subtract(const Duration(hours: 3)),
+      ),
+      VerificationRequest(
+        id: 'req_seed_2',
+        userId: 'u_03',
+        companyId: 'c_northwind',
+        catalogId: 'cat_c_northwind_1',
+        message: 'Found and fixed the payment rounding bug before release.',
+        createdAt: now.subtract(const Duration(days: 1)),
+      ),
+      VerificationRequest(
+        id: 'req_seed_3',
+        userId: 'u_01',
+        companyId: 'c_northwind',
+        catalogId: 'cat_c_northwind_4',
+        message: 'Built the analytics dashboard for Q3.',
+        status: RequestStatus.approved,
+        createdAt: now.subtract(const Duration(days: 9)),
+        decidedAt: now.subtract(const Duration(days: 8)),
+        decidedById: demoUserId,
+      ),
+    ];
+  }
+
+  /// Colleagues react to a deterministic subset of each other's
+  /// achievements so the feed starts with some activity.
+  List<FeedReaction> _buildReactions() {
+    final reactions = <FeedReaction>[];
+    for (final achievement in _buildAchievementsSnapshot()) {
+      final colleagues = _users
+          .where((u) =>
+              u.companyId == achievement.companyId &&
+              u.id != achievement.userId)
+          .toList();
+      for (var i = 0; i < colleagues.length; i++) {
+        final seed = achievement.id.hashCode.abs() + i;
+        if (seed % 3 == 0) continue;
+        reactions.add(FeedReaction(
+          achievementId: achievement.id!,
+          userId: colleagues[i].id,
+          type: ReactionType.values[seed % ReactionType.values.length],
+        ));
+      }
+    }
+    return reactions;
+  }
+
+  List<FeedComment> _buildComments() {
+    final now = DateTime.now();
+    FeedComment comment(String id, String achievementId, String userId,
+            String text, Duration ago) =>
+        FeedComment(
+            id: id,
+            achievementId: achievementId,
+            userId: userId,
+            text: text,
+            createdAt: now.subtract(ago));
+    return [
+      comment('c_seed_1', 'ach_u_me_7', 'u_02',
+          'Congrats Mario, well deserved!', const Duration(days: 1)),
+      comment(
+          'c_seed_2',
+          'ach_u_me_7',
+          'u_01',
+          'The migration went smoothly thanks to you.',
+          const Duration(hours: 20)),
+      comment('c_seed_3', 'ach_u_me_p8', 'u_03', 'Loved that idea 💡',
+          const Duration(days: 2)),
+    ];
+  }
+
+  List<AppNotification> _buildNotifications() {
+    final now = DateTime.now();
+    AppNotification seed(String id, NotificationType type, Duration ago,
+            {bool read = false,
+            String? actor,
+            String? achievementId,
+            String? achievementName,
+            int? number,
+            String? text}) =>
+        AppNotification(
+          id: id,
+          userId: demoUserId,
+          type: type,
+          createdAt: now.subtract(ago),
+          read: read,
+          // Seed notifications never pop up as system notifications.
+          delivered: true,
+          actorName: actor,
+          achievementId: achievementId,
+          achievementName: achievementName,
+          number: number,
+          text: text,
+        );
+    return [
+      seed('n_seed_1', NotificationType.newRequest, const Duration(hours: 3),
+          actor: 'Luca Ferrari', achievementName: 'Open Source Contributor'),
+      seed('n_seed_2', NotificationType.feedComment, const Duration(hours: 20),
+          actor: 'Giulia Bianchi',
+          achievementId: 'ach_u_me_7',
+          achievementName: 'Cloud Computing Expert',
+          text: 'The migration went smoothly thanks to you.'),
+      seed('n_seed_3', NotificationType.peerAchievementReceived,
+          const Duration(days: 2),
+          actor: 'Giulia Bianchi',
+          achievementId: 'ach_u_me_p8',
+          achievementName: 'Great Idea'),
+      seed('n_seed_4', NotificationType.verifiedAchievementReceived,
+          const Duration(days: 5),
+          read: true,
+          actor: 'Northwind Labs',
+          achievementId: 'ach_u_me_6',
+          achievementName: 'Cybersecurity Defender'),
+      seed('n_seed_5', NotificationType.levelUp, const Duration(days: 5),
+          read: true, number: 4),
+    ];
+  }
+
+  /// Seed achievements, for seeding other collections before
+  /// [_achievements] is first read.
+  List<Achievement> _buildAchievementsSnapshot() =>
+      _achievements.where((a) => _seedAchievementIds.contains(a.id)).toList();
 
   List<Company> _buildCompanies() => const [
         Company(
@@ -278,10 +650,15 @@ class MockScoreboardRepository implements ScoreboardRepository {
     final seed = _buildSeedUsers();
     final seedIds = seed.map((user) => user.id).toSet();
     return [
-      for (final user in seed) stored[user.id] ?? user,
+      // The role is managed by the company, not by the profile edits.
+      for (final user in seed)
+        stored[user.id]?.copyWith(isCompanyAdmin: user.isCompanyAdmin) ?? user,
       ...stored.values.where((user) => !seedIds.contains(user.id)),
     ];
   }
+
+  /// One admin per company; the demo user manages Northwind Labs.
+  static const Set<String> _seedAdminIds = {'u_me', 'u_04', 'u_07', 'u_11'};
 
   List<UserProfile> _buildSeedUsers() => [
         UserProfile(
@@ -306,7 +683,11 @@ class MockScoreboardRepository implements ScoreboardRepository {
         _user('u_10', 'Matteo Conti', 'iOS Developer', 'c_lumen', 2022),
         _user(
             'u_11', 'Francesca Costa', 'Engineering Manager', 'c_lumen', 2017),
-      ];
+      ]
+          .map((user) => _seedAdminIds.contains(user.id)
+              ? user.copyWith(isCompanyAdmin: true)
+              : user)
+          .toList();
 
   UserProfile _user(
       String id, String name, String role, String companyId, int year) {
@@ -458,6 +839,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
             icon: base.icon,
             points: base.points,
             company: company.name,
+            companyId: company.id,
             date: date,
             verified: false,
             templateId: base.id,
@@ -476,7 +858,9 @@ class MockScoreboardRepository implements ScoreboardRepository {
             icon: icon,
             points: points,
             company: company.name,
+            companyId: company.id,
             companyBrand: company.brand,
+            catalogId: 'cat_${company.id}_$j',
             date: date,
             verified: true,
           );

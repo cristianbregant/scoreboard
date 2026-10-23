@@ -10,6 +10,7 @@ class Achievement {
   final String? name;
   final String? description;
   final String? company;
+  final String? companyId;
   final CompanyBrand? companyBrand;
   final String? icon;
   final int? points;
@@ -18,6 +19,9 @@ class Achievement {
   final bool? verified;
   final String? userId;
   final String? templateId;
+
+  /// Catalog entry a verified achievement was issued from.
+  final String? catalogId;
   final String? awardedById;
   final String? awardedByName;
   final String? note;
@@ -26,6 +30,7 @@ class Achievement {
       {this.name,
       this.description,
       this.company,
+      this.companyId,
       this.companyBrand,
       this.icon,
       this.points,
@@ -34,6 +39,7 @@ class Achievement {
       this.verified,
       this.userId,
       this.templateId,
+      this.catalogId,
       this.awardedById,
       this.awardedByName,
       this.note});
@@ -44,6 +50,7 @@ class Achievement {
       description: json['description'],
       icon: json['icon'],
       company: json['company'],
+      companyId: json['company_id'],
       companyBrand: json['company_brand'] != null
           ? CompanyBrand.fromJson(json['company_brand'])
           : null,
@@ -53,6 +60,7 @@ class Achievement {
       verified: json['verified'],
       userId: json['user_id'],
       templateId: json['template_id'],
+      catalogId: json['catalog_id'],
       awardedById: json['awarded_by_id'],
       awardedByName: json['awarded_by_name'],
       note: json['note'],
@@ -64,6 +72,7 @@ class Achievement {
         'description': description,
         'icon': icon,
         'company': company,
+        'company_id': companyId,
         'company_brand': companyBrand?.toJson(),
         'points': points,
         'date': date?.toIso8601String(),
@@ -71,6 +80,7 @@ class Achievement {
         'verified': verified,
         'user_id': userId,
         'template_id': templateId,
+        'catalog_id': catalogId,
         'awarded_by_id': awardedById,
         'awarded_by_name': awardedByName,
         'note': note,

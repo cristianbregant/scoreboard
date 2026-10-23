@@ -17,6 +17,17 @@ A desktop app for workplace recognition, for macOS, Windows and Linux. Companies
   - *Your company*: team ranking with a top-3 podium.
   - *Community*: everyone and every company, with search.
 - **Profile.** Photo, cover (six patterns or your own image), bio, level progress and recent achievements.
+- **Company console** (company admins only).
+  - Manage the catalog of verified achievements: create, edit, archive.
+  - Issue an achievement to one or more people at once.
+  - Approve or reject the requests members send, with evidence links and a reason.
+- **Requests.** Members browse the company catalog in *Your company* and ask for an achievement, attaching a message and a link to evidence.
+- **Company feed.** Every achievement a colleague receives becomes a post, with reactions (like, celebrate, love, insightful) and comments.
+- **Notifications.**
+  - A bell in the sidebar opens the notification center.
+  - New notifications also show up as system notifications on macOS, Windows and Linux.
+  - They cover achievements received, level ups, request outcomes, new requests for admins, reactions, comments and a weekly recap.
+- **Credentials** for verified achievements: a PDF certificate and an [Open Badges 3.0](https://www.imsglobal.org/spec/ob/v3p0/) credential (JSON, unsigned until the backend can sign it with the issuer's key).
 - **Share on LinkedIn.**
   - Open a post with ready-made text.
   - Add a verified achievement to your profile under *Licenses & certifications*.
@@ -51,6 +62,8 @@ The first launch opens the sign-in screen. Sign in with the demo account (the **
 |---|---|
 | `mario.rossi@northwind.dev` | `scoreboard` |
 
+The demo user is the admin of Northwind Labs, so the company console is available. Seed data includes pending requests, feed activity and a few notifications.
+
 > The `android`, `ios` and `web` folders are the default Flutter scaffolding. The app depends on `window_manager` and targets desktop only.
 
 ### Platform differences
@@ -64,8 +77,9 @@ Both behaviors are defined in [lib/core/window_chrome.dart](lib/core/window_chro
 
 There is no backend yet. All data goes through the `ScoreboardRepository` interface ([lib/services/scoreboard_repository.dart](lib/services/scoreboard_repository.dart)), and the app currently uses `MockScoreboardRepository`, a local stand-in:
 
-- **Seed data**: 4 companies, 12 people and their achievements. It is rebuilt at every launch.
-- **Saved data**: everything created in the app is stored with `shared_preferences` and survives restarts. That covers accounts, profile edits, base achievements and sent achievements.
+- **Seed data**: 4 companies, each with an admin and a catalog, 12 people and their achievements, plus requests, feed activity and notifications. Achievements are rebuilt at every launch. The other collections are seeded once and then saved.
+- **Saved data**: everything created in the app is stored with `shared_preferences` and survives restarts. That covers accounts, profile edits, base achievements, sent and issued achievements, catalog changes, requests, reactions, comments and notifications.
+- **Notifications** are created by the repository, as a server would do. A backend can push them instead.
 - **Images**: profile photos and covers are copied into the app's support directory, so moving or deleting the original file doesn't break them.
 - **Passwords**: stored as salted SHA-256 hashes, never in plain text. This is fine for a local mock. A real backend should hash passwords server-side with a slow algorithm such as bcrypt or Argon2.
 
@@ -112,7 +126,7 @@ flutter build macos    # release build (also: windows, linux)
 
 Notes:
 
-- The UI uses the **Inter** typeface through `google_fonts`. It is downloaded at runtime and cached. On macOS, both the Debug and Release entitlements include `com.apple.security.network.client` for that.
+- The UI uses the **Inter** typeface, bundled in `assets/fonts` under the SIL Open Font License (`OFL.txt`, also shown in the app's licenses). The certificate PDFs embed it too.
 - Picking and saving images on macOS needs `com.apple.security.files.user-selected.read-write`, which is also enabled.
 - On macOS, `package_info_plus`, `screen_retriever` and `window_manager` don't support Swift Package Manager yet. Flutter prints a warning and falls back to CocoaPods.
 

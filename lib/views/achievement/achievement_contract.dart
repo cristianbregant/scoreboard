@@ -17,6 +17,8 @@ abstract class AchievementViewModelContract
   void onAddToLinkedInProfile(Achievement achievement);
   void onCopyPostText(String text);
   void onSaveShareImage(Uint8List png, Achievement achievement);
+  void onExportPdf(Achievement achievement);
+  void onExportOpenBadge(Achievement achievement);
 }
 
 class AchievementState extends BaseVMState {

@@ -9,13 +9,17 @@ class Sidebar extends StatelessWidget {
   final int index;
   final Widget? leading;
   final Widget? trailing;
+
+  /// Shown at the end of the header row, e.g. the notifications bell.
+  final Widget? headerAction;
   const Sidebar(
       {super.key,
       required this.items,
       required this.onItemSelected,
       required this.index,
       this.leading,
-      this.trailing});
+      this.trailing,
+      this.headerAction});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +36,7 @@ class Sidebar extends StatelessWidget {
         // the window where the title bar is hidden.
         WindowDragArea(
           child: Padding(
-            padding:
-                EdgeInsets.fromLTRB(20, 20 + WindowChrome.topInset, 20, 24),
+            padding: EdgeInsets.fromLTRB(20, 20 + WindowChrome.topInset, 8, 24),
             child: Row(
               children: [
                 Container(
@@ -47,11 +50,21 @@ class Sidebar extends StatelessWidget {
                       color: colorScheme.onPrimary, size: 19),
                 ),
                 const SizedBox(width: 12),
-                const Text("Scoreboard",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.4)),
+                // Shrinks rather than wrapping when the header action
+                // leaves little room.
+                const Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text("Scoreboard",
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.4)),
+                  ),
+                ),
+                if (headerAction != null) headerAction!,
               ],
             ),
           ),

@@ -7,16 +7,17 @@ void setupLocatorViewModels() {
   getIt.registerFactory<AchievementsViewModelContract>(
       () => AchievementsViewModel(getIt<ScoreboardInteractor>()));
 
-  getIt.registerFactory<BaseWindowViewModelContract>(
-      () => BaseWindowViewModel(getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<BaseWindowViewModelContract>(() => BaseWindowViewModel(
+      getIt<ScoreboardInteractor>(), getIt<NotificationInteractor>()));
 
   getIt.registerFactory<SettingsViewModelContract>(() => SettingsViewModel(
       getIt<ScoreboardInteractor>(),
       getIt<AuthInteractor>(),
       getIt<AppConfigurationInteractor>()));
 
-  getIt.registerFactory<AchievementViewModelContract>(
-      () => AchievementViewModel(getIt<ShareInteractor>()));
+  getIt.registerFactory<AchievementViewModelContract>(() =>
+      AchievementViewModel(getIt<ShareInteractor>(),
+          getIt<CredentialInteractor>(), getIt<ScoreboardInteractor>()));
 
   getIt.registerFactory<ProfileViewModelContract>(
       () => ProfileViewModel(getIt<ScoreboardInteractor>()));
@@ -24,12 +25,17 @@ void setupLocatorViewModels() {
   getIt.registerFactory<CommunityViewModelContract>(
       () => CommunityViewModel(getIt<ScoreboardInteractor>()));
 
-  getIt.registerFactory<YourCompanyViewModelContract>(
-      () => YourCompanyViewModel(getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<YourCompanyViewModelContract>(() =>
+      YourCompanyViewModel(
+          getIt<ScoreboardInteractor>(), getIt<AdminInteractor>()));
 
   getIt.registerFactory<BaseAchievementsViewModelContract>(
       () => BaseAchievementsViewModel(getIt<ScoreboardInteractor>()));
 
   getIt.registerFactory<AuthViewModelContract>(
       () => AuthViewModel(getIt<AuthInteractor>()));
+  getIt.registerFactory<FeedViewModelContract>(() =>
+      FeedViewModel(getIt<FeedInteractor>(), getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<ConsoleViewModelContract>(() => ConsoleViewModel(
+      getIt<AdminInteractor>(), getIt<ScoreboardInteractor>()));
 }

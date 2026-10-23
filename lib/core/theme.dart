@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
   /// Accent: a warm gold that reads as "trophy". The light theme uses a
@@ -104,8 +103,9 @@ class AppTheme {
     return ThemeData(
       colorScheme: colorScheme,
       scaffoldBackgroundColor: background,
-      textTheme: GoogleFonts.interTextTheme(baseTextTheme)
-          .apply(bodyColor: onSurface, displayColor: onSurface),
+      fontFamily: 'Inter',
+      textTheme: baseTextTheme.apply(
+          fontFamily: 'Inter', bodyColor: onSurface, displayColor: onSurface),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       splashFactory: InkSparkle.splashFactory,
       dividerTheme: DividerThemeData(color: border, thickness: 1, space: 1),

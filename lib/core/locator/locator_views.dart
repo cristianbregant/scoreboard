@@ -6,6 +6,8 @@ void setupLocatorViews() {
   getIt.registerFactory<AchievementsView>(() => AchievementsView());
   getIt.registerFactory<BaseWindowView>(() => BaseWindowView());
   getIt.registerFactory<AuthView>(() => AuthView());
+  getIt.registerFactory<FeedView>(() => FeedView());
+  getIt.registerFactory<ConsoleView>(() => ConsoleView());
   getIt.registerFactory<SettingsView>(() => SettingsView());
   getIt.registerFactory<ProfileView>(() => ProfileView());
   getIt.registerFactory<CommunityView>(() => CommunityView());

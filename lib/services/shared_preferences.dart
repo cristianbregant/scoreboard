@@ -40,6 +40,13 @@ class SharedPreference {
   Future<void> setCredentials(String value) =>
       _preferences.setString(_credentialsKey, value);
 
+  /// JSON-encoded records of a collection (catalog, requests, feed,
+  /// notifications), null until the collection is first saved.
+  List<String>? getRecords(String collection) =>
+      _preferences.getStringList('records_$collection');
+  Future<void> setRecords(String collection, List<String> value) =>
+      _preferences.setStringList('records_$collection', value);
+
   /// JSON-encoded base achievements created in the app.
   List<String> get customTemplates =>
       _preferences.getStringList(_customTemplatesKey) ?? [];

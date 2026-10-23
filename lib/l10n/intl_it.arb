@@ -440,5 +440,261 @@
       "company": {}
     }
   },
-  "commonClose": "Chiudi"
+  "commonClose": "Chiudi",
+  "navFeed": "Bacheca",
+  "navConsole": "Console azienda",
+  "notificationsTitle": "Notifiche",
+  "notificationsOpen": "Apri le notifiche",
+  "markAllRead": "Segna tutte come lette",
+  "notificationsEmpty": "Nessuna notifica, per ora.",
+  "notifPeerTitle": "Nuovo traguardo",
+  "notifPeerBody": "{actor} ti ha inviato “{achievement}”",
+  "@notifPeerBody": {
+    "placeholders": {
+      "actor": {},
+      "achievement": {}
+    }
+  },
+  "notifVerifiedTitle": "Traguardo verificato",
+  "notifVerifiedBody": "{company} ti ha rilasciato “{achievement}”",
+  "@notifVerifiedBody": {
+    "placeholders": {
+      "company": {},
+      "achievement": {}
+    }
+  },
+  "notifLevelUpTitle": "Nuovo livello!",
+  "notifLevelUpBody": "Hai raggiunto il livello {level}",
+  "@notifLevelUpBody": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "notifApprovedTitle": "Richiesta approvata",
+  "notifApprovedBody": "“{achievement}” è stato approvato ed è nei tuoi traguardi",
+  "@notifApprovedBody": {
+    "placeholders": {
+      "achievement": {}
+    }
+  },
+  "notifRejectedTitle": "Richiesta respinta",
+  "notifRejectedBody": "“{achievement}” non è stato approvato",
+  "@notifRejectedBody": {
+    "placeholders": {
+      "achievement": {}
+    }
+  },
+  "notifRejectedBodyReason": "“{achievement}” non è stato approvato: {reason}",
+  "@notifRejectedBodyReason": {
+    "placeholders": {
+      "achievement": {},
+      "reason": {}
+    }
+  },
+  "notifNewRequestTitle": "Nuova richiesta",
+  "notifNewRequestBody": "{actor} chiede “{achievement}”",
+  "@notifNewRequestBody": {
+    "placeholders": {
+      "actor": {},
+      "achievement": {}
+    }
+  },
+  "notifReactionTitle": "Nuova reazione",
+  "notifReactionBody": "{actor} ha reagito a “{achievement}”",
+  "@notifReactionBody": {
+    "placeholders": {
+      "actor": {},
+      "achievement": {}
+    }
+  },
+  "notifCommentTitle": "Nuovo commento",
+  "notifCommentBody": "{actor} ha commentato “{achievement}”: {text}",
+  "@notifCommentBody": {
+    "placeholders": {
+      "actor": {},
+      "achievement": {},
+      "text": {}
+    }
+  },
+  "notifRecapTitle": "Il tuo riepilogo settimanale",
+  "notifRecapBody": "Questa settimana: +{xp} XP · posizione #{rank}",
+  "@notifRecapBody": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      },
+      "rank": {
+        "type": "int"
+      }
+    }
+  },
+  "timeJustNow": "Adesso",
+  "timeMinutes": "{count} min fa",
+  "@timeMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHours": "{count} h fa",
+  "@timeHours": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDays": "{count, plural, one{Ieri} other{{count} giorni fa}}",
+  "@timeDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "feedTitle": "Bacheca dell'azienda",
+  "feedSubtitle": "I traguardi dei tuoi colleghi, da festeggiare insieme",
+  "feedEarned": "ha ottenuto",
+  "feedEmpty": "Ancora niente in bacheca.",
+  "reactionLike": "Mi piace",
+  "reactionCelebrate": "Festeggio",
+  "reactionLove": "Adoro",
+  "reactionInsightful": "Geniale",
+  "commentsCount": "{count, plural, =0{Commenta} one{1 commento} other{{count} commenti}}",
+  "@commentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "commentHint": "Scrivi un commento…",
+  "consoleSubtitle": "Gestisci i traguardi verificati di {company}",
+  "@consoleSubtitle": {
+    "placeholders": {
+      "company": {}
+    }
+  },
+  "consoleCatalog": "Catalogo",
+  "consoleAssign": "Assegna",
+  "consoleRequests": "Richieste · {count}",
+  "@consoleRequests": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "newCatalogAchievement": "Nuovo traguardo verificato",
+  "editCatalogAchievement": "Modifica traguardo",
+  "catalogDialogSubtitle": "Solo gli admin possono rilasciarlo, e chi lo riceve lo vede come verificato.",
+  "commonEdit": "Modifica",
+  "archive": "Archivia",
+  "restore": "Ripristina",
+  "archivedLabel": "Archiviato",
+  "showArchived": "Mostra archiviati",
+  "catalogEmpty": "Il catalogo è vuoto. Crea il primo traguardo.",
+  "catalogSaved": "Catalogo aggiornato",
+  "catalogPointsHint": "Il valore decide la categoria: Bronzo sotto 100 XP, Argento da 100, Oro da 120, Platino da 140.",
+  "selectAll": "Seleziona tutti",
+  "alreadyHasIt": "Lo ha già",
+  "assignNoteLabel": "Nota (facoltativa)",
+  "assignNoteHint": "Un messaggio per chi lo riceve",
+  "assignButton": "{count, plural, =0{Assegna} one{Assegna a 1 persona} other{Assegna a {count} persone}}",
+  "@assignButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "issuedCount": "{count, plural, one{Assegnato a 1 persona} other{Assegnato a {count} persone}}",
+  "@issuedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "pickAchievementHint": "Scegli un traguardo dal catalogo.",
+  "requestsEmpty": "Nessuna richiesta.",
+  "pendingSection": "In attesa",
+  "decidedSection": "Già decise",
+  "approve": "Approva",
+  "reject": "Respingi",
+  "rejectDialogTitle": "Respingere la richiesta?",
+  "rejectReasonHint": "Motivazione (facoltativa)",
+  "requestApprovedMessage": "Richiesta approvata",
+  "requestRejectedMessage": "Richiesta respinta",
+  "statusPending": "In attesa",
+  "statusApproved": "Approvata",
+  "statusRejected": "Respinta",
+  "evidenceLink": "Apri la prova",
+  "rejectionReason": "Motivazione: {reason}",
+  "@rejectionReason": {
+    "placeholders": {
+      "reason": {}
+    }
+  },
+  "companyCatalog": "Catalogo dell'azienda",
+  "companyCatalogHint": "I traguardi verificati che puoi ottenere. Se pensi di meritarne uno, chiedilo.",
+  "earnedLabel": "Ottenuto",
+  "requestAction": "Richiedi",
+  "myRequests": "Le tue richieste",
+  "requestDialogTitle": "Richiedi un traguardo",
+  "requestDialogSubtitle": "Un admin di {company} valuterà la tua richiesta.",
+  "@requestDialogSubtitle": {
+    "placeholders": {
+      "company": {}
+    }
+  },
+  "requestMessage": "Messaggio",
+  "requestMessageHint": "Cosa hai fatto per meritarlo?",
+  "requestMessageRequired": "Scrivi un messaggio",
+  "evidenceUrlLabel": "Link a una prova (facoltativo)",
+  "invalidUrl": "Inserisci un link http(s) valido",
+  "submitRequest": "Invia richiesta",
+  "requestSent": "Richiesta inviata",
+  "errorNotAdmin": "Solo gli admin dell'azienda possono farlo.",
+  "errorMissingFields": "Compila tutti i campi obbligatori.",
+  "errorCatalogPoints": "Il valore deve essere tra {min} e {max} XP.",
+  "@errorCatalogPoints": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "errorAlreadyOwned": "Hai già questo traguardo.",
+  "errorRequestPending": "Hai già una richiesta in attesa per questo traguardo.",
+  "errorNotFound": "Elemento non trovato.",
+  "actionError": "Operazione non riuscita. Riprova.",
+  "exportMenu": "Esporta",
+  "exportPdf": "Certificato PDF",
+  "exportOpenBadge": "Open Badge (JSON)",
+  "exportOpenBadgeHint": "Credenziale Open Badges 3.0. La firma digitale arriverà con il backend.",
+  "exportSaved": "File salvato",
+  "exportError": "Impossibile salvare il file. Riprova.",
+  "certTitle": "CERTIFICATO DI TRAGUARDO",
+  "certPresentedTo": "Si certifica che",
+  "certHasEarned": "ha ottenuto il traguardo",
+  "certIssuedBy": "Rilasciato da {company} il {date}",
+  "@certIssuedBy": {
+    "placeholders": {
+      "company": {},
+      "date": {}
+    }
+  },
+  "certCredentialId": "ID credenziale: {id}",
+  "@certCredentialId": {
+    "placeholders": {
+      "id": {}
+    }
+  }
 }

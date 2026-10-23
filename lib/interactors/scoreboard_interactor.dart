@@ -22,6 +22,10 @@ class ScoreboardInteractor extends ChangeNotifier {
 
   Future<UserProfile> getCurrentUser() => _repository.getCurrentUser();
 
+  /// Lets every screen know the data changed, e.g. after another
+  /// interactor wrote to the repository.
+  void dataChanged() => notifyListeners();
+
   /// Saves the public profile. Newly picked images are copied into the
   /// app's storage and the ones they replace are deleted.
   Future<void> updateProfile(ProfileDraft draft) async {

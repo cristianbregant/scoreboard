@@ -18,6 +18,9 @@ class UserProfile {
   /// Local path of a custom cover image; overrides [bannerPreset].
   final String? bannerImagePath;
 
+  /// Can manage the company catalog and issue verified achievements.
+  final bool isCompanyAdmin;
+
   const UserProfile(
       {required this.id,
       required this.name,
@@ -28,7 +31,8 @@ class UserProfile {
       this.bio = '',
       this.avatarPath,
       this.bannerPreset = defaultBanner,
-      this.bannerImagePath});
+      this.bannerImagePath,
+      this.isCompanyAdmin = false});
 
   String get initials => name
       .split(' ')
@@ -46,7 +50,8 @@ class UserProfile {
       String? bio,
       String? avatarPath,
       String? bannerPreset,
-      String? bannerImagePath}) {
+      String? bannerImagePath,
+      bool? isCompanyAdmin}) {
     String? orClear(String? value, String? current) =>
         value == null ? current : (value.isEmpty ? null : value);
 
@@ -61,6 +66,7 @@ class UserProfile {
       avatarPath: orClear(avatarPath, this.avatarPath),
       bannerPreset: bannerPreset ?? this.bannerPreset,
       bannerImagePath: orClear(bannerImagePath, this.bannerImagePath),
+      isCompanyAdmin: isCompanyAdmin ?? this.isCompanyAdmin,
     );
   }
 
@@ -76,6 +82,7 @@ class UserProfile {
       avatarPath: json['avatar_path'],
       bannerPreset: json['banner_preset'] ?? defaultBanner,
       bannerImagePath: json['banner_image_path'],
+      isCompanyAdmin: json['is_company_admin'] ?? false,
     );
   }
 
@@ -90,5 +97,6 @@ class UserProfile {
         'avatar_path': avatarPath,
         'banner_preset': bannerPreset,
         'banner_image_path': bannerImagePath,
+        'is_company_admin': isCompanyAdmin,
       };
 }

@@ -1945,6 +1945,996 @@ class AppLocalization {
   String get commonClose {
     return Intl.message('Chiudi', name: 'commonClose', desc: '', args: []);
   }
+
+  /// `Bacheca`
+  String get navFeed {
+    return Intl.message('Bacheca', name: 'navFeed', desc: '', args: []);
+  }
+
+  /// `Console azienda`
+  String get navConsole {
+    return Intl.message(
+      'Console azienda',
+      name: 'navConsole',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifiche`
+  String get notificationsTitle {
+    return Intl.message(
+      'Notifiche',
+      name: 'notificationsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apri le notifiche`
+  String get notificationsOpen {
+    return Intl.message(
+      'Apri le notifiche',
+      name: 'notificationsOpen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Segna tutte come lette`
+  String get markAllRead {
+    return Intl.message(
+      'Segna tutte come lette',
+      name: 'markAllRead',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nessuna notifica, per ora.`
+  String get notificationsEmpty {
+    return Intl.message(
+      'Nessuna notifica, per ora.',
+      name: 'notificationsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nuovo traguardo`
+  String get notifPeerTitle {
+    return Intl.message(
+      'Nuovo traguardo',
+      name: 'notifPeerTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{actor} ti ha inviato “{achievement}”`
+  String notifPeerBody(Object actor, Object achievement) {
+    return Intl.message(
+      '$actor ti ha inviato “$achievement”',
+      name: 'notifPeerBody',
+      desc: '',
+      args: [actor, achievement],
+    );
+  }
+
+  /// `Traguardo verificato`
+  String get notifVerifiedTitle {
+    return Intl.message(
+      'Traguardo verificato',
+      name: 'notifVerifiedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{company} ti ha rilasciato “{achievement}”`
+  String notifVerifiedBody(Object company, Object achievement) {
+    return Intl.message(
+      '$company ti ha rilasciato “$achievement”',
+      name: 'notifVerifiedBody',
+      desc: '',
+      args: [company, achievement],
+    );
+  }
+
+  /// `Nuovo livello!`
+  String get notifLevelUpTitle {
+    return Intl.message(
+      'Nuovo livello!',
+      name: 'notifLevelUpTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hai raggiunto il livello {level}`
+  String notifLevelUpBody(int level) {
+    return Intl.message(
+      'Hai raggiunto il livello $level',
+      name: 'notifLevelUpBody',
+      desc: '',
+      args: [level],
+    );
+  }
+
+  /// `Richiesta approvata`
+  String get notifApprovedTitle {
+    return Intl.message(
+      'Richiesta approvata',
+      name: 'notifApprovedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `“{achievement}” è stato approvato ed è nei tuoi traguardi`
+  String notifApprovedBody(Object achievement) {
+    return Intl.message(
+      '“$achievement” è stato approvato ed è nei tuoi traguardi',
+      name: 'notifApprovedBody',
+      desc: '',
+      args: [achievement],
+    );
+  }
+
+  /// `Richiesta respinta`
+  String get notifRejectedTitle {
+    return Intl.message(
+      'Richiesta respinta',
+      name: 'notifRejectedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `“{achievement}” non è stato approvato`
+  String notifRejectedBody(Object achievement) {
+    return Intl.message(
+      '“$achievement” non è stato approvato',
+      name: 'notifRejectedBody',
+      desc: '',
+      args: [achievement],
+    );
+  }
+
+  /// `“{achievement}” non è stato approvato: {reason}`
+  String notifRejectedBodyReason(Object achievement, Object reason) {
+    return Intl.message(
+      '“$achievement” non è stato approvato: $reason',
+      name: 'notifRejectedBodyReason',
+      desc: '',
+      args: [achievement, reason],
+    );
+  }
+
+  /// `Nuova richiesta`
+  String get notifNewRequestTitle {
+    return Intl.message(
+      'Nuova richiesta',
+      name: 'notifNewRequestTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{actor} chiede “{achievement}”`
+  String notifNewRequestBody(Object actor, Object achievement) {
+    return Intl.message(
+      '$actor chiede “$achievement”',
+      name: 'notifNewRequestBody',
+      desc: '',
+      args: [actor, achievement],
+    );
+  }
+
+  /// `Nuova reazione`
+  String get notifReactionTitle {
+    return Intl.message(
+      'Nuova reazione',
+      name: 'notifReactionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{actor} ha reagito a “{achievement}”`
+  String notifReactionBody(Object actor, Object achievement) {
+    return Intl.message(
+      '$actor ha reagito a “$achievement”',
+      name: 'notifReactionBody',
+      desc: '',
+      args: [actor, achievement],
+    );
+  }
+
+  /// `Nuovo commento`
+  String get notifCommentTitle {
+    return Intl.message(
+      'Nuovo commento',
+      name: 'notifCommentTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{actor} ha commentato “{achievement}”: {text}`
+  String notifCommentBody(Object actor, Object achievement, Object text) {
+    return Intl.message(
+      '$actor ha commentato “$achievement”: $text',
+      name: 'notifCommentBody',
+      desc: '',
+      args: [actor, achievement, text],
+    );
+  }
+
+  /// `Il tuo riepilogo settimanale`
+  String get notifRecapTitle {
+    return Intl.message(
+      'Il tuo riepilogo settimanale',
+      name: 'notifRecapTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Questa settimana: +{xp} XP · posizione #{rank}`
+  String notifRecapBody(int xp, int rank) {
+    return Intl.message(
+      'Questa settimana: +$xp XP · posizione #$rank',
+      name: 'notifRecapBody',
+      desc: '',
+      args: [xp, rank],
+    );
+  }
+
+  /// `Adesso`
+  String get timeJustNow {
+    return Intl.message('Adesso', name: 'timeJustNow', desc: '', args: []);
+  }
+
+  /// `{count} min fa`
+  String timeMinutes(int count) {
+    return Intl.message(
+      '$count min fa',
+      name: 'timeMinutes',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count} h fa`
+  String timeHours(int count) {
+    return Intl.message(
+      '$count h fa',
+      name: 'timeHours',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, one{Ieri} other{{count} giorni fa}}`
+  String timeDays(int count) {
+    return Intl.plural(
+      count,
+      one: 'Ieri',
+      other: '$count giorni fa',
+      name: 'timeDays',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Bacheca dell'azienda`
+  String get feedTitle {
+    return Intl.message(
+      'Bacheca dell\'azienda',
+      name: 'feedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I traguardi dei tuoi colleghi, da festeggiare insieme`
+  String get feedSubtitle {
+    return Intl.message(
+      'I traguardi dei tuoi colleghi, da festeggiare insieme',
+      name: 'feedSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ha ottenuto`
+  String get feedEarned {
+    return Intl.message('ha ottenuto', name: 'feedEarned', desc: '', args: []);
+  }
+
+  /// `Ancora niente in bacheca.`
+  String get feedEmpty {
+    return Intl.message(
+      'Ancora niente in bacheca.',
+      name: 'feedEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mi piace`
+  String get reactionLike {
+    return Intl.message('Mi piace', name: 'reactionLike', desc: '', args: []);
+  }
+
+  /// `Festeggio`
+  String get reactionCelebrate {
+    return Intl.message(
+      'Festeggio',
+      name: 'reactionCelebrate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adoro`
+  String get reactionLove {
+    return Intl.message('Adoro', name: 'reactionLove', desc: '', args: []);
+  }
+
+  /// `Geniale`
+  String get reactionInsightful {
+    return Intl.message(
+      'Geniale',
+      name: 'reactionInsightful',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =0{Commenta} one{1 commento} other{{count} commenti}}`
+  String commentsCount(int count) {
+    return Intl.plural(
+      count,
+      zero: 'Commenta',
+      one: '1 commento',
+      other: '$count commenti',
+      name: 'commentsCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Scrivi un commento…`
+  String get commentHint {
+    return Intl.message(
+      'Scrivi un commento…',
+      name: 'commentHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gestisci i traguardi verificati di {company}`
+  String consoleSubtitle(Object company) {
+    return Intl.message(
+      'Gestisci i traguardi verificati di $company',
+      name: 'consoleSubtitle',
+      desc: '',
+      args: [company],
+    );
+  }
+
+  /// `Catalogo`
+  String get consoleCatalog {
+    return Intl.message('Catalogo', name: 'consoleCatalog', desc: '', args: []);
+  }
+
+  /// `Assegna`
+  String get consoleAssign {
+    return Intl.message('Assegna', name: 'consoleAssign', desc: '', args: []);
+  }
+
+  /// `Richieste · {count}`
+  String consoleRequests(int count) {
+    return Intl.message(
+      'Richieste · $count',
+      name: 'consoleRequests',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Nuovo traguardo verificato`
+  String get newCatalogAchievement {
+    return Intl.message(
+      'Nuovo traguardo verificato',
+      name: 'newCatalogAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modifica traguardo`
+  String get editCatalogAchievement {
+    return Intl.message(
+      'Modifica traguardo',
+      name: 'editCatalogAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Solo gli admin possono rilasciarlo, e chi lo riceve lo vede come verificato.`
+  String get catalogDialogSubtitle {
+    return Intl.message(
+      'Solo gli admin possono rilasciarlo, e chi lo riceve lo vede come verificato.',
+      name: 'catalogDialogSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modifica`
+  String get commonEdit {
+    return Intl.message('Modifica', name: 'commonEdit', desc: '', args: []);
+  }
+
+  /// `Archivia`
+  String get archive {
+    return Intl.message('Archivia', name: 'archive', desc: '', args: []);
+  }
+
+  /// `Ripristina`
+  String get restore {
+    return Intl.message('Ripristina', name: 'restore', desc: '', args: []);
+  }
+
+  /// `Archiviato`
+  String get archivedLabel {
+    return Intl.message(
+      'Archiviato',
+      name: 'archivedLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mostra archiviati`
+  String get showArchived {
+    return Intl.message(
+      'Mostra archiviati',
+      name: 'showArchived',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Il catalogo è vuoto. Crea il primo traguardo.`
+  String get catalogEmpty {
+    return Intl.message(
+      'Il catalogo è vuoto. Crea il primo traguardo.',
+      name: 'catalogEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Catalogo aggiornato`
+  String get catalogSaved {
+    return Intl.message(
+      'Catalogo aggiornato',
+      name: 'catalogSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Il valore decide la categoria: Bronzo sotto 100 XP, Argento da 100, Oro da 120, Platino da 140.`
+  String get catalogPointsHint {
+    return Intl.message(
+      'Il valore decide la categoria: Bronzo sotto 100 XP, Argento da 100, Oro da 120, Platino da 140.',
+      name: 'catalogPointsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Seleziona tutti`
+  String get selectAll {
+    return Intl.message(
+      'Seleziona tutti',
+      name: 'selectAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lo ha già`
+  String get alreadyHasIt {
+    return Intl.message('Lo ha già', name: 'alreadyHasIt', desc: '', args: []);
+  }
+
+  /// `Nota (facoltativa)`
+  String get assignNoteLabel {
+    return Intl.message(
+      'Nota (facoltativa)',
+      name: 'assignNoteLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Un messaggio per chi lo riceve`
+  String get assignNoteHint {
+    return Intl.message(
+      'Un messaggio per chi lo riceve',
+      name: 'assignNoteHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =0{Assegna} one{Assegna a 1 persona} other{Assegna a {count} persone}}`
+  String assignButton(int count) {
+    return Intl.plural(
+      count,
+      zero: 'Assegna',
+      one: 'Assegna a 1 persona',
+      other: 'Assegna a $count persone',
+      name: 'assignButton',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, one{Assegnato a 1 persona} other{Assegnato a {count} persone}}`
+  String issuedCount(int count) {
+    return Intl.plural(
+      count,
+      one: 'Assegnato a 1 persona',
+      other: 'Assegnato a $count persone',
+      name: 'issuedCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Scegli un traguardo dal catalogo.`
+  String get pickAchievementHint {
+    return Intl.message(
+      'Scegli un traguardo dal catalogo.',
+      name: 'pickAchievementHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nessuna richiesta.`
+  String get requestsEmpty {
+    return Intl.message(
+      'Nessuna richiesta.',
+      name: 'requestsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In attesa`
+  String get pendingSection {
+    return Intl.message(
+      'In attesa',
+      name: 'pendingSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Già decise`
+  String get decidedSection {
+    return Intl.message(
+      'Già decise',
+      name: 'decidedSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Approva`
+  String get approve {
+    return Intl.message('Approva', name: 'approve', desc: '', args: []);
+  }
+
+  /// `Respingi`
+  String get reject {
+    return Intl.message('Respingi', name: 'reject', desc: '', args: []);
+  }
+
+  /// `Respingere la richiesta?`
+  String get rejectDialogTitle {
+    return Intl.message(
+      'Respingere la richiesta?',
+      name: 'rejectDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Motivazione (facoltativa)`
+  String get rejectReasonHint {
+    return Intl.message(
+      'Motivazione (facoltativa)',
+      name: 'rejectReasonHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Richiesta approvata`
+  String get requestApprovedMessage {
+    return Intl.message(
+      'Richiesta approvata',
+      name: 'requestApprovedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Richiesta respinta`
+  String get requestRejectedMessage {
+    return Intl.message(
+      'Richiesta respinta',
+      name: 'requestRejectedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In attesa`
+  String get statusPending {
+    return Intl.message('In attesa', name: 'statusPending', desc: '', args: []);
+  }
+
+  /// `Approvata`
+  String get statusApproved {
+    return Intl.message(
+      'Approvata',
+      name: 'statusApproved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Respinta`
+  String get statusRejected {
+    return Intl.message('Respinta', name: 'statusRejected', desc: '', args: []);
+  }
+
+  /// `Apri la prova`
+  String get evidenceLink {
+    return Intl.message(
+      'Apri la prova',
+      name: 'evidenceLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Motivazione: {reason}`
+  String rejectionReason(Object reason) {
+    return Intl.message(
+      'Motivazione: $reason',
+      name: 'rejectionReason',
+      desc: '',
+      args: [reason],
+    );
+  }
+
+  /// `Catalogo dell'azienda`
+  String get companyCatalog {
+    return Intl.message(
+      'Catalogo dell\'azienda',
+      name: 'companyCatalog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I traguardi verificati che puoi ottenere. Se pensi di meritarne uno, chiedilo.`
+  String get companyCatalogHint {
+    return Intl.message(
+      'I traguardi verificati che puoi ottenere. Se pensi di meritarne uno, chiedilo.',
+      name: 'companyCatalogHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ottenuto`
+  String get earnedLabel {
+    return Intl.message('Ottenuto', name: 'earnedLabel', desc: '', args: []);
+  }
+
+  /// `Richiedi`
+  String get requestAction {
+    return Intl.message('Richiedi', name: 'requestAction', desc: '', args: []);
+  }
+
+  /// `Le tue richieste`
+  String get myRequests {
+    return Intl.message(
+      'Le tue richieste',
+      name: 'myRequests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Richiedi un traguardo`
+  String get requestDialogTitle {
+    return Intl.message(
+      'Richiedi un traguardo',
+      name: 'requestDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Un admin di {company} valuterà la tua richiesta.`
+  String requestDialogSubtitle(Object company) {
+    return Intl.message(
+      'Un admin di $company valuterà la tua richiesta.',
+      name: 'requestDialogSubtitle',
+      desc: '',
+      args: [company],
+    );
+  }
+
+  /// `Messaggio`
+  String get requestMessage {
+    return Intl.message(
+      'Messaggio',
+      name: 'requestMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cosa hai fatto per meritarlo?`
+  String get requestMessageHint {
+    return Intl.message(
+      'Cosa hai fatto per meritarlo?',
+      name: 'requestMessageHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scrivi un messaggio`
+  String get requestMessageRequired {
+    return Intl.message(
+      'Scrivi un messaggio',
+      name: 'requestMessageRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Link a una prova (facoltativo)`
+  String get evidenceUrlLabel {
+    return Intl.message(
+      'Link a una prova (facoltativo)',
+      name: 'evidenceUrlLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inserisci un link http(s) valido`
+  String get invalidUrl {
+    return Intl.message(
+      'Inserisci un link http(s) valido',
+      name: 'invalidUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invia richiesta`
+  String get submitRequest {
+    return Intl.message(
+      'Invia richiesta',
+      name: 'submitRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Richiesta inviata`
+  String get requestSent {
+    return Intl.message(
+      'Richiesta inviata',
+      name: 'requestSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Solo gli admin dell'azienda possono farlo.`
+  String get errorNotAdmin {
+    return Intl.message(
+      'Solo gli admin dell\'azienda possono farlo.',
+      name: 'errorNotAdmin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Compila tutti i campi obbligatori.`
+  String get errorMissingFields {
+    return Intl.message(
+      'Compila tutti i campi obbligatori.',
+      name: 'errorMissingFields',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Il valore deve essere tra {min} e {max} XP.`
+  String errorCatalogPoints(int min, int max) {
+    return Intl.message(
+      'Il valore deve essere tra $min e $max XP.',
+      name: 'errorCatalogPoints',
+      desc: '',
+      args: [min, max],
+    );
+  }
+
+  /// `Hai già questo traguardo.`
+  String get errorAlreadyOwned {
+    return Intl.message(
+      'Hai già questo traguardo.',
+      name: 'errorAlreadyOwned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hai già una richiesta in attesa per questo traguardo.`
+  String get errorRequestPending {
+    return Intl.message(
+      'Hai già una richiesta in attesa per questo traguardo.',
+      name: 'errorRequestPending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Elemento non trovato.`
+  String get errorNotFound {
+    return Intl.message(
+      'Elemento non trovato.',
+      name: 'errorNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Operazione non riuscita. Riprova.`
+  String get actionError {
+    return Intl.message(
+      'Operazione non riuscita. Riprova.',
+      name: 'actionError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Esporta`
+  String get exportMenu {
+    return Intl.message('Esporta', name: 'exportMenu', desc: '', args: []);
+  }
+
+  /// `Certificato PDF`
+  String get exportPdf {
+    return Intl.message(
+      'Certificato PDF',
+      name: 'exportPdf',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Badge (JSON)`
+  String get exportOpenBadge {
+    return Intl.message(
+      'Open Badge (JSON)',
+      name: 'exportOpenBadge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Credenziale Open Badges 3.0. La firma digitale arriverà con il backend.`
+  String get exportOpenBadgeHint {
+    return Intl.message(
+      'Credenziale Open Badges 3.0. La firma digitale arriverà con il backend.',
+      name: 'exportOpenBadgeHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File salvato`
+  String get exportSaved {
+    return Intl.message(
+      'File salvato',
+      name: 'exportSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Impossibile salvare il file. Riprova.`
+  String get exportError {
+    return Intl.message(
+      'Impossibile salvare il file. Riprova.',
+      name: 'exportError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CERTIFICATO DI TRAGUARDO`
+  String get certTitle {
+    return Intl.message(
+      'CERTIFICATO DI TRAGUARDO',
+      name: 'certTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Si certifica che`
+  String get certPresentedTo {
+    return Intl.message(
+      'Si certifica che',
+      name: 'certPresentedTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ha ottenuto il traguardo`
+  String get certHasEarned {
+    return Intl.message(
+      'ha ottenuto il traguardo',
+      name: 'certHasEarned',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rilasciato da {company} il {date}`
+  String certIssuedBy(Object company, Object date) {
+    return Intl.message(
+      'Rilasciato da $company il $date',
+      name: 'certIssuedBy',
+      desc: '',
+      args: [company, date],
+    );
+  }
+
+  /// `ID credenziale: {id}`
+  String certCredentialId(Object id) {
+    return Intl.message(
+      'ID credenziale: $id',
+      name: 'certCredentialId',
+      desc: '',
+      args: [id],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {

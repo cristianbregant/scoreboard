@@ -1,5 +1,11 @@
 import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/theme.dart';
+import 'package:scoreboard/model/catalog_achievement.dart';
+import 'package:scoreboard/model/verification_request.dart';
+import 'package:scoreboard/widgets/common/request_status_chip.dart';
+import 'package:scoreboard/widgets/dialogs/request_achievement_dialog.dart';
+import 'package:scoreboard/widgets/interactive_card.dart';
 import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 import 'package:scoreboard/views/your_company/your_company_contract.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +31,109 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
         YourCompanyViewModelContract, YourCompanyState>
     with SendAchievementDialogs
     implements YourCompanyViewContract {
+  @override
+  Future<({String message, String? evidenceUrl})?> askRequest(
+          CatalogAchievement item) =>
+      showRequestAchievementDialog(context,
+          company: vmState.company!, item: item);
+
+  List<Widget> _buildCatalog() {
+    final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
+    if (vmState.catalog.isEmpty) return [];
+    return [
+      SectionTitle(l10n.companyCatalog),
+      Text(l10n.companyCatalogHint,
+          style: TextStyle(color: colorScheme.onSurfaceVariant)),
+      const SizedBox(height: 16),
+      Wrap(
+        spacing: 20,
+        runSpacing: 20,
+        children: [
+          for (final item in vmState.catalog)
+            SizedBox(
+              width: 150,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  InteractiveCard(
+                    achievement: item.preview(vmState.company!),
+                    heroTag: 'company_catalog_${item.id}',
+                    width: 150,
+                    onPressed: () {
+                      if (!vmState.ownedCatalogIds.contains(item.id) &&
+                          !vmState.isPending(item.id)) {
+                        viewModel.onTapRequest(item);
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 8),
+                  if (vmState.ownedCatalogIds.contains(item.id))
+                    Center(
+                      child: TagChip(
+                          label: l10n.earnedLabel,
+                          icon: Icons.check_circle_rounded,
+                          color: AppColors.success),
+                    )
+                  else if (vmState.isPending(item.id))
+                    const Center(
+                        child: RequestStatusChip(status: RequestStatus.pending))
+                  else
+                    OutlinedButton(
+                      onPressed: () => viewModel.onTapRequest(item),
+                      child: Text(l10n.requestAction),
+                    ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    ];
+  }
+
+  List<Widget> _buildMyRequests() {
+    final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
+    if (vmState.myRequests.isEmpty) return [];
+    return [
+      SectionTitle(l10n.myRequests),
+      for (final request in vmState.myRequests)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: colorScheme.outlineVariant),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(vmState.catalogItem(request.catalogId)?.name ?? '-',
+                          style: const TextStyle(fontWeight: FontWeight.w600)),
+                      const SizedBox(height: 2),
+                      Text(
+                          request.rejectionReason != null
+                              ? l10n.rejectionReason(request.rejectionReason!)
+                              : timeAgo(l10n, request.createdAt),
+                          style: TextStyle(
+                              fontSize: 12.5,
+                              color: colorScheme.onSurfaceVariant)),
+                    ],
+                  ),
+                ),
+                RequestStatusChip(status: request.status),
+              ],
+            ),
+          ),
+        ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseWidget<YourCompanyViewModelContract, YourCompanyState>(
@@ -61,6 +170,8 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                           icon: Icons.leaderboard_rounded,
                           color: AppColors.success),
                     ]),
+                    ..._buildCatalog(),
+                    ..._buildMyRequests(),
                     SectionTitle(context.l10n.topPerformers),
                     Podium(
                       entries: vmState.members
