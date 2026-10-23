@@ -1,28 +1,71 @@
+import 'package:scoreboard/core/app_navigation.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/interactors/app_configuration_interactor.dart';
 import 'package:scoreboard/interactors/notification_interactor.dart';
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
+import 'package:scoreboard/interactors/update_interactor.dart';
 import 'package:scoreboard/model/app_notification.dart';
 import 'package:scoreboard/views/_base/base_view_model.dart';
+import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 import 'package:scoreboard/views/base_window/base_window_contract.dart';
 
 class BaseWindowViewModel
     extends BaseViewModel<BaseWindowViewContract, BaseWindowState>
+    with SendAchievementFlow<BaseWindowViewContract, BaseWindowState>
     implements BaseWindowViewModelContract {
-  final ScoreboardInteractor _interactor;
+  @override
+  final ScoreboardInteractor interactor;
   final NotificationInteractor _notifications;
+  final AppNavigation _navigation;
+  final AppConfigurationInteractor _configuration;
+  final UpdateInteractor _updates;
+  bool _startupChecksDone = false;
 
-  BaseWindowViewModel(this._interactor, this._notifications);
+  BaseWindowViewModel(this.interactor, this._notifications, this._navigation,
+      this._configuration, this._updates);
 
   @override
   void onInitState() {
     _notifications.onSystemNotificationOpened = () => sourceView.bringToFront();
-    _interactor.addListener(loadCurrentUser);
+    interactor.addListener(loadCurrentUser);
+    _navigation.addListener(_onNavigationRequest);
     loadCurrentUser();
   }
 
   @override
-  void onDispose() => _interactor.removeListener(loadCurrentUser);
+  void onDispose() {
+    interactor.removeListener(loadCurrentUser);
+    _navigation.removeListener(_onNavigationRequest);
+  }
+
+  void _onNavigationRequest() {
+    final request = _navigation.takeRequest();
+    if (request == null) return;
+    switch (request) {
+      case (NavigationRequest.openPage, final AppPage page):
+        if (vmState.pages.contains(page)) onChangePage(page);
+      case (NavigationRequest.quickSend, _):
+        onTapSendAchievement();
+      case (NavigationRequest.openNotifications, _):
+        sourceView.openNotificationsPanel();
+      default:
+        break;
+    }
+  }
+
+  /// Once per session: the introduction for new users, then the daily
+  /// update check.
+  Future<void> _runStartupChecks(String userId) async {
+    if (_startupChecksDone) return;
+    _startupChecksDone = true;
+    if (!_configuration.isOnboardingDone(userId)) {
+      await sourceView.showOnboarding();
+      await _configuration.setOnboardingDone(userId);
+    }
+    final release = await _updates.checkDaily();
+    if (release != null) sourceView.showUpdateAvailable(release);
+  }
 
   @override
   void onChangePage(AppPage page) {
@@ -33,8 +76,8 @@ class BaseWindowViewModel
   @override
   Future<void> loadCurrentUser() async {
     try {
-      final user = await _interactor.getCurrentUser();
-      final achievements = await _interactor.getAchievementsOf(user.id);
+      final user = await interactor.getCurrentUser();
+      final achievements = await interactor.getAchievementsOf(user.id);
       vmState.currentUser = user;
       vmState.currentUserPoints =
           achievements.fold(0, (sum, a) => sum + (a.points ?? 0));
@@ -45,6 +88,7 @@ class BaseWindowViewModel
           .deliverPending((n) => (title: n.title(l10n), body: n.body(l10n)));
       vmState.notifications = await _notifications.getNotifications();
       notifyListeners();
+      _runStartupChecks(user.id);
     } catch (_) {
       // The sidebar footer and the bell simply stay empty.
     }
@@ -73,7 +117,7 @@ class BaseWindowViewModel
         final user = vmState.currentUser;
         final achievement = user == null || achievementId == null
             ? null
-            : (await _interactor.getAchievementsOf(user.id))
+            : (await interactor.getAchievementsOf(user.id))
                 .where((a) => a.id == achievementId)
                 .firstOrNull;
         if (achievement != null) {

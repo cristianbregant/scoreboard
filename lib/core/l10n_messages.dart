@@ -35,6 +35,8 @@ extension SendAchievementExceptionText on SendAchievementException {
         SendAchievementError.templateNotFound => l10n.errorTemplateNotFound,
         SendAchievementError.alreadySent =>
           l10n.errorAlreadySent(templateName ?? '', colleagueName ?? ''),
+        SendAchievementError.budgetExhausted =>
+          l10n.errorBudgetExhausted(SendAchievementOptions.monthlyBudget),
       };
 }
 

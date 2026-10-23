@@ -1,6 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:scoreboard/core/locator/locator.dart';
 import 'package:scoreboard/interactors/auth_interactor.dart';
+import 'package:scoreboard/services/desktop_shell_service.dart';
 import 'package:scoreboard/core/providers.dart';
 import 'package:scoreboard/core/routing/dynamic_routes.dart';
 import 'package:scoreboard/core/routing/route_names.dart';
@@ -37,6 +38,9 @@ class CompanyAchievements extends StatelessWidget {
           supportedLocales: AppLocalization.delegate.supportedLocales,
           locale: localeProvider.locale,
           localeResolutionCallback: _resolveLocale,
+          builder: (context, child) => DesktopShellMenu(
+              shell: getIt<DesktopShellService>(),
+              child: child ?? const SizedBox.shrink()),
         ),
       ),
     );

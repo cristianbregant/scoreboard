@@ -1,21 +1,25 @@
 import 'package:scoreboard/model/catalog_achievement.dart';
 import 'package:scoreboard/model/company.dart';
+import 'package:scoreboard/model/insights.dart';
 import 'package:scoreboard/model/user_profile.dart';
 import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/views/_base/base_contract.dart';
+import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 
-enum ConsoleTab { catalog, assign, requests }
+enum ConsoleTab { catalog, assign, requests, insights }
 
-abstract class ConsoleViewContract extends BaseViewContract {
+abstract class ConsoleViewContract extends SendAchievementViewContract {
   Future<CatalogAchievementDraft?> askCatalogAchievement(
       {CatalogAchievement? existing});
   Future<String?> askRejectionReason();
   void clearAssignForm();
+  @override
   void showMessage(String message);
 }
 
 abstract class ConsoleViewModelContract
-    extends BaseViewModelContract<ConsoleState, ConsoleViewContract> {
+    extends BaseViewModelContract<ConsoleState, ConsoleViewContract>
+    implements SendAchievementActions {
   void loadConsole();
   void onChangeTab(ConsoleTab tab);
   void onToggleShowArchived(bool value);
@@ -33,10 +37,12 @@ abstract class ConsoleViewModelContract
 class ConsoleState extends BaseVMState {
   ConsoleTab tab = ConsoleTab.catalog;
   Company? company;
+  String? currentUserId;
   List<CatalogAchievement> catalog = [];
   bool showArchived = false;
   List<UserProfile> members = [];
   List<VerificationRequest> requests = [];
+  CompanyInsights? insights;
 
   String? assignCatalogId;
   Set<String> assignees = {};

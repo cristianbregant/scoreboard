@@ -11,9 +11,10 @@ class SettingsViewModel
   final ScoreboardInteractor _scoreboardInteractor;
   final AuthInteractor _authInteractor;
   final AppConfigurationInteractor _appConfigurationInteractor;
+  final UpdateInteractor _updateInteractor;
 
   SettingsViewModel(this._scoreboardInteractor, this._authInteractor,
-      this._appConfigurationInteractor);
+      this._appConfigurationInteractor, this._updateInteractor);
 
   @override
   void onInitState() {
@@ -33,7 +34,9 @@ class SettingsViewModel
     vmState.hasError = false;
     startLoadingState();
     try {
-      sourceView.fillAccountForm(await _scoreboardInteractor.getCurrentUser());
+      final user = await _scoreboardInteractor.getCurrentUser();
+      vmState.hiddenFromCommunity = user.hiddenFromCommunity;
+      sourceView.fillAccountForm(user);
     } catch (_) {
       vmState.hasError = true;
     }
@@ -82,5 +85,36 @@ class SettingsViewModel
     } catch (_) {
       sourceView.showMessage(l10n.signOutError);
     }
+  }
+
+  @override
+  Future<void> onToggleCommunityVisibility(bool visible) async {
+    vmState.hiddenFromCommunity = !visible;
+    notifyListeners();
+    try {
+      await _scoreboardInteractor.setHiddenFromCommunity(!visible);
+    } catch (_) {
+      vmState.hiddenFromCommunity = visible;
+      notifyListeners();
+      sourceView.showMessage(l10n.actionError);
+    }
+  }
+
+  @override
+  Future<void> onCheckForUpdates() async {
+    vmState.isCheckingUpdates = true;
+    notifyListeners();
+    try {
+      final release = await _updateInteractor.checkForUpdate();
+      if (release == null) {
+        sourceView.showMessage(l10n.upToDate);
+      } else {
+        sourceView.showUpdateAvailable(release);
+      }
+    } catch (_) {
+      sourceView.showMessage(l10n.updateCheckError);
+    }
+    vmState.isCheckingUpdates = false;
+    notifyListeners();
   }
 }

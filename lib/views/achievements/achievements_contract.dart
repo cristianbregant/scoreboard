@@ -13,17 +13,47 @@ abstract class AchievementsViewModelContract
   void loadAchievements();
   void onTapAchievement(Achievement achievement);
   void onSelectTier(AchievementTier? tier);
+  void onSearchChanged(String query);
+  void onSortChanged(AchievementSort sort);
+  void onTapOpenCatalog();
 }
+
+enum AchievementSort { newest, oldest, points, name }
 
 class AchievementsState extends BaseVMState {
   List<Achievement> achievements = [];
 
   /// null shows every tier.
   AchievementTier? selectedTier;
+  String query = '';
+  AchievementSort sort = AchievementSort.newest;
 
-  List<Achievement> get visibleAchievements => selectedTier == null
-      ? achievements
-      : achievements.where((a) => a.tier == selectedTier).toList();
+  List<Achievement> get visibleAchievements {
+    final needle = query.trim().toLowerCase();
+    bool matches(String? value) =>
+        value != null && value.toLowerCase().contains(needle);
+    final visible = achievements
+        .where((a) => selectedTier == null || a.tier == selectedTier)
+        .where((a) =>
+            needle.isEmpty ||
+            matches(a.name) ||
+            matches(a.description) ||
+            matches(a.company) ||
+            matches(a.awardedByName))
+        .toList();
+    final epoch = DateTime(0);
+    visible.sort(switch (sort) {
+      AchievementSort.newest => (a, b) =>
+          (b.date ?? epoch).compareTo(a.date ?? epoch),
+      AchievementSort.oldest => (a, b) =>
+          (a.date ?? epoch).compareTo(b.date ?? epoch),
+      AchievementSort.points => (a, b) =>
+          (b.points ?? 0).compareTo(a.points ?? 0),
+      AchievementSort.name => (a, b) =>
+          (a.name ?? '').toLowerCase().compareTo((b.name ?? '').toLowerCase()),
+    });
+    return visible;
+  }
 
   int countOf(AchievementTier tier) =>
       achievements.where((a) => a.tier == tier).length;

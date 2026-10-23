@@ -51,6 +51,7 @@ class StatTile extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                           letterSpacing: -0.4)),
                   Text(label,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 12.5, color: colorScheme.onSurfaceVariant)),
@@ -72,13 +73,17 @@ class StatRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        for (var i = 0; i < tiles.length; i++) ...[
-          if (i > 0) const SizedBox(width: 12),
-          Expanded(child: tiles[i]),
-        ]
-      ],
+    // Same height for every tile, even when a label wraps.
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < tiles.length; i++) ...[
+            if (i > 0) const SizedBox(width: 12),
+            Expanded(child: tiles[i]),
+          ]
+        ],
+      ),
     );
   }
 }

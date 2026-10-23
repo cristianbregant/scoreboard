@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/app_navigation.dart';
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/views/_base/base_view_model.dart';
@@ -12,7 +13,9 @@ class AchievementsViewModel
   @override
   final ScoreboardInteractor interactor;
 
-  AchievementsViewModel(this.interactor);
+  final AppNavigation _navigation;
+
+  AchievementsViewModel(this.interactor, this._navigation);
 
   @override
   void onInitState() => loadAchievements();
@@ -40,4 +43,19 @@ class AchievementsViewModel
     vmState.selectedTier = tier;
     notifyListeners();
   }
+
+  @override
+  void onSearchChanged(String query) {
+    vmState.query = query;
+    notifyListeners();
+  }
+
+  @override
+  void onSortChanged(AchievementSort sort) {
+    vmState.sort = sort;
+    notifyListeners();
+  }
+
+  @override
+  void onTapOpenCatalog() => _navigation.openPage(AppPage.yourCompany);
 }

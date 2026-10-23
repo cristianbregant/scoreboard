@@ -26,6 +26,10 @@ class SendAchievementRequest {
 
 /// What the current user can send, and to whom.
 class SendAchievementOptions {
+  /// Base achievements each person can send per calendar month, so they
+  /// stay meaningful rather than turning into spam.
+  static const int monthlyBudget = 5;
+
   final UserProfile currentUser;
   final List<UserProfile> colleagues;
   final List<AchievementTemplate> templates;
@@ -33,11 +37,15 @@ class SendAchievementOptions {
   /// Pairs already sent by the current user, see [alreadySent].
   final Set<(String templateId, String colleagueId)> sentPairs;
 
+  /// Base achievements the current user can still send this month.
+  final int remainingBudget;
+
   const SendAchievementOptions(
       {required this.currentUser,
       required this.colleagues,
       required this.templates,
-      required this.sentPairs});
+      required this.sentPairs,
+      required this.remainingBudget});
 
   bool alreadySent(String templateId, String colleagueId) =>
       sentPairs.contains((templateId, colleagueId));
@@ -49,6 +57,7 @@ enum SendAchievementError {
   notAColleague,
   templateNotFound,
   alreadySent,
+  budgetExhausted,
 }
 
 /// Carries a [SendAchievementError] code, plus the names the message

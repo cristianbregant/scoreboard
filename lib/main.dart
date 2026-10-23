@@ -1,6 +1,7 @@
 import 'package:scoreboard/app/app.dart';
 import 'package:scoreboard/core/locator/locator.dart';
 import 'package:scoreboard/core/window_chrome.dart';
+import 'package:scoreboard/services/desktop_shell_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,5 +36,6 @@ Future<void> main() async {
   await initializeDateFormatting();
   setupLocator();
   await getIt.allReady();
+  await getIt<DesktopShellService>().init();
   runApp(const CompanyAchievements());
 }

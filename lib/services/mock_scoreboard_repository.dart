@@ -546,7 +546,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
           'u_01',
           'The migration went smoothly thanks to you.',
           const Duration(hours: 20)),
-      comment('c_seed_3', 'ach_u_me_p8', 'u_03', 'Loved that idea 💡',
+      comment('c_seed_3', 'ach_u_me_p8', 'u_03', 'Loved that idea!',
           const Duration(days: 2)),
     ];
   }
@@ -818,6 +818,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
   /// slot is a base achievement sent by a colleague of the same company;
   /// the others are verified achievements issued by the company.
   List<Achievement> _buildAchievements() {
+    final now = DateTime.now();
     final achievements = <Achievement>[];
     final seedUsers = _users.take(_seedUserCount).toList();
     for (var i = 0; i < seedUsers.length; i++) {
@@ -827,7 +828,10 @@ class MockScoreboardRepository implements ScoreboardRepository {
           .firstWhere((u) => u.companyId == user.companyId && u.id != user.id);
       final count = i == 0 ? _templates.length : 2 + (i * 5) % 8;
       for (var k = 0; k < count; k++) {
-        final date = DateTime(2026, 1 + (i + k) % 9, 1 + (i * 7 + k * 3) % 27);
+        // Relative to today, spread over the last ~6 months, so the demo
+        // never looks stale and this month's statistics have data.
+        final date = DateTime(now.year, now.month, now.day)
+            .subtract(Duration(days: 1 + (i * 13 + k * 17) % 175));
         final Achievement achievement;
         if ((i + k) % 4 == 0) {
           final base = _seedTemplates[(i + k) % _seedTemplates.length];

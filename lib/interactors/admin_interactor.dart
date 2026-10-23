@@ -2,6 +2,7 @@ import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/model/admin.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
+import 'package:scoreboard/model/insights.dart';
 import 'package:scoreboard/model/user_profile.dart';
 import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/services/scoreboard_repository.dart';
@@ -217,5 +218,83 @@ class AdminInteractor {
     return uri != null &&
         (uri.scheme == 'http' || uri.scheme == 'https') &&
         uri.host.isNotEmpty;
+  }
+
+  static const int _months = 6;
+  static const int _listSize = 3;
+
+  Future<CompanyInsights> getInsights() async {
+    final admin = await _requireAdmin();
+    final now = DateTime.now();
+    final monthStart = DateTime(now.year, now.month);
+    final last30 = now.subtract(const Duration(days: 30));
+    final last90 = now.subtract(const Duration(days: 90));
+
+    final members = (await _repository.getUsers())
+        .where((u) => u.companyId == admin.companyId)
+        .toList();
+    final memberIds = members.map((m) => m.id).toSet();
+    final achievements = (await _repository.getAchievements())
+        .where((a) => memberIds.contains(a.userId) && a.date != null)
+        .toList();
+    bool isVerified(a) => a.verified == true;
+    final thisMonth =
+        achievements.where((a) => !a.date!.isBefore(monthStart)).toList();
+
+    final monthly = [
+      for (var i = _months - 1; i >= 0; i--)
+        () {
+          final start = DateTime(now.year, now.month - i);
+          final end = DateTime(now.year, now.month - i + 1);
+          final inMonth = achievements
+              .where((a) => !a.date!.isBefore(start) && a.date!.isBefore(end));
+          return MonthlyCount(
+            month: start,
+            verified: inMonth.where(isVerified).length,
+            peer: inMonth.where((a) => !isVerified(a)).length,
+          );
+        }(),
+    ];
+
+    final recent = achievements.where((a) => a.date!.isAfter(last90));
+    final received = [
+      for (final m in members) (m, recent.where((a) => a.userId == m.id).length)
+    ]..sort((a, b) => a.$2.compareTo(b.$2));
+    final sent = [
+      for (final m in members)
+        (m, recent.where((a) => !isVerified(a) && a.awardedById == m.id).length)
+    ]
+      ..removeWhere((entry) => entry.$2 == 0)
+      ..sort((a, b) => b.$2.compareTo(a.$2));
+
+    final catalog = await _repository.getCatalog(admin.companyId);
+    final issued = [
+      for (final item in catalog)
+        (item, achievements.where((a) => a.catalogId == item.id).length)
+    ]
+      ..removeWhere((entry) => entry.$2 == 0)
+      ..sort((a, b) => b.$2.compareTo(a.$2));
+
+    final recognizedRecently = members
+        .where((m) => achievements
+            .any((a) => a.userId == m.id && a.date!.isAfter(last30)))
+        .length;
+
+    return CompanyInsights(
+      verifiedThisMonth: thisMonth.where(isVerified).length,
+      peerThisMonth: thisMonth.where((a) => !isVerified(a)).length,
+      activeSenders: thisMonth
+          .where((a) => !isVerified(a) && a.awardedById != null)
+          .map((a) => a.awardedById)
+          .toSet()
+          .length,
+      coveragePercent: members.isEmpty
+          ? 0
+          : (recognizedRecently * 100 / members.length).round(),
+      monthly: monthly,
+      leastRecognized: received.take(_listSize).toList(),
+      topSenders: sent.take(_listSize).toList(),
+      topCatalog: issued.take(_listSize).toList(),
+    );
   }
 }

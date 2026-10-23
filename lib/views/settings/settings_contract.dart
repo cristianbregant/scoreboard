@@ -1,3 +1,4 @@
+import 'package:scoreboard/model/release.dart';
 import 'package:scoreboard/model/user_profile.dart';
 import 'package:scoreboard/views/_base/base_contract.dart';
 
@@ -6,6 +7,7 @@ abstract class SettingsViewContract extends BaseViewContract {
   void clearPasswordForm();
   void showMessage(String message);
   void openSignIn();
+  void showUpdateAvailable(ReleaseInfo release);
 }
 
 abstract class SettingsViewModelContract
@@ -15,12 +17,16 @@ abstract class SettingsViewModelContract
   void saveEmail(String email);
   void changePassword(String currentPassword, String newPassword);
   void signOut();
+  void onToggleCommunityVisibility(bool visible);
+  void onCheckForUpdates();
 }
 
 class SettingsState extends BaseVMState {
   int currentPage = 0;
   bool isSavingEmail = false;
   bool isChangingPassword = false;
+  bool hiddenFromCommunity = false;
+  bool isCheckingUpdates = false;
   String appName = '';
   String appVersion = '';
 }

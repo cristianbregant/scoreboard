@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/localization_manager.dart';
@@ -16,7 +17,10 @@ import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 import 'package:scoreboard/widgets/dialogs/catalog_achievement_dialog.dart';
 import 'package:scoreboard/widgets/dialogs/dialog_scaffold.dart';
+import 'package:scoreboard/widgets/charts/monthly_achievements_chart.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
+import 'package:scoreboard/model/user_profile.dart';
+import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 
 class ConsoleView extends BaseStatefulWidget {
   ConsoleView({super.key}) : super(_ConsoleViewState());
@@ -24,6 +28,7 @@ class ConsoleView extends BaseStatefulWidget {
 
 class _ConsoleViewState
     extends BaseState<ConsoleView, ConsoleViewModelContract, ConsoleState>
+    with SendAchievementDialogs
     implements ConsoleViewContract {
   final _noteController = TextEditingController();
 
@@ -75,12 +80,6 @@ class _ConsoleViewState
   void clearAssignForm() => _noteController.clear();
 
   @override
-  void showMessage(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BaseWidget<ConsoleViewModelContract, ConsoleState>(
         model: viewModel,
@@ -99,7 +98,11 @@ class _ConsoleViewState
                       PageHeader(
                         title: l10n.navConsole,
                         subtitle: l10n.consoleSubtitle(vmState.company!.name),
-                        trailing: SegmentedButton<ConsoleTab>(
+                      ),
+                      const SizedBox(height: 20),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SegmentedButton<ConsoleTab>(
                           showSelectedIcon: false,
                           segments: [
                             ButtonSegment(
@@ -116,6 +119,10 @@ class _ConsoleViewState
                                 icon: const Icon(Icons.inbox_outlined),
                                 label: Text(l10n.consoleRequests(
                                     vmState.pendingRequests.length))),
+                            ButtonSegment(
+                                value: ConsoleTab.insights,
+                                icon: const Icon(Icons.insights_outlined),
+                                label: Text(l10n.consoleStats)),
                           ],
                           selected: {vmState.tab},
                           onSelectionChanged: (value) =>
@@ -127,6 +134,7 @@ class _ConsoleViewState
                         ConsoleTab.catalog => _buildCatalog(),
                         ConsoleTab.assign => _buildAssign(),
                         ConsoleTab.requests => _buildRequests(),
+                        ConsoleTab.insights => _buildInsights(),
                       },
                     ],
                   );
@@ -341,6 +349,149 @@ class _ConsoleViewState
                     onPressed: () {},
                   ),
                 ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInsights() {
+    final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
+    final insights = vmState.insights;
+    if (insights == null) return Text(l10n.statsNoData);
+    final mutedStyle =
+        TextStyle(fontSize: 12.5, color: colorScheme.onSurfaceVariant);
+
+    Widget panel(String title, String? hint, List<Widget> rows) => Expanded(
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title,
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.w700)),
+                  if (hint != null) ...[
+                    const SizedBox(height: 2),
+                    Text(hint, style: mutedStyle),
+                  ],
+                  const SizedBox(height: 12),
+                  if (rows.isEmpty) Text(l10n.statsNoData, style: mutedStyle),
+                  ...rows,
+                ],
+              ),
+            ),
+          ),
+        );
+
+    Widget personRow(UserProfile person, String value, {Widget? action}) =>
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: Row(
+            children: [
+              UserAvatar(
+                  initials: person.initials,
+                  imagePath: person.avatarPath,
+                  radius: 14),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(person.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
+              ),
+              Text(value, style: mutedStyle),
+              if (action != null) action,
+            ],
+          ),
+        );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        StatRow(tiles: [
+          StatTile(
+              label: l10n.statsIssuedThisMonth,
+              value: '${insights.verifiedThisMonth}',
+              icon: Icons.verified_rounded,
+              color: AppColors.verified),
+          StatTile(
+              label: l10n.statsPeerThisMonth,
+              value: '${insights.peerThisMonth}',
+              icon: Icons.handshake_rounded,
+              color: AchievementTier.peer.color),
+          StatTile(
+              label: l10n.statsActiveSenders,
+              value: '${insights.activeSenders}',
+              icon: Icons.volunteer_activism_rounded),
+          StatTile(
+              label: l10n.statsCoverage,
+              value: l10n.percentValue(insights.coveragePercent),
+              icon: Icons.groups_rounded,
+              color: AppColors.success),
+        ]),
+        const SizedBox(height: 16),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.statsMonthlyChart,
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w700)),
+                const SizedBox(height: 16),
+                MonthlyAchievementsChart(months: insights.monthly),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            panel(l10n.statsUnderRecognized, l10n.statsUnderRecognizedHint, [
+              for (final (person, count) in insights.leastRecognized)
+                personRow(person, l10n.achievementsCount(count),
+                    action: person.id == vmState.currentUserId
+                        ? null
+                        : IconButton(
+                            tooltip: l10n.sendAnAchievement,
+                            visualDensity: VisualDensity.compact,
+                            onPressed: () => viewModel.onTapSendAchievement(
+                                colleagueId: person.id),
+                            icon: const Icon(Icons.volunteer_activism_rounded,
+                                size: 18),
+                          )),
+            ]),
+            const SizedBox(width: 12),
+            panel(l10n.statsTopSenders, l10n.statsTopSendersHint, [
+              for (final (person, count) in insights.topSenders)
+                personRow(person, l10n.sentCount(count)),
+            ]),
+            const SizedBox(width: 12),
+            panel(l10n.statsTopCatalog, null, [
+              for (final (item, count) in insights.topCatalog)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    children: [
+                      AchievementBadge(
+                          achievement: item.preview(vmState.company!),
+                          size: 28),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(item.name,
+                            overflow: TextOverflow.ellipsis,
+                            style:
+                                const TextStyle(fontWeight: FontWeight.w600)),
+                      ),
+                      Text(l10n.issuedTimes(count), style: mutedStyle),
+                    ],
+                  ),
+                ),
+            ]),
+          ],
         ),
       ],
     );

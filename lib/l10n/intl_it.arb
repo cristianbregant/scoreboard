@@ -696,5 +696,116 @@
     "placeholders": {
       "id": {}
     }
-  }
+  },
+  "errorBudgetExhausted": "Hai già inviato i {budget} traguardi di questo mese. Il budget si rinnova il primo del mese.",
+  "@errorBudgetExhausted": {
+    "placeholders": {
+      "budget": {
+        "type": "int"
+      }
+    }
+  },
+  "budgetRemaining": "{remaining} di {budget} invii rimasti questo mese",
+  "@budgetRemaining": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "budget": {
+        "type": "int"
+      }
+    }
+  },
+  "privacySection": "Privacy",
+  "privacyCommunityTitle": "Mostrami nella classifica Community",
+  "privacyCommunitySubtitle": "I colleghi della tua azienda ti vedono comunque nella classifica del team.",
+  "communityHiddenNotice": "Non compari in questa classifica. Puoi cambiarlo in Impostazioni → Account.",
+  "rankHidden": "Nascosta",
+  "searchAchievementsHint": "Cerca tra i tuoi traguardi",
+  "sortLabel": "Ordina",
+  "sortNewest": "Più recenti",
+  "sortOldest": "Meno recenti",
+  "sortPoints": "Più XP",
+  "sortName": "Nome (A–Z)",
+  "achievementsEmptyTitle": "Il tuo primo traguardo ti aspetta",
+  "achievementsEmptyBody": "Chiedi un traguardo verificato dal catalogo della tua azienda, oppure riconosci il lavoro di un collega: spesso è il modo migliore per iniziare.",
+  "emptyOpenCatalog": "Apri il catalogo",
+  "onboardingSkip": "Salta",
+  "onboardingNext": "Avanti",
+  "onboardingDone": "Inizia",
+  "onboardingReplay": "Rivedi l'introduzione",
+  "onboardingWelcomeTitle": "Ti diamo il benvenuto in Scoreboard",
+  "onboardingWelcomeBody": "Qui raccogli i traguardi che ottieni al lavoro, sotto forma di card da collezionare. Passaci sopra con il mouse e girale per vedere chi le ha rilasciate.",
+  "onboardingKindsTitle": "Verificati e tra colleghi",
+  "onboardingKindsBody": "I traguardi verificati li rilascia la tua azienda: puoi richiederli dal catalogo. Quelli base li scambi con i colleghi, fino a {budget} al mese.",
+  "@onboardingKindsBody": {
+    "placeholders": {
+      "budget": {
+        "type": "int"
+      }
+    }
+  },
+  "onboardingFeedTitle": "Festeggiate insieme",
+  "onboardingFeedBody": "In bacheca vedi i traguardi dei colleghi e puoi reagire e commentare. Le notifiche ti avvisano quando succede qualcosa che ti riguarda.",
+  "onboardingFastTitle": "Vai veloce",
+  "onboardingFastBody": "Premi {shortcut} per inviare un traguardo da qualsiasi schermata, oppure usa l'icona nella barra dei menu.",
+  "@onboardingFastBody": {
+    "placeholders": {
+      "shortcut": {}
+    }
+  },
+  "shortcutsSection": "Scorciatoie da tastiera",
+  "shortcutGoToPage": "Vai alla pagina 1–8",
+  "trayOpen": "Apri Scoreboard",
+  "trayQuit": "Esci da Scoreboard",
+  "updatesSection": "Aggiornamenti",
+  "checkForUpdates": "Verifica aggiornamenti",
+  "upToDate": "Hai l'ultima versione.",
+  "updateAvailableTitle": "È disponibile la versione {version}",
+  "@updateAvailableTitle": {
+    "placeholders": {
+      "version": {}
+    }
+  },
+  "updateAvailableBody": "Scaricala dalla pagina della release su GitHub.",
+  "updateDownload": "Scarica",
+  "updateLater": "Più tardi",
+  "updateCheckError": "Impossibile verificare gli aggiornamenti.",
+  "consoleStats": "Statistiche",
+  "statsIssuedThisMonth": "Verificati questo mese",
+  "statsPeerThisMonth": "Tra colleghi questo mese",
+  "statsActiveSenders": "Persone che riconoscono",
+  "statsCoverage": "Riconosciuti negli ultimi 30 giorni",
+  "percentValue": "{percent}%",
+  "@percentValue": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "statsMonthlyChart": "Traguardi negli ultimi 6 mesi",
+  "legendPeer": "Tra colleghi",
+  "statsUnderRecognized": "Da riconoscere",
+  "statsUnderRecognizedHint": "Chi ha ricevuto meno traguardi negli ultimi 90 giorni.",
+  "statsTopSenders": "Chi riconosce di più",
+  "statsTopSendersHint": "Traguardi base inviati negli ultimi 90 giorni.",
+  "sentCount": "{count, plural, one{1 inviato} other{{count} inviati}}",
+  "@sentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsTopCatalog": "Più assegnati",
+  "issuedTimes": "{count, plural, one{1 volta} other{{count} volte}}",
+  "@issuedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsNoData": "Nessun dato, per ora."
 }

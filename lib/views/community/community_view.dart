@@ -9,6 +9,7 @@ import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/leaderboard_tile.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
 import 'package:scoreboard/widgets/common/podium.dart';
+import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 
 class CommunityView extends BaseStatefulWidget {
@@ -88,6 +89,13 @@ class _CommunityViewState
     return ListView(
       padding: pagePadding.copyWith(top: 8),
       children: [
+        if (vmState.currentUserHidden)
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: TagChip(
+                icon: Icons.visibility_off_rounded,
+                label: context.l10n.communityHiddenNotice),
+          ),
         if (_showPodium) ...[
           SectionTitle(context.l10n.top3),
           Podium(

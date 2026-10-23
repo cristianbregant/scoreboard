@@ -2935,6 +2935,505 @@ class AppLocalization {
       args: [id],
     );
   }
+
+  /// `Hai già inviato i {budget} traguardi di questo mese. Il budget si rinnova il primo del mese.`
+  String errorBudgetExhausted(int budget) {
+    return Intl.message(
+      'Hai già inviato i $budget traguardi di questo mese. Il budget si rinnova il primo del mese.',
+      name: 'errorBudgetExhausted',
+      desc: '',
+      args: [budget],
+    );
+  }
+
+  /// `{remaining} di {budget} invii rimasti questo mese`
+  String budgetRemaining(int remaining, int budget) {
+    return Intl.message(
+      '$remaining di $budget invii rimasti questo mese',
+      name: 'budgetRemaining',
+      desc: '',
+      args: [remaining, budget],
+    );
+  }
+
+  /// `Privacy`
+  String get privacySection {
+    return Intl.message('Privacy', name: 'privacySection', desc: '', args: []);
+  }
+
+  /// `Mostrami nella classifica Community`
+  String get privacyCommunityTitle {
+    return Intl.message(
+      'Mostrami nella classifica Community',
+      name: 'privacyCommunityTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I colleghi della tua azienda ti vedono comunque nella classifica del team.`
+  String get privacyCommunitySubtitle {
+    return Intl.message(
+      'I colleghi della tua azienda ti vedono comunque nella classifica del team.',
+      name: 'privacyCommunitySubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Non compari in questa classifica. Puoi cambiarlo in Impostazioni → Account.`
+  String get communityHiddenNotice {
+    return Intl.message(
+      'Non compari in questa classifica. Puoi cambiarlo in Impostazioni → Account.',
+      name: 'communityHiddenNotice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nascosta`
+  String get rankHidden {
+    return Intl.message('Nascosta', name: 'rankHidden', desc: '', args: []);
+  }
+
+  /// `Cerca tra i tuoi traguardi`
+  String get searchAchievementsHint {
+    return Intl.message(
+      'Cerca tra i tuoi traguardi',
+      name: 'searchAchievementsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ordina`
+  String get sortLabel {
+    return Intl.message('Ordina', name: 'sortLabel', desc: '', args: []);
+  }
+
+  /// `Più recenti`
+  String get sortNewest {
+    return Intl.message('Più recenti', name: 'sortNewest', desc: '', args: []);
+  }
+
+  /// `Meno recenti`
+  String get sortOldest {
+    return Intl.message('Meno recenti', name: 'sortOldest', desc: '', args: []);
+  }
+
+  /// `Più XP`
+  String get sortPoints {
+    return Intl.message('Più XP', name: 'sortPoints', desc: '', args: []);
+  }
+
+  /// `Nome (A–Z)`
+  String get sortName {
+    return Intl.message('Nome (A–Z)', name: 'sortName', desc: '', args: []);
+  }
+
+  /// `Il tuo primo traguardo ti aspetta`
+  String get achievementsEmptyTitle {
+    return Intl.message(
+      'Il tuo primo traguardo ti aspetta',
+      name: 'achievementsEmptyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chiedi un traguardo verificato dal catalogo della tua azienda, oppure riconosci il lavoro di un collega: spesso è il modo migliore per iniziare.`
+  String get achievementsEmptyBody {
+    return Intl.message(
+      'Chiedi un traguardo verificato dal catalogo della tua azienda, oppure riconosci il lavoro di un collega: spesso è il modo migliore per iniziare.',
+      name: 'achievementsEmptyBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apri il catalogo`
+  String get emptyOpenCatalog {
+    return Intl.message(
+      'Apri il catalogo',
+      name: 'emptyOpenCatalog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Salta`
+  String get onboardingSkip {
+    return Intl.message('Salta', name: 'onboardingSkip', desc: '', args: []);
+  }
+
+  /// `Avanti`
+  String get onboardingNext {
+    return Intl.message('Avanti', name: 'onboardingNext', desc: '', args: []);
+  }
+
+  /// `Inizia`
+  String get onboardingDone {
+    return Intl.message('Inizia', name: 'onboardingDone', desc: '', args: []);
+  }
+
+  /// `Rivedi l'introduzione`
+  String get onboardingReplay {
+    return Intl.message(
+      'Rivedi l\'introduzione',
+      name: 'onboardingReplay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ti diamo il benvenuto in Scoreboard`
+  String get onboardingWelcomeTitle {
+    return Intl.message(
+      'Ti diamo il benvenuto in Scoreboard',
+      name: 'onboardingWelcomeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Qui raccogli i traguardi che ottieni al lavoro, sotto forma di card da collezionare. Passaci sopra con il mouse e girale per vedere chi le ha rilasciate.`
+  String get onboardingWelcomeBody {
+    return Intl.message(
+      'Qui raccogli i traguardi che ottieni al lavoro, sotto forma di card da collezionare. Passaci sopra con il mouse e girale per vedere chi le ha rilasciate.',
+      name: 'onboardingWelcomeBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verificati e tra colleghi`
+  String get onboardingKindsTitle {
+    return Intl.message(
+      'Verificati e tra colleghi',
+      name: 'onboardingKindsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I traguardi verificati li rilascia la tua azienda: puoi richiederli dal catalogo. Quelli base li scambi con i colleghi, fino a {budget} al mese.`
+  String onboardingKindsBody(int budget) {
+    return Intl.message(
+      'I traguardi verificati li rilascia la tua azienda: puoi richiederli dal catalogo. Quelli base li scambi con i colleghi, fino a $budget al mese.',
+      name: 'onboardingKindsBody',
+      desc: '',
+      args: [budget],
+    );
+  }
+
+  /// `Festeggiate insieme`
+  String get onboardingFeedTitle {
+    return Intl.message(
+      'Festeggiate insieme',
+      name: 'onboardingFeedTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In bacheca vedi i traguardi dei colleghi e puoi reagire e commentare. Le notifiche ti avvisano quando succede qualcosa che ti riguarda.`
+  String get onboardingFeedBody {
+    return Intl.message(
+      'In bacheca vedi i traguardi dei colleghi e puoi reagire e commentare. Le notifiche ti avvisano quando succede qualcosa che ti riguarda.',
+      name: 'onboardingFeedBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vai veloce`
+  String get onboardingFastTitle {
+    return Intl.message(
+      'Vai veloce',
+      name: 'onboardingFastTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Premi {shortcut} per inviare un traguardo da qualsiasi schermata, oppure usa l'icona nella barra dei menu.`
+  String onboardingFastBody(Object shortcut) {
+    return Intl.message(
+      'Premi $shortcut per inviare un traguardo da qualsiasi schermata, oppure usa l\'icona nella barra dei menu.',
+      name: 'onboardingFastBody',
+      desc: '',
+      args: [shortcut],
+    );
+  }
+
+  /// `Scorciatoie da tastiera`
+  String get shortcutsSection {
+    return Intl.message(
+      'Scorciatoie da tastiera',
+      name: 'shortcutsSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vai alla pagina 1–8`
+  String get shortcutGoToPage {
+    return Intl.message(
+      'Vai alla pagina 1–8',
+      name: 'shortcutGoToPage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apri Scoreboard`
+  String get trayOpen {
+    return Intl.message(
+      'Apri Scoreboard',
+      name: 'trayOpen',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Esci da Scoreboard`
+  String get trayQuit {
+    return Intl.message(
+      'Esci da Scoreboard',
+      name: 'trayQuit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Aggiornamenti`
+  String get updatesSection {
+    return Intl.message(
+      'Aggiornamenti',
+      name: 'updatesSection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verifica aggiornamenti`
+  String get checkForUpdates {
+    return Intl.message(
+      'Verifica aggiornamenti',
+      name: 'checkForUpdates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hai l'ultima versione.`
+  String get upToDate {
+    return Intl.message(
+      'Hai l\'ultima versione.',
+      name: 'upToDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `È disponibile la versione {version}`
+  String updateAvailableTitle(Object version) {
+    return Intl.message(
+      'È disponibile la versione $version',
+      name: 'updateAvailableTitle',
+      desc: '',
+      args: [version],
+    );
+  }
+
+  /// `Scaricala dalla pagina della release su GitHub.`
+  String get updateAvailableBody {
+    return Intl.message(
+      'Scaricala dalla pagina della release su GitHub.',
+      name: 'updateAvailableBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scarica`
+  String get updateDownload {
+    return Intl.message('Scarica', name: 'updateDownload', desc: '', args: []);
+  }
+
+  /// `Più tardi`
+  String get updateLater {
+    return Intl.message('Più tardi', name: 'updateLater', desc: '', args: []);
+  }
+
+  /// `Impossibile verificare gli aggiornamenti.`
+  String get updateCheckError {
+    return Intl.message(
+      'Impossibile verificare gli aggiornamenti.',
+      name: 'updateCheckError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Statistiche`
+  String get consoleStats {
+    return Intl.message(
+      'Statistiche',
+      name: 'consoleStats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verificati questo mese`
+  String get statsIssuedThisMonth {
+    return Intl.message(
+      'Verificati questo mese',
+      name: 'statsIssuedThisMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tra colleghi questo mese`
+  String get statsPeerThisMonth {
+    return Intl.message(
+      'Tra colleghi questo mese',
+      name: 'statsPeerThisMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Persone che riconoscono`
+  String get statsActiveSenders {
+    return Intl.message(
+      'Persone che riconoscono',
+      name: 'statsActiveSenders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Riconosciuti negli ultimi 30 giorni`
+  String get statsCoverage {
+    return Intl.message(
+      'Riconosciuti negli ultimi 30 giorni',
+      name: 'statsCoverage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{percent}%`
+  String percentValue(int percent) {
+    return Intl.message(
+      '$percent%',
+      name: 'percentValue',
+      desc: '',
+      args: [percent],
+    );
+  }
+
+  /// `Traguardi negli ultimi 6 mesi`
+  String get statsMonthlyChart {
+    return Intl.message(
+      'Traguardi negli ultimi 6 mesi',
+      name: 'statsMonthlyChart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tra colleghi`
+  String get legendPeer {
+    return Intl.message('Tra colleghi', name: 'legendPeer', desc: '', args: []);
+  }
+
+  /// `Da riconoscere`
+  String get statsUnderRecognized {
+    return Intl.message(
+      'Da riconoscere',
+      name: 'statsUnderRecognized',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chi ha ricevuto meno traguardi negli ultimi 90 giorni.`
+  String get statsUnderRecognizedHint {
+    return Intl.message(
+      'Chi ha ricevuto meno traguardi negli ultimi 90 giorni.',
+      name: 'statsUnderRecognizedHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chi riconosce di più`
+  String get statsTopSenders {
+    return Intl.message(
+      'Chi riconosce di più',
+      name: 'statsTopSenders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Traguardi base inviati negli ultimi 90 giorni.`
+  String get statsTopSendersHint {
+    return Intl.message(
+      'Traguardi base inviati negli ultimi 90 giorni.',
+      name: 'statsTopSendersHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, one{1 inviato} other{{count} inviati}}`
+  String sentCount(int count) {
+    return Intl.plural(
+      count,
+      one: '1 inviato',
+      other: '$count inviati',
+      name: 'sentCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Più assegnati`
+  String get statsTopCatalog {
+    return Intl.message(
+      'Più assegnati',
+      name: 'statsTopCatalog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, one{1 volta} other{{count} volte}}`
+  String issuedTimes(int count) {
+    return Intl.plural(
+      count,
+      one: '1 volta',
+      other: '$count volte',
+      name: 'issuedTimes',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Nessun dato, per ora.`
+  String get statsNoData {
+    return Intl.message(
+      'Nessun dato, per ora.',
+      name: 'statsNoData',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {

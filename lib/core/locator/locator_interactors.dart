@@ -6,6 +6,7 @@ import 'package:scoreboard/services/package_info_service.dart';
 import 'package:scoreboard/services/scoreboard_repository.dart';
 import 'package:scoreboard/services/share_service.dart';
 import 'package:scoreboard/services/system_notification_service.dart';
+import 'package:scoreboard/services/update_service.dart';
 import 'package:scoreboard/services/shared_preferences.dart';
 
 void setupLocatorInteractors() {
@@ -30,4 +31,8 @@ void setupLocatorInteractors() {
       getIt<SystemNotificationService>()));
   getIt.registerFactory<CredentialInteractor>(
       () => CredentialInteractor(getIt<ShareService>()));
+  getIt.registerFactory<UpdateInteractor>(() => UpdateInteractor(
+      getIt<UpdateService>(),
+      getIt<PackageInfoService>(),
+      getIt<SharedPreference>()));
 }

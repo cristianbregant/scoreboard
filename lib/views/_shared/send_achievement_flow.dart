@@ -43,6 +43,11 @@ mixin SendAchievementFlow<V extends SendAchievementViewContract,
       sourceView.showMessage(l10n.sendNoTemplates);
       return;
     }
+    if (options.remainingBudget == 0) {
+      sourceView.showMessage(
+          l10n.errorBudgetExhausted(SendAchievementOptions.monthlyBudget));
+      return;
+    }
 
     final request = await sourceView.askSendAchievement(options,
         colleagueId: colleagueId, templateId: templateId);

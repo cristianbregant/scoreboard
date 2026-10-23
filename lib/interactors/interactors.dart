@@ -6,3 +6,4 @@ export 'package:scoreboard/interactors/admin_interactor.dart';
 export 'package:scoreboard/interactors/credential_interactor.dart';
 export 'package:scoreboard/interactors/feed_interactor.dart';
 export 'package:scoreboard/interactors/notification_interactor.dart';
+export 'package:scoreboard/interactors/update_interactor.dart';

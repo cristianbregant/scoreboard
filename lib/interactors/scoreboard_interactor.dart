@@ -93,8 +93,11 @@ class ScoreboardInteractor extends ChangeNotifier {
     final companies = await _repository.getCompanies();
     final achievements = await _repository.getAchievements();
 
+    // The global leaderboard leaves out who asked not to appear in it.
     final entries = users
-        .where((user) => companyId == null || user.companyId == companyId)
+        .where((user) => companyId == null
+            ? !user.hiddenFromCommunity
+            : user.companyId == companyId)
         .map((user) {
       final owned = achievements.where((a) => a.userId == user.id);
       return (
@@ -209,7 +212,32 @@ class ScoreboardInteractor extends ChangeNotifier {
           if (a.awardedById == user.id && a.templateId != null)
             (a.templateId!, a.userId!)
       },
+      remainingBudget: (SendAchievementOptions.monthlyBudget -
+              _sentThisMonth(achievements, user.id))
+          .clamp(0, SendAchievementOptions.monthlyBudget),
     );
+  }
+
+  /// Base achievements [userId] sent in the current calendar month.
+  static int _sentThisMonth(List<Achievement> achievements, String userId) {
+    final now = DateTime.now();
+    return achievements
+        .where((a) =>
+            a.awardedById == userId &&
+            a.verified != true &&
+            a.date != null &&
+            a.date!.year == now.year &&
+            a.date!.month == now.month)
+        .length;
+  }
+
+  /// Hides the current user from the global (Community) leaderboard. The
+  /// company leaderboard still shows them to their colleagues.
+  Future<void> setHiddenFromCommunity(bool hidden) async {
+    final user = await getCurrentUser();
+    await _repository
+        .saveCurrentUser(user.copyWith(hiddenFromCommunity: hidden));
+    notifyListeners();
   }
 
   /// Achievements the current user sent, newest first.
@@ -235,6 +263,10 @@ class ScoreboardInteractor extends ChangeNotifier {
     if (template == null) {
       throw const SendAchievementException(
           SendAchievementError.templateNotFound);
+    }
+    if (options.remainingBudget == 0) {
+      throw const SendAchievementException(
+          SendAchievementError.budgetExhausted);
     }
     if (options.alreadySent(template.id, colleague.id)) {
       throw SendAchievementException(SendAchievementError.alreadySent,

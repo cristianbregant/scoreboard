@@ -21,6 +21,9 @@ class UserProfile {
   /// Can manage the company catalog and issue verified achievements.
   final bool isCompanyAdmin;
 
+  /// Left out of the global (Community) leaderboard.
+  final bool hiddenFromCommunity;
+
   const UserProfile(
       {required this.id,
       required this.name,
@@ -32,7 +35,8 @@ class UserProfile {
       this.avatarPath,
       this.bannerPreset = defaultBanner,
       this.bannerImagePath,
-      this.isCompanyAdmin = false});
+      this.isCompanyAdmin = false,
+      this.hiddenFromCommunity = false});
 
   String get initials => name
       .split(' ')
@@ -51,7 +55,8 @@ class UserProfile {
       String? avatarPath,
       String? bannerPreset,
       String? bannerImagePath,
-      bool? isCompanyAdmin}) {
+      bool? isCompanyAdmin,
+      bool? hiddenFromCommunity}) {
     String? orClear(String? value, String? current) =>
         value == null ? current : (value.isEmpty ? null : value);
 
@@ -67,6 +72,7 @@ class UserProfile {
       bannerPreset: bannerPreset ?? this.bannerPreset,
       bannerImagePath: orClear(bannerImagePath, this.bannerImagePath),
       isCompanyAdmin: isCompanyAdmin ?? this.isCompanyAdmin,
+      hiddenFromCommunity: hiddenFromCommunity ?? this.hiddenFromCommunity,
     );
   }
 
@@ -83,6 +89,7 @@ class UserProfile {
       bannerPreset: json['banner_preset'] ?? defaultBanner,
       bannerImagePath: json['banner_image_path'],
       isCompanyAdmin: json['is_company_admin'] ?? false,
+      hiddenFromCommunity: json['hidden_from_community'] ?? false,
     );
   }
 
@@ -98,5 +105,6 @@ class UserProfile {
         'banner_preset': bannerPreset,
         'banner_image_path': bannerImagePath,
         'is_company_admin': isCompanyAdmin,
+        'hidden_from_community': hiddenFromCommunity,
       };
 }

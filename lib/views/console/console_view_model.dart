@@ -1,3 +1,4 @@
+import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/interactors/admin_interactor.dart';
@@ -9,11 +10,15 @@ import 'package:scoreboard/views/_base/base_view_model.dart';
 import 'package:scoreboard/views/console/console_contract.dart';
 
 class ConsoleViewModel extends BaseViewModel<ConsoleViewContract, ConsoleState>
+    with SendAchievementFlow<ConsoleViewContract, ConsoleState>
     implements ConsoleViewModelContract {
   final AdminInteractor _admin;
   final ScoreboardInteractor _scoreboard;
 
   ConsoleViewModel(this._admin, this._scoreboard);
+
+  @override
+  ScoreboardInteractor get interactor => _scoreboard;
 
   @override
   void onInitState() {
@@ -41,9 +46,11 @@ class ConsoleViewModel extends BaseViewModel<ConsoleViewContract, ConsoleState>
     try {
       final user = await _scoreboard.getCurrentUser();
       if (!user.isCompanyAdmin) return;
+      vmState.currentUserId = user.id;
       vmState.company = await _scoreboard.getCompany(user.companyId);
       vmState.catalog = await _admin.getCatalog(includeArchived: true);
       vmState.requests = await _admin.getRequests();
+      vmState.insights = await _admin.getInsights();
       vmState.members = (await _scoreboard.getUserLeaderboard(
               companyId: user.companyId))
           .map((e) => e.user)

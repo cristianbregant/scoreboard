@@ -34,6 +34,7 @@ class BaseAchievementsViewModel
       final options = await interactor.getSendOptions();
       vmState.currentUserId = options.currentUser.id;
       vmState.templates = options.templates;
+      vmState.remainingBudget = options.remainingBudget;
       vmState.colleagues = {for (final u in options.colleagues) u.id: u};
       vmState.sent = await interactor.getSentAchievements();
     } catch (_) {

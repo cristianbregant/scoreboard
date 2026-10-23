@@ -70,8 +70,10 @@ class _ProfileViewState
                           color: AppColors.verified),
                       StatTile(
                           label: context.l10n.statGlobalRank,
-                          value: context.l10n
-                              .rankValue('${vmState.globalRank ?? '-'}'),
+                          value: vmState.user!.hiddenFromCommunity
+                              ? context.l10n.rankHidden
+                              : context.l10n
+                                  .rankValue('${vmState.globalRank ?? '-'}'),
                           icon: Icons.public_rounded,
                           color: AppColors.success),
                     ]),

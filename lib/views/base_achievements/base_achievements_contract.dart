@@ -22,6 +22,7 @@ abstract class BaseAchievementsViewModelContract extends BaseViewModelContract<
 class BaseAchievementsState extends BaseVMState {
   String? currentUserId;
   List<AchievementTemplate> templates = [];
+  int remainingBudget = SendAchievementOptions.monthlyBudget;
 
   /// Achievements the current user sent, newest first.
   List<Achievement> sent = [];

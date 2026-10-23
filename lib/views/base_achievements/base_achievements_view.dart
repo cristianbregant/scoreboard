@@ -13,6 +13,7 @@ import 'package:scoreboard/widgets/achievement_style.dart';
 import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/leaderboard_tile.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
+import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 import 'package:scoreboard/widgets/dialogs/create_template_dialog.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
@@ -47,6 +48,16 @@ class _BaseAchievementsViewState extends BaseState<BaseAchievementsView,
                   ),
                   const SizedBox(height: 20),
                   _buildExplanation(context),
+                  const SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TagChip(
+                        icon: Icons.toll_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                        label: context.l10n.budgetRemaining(
+                            vmState.remainingBudget,
+                            SendAchievementOptions.monthlyBudget)),
+                  ),
                   SectionTitle(
                       context.l10n.libraryCount(vmState.templates.length)),
                   if (vmState.templates.isEmpty)

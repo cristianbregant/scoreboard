@@ -26,6 +26,7 @@ class CommunityViewModel
       final user = await _interactor.getCurrentUser();
       vmState.currentUserId = user.id;
       vmState.currentCompanyId = user.companyId;
+      vmState.currentUserHidden = user.hiddenFromCommunity;
       vmState.users = await _interactor.getUserLeaderboard();
       vmState.companies = await _interactor.getCompanyLeaderboard();
     } catch (_) {

@@ -1,19 +1,26 @@
+import 'package:scoreboard/core/app_navigation.dart';
 import 'package:scoreboard/core/locator/locator.dart';
 import 'package:scoreboard/interactors/interactors.dart';
 import 'package:scoreboard/views/view_contracts.dart';
 import 'package:scoreboard/views/view_models.dart';
 
 void setupLocatorViewModels() {
-  getIt.registerFactory<AchievementsViewModelContract>(
-      () => AchievementsViewModel(getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<AchievementsViewModelContract>(() =>
+      AchievementsViewModel(
+          getIt<ScoreboardInteractor>(), getIt<AppNavigation>()));
 
   getIt.registerFactory<BaseWindowViewModelContract>(() => BaseWindowViewModel(
-      getIt<ScoreboardInteractor>(), getIt<NotificationInteractor>()));
+      getIt<ScoreboardInteractor>(),
+      getIt<NotificationInteractor>(),
+      getIt<AppNavigation>(),
+      getIt<AppConfigurationInteractor>(),
+      getIt<UpdateInteractor>()));
 
   getIt.registerFactory<SettingsViewModelContract>(() => SettingsViewModel(
       getIt<ScoreboardInteractor>(),
       getIt<AuthInteractor>(),
-      getIt<AppConfigurationInteractor>()));
+      getIt<AppConfigurationInteractor>(),
+      getIt<UpdateInteractor>()));
 
   getIt.registerFactory<AchievementViewModelContract>(() =>
       AchievementViewModel(getIt<ShareInteractor>(),

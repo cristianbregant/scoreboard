@@ -32,13 +32,22 @@ A desktop app for workplace recognition, for macOS, Windows and Linux. Companies
   - Open a post with ready-made text.
   - Add a verified achievement to your profile under *Licenses & certifications*.
   - Save a 1200×627 image of the card to attach to the post.
+- **Fair recognition.** Everyone can send up to 5 base achievements a month, and anyone can hide from the global Community leaderboard while staying visible to their colleagues.
+- **Company insights** in the console: monthly activity, a 6-month chart, who could use some recognition, top recognizers and the most issued achievements.
+- **Desktop integration.**
+  - A tray (menu bar) icon to open the app or send an achievement. On macOS and Windows closing the window keeps the app in the tray.
+  - Keyboard shortcuts, listed in *Settings → About*.
+  - An update check against the GitHub releases.
+- **Getting started.** A short introduction on first sign-in, search and sorting for your achievements, and a helpful empty state.
 - **Accounts.** Sign in, registration, email and password changes, sign out.
 - **Light and dark themes**, with the choice remembered.
 
 | | |
 |---|---|
 | ![Sign-in screen](docs/images/sign-in.png) | ![Achievement detail](docs/images/achievement-detail.png) |
-| ![Base achievements library](docs/images/base-achievements.png) | ![Company leaderboard](docs/images/your-company.png) |
+| ![Company feed with reactions and comments](docs/images/feed.png) | ![Notification center](docs/images/notifications.png) |
+| ![Company console: insights](docs/images/console-insights.png) | ![Company console: requests](docs/images/console-requests.png) |
+| ![Base achievements library](docs/images/base-achievements.png) | ![Company page with catalog and leaderboard](docs/images/your-company.png) |
 | ![Profile](docs/images/profile.png) | |
 
 ## Getting started
@@ -49,7 +58,7 @@ Requirements: Flutter 3.47 or newer (Dart 3.3+), plus the toolchain for your pla
 |---|---|
 | macOS | Xcode and CocoaPods (`brew install cocoapods`) |
 | Windows | Visual Studio 2022 with the *Desktop development with C++* workload |
-| Linux | `clang cmake ninja-build pkg-config libgtk-3-dev` (e.g. `sudo apt install …` on Debian/Ubuntu) |
+| Linux | `clang cmake ninja-build pkg-config libgtk-3-dev libx11-dev libxi-dev` (e.g. `sudo apt install …` on Debian/Ubuntu) |
 
 ```sh
 flutter pub get
@@ -66,12 +75,24 @@ The demo user is the admin of Northwind Labs, so the company console is availabl
 
 > The `android`, `ios` and `web` folders are the default Flutter scaffolding. The app depends on `window_manager` and targets desktop only.
 
+### Keyboard shortcuts
+
+⌘ on macOS, Ctrl on Windows and Linux.
+
+| Shortcut | Action |
+|---|---|
+| ⌘K | Send an achievement |
+| ⌘⇧N | Open notifications |
+| ⌘1 … ⌘8 | Go to a page, in sidebar order |
+| ⌘, | Settings |
+
 ### Platform differences
 
 - **macOS**: the title bar is hidden. The content extends under it, next to the traffic lights, and the top edge of the window is draggable.
 - **Windows and Linux**: the native title bar is kept, with its minimize, maximize and close buttons.
 
 Both behaviors are defined in [lib/core/window_chrome.dart](lib/core/window_chrome.dart).
+- **Tray.** On macOS and Windows closing the window hides it in the tray (menu bar). Quit from the tray menu, or with ⌘Q on macOS. Linux keeps the regular close, because GNOME shows tray icons only with the AppIndicator extension.
 
 ## Data and persistence
 
@@ -129,6 +150,26 @@ Notes:
 - The UI uses the **Inter** typeface, bundled in `assets/fonts` under the SIL Open Font License (`OFL.txt`, also shown in the app's licenses). The certificate PDFs embed it too.
 - Picking and saving images on macOS needs `com.apple.security.files.user-selected.read-write`, which is also enabled.
 - On macOS, `package_info_plus`, `screen_retriever` and `window_manager` don't support Swift Package Manager yet. Flutter prints a warning and falls back to CocoaPods.
+
+## Releasing
+
+[.github/workflows/release.yml](.github/workflows/release.yml) runs when a `v*` tag is pushed:
+
+1. Set `version:` in `pubspec.yaml` (for example `0.2.0+1`).
+2. Commit, then tag and push it: `git tag v0.2.0 && git push origin v0.2.0`.
+3. The workflow checks that the tag matches the version, then builds:
+   - a DMG for macOS;
+   - a zip for Windows;
+   - a tarball for Linux.
+4. It publishes them on a GitHub Release. The app's update check finds that release and offers the download.
+
+Signing is optional and turns on when the repository has these secrets:
+
+- **macOS**: `MACOS_CERTIFICATE` (base64 Developer ID `.p12`), `MACOS_CERTIFICATE_PASSWORD` and `MACOS_SIGNING_IDENTITY`.
+- **macOS notarization**: also `APPLE_ID`, `APPLE_TEAM_ID` and `APPLE_APP_PASSWORD`.
+- **Windows**: `WINDOWS_CERTIFICATE` (base64 `.pfx`) and `WINDOWS_CERTIFICATE_PASSWORD`.
+
+Without them the packages are built unsigned.
 
 ## Localization
 

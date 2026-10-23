@@ -1,4 +1,10 @@
+import 'package:flutter/services.dart';
 import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/core/shortcuts.dart';
+import 'package:scoreboard/model/release.dart';
+import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
+import 'package:scoreboard/widgets/dialogs/onboarding_dialog.dart';
+import 'package:scoreboard/widgets/dialogs/update_dialog.dart';
 import 'package:scoreboard/core/routing/dynamic_routes.dart';
 import 'package:scoreboard/core/routing/route_names.dart';
 import 'package:scoreboard/model/achievement.dart';
@@ -20,10 +26,57 @@ class BaseWindowView extends BaseStatefulWidget {
   BaseWindowView({super.key}) : super(_BaseWindowViewState());
 }
 
-class _BaseWindowViewState extends BaseState<
-    BaseWindowView,
-    BaseWindowViewModelContract,
-    BaseWindowState> implements BaseWindowViewContract {
+class _BaseWindowViewState extends BaseState<BaseWindowView,
+        BaseWindowViewModelContract, BaseWindowState>
+    with SendAchievementDialogs
+    implements BaseWindowViewContract {
+  @override
+  void openNotificationsPanel() => _openNotifications();
+
+  @override
+  Future<void> showOnboarding() => showOnboardingDialog(context);
+
+  @override
+  void showUpdateAvailable(ReleaseInfo release) =>
+      showUpdateDialog(context, release, onDownload: openExternalLink);
+
+  @override
+  void initState() {
+    super.initState();
+    HardwareKeyboard.instance.addHandler(_onKey);
+  }
+
+  @override
+  void dispose() {
+    HardwareKeyboard.instance.removeHandler(_onKey);
+    super.dispose();
+  }
+
+  /// ⌘/Ctrl shortcuts. A global handler, so they work wherever the focus
+  /// is; ignored while a dialog or another page covers the window.
+  bool _onKey(KeyEvent event) {
+    if (event is! KeyDownEvent ||
+        !(ModalRoute.of(context)?.isCurrent ?? false)) {
+      return false;
+    }
+    final pages = vmState.pages;
+    final actions = <ShortcutActivator, VoidCallback>{
+      AppShortcuts.quickSend: () => viewModel.onTapSendAchievement(),
+      AppShortcuts.notifications: _openNotifications,
+      AppShortcuts.settings: () => viewModel.onChangePage(AppPage.settings),
+      for (var i = 0; i < pages.length && i < AppShortcuts.pageKeys.length; i++)
+        AppShortcuts.primary(AppShortcuts.pageKeys[i]): () =>
+            viewModel.onChangePage(pages[i]),
+    };
+    for (final entry in actions.entries) {
+      if (entry.key.accepts(event, HardwareKeyboard.instance)) {
+        entry.value();
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   void openAchievement(Achievement achievement) {
     Navigator.of(context).pushNamed(RouteNames.achievement,

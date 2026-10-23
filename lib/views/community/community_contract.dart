@@ -17,6 +17,7 @@ class CommunityState extends BaseVMState {
   String query = '';
   String? currentUserId;
   String? currentCompanyId;
+  bool currentUserHidden = false;
   List<UserLeaderboardEntry> users = [];
   List<CompanyLeaderboardEntry> companies = [];
 

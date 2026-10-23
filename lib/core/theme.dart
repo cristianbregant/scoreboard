@@ -8,6 +8,12 @@ class AppColors {
   static const Color success = Color(0xFF4CA36A);
   static const Color verified = Color(0xFF4A9FD8);
 
+  // Chart series, validated for contrast and color-vision separation on the
+  // card surfaces of each theme (dataviz palette: blue and green slots).
+  static const Color chartVerifiedLight = Color(0xFF2A78D6);
+  static const Color chartVerifiedDark = Color(0xFF3987E5);
+  static const Color chartPeer = Color(0xFF008300);
+
   // Dark palette: neutral graphite.
   static const Color darkBackground = Color(0xFF0E0F11);
   static const Color darkSidebar = Color(0xFF131417);

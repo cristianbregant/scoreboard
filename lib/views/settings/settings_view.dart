@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scoreboard/core/providers.dart';
 import 'package:scoreboard/core/routing/route_names.dart';
+import 'package:scoreboard/core/shortcuts.dart';
+import 'package:scoreboard/model/release.dart';
+import 'package:scoreboard/widgets/dialogs/onboarding_dialog.dart';
+import 'package:scoreboard/widgets/dialogs/update_dialog.dart';
 import 'package:scoreboard/interactors/auth_interactor.dart';
 import 'package:scoreboard/core/theme.dart';
 import 'package:scoreboard/model/user_profile.dart';
@@ -55,6 +59,10 @@ class _SettingsViewState
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
   }
+
+  @override
+  void showUpdateAvailable(ReleaseInfo release) =>
+      showUpdateDialog(context, release, onDownload: openExternalLink);
 
   @override
   void openSignIn() {
@@ -306,6 +314,17 @@ class _SettingsViewState
           ),
           const SizedBox(height: 16),
           _section(
+            title: context.l10n.privacySection,
+            child: SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(context.l10n.privacyCommunityTitle),
+              subtitle: Text(context.l10n.privacyCommunitySubtitle),
+              value: !vmState.hiddenFromCommunity,
+              onChanged: viewModel.onToggleCommunityVisibility,
+            ),
+          ),
+          const SizedBox(height: 16),
+          _section(
             title: context.l10n.sessionSection,
             child: Row(
               children: [
@@ -385,8 +404,56 @@ class _SettingsViewState
                     ],
                   ),
                 ),
+                OutlinedButton.icon(
+                  onPressed: vmState.isCheckingUpdates
+                      ? null
+                      : viewModel.onCheckForUpdates,
+                  icon: const Icon(Icons.system_update_alt_rounded, size: 18),
+                  label: Text(context.l10n.checkForUpdates),
+                ),
               ],
             ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton.icon(
+            onPressed: () => showOnboardingDialog(context),
+            icon: const Icon(Icons.school_outlined, size: 18),
+            label: Text(context.l10n.onboardingReplay),
+          ),
+        ),
+        SectionTitle(context.l10n.shortcutsSection),
+        Card(
+          child: Column(
+            children: [
+              for (final (keys, action) in [
+                (AppShortcuts.quickSendLabel, context.l10n.sendAnAchievement),
+                (
+                  AppShortcuts.notificationsLabel,
+                  context.l10n.notificationsOpen
+                ),
+                (AppShortcuts.pagesLabel, context.l10n.shortcutGoToPage),
+                (AppShortcuts.settingsLabel, context.l10n.navSettings),
+              ])
+                ListTile(
+                  title: Text(action),
+                  trailing: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: colorScheme.outlineVariant),
+                    ),
+                    child: Text(keys,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontFeatures: [FontFeature.tabularFigures()])),
+                  ),
+                ),
+            ],
           ),
         ),
       ],

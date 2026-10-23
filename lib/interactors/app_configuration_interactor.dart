@@ -23,6 +23,11 @@ class AppConfigurationInteractor {
   Future<void> setAppLocale(Locale? locale) =>
       _preferences.setLanguageCode(locale?.languageCode);
 
+  bool isOnboardingDone(String userId) => _preferences.onboardingDone(userId);
+
+  Future<void> setOnboardingDone(String userId) =>
+      _preferences.setOnboardingDone(userId);
+
   String get appName => _packageInfo.appName;
   String get appVersion =>
       '${_packageInfo.version} (${_packageInfo.buildNumber})';

@@ -23,6 +23,21 @@ class SharedPreference {
       ? _preferences.remove(_languageCodeKey)
       : _preferences.setString(_languageCodeKey, value);
 
+  /// Whether [userId] has seen the introduction on this device.
+  bool onboardingDone(String userId) =>
+      _preferences.getBool('onboarding_done_$userId') ?? false;
+  Future<void> setOnboardingDone(String userId) =>
+      _preferences.setBool('onboarding_done_$userId', true);
+
+  /// Last automatic update check, to run it at most once a day.
+  DateTime? get lastUpdateCheck {
+    final millis = _preferences.getInt('last_update_check');
+    return millis == null ? null : DateTime.fromMillisecondsSinceEpoch(millis);
+  }
+
+  Future<void> setLastUpdateCheck(DateTime value) =>
+      _preferences.setInt('last_update_check', value.millisecondsSinceEpoch);
+
   /// Id of the signed-in user, null when signed out.
   String? get sessionUserId => _preferences.getString(_sessionUserIdKey);
   Future<void> setSessionUserId(String? value) => value == null

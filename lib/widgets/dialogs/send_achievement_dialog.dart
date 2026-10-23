@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:scoreboard/model/achievement_template.dart';
 import 'package:scoreboard/model/send_achievement.dart';
 import 'package:scoreboard/widgets/achievement_style.dart';
+import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 import 'package:scoreboard/widgets/dialogs/dialog_scaffold.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
@@ -44,7 +45,10 @@ class _SendAchievementDialogState extends State<_SendAchievementDialog> {
       _colleagueId != null && options.alreadySent(template.id, _colleagueId!);
 
   bool get _canSend =>
-      _colleagueId != null && _template != null && !_isSent(_template!);
+      options.remainingBudget > 0 &&
+      _colleagueId != null &&
+      _template != null &&
+      !_isSent(_template!);
 
   @override
   void initState() {
@@ -110,6 +114,12 @@ class _SendAchievementDialogState extends State<_SendAchievementDialog> {
       form: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          TagChip(
+              icon: Icons.toll_rounded,
+              color: Theme.of(context).colorScheme.primary,
+              label: context.l10n.budgetRemaining(options.remainingBudget,
+                  SendAchievementOptions.monthlyBudget)),
+          const SizedBox(height: 16),
           FieldLabel(context.l10n.fieldColleague),
           Wrap(
             spacing: 8,
