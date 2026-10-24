@@ -106,6 +106,7 @@ void main() {
         l10n.consoleCatalog,
         l10n.consoleAssign,
         l10n.navRequests,
+        l10n.consoleMembers,
         l10n.consoleTeams,
         l10n.consoleSeasons,
         l10n.consoleStats,
@@ -124,6 +125,13 @@ void main() {
     final semantics = tester.ensureSemantics();
     await pumpApp(tester, prefs: basePrefs(signedIn: false));
     await _expectGuidelines(tester, 'Sign in');
+
+    await tester.tap(find.text(l10n.createAccount).first);
+    await settle(tester);
+    await _expectGuidelines(tester, 'Join a company');
+    await tester.tap(find.text(l10n.registerCreateCompany));
+    await settle(tester);
+    await _expectGuidelines(tester, 'Create a company');
     semantics.dispose();
   });
 

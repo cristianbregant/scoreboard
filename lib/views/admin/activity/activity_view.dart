@@ -41,6 +41,12 @@ class _ActivityViewState
         ActivityType.anniversariesUpdated => Icons.cake_outlined,
         ActivityType.reportExported => Icons.download_outlined,
         ActivityType.personalDataExported => Icons.shield_outlined,
+        ActivityType.memberInvited ||
+        ActivityType.inviteRevoked =>
+          Icons.mail_outline_rounded,
+        ActivityType.adminGranted ||
+        ActivityType.adminRevoked =>
+          Icons.admin_panel_settings_outlined,
       };
 
   @override

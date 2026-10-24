@@ -9,6 +9,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:scoreboard/app/app.dart';
 import 'package:scoreboard/core/locator/locator.dart';
 import 'package:scoreboard/generated/l10n.dart';
+import 'package:scoreboard/interactors/interactors.dart';
 import 'package:scoreboard/model/release.dart';
 import 'package:scoreboard/services/mock_scoreboard_repository.dart';
 import 'package:scoreboard/services/system_notification_service.dart';
@@ -73,6 +74,17 @@ Future<void> setUpApp(
   getIt.unregister<UpdateService>();
   getIt.registerSingleton<UpdateService>(FakeUpdateService());
   await AppLocalization.load(const Locale('en'));
+}
+
+/// Has the demo admin invite [email] to Northwind Labs, then signs out.
+/// Returns the code the email would carry.
+Future<String> inviteToNorthwind(String email) async {
+  final auth = getIt<AuthInteractor>();
+  await auth.signIn(demoEmail, demoPassword);
+  final invite =
+      await getIt<MemberInteractor>().invite(email, languageCode: 'en');
+  await auth.signOut();
+  return invite.code!;
 }
 
 /// Current preferences, to restart the app on the same data.

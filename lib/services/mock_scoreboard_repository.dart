@@ -12,6 +12,7 @@ import 'package:scoreboard/model/achievement_template.dart';
 import 'package:scoreboard/model/app_notification.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
 import 'package:scoreboard/model/feed.dart';
+import 'package:scoreboard/model/invite.dart';
 import 'package:scoreboard/model/player_level.dart';
 import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/model/auth.dart';
@@ -34,7 +35,16 @@ class MockScoreboardRepository implements ScoreboardRepository {
 
   final SharedPreference _preferences;
 
-  late final List<Company> _companies = _buildCompanies();
+  /// The seed companies, then the ones created at registration.
+  late final List<Company> _customCompanies =
+      _load('companies', Company.fromJson, () => []);
+  List<Company> get _companies => [..._buildCompanies(), ..._customCompanies];
+
+  late final List<Invite> _invites =
+      _load('invites', Invite.fromJson, () => []);
+
+  /// Wrong invitation codes typed per email, as the server counts them.
+  final Map<String, int> _failedInviteAttempts = {};
   late List<UserProfile> _users = _buildUsers();
   late final int _seedUserCount = _buildSeedUsers().length;
   late final Map<String, _Credential> _credentials = _loadCredentials();
@@ -115,13 +125,18 @@ class MockScoreboardRepository implements ScoreboardRepository {
     if (_isEmailTaken(email)) {
       throw const AuthException(AuthError.emailTaken);
     }
+    final newCompany = draft.newCompany;
+    final companyId = newCompany == null
+        ? await _acceptInvite(email, draft.inviteCode ?? '')
+        : (await _createCompany(newCompany)).id;
     final user = UserProfile(
       id: 'u_${DateTime.now().microsecondsSinceEpoch}',
       name: draft.name.trim(),
       role: draft.role.trim(),
       email: email,
-      companyId: draft.companyId,
+      companyId: companyId,
       joinedAt: DateTime.now(),
+      isCompanyAdmin: newCompany != null,
     );
     _users = [..._users, user];
     _storedUserIds.add(user.id);
@@ -130,6 +145,66 @@ class MockScoreboardRepository implements ScoreboardRepository {
     await _persistCredentials();
     await _preferences.setSessionUserId(user.id);
     return user;
+  }
+
+  /// The company [email] was invited to with [code], using the invitation
+  /// up. Five wrong codes cancel the email's invitations, as on the server.
+  Future<String> _acceptInvite(String email, String code) async {
+    final now = DateTime.now();
+    final invite = _invites
+        .where((i) =>
+            i.email == email &&
+            !i.isExpiredAt(now) &&
+            i.code != null &&
+            _normalizeCode(i.code!) == _normalizeCode(code))
+        .firstOrNull;
+    if (invite == null) {
+      final attempts = (_failedInviteAttempts[email] ?? 0) + 1;
+      _failedInviteAttempts[email] = attempts;
+      if (attempts >= _maxInviteAttempts) {
+        _invites.removeWhere((i) => i.email == email);
+        await _save('invites', _invites, (i) => i.toJson());
+      }
+      throw const AuthException(AuthError.invalidInviteCode);
+    }
+    _invites.removeWhere((i) => i.email == email);
+    _failedInviteAttempts.remove(email);
+    await _save('invites', _invites, (i) => i.toJson());
+    return invite.companyId;
+  }
+
+  Future<Company> _createCompany(CompanyDraft draft) async {
+    final name = draft.name.trim();
+    if (name.isEmpty) throw const AuthException(AuthError.missingCompanyName);
+    if (_companies.any((c) => c.name.toLowerCase() == name.toLowerCase())) {
+      throw const AuthException(AuthError.companyNameTaken);
+    }
+    final company = Company(
+      id: 'c_${DateTime.now().microsecondsSinceEpoch}',
+      name: name,
+      description: '',
+      industry: draft.industry.trim(),
+      location: draft.location.trim(),
+      foundedYear: DateTime.now().year,
+    );
+    _customCompanies.add(company);
+    await _save('companies', _customCompanies, (c) => c.toJson());
+    return company;
+  }
+
+  static const int _maxInviteAttempts = 5;
+
+  static String _normalizeCode(String code) =>
+      code.toUpperCase().replaceAll(RegExp('[^A-Z0-9]'), '');
+
+  /// `ABCD-EFGH`, without characters that are easy to confuse.
+  static String _newInviteCode() {
+    const alphabet = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    final random = Random.secure();
+    final chars = [
+      for (var i = 0; i < 8; i++) alphabet[random.nextInt(alphabet.length)]
+    ];
+    return '${chars.take(4).join()}-${chars.skip(4).join()}';
   }
 
   @override
@@ -498,6 +573,53 @@ class MockScoreboardRepository implements ScoreboardRepository {
     _achievements.addAll(_buildAnniversaries(companyId: settings.companyId));
   }
 
+  @override
+  Future<List<Invite>> getInvites(String companyId) async {
+    await Future.delayed(_latency);
+    return _invites.where((i) => i.companyId == companyId).toList()
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
+
+  /// There is no email here: the invitation keeps its code, for the admin
+  /// to pass on.
+  @override
+  Future<Invite> createInvite(String email,
+      {required String languageCode}) async {
+    await Future.delayed(_latency);
+    final admin = _currentUser();
+    final now = DateTime.now();
+    final invite = Invite(
+      id: 'inv_${now.microsecondsSinceEpoch}',
+      companyId: admin.companyId,
+      email: _normalize(email),
+      invitedById: admin.id,
+      invitedByName: admin.name,
+      createdAt: now,
+      expiresAt: now.add(Invite.validity),
+      code: _newInviteCode(),
+    );
+    _invites.removeWhere(
+        (i) => i.email == invite.email && i.companyId == invite.companyId);
+    _invites.add(invite);
+    await _save('invites', _invites, (i) => i.toJson());
+    return invite;
+  }
+
+  @override
+  Future<void> revokeInvite(String inviteId) async {
+    await Future.delayed(_latency);
+    _invites.removeWhere((i) => i.id == inviteId);
+    await _save('invites', _invites, (i) => i.toJson());
+  }
+
+  @override
+  Future<void> setCompanyAdmin(String userId, bool isAdmin) async {
+    await Future.delayed(_latency);
+    final user = _users.firstWhere((u) => u.id == userId);
+    _replaceUser(user.copyWith(isCompanyAdmin: isAdmin));
+    await _persistUsers();
+  }
+
   static const String _anniversaryPrefix = 'anniv_';
 
   /// Plays the role of a daily server job: a verified achievement on each
@@ -832,9 +954,8 @@ class MockScoreboardRepository implements ScoreboardRepository {
     final seed = _buildSeedUsers();
     final seedIds = seed.map((user) => user.id).toSet();
     return [
-      // The role is managed by the company, not by the profile edits.
-      for (final user in seed)
-        stored[user.id]?.copyWith(isCompanyAdmin: user.isCompanyAdmin) ?? user,
+      // Profile edits keep the role; only admins change it.
+      for (final user in seed) stored[user.id] ?? user,
       ...stored.values.where((user) => !seedIds.contains(user.id)),
     ];
   }

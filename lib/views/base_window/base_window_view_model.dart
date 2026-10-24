@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:scoreboard/core/app_navigation.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/localization_manager.dart';
@@ -8,6 +10,7 @@ import 'package:scoreboard/interactors/notification_interactor.dart';
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/interactors/update_interactor.dart';
 import 'package:scoreboard/model/app_notification.dart';
+import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/views/_base/base_view_model.dart';
 import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
@@ -27,11 +30,18 @@ class BaseWindowViewModel
   final TeamInteractor _teams;
   bool _startupChecksDone = false;
 
+  /// How often to look for news from other people, e.g. an achievement a
+  /// colleague sent. Only with the backend: the mock changes only when
+  /// this app writes to it. Null never checks.
+  final Duration? refreshInterval;
+  Timer? _refreshTimer;
+
   /// Where the sidebar returns when admin mode is turned off.
   AppPage _lastPage = AppPage.achievements;
 
   BaseWindowViewModel(this.interactor, this._notifications, this._navigation,
-      this._configuration, this._updates, this._admin, this._teams);
+      this._configuration, this._updates, this._admin, this._teams,
+      {this.refreshInterval});
 
   @override
   void onInitState() {
@@ -39,10 +49,15 @@ class BaseWindowViewModel
     interactor.addListener(loadCurrentUser);
     _navigation.addListener(_onNavigationRequest);
     loadCurrentUser();
+    final interval = refreshInterval;
+    if (interval != null) {
+      _refreshTimer = Timer.periodic(interval, (_) => _checkForNews());
+    }
   }
 
   @override
   void onDispose() {
+    _refreshTimer?.cancel();
     interactor.removeListener(loadCurrentUser);
     _navigation.removeListener(_onNavigationRequest);
   }
@@ -128,6 +143,23 @@ class BaseWindowViewModel
       _runStartupChecks(user.id);
     } catch (_) {
       // The sidebar footer and the bell simply stay empty.
+    }
+  }
+
+  /// A new notification means someone else changed something that concerns
+  /// the user: every screen reloads, and the notification pops up. When the
+  /// session has expired, back to the sign-in screen.
+  Future<void> _checkForNews() async {
+    try {
+      final known = {for (final n in vmState.notifications) n.id};
+      final latest = await _notifications.getNotifications();
+      if (latest.any((n) => !known.contains(n.id))) interactor.dataChanged();
+    } on AuthException catch (e) {
+      if (e.error != AuthError.notSignedIn) return;
+      _refreshTimer?.cancel();
+      sourceView.openSignIn();
+    } catch (_) {
+      // Offline or the server is down: try again at the next tick.
     }
   }
 

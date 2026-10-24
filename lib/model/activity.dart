@@ -19,6 +19,10 @@ enum ActivityType {
   anniversariesUpdated,
   reportExported,
   personalDataExported,
+  memberInvited,
+  inviteRevoked,
+  adminGranted,
+  adminRevoked,
 }
 
 /// One line of the activity log. It keeps names as they were at the time,

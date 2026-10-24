@@ -4,6 +4,7 @@ class SharedPreference {
   static const String _darkThemeKey = 'dark_theme';
   static const String _languageCodeKey = 'language_code';
   static const String _sessionUserIdKey = 'session_user_id';
+  static const String _sessionTokenKey = 'session_token';
   static const String _storedUsersKey = 'stored_users';
   static const String _credentialsKey = 'credentials';
   static const String _customTemplatesKey = 'custom_templates';
@@ -48,6 +49,12 @@ class SharedPreference {
   Future<void> setSessionUserId(String? value) => value == null
       ? _preferences.remove(_sessionUserIdKey)
       : _preferences.setString(_sessionUserIdKey, value);
+
+  /// Token of the backend session, null when signed out or on the mock.
+  String? get sessionToken => _preferences.getString(_sessionTokenKey);
+  Future<void> setSessionToken(String? value) => value == null
+      ? _preferences.remove(_sessionTokenKey)
+      : _preferences.setString(_sessionTokenKey, value);
 
   /// JSON-encoded profiles that were registered or edited in the app.
   List<String> get storedUsers =>

@@ -10,6 +10,7 @@ export 'package:scoreboard/views/auth/auth_view_model.dart';
 export 'package:scoreboard/views/feed/feed_view_model.dart';
 export 'package:scoreboard/views/console/console_view_model.dart';
 export 'package:scoreboard/views/team/team_view_model.dart';
+export 'package:scoreboard/views/admin/members/members_admin_view_model.dart';
 export 'package:scoreboard/views/admin/teams/teams_admin_view_model.dart';
 export 'package:scoreboard/views/admin/seasons/seasons_admin_view_model.dart';
 export 'package:scoreboard/views/admin/reports/reports_view_model.dart';

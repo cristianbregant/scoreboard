@@ -23,6 +23,7 @@ enum ConsoleSection {
   catalog,
   assign,
   requests,
+  members,
   teams,
   seasons,
   insights,

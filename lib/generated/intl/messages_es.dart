@@ -26,238 +26,265 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(count, subject) =>
       "${Intl.plural(count, one: 'asignó «${subject}» a 1 persona', other: 'asignó «${subject}» a ${count} personas')}";
 
-  static String m2(subject) => "archivó «${subject}»";
+  static String m2(subject) => "hizo administrador a ${subject}";
 
-  static String m3(subject) => "añadió «${subject}» al catálogo";
+  static String m3(subject) =>
+      "quitó los permisos de administrador a ${subject}";
 
-  static String m4(subject) => "restauró «${subject}»";
+  static String m4(subject) => "archivó «${subject}»";
 
-  static String m5(subject) => "editó «${subject}»";
+  static String m5(subject) => "añadió «${subject}» al catálogo";
 
-  static String m6(subject, target) => "movió a ${subject} a ${target}";
+  static String m6(subject) => "restauró «${subject}»";
 
-  static String m7(subject) => "sacó a ${subject} de su equipo";
+  static String m7(subject) => "editó «${subject}»";
 
-  static String m8(subject, target) => "propuso «${subject}» para ${target}";
+  static String m8(subject) => "revocó la invitación de ${subject}";
 
-  static String m9(target) => "exportó los datos personales de ${target}";
+  static String m9(subject) => "invitó a ${subject}";
 
-  static String m10(target) => "exportó el informe de logros (${target})";
+  static String m10(subject, target) => "movió a ${subject} a ${target}";
 
-  static String m11(target) => "exportó el informe por persona (${target})";
+  static String m11(subject) => "sacó a ${subject} de su equipo";
 
-  static String m12(subject, target) => "aprobó «${subject}» para ${target}";
+  static String m12(subject, target) => "propuso «${subject}» para ${target}";
 
-  static String m13(subject, target) => "rechazó «${subject}» para ${target}";
+  static String m13(target) => "exportó los datos personales de ${target}";
 
-  static String m14(subject) => "creó la temporada ${subject}";
+  static String m14(target) => "exportó el informe de logros (${target})";
 
-  static String m15(subject) => "eliminó la temporada ${subject}";
+  static String m15(target) => "exportó el informe por persona (${target})";
 
-  static String m16(subject) => "editó la temporada ${subject}";
+  static String m16(subject, target) => "aprobó «${subject}» para ${target}";
 
-  static String m17(subject) => "creó el equipo ${subject}";
+  static String m17(subject, target) => "rechazó «${subject}» para ${target}";
 
-  static String m18(subject) => "eliminó el equipo ${subject}";
+  static String m18(subject) => "creó la temporada ${subject}";
 
-  static String m19(subject) => "editó el equipo ${subject}";
+  static String m19(subject) => "eliminó la temporada ${subject}";
 
-  static String m20(company) => "Admin · ${company}";
+  static String m20(subject) => "editó la temporada ${subject}";
 
-  static String m21(points) => "${points} XP";
+  static String m21(subject) => "creó el equipo ${subject}";
 
-  static String m22(years) =>
+  static String m22(subject) => "eliminó el equipo ${subject}";
+
+  static String m23(subject) => "editó el equipo ${subject}";
+
+  static String m24(company) => "Admin · ${company}";
+
+  static String m25(name) => "${name} ahora es administrador";
+
+  static String m26(name) => "${name} ya no es administrador";
+
+  static String m27(points) => "${points} XP";
+
+  static String m28(years) =>
       "${Intl.plural(years, one: '1 año', other: '${years} años')}";
 
-  static String m23(count) =>
+  static String m29(count) =>
       "${Intl.plural(count, zero: 'Asignar', one: 'Asignar a 1 persona', other: 'Asignar a ${count} personas')}";
 
-  static String m24(maxPoints) =>
+  static String m30(maxPoints) =>
       "Los logros básicos se envían entre compañeros y valen hasta ${maxPoints} XP. Los logros verificados solo los emite tu empresa. Puedes enviar cada logro básico al mismo compañero una sola vez.";
 
-  static String m25(company) =>
+  static String m31(company) =>
       "Vuestro color y vuestro logo sustituyen al oro de Scoreboard para todo ${company}. El color se ajusta para que los textos sigan siendo legibles.";
 
-  static String m26(remaining, budget) =>
+  static String m32(remaining, budget) =>
       "Te quedan ${remaining} de ${budget} envíos este mes";
 
-  static String m27(name) => "De ${name}";
+  static String m33(name) => "De ${name}";
 
-  static String m28(date) => "Emitido el ${date}";
+  static String m34(date) => "Emitido el ${date}";
 
-  static String m29(date) => "Recibido el ${date}";
+  static String m35(date) => "Recibido el ${date}";
 
-  static String m30(id) => "ID de la credencial: ${id}";
+  static String m36(id) => "ID de la credencial: ${id}";
 
-  static String m31(company, date) => "Emitido por ${company} el ${date}";
+  static String m37(company, date) => "Emitido por ${company} el ${date}";
 
-  static String m32(count) =>
+  static String m38(count) =>
       "${Intl.plural(count, zero: 'Comentar', one: '1 comentario', other: '${count} comentarios')}";
 
-  static String m33(year) => "Desde ${year}";
+  static String m39(year) => "Desde ${year}";
 
-  static String m34(count) => "Solicitudes · ${count}";
+  static String m40(count) => "Solicitudes · ${count}";
 
-  static String m35(company) => "Gestiona los logros verificados de ${company}";
+  static String m41(company) => "Gestiona los logros verificados de ${company}";
 
-  static String m36(name) => "De ${name}";
+  static String m42(name) => "De ${name}";
 
-  static String m37(name) => "¿Eliminar ${name}?";
+  static String m43(name) => "¿Eliminar ${name}?";
 
-  static String m38(name) => "¿Eliminar ${name}?";
+  static String m44(name) => "¿Eliminar ${name}?";
 
-  static String m39(name) => "¿Eliminar «${name}»?";
+  static String m45(name) => "¿Eliminar «${name}»?";
 
-  static String m40(email, password) =>
+  static String m46(email, password) =>
       "Cuenta de demostración: ${email} / ${password}";
 
-  static String m41(id) => "ID ${id}";
+  static String m47(id) => "ID ${id}";
 
-  static String m42(template, colleague) =>
+  static String m48(template, colleague) =>
       "Ya enviaste «${template}» a ${colleague}.";
 
-  static String m43(budget) =>
+  static String m49(budget) =>
       "Ya has enviado los ${budget} logros de este mes. El presupuesto se renueva el día 1.";
 
-  static String m44(min, max) =>
+  static String m50(min, max) =>
       "El valor debe estar entre ${min} y ${max} XP.";
 
-  static String m45(values) => "Los logros básicos pueden valer ${values} XP.";
+  static String m51(values) => "Los logros básicos pueden valer ${values} XP.";
 
-  static String m46(min) =>
+  static String m52(min) =>
       "La contraseña debe tener al menos ${min} caracteres.";
 
-  static String m47(count) => "Todos · ${count}";
+  static String m53(count) => "Todos · ${count}";
 
-  static String m48(tier, count) => "${tier} · ${count}";
+  static String m54(tier, count) => "${tier} · ${count}";
 
-  static String m49(count) =>
+  static String m55(code) => "Código ${code}";
+
+  static String m56(name, date) => "Invitado por ${name} · caduca el ${date}";
+
+  static String m57(company) =>
+      "Recibirá por correo un código para unirse a ${company}. El código es válido durante 7 días.";
+
+  static String m58(email) => "¿Revocar la invitación de ${email}?";
+
+  static String m59(email) => "Invitación enviada a ${email}";
+
+  static String m60(email, code) =>
+      "Modo demo, no se ha enviado ningún correo: dale a ${email} el código ${code}";
+
+  static String m61(count) =>
       "${Intl.plural(count, one: 'Emitido a 1 persona', other: 'Emitido a ${count} personas')}";
 
-  static String m50(count) =>
+  static String m62(count) =>
       "${Intl.plural(count, one: 'una vez', other: '${count} veces')}";
 
-  static String m51(level, points) => "Nivel ${level} · ${points} XP";
+  static String m63(level, points) => "Nivel ${level} · ${points} XP";
 
-  static String m52(level) => "Nivel ${level}";
+  static String m64(level) => "Nivel ${level}";
 
-  static String m53(count) => "Biblioteca · ${count}";
+  static String m65(count) => "Biblioteca · ${count}";
 
-  static String m54(date) => "Miembro desde ${date}";
+  static String m66(date) => "Miembro desde ${date}";
 
-  static String m55(name) => "Equipo de ${name}";
+  static String m67(name) => "Equipo de ${name}";
 
-  static String m56(count) =>
+  static String m68(count) =>
       "${Intl.plural(count, one: '1 miembro', other: '${count} miembros')}";
 
-  static String m57(name) =>
+  static String m69(name) =>
       "Para ${name}. Un administrador revisará tu propuesta.";
 
-  static String m58(achievement) =>
+  static String m70(achievement) =>
       "«${achievement}» se ha aprobado y ya está en tus logros";
 
-  static String m59(actor, achievement, text) =>
+  static String m71(actor, achievement, text) =>
       "${actor} ha comentado «${achievement}»: ${text}";
 
-  static String m60(level) => "Has alcanzado el nivel ${level}";
+  static String m72(level) => "Has alcanzado el nivel ${level}";
 
-  static String m61(actor, achievement) =>
+  static String m73(actor, achievement) =>
       "${actor} ha solicitado «${achievement}»";
 
-  static String m62(actor, achievement, member) =>
+  static String m74(actor, achievement, member) =>
       "${actor} propone «${achievement}» para ${member}";
 
-  static String m63(actor, achievement) =>
+  static String m75(actor, achievement) =>
       "${actor} te ha enviado «${achievement}»";
 
-  static String m64(actor, achievement) =>
+  static String m76(actor, achievement) =>
       "${actor} ha reaccionado a «${achievement}»";
 
-  static String m65(xp, rank) => "Esta semana: +${xp} XP · posición #${rank}";
+  static String m77(xp, rank) => "Esta semana: +${xp} XP · posición #${rank}";
 
-  static String m66(achievement) => "«${achievement}» no se ha aprobado";
+  static String m78(achievement) => "«${achievement}» no se ha aprobado";
 
-  static String m67(achievement, reason) =>
+  static String m79(achievement, reason) =>
       "«${achievement}» no se ha aprobado: ${reason}";
 
-  static String m68(company, achievement) =>
+  static String m80(company, achievement) =>
       "${company} te ha emitido «${achievement}»";
 
-  static String m69(count) =>
+  static String m81(count) =>
       "${Intl.plural(count, zero: 'No hay notificaciones sin leer', one: '1 notificación sin leer', other: '${count} notificaciones sin leer')}";
 
-  static String m70(shortcut) =>
+  static String m82(shortcut) =>
       "Pulsa ${shortcut} para enviar un logro desde cualquier sitio, o usa el icono de la barra de menús.";
 
-  static String m71(budget) =>
+  static String m83(budget) =>
       "Los logros verificados vienen de tu empresa: puedes solicitarlos desde el catálogo. Los logros básicos se intercambian entre compañeros, hasta ${budget} al mes.";
 
-  static String m72(min) => "Al menos ${min} caracteres";
+  static String m84(min) => "Al menos ${min} caracteres";
 
-  static String m73(percent) => "${percent} %";
+  static String m85(percent) => "${percent} %";
 
-  static String m74(rank) => "#${rank}";
+  static String m86(rank) => "#${rank}";
 
-  static String m75(reason) => "Motivo: ${reason}";
+  static String m87(reason) => "Motivo: ${reason}";
 
-  static String m76(company) =>
+  static String m88(company) =>
       "Un administrador de ${company} revisará tu solicitud.";
 
-  static String m77(name) => "Propuesto por ${name}";
+  static String m89(name) => "Propuesto por ${name}";
 
-  static String m78(role, company) => "${role} en ${company}";
+  static String m90(role, company) => "${role} en ${company}";
 
-  static String m79(days) =>
+  static String m91(days) =>
       "${Intl.plural(days, one: 'Queda 1 día', other: 'Quedan ${days} días')}";
 
-  static String m80(start, end) => "${start} – ${end}";
+  static String m92(start, end) => "${start} – ${end}";
 
-  static String m81(rank, points) => "Vas #${rank} con ${points} XP";
+  static String m93(rank, points) => "Vas #${rank} con ${points} XP";
 
-  static String m82(name) => "Logro enviado a ${name}";
+  static String m94(name) => "Logro enviado a ${name}";
 
-  static String m83(count) => "Enviados por ti · ${count}";
+  static String m95(count) => "Enviados por ti · ${count}";
 
-  static String m84(count) => "${count} enviados";
+  static String m96(count) => "${count} enviados";
 
-  static String m85(company) =>
+  static String m97(company) =>
       "Lo añade a Licencias y certificaciones, con ${company} como emisor.";
 
-  static String m86(company) => "Emitido por ${company}";
+  static String m98(company) => "Emitido por ${company}";
 
-  static String m87(sender, name, description) =>
+  static String m99(sender, name, description) =>
       "🤝 ${sender} me ha reconocido con el logro «${name}».\n\n${description}\n\n#Scoreboard";
 
-  static String m88(name, company, description) =>
+  static String m100(name, company, description) =>
       "🏆 Acabo de conseguir el logro «${name}», emitido por ${company}.\n\n${description}\n\n#Scoreboard";
 
-  static String m89(time) => "Último reconocimiento: ${time}";
+  static String m101(time) => "Último reconocimiento: ${time}";
 
-  static String m90(received, sent) =>
+  static String m102(received, sent) =>
       "${received} recibidos · ${sent} enviados en 90 días";
 
-  static String m91(name) => "«${name}» añadido a la biblioteca";
+  static String m103(name) => "«${name}» añadido a la biblioteca";
 
-  static String m92(name) => "«${name}» eliminado";
+  static String m104(name) => "«${name}» eliminado";
 
-  static String m93(count) =>
+  static String m105(count) =>
       "${Intl.plural(count, one: 'Ayer', other: 'hace ${count} días')}";
 
-  static String m94(count) => "hace ${count} h";
+  static String m106(count) => "hace ${count} h";
 
-  static String m95(count) => "hace ${count} min";
+  static String m107(count) => "hace ${count} min";
 
-  static String m96(version) => "Ya está disponible la versión ${version}";
+  static String m108(version) => "Ya está disponible la versión ${version}";
 
-  static String m97(count) => "${count} verificados";
+  static String m109(count) => "${count} verificados";
 
-  static String m98(version) => "Versión ${version}";
+  static String m110(version) => "Versión ${version}";
 
-  static String m99(points, level) => "${points} XP para el nivel ${level}";
+  static String m111(points, level) => "${points} XP para el nivel ${level}";
 
-  static String m100(points) => "${points} XP";
+  static String m112(points) => "${points} XP";
 
-  static String m101(name) => "${name} (tú)";
+  static String m113(name) => "${name} (tú)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -283,37 +310,42 @@ class MessageLookup extends MessageLookupByLibrary {
           "No ha funcionado. Inténtalo de nuevo.",
         ),
         "activityAchievementsIssued": m1,
+        "activityAdminGranted": m2,
+        "activityAdminRevoked": m3,
         "activityAnniversariesUpdated": MessageLookupByLibrary.simpleMessage(
           "cambió los aniversarios laborales",
         ),
         "activityBrandUpdated": MessageLookupByLibrary.simpleMessage(
           "cambió el color o el logo de la empresa",
         ),
-        "activityCatalogArchived": m2,
-        "activityCatalogCreated": m3,
-        "activityCatalogRestored": m4,
-        "activityCatalogUpdated": m5,
+        "activityCatalogArchived": m4,
+        "activityCatalogCreated": m5,
+        "activityCatalogRestored": m6,
+        "activityCatalogUpdated": m7,
         "activityEmpty": MessageLookupByLibrary.simpleMessage(
           "Todavía no hay actividad registrada.",
         ),
         "activityHint": MessageLookupByLibrary.simpleMessage(
           "Lo que han hecho administradores y responsables, de lo más reciente a lo más antiguo. No se puede modificar.",
         ),
-        "activityMemberMoved": m6,
-        "activityMemberRemoved": m7,
-        "activityNominationSubmitted": m8,
-        "activityPersonalDataExported": m9,
-        "activityReportAchievements": m10,
-        "activityReportPeople": m11,
-        "activityRequestApproved": m12,
-        "activityRequestRejected": m13,
-        "activitySeasonCreated": m14,
-        "activitySeasonDeleted": m15,
-        "activitySeasonUpdated": m16,
-        "activityTeamCreated": m17,
-        "activityTeamDeleted": m18,
-        "activityTeamUpdated": m19,
-        "adminBadge": m20,
+        "activityInviteRevoked": m8,
+        "activityMemberInvited": m9,
+        "activityMemberMoved": m10,
+        "activityMemberRemoved": m11,
+        "activityNominationSubmitted": m12,
+        "activityPersonalDataExported": m13,
+        "activityReportAchievements": m14,
+        "activityReportPeople": m15,
+        "activityRequestApproved": m16,
+        "activityRequestRejected": m17,
+        "activitySeasonCreated": m18,
+        "activitySeasonDeleted": m19,
+        "activitySeasonUpdated": m20,
+        "activityTeamCreated": m21,
+        "activityTeamDeleted": m22,
+        "activityTeamUpdated": m23,
+        "adminBadge": m24,
+        "adminGrantedMessage": m25,
         "adminGroupCompany": MessageLookupByLibrary.simpleMessage("EMPRESA"),
         "adminGroupData": MessageLookupByLibrary.simpleMessage("DATOS"),
         "adminGroupPeople": MessageLookupByLibrary.simpleMessage("PERSONAS"),
@@ -323,6 +355,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "adminMode": MessageLookupByLibrary.simpleMessage("Modo administrador"),
         "adminModeHint": MessageLookupByLibrary.simpleMessage(
           "Gestiona los logros verificados de tu empresa",
+        ),
+        "adminRevokeSelfAction":
+            MessageLookupByLibrary.simpleMessage("Renunciar"),
+        "adminRevokeSelfBody": MessageLookupByLibrary.simpleMessage(
+          "Saldrás de la consola y ya no podrás gestionar la empresa. Otro administrador podrá devolverte estos permisos.",
+        ),
+        "adminRevokeSelfTitle": MessageLookupByLibrary.simpleMessage(
+          "¿Renunciar a tus permisos de administrador?",
+        ),
+        "adminRevokedMessage": m26,
+        "adminRole": MessageLookupByLibrary.simpleMessage("Administrador"),
+        "adminRoleTooltip": MessageLookupByLibrary.simpleMessage(
+          "Puede usar la consola y gestionar la empresa",
         ),
         "alreadyHasIt": MessageLookupByLibrary.simpleMessage("Ya lo tiene"),
         "alreadySentToColleague": MessageLookupByLibrary.simpleMessage(
@@ -337,25 +382,31 @@ class MessageLookup extends MessageLookupByLibrary {
         "anniversariesTitle": MessageLookupByLibrary.simpleMessage(
           "Aniversarios laborales",
         ),
-        "anniversaryXp": m21,
-        "anniversaryYears": m22,
+        "anniversaryXp": m27,
+        "anniversaryYears": m28,
         "appearanceSubtitle": MessageLookupByLibrary.simpleMessage(
           "Elige cómo se ve Scoreboard",
         ),
         "approve": MessageLookupByLibrary.simpleMessage("Aprobar"),
         "archive": MessageLookupByLibrary.simpleMessage("Archivar"),
         "archivedLabel": MessageLookupByLibrary.simpleMessage("Archivado"),
-        "assignButton": m23,
+        "assignButton": m29,
         "assignNoteHint": MessageLookupByLibrary.simpleMessage(
           "Un mensaje para quienes lo reciben",
         ),
         "assignNoteLabel":
             MessageLookupByLibrary.simpleMessage("Nota (opcional)"),
+        "authCreateCompanySubtitle": MessageLookupByLibrary.simpleMessage(
+          "Configura Scoreboard para tu empresa. Serás su administrador.",
+        ),
         "authCreateSubtitle": MessageLookupByLibrary.simpleMessage(
           "Únete al marcador de tu empresa.",
         ),
         "authCreateTitle":
             MessageLookupByLibrary.simpleMessage("Crea tu cuenta"),
+        "authJoinSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Usa el código de la invitación que recibiste por correo.",
+        ),
         "authPitch": MessageLookupByLibrary.simpleMessage(
           "Reúne los logros que emite tu empresa y reconoce a los compañeros que marcan la diferencia.",
         ),
@@ -373,28 +424,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "bannerGraphite": MessageLookupByLibrary.simpleMessage("Grafito"),
         "bannerOcean": MessageLookupByLibrary.simpleMessage("Océano"),
         "bannerSand": MessageLookupByLibrary.simpleMessage("Arena"),
-        "baseExplanation": m24,
+        "baseExplanation": m30,
         "baseSubtitle": MessageLookupByLibrary.simpleMessage(
           "Crea logros y envíalos a tus compañeros",
         ),
         "bioHint": MessageLookupByLibrary.simpleMessage(
           "Una línea sobre ti y lo que haces",
         ),
-        "brandBody": m25,
+        "brandBody": m31,
         "brandColor": MessageLookupByLibrary.simpleMessage("Color"),
         "brandDefault":
             MessageLookupByLibrary.simpleMessage("Oro de Scoreboard"),
         "brandLogo": MessageLookupByLibrary.simpleMessage("Logo"),
         "brandPreview": MessageLookupByLibrary.simpleMessage("Vista previa"),
         "brandTitle": MessageLookupByLibrary.simpleMessage("Marca"),
-        "budgetRemaining": m26,
+        "budgetRemaining": m32,
         "cardBaseAchievement":
             MessageLookupByLibrary.simpleMessage("Logro básico"),
         "cardFlip": MessageLookupByLibrary.simpleMessage("Dar la vuelta"),
-        "cardFrom": m27,
+        "cardFrom": m33,
         "cardIssuedBy": MessageLookupByLibrary.simpleMessage("EMITIDO POR"),
-        "cardIssuedOn": m28,
-        "cardReceivedOn": m29,
+        "cardIssuedOn": m34,
+        "cardReceivedOn": m35,
         "cardSentBy": MessageLookupByLibrary.simpleMessage("ENVIADO POR"),
         "cardVerifiedAchievement": MessageLookupByLibrary.simpleMessage(
           "Logro verificado",
@@ -411,11 +462,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "catalogSaved": MessageLookupByLibrary.simpleMessage(
           "Catálogo actualizado",
         ),
-        "certCredentialId": m30,
+        "certCredentialId": m36,
         "certHasEarned": MessageLookupByLibrary.simpleMessage(
           "ha conseguido el logro",
         ),
-        "certIssuedBy": m31,
+        "certIssuedBy": m37,
         "certPresentedTo":
             MessageLookupByLibrary.simpleMessage("Se certifica que"),
         "certTitle":
@@ -426,12 +477,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "checkForUpdates": MessageLookupByLibrary.simpleMessage(
           "Buscar actualizaciones",
         ),
-        "chooseCompany":
-            MessageLookupByLibrary.simpleMessage("Elige tu empresa"),
         "commentHint": MessageLookupByLibrary.simpleMessage(
           "Escribe un comentario…",
         ),
-        "commentsCount": m32,
+        "commentsCount": m38,
         "commonBack": MessageLookupByLibrary.simpleMessage("Atrás"),
         "commonCancel": MessageLookupByLibrary.simpleMessage("Cancelar"),
         "commonClose": MessageLookupByLibrary.simpleMessage("Cerrar"),
@@ -458,7 +507,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "companyCatalogHint": MessageLookupByLibrary.simpleMessage(
           "Los logros verificados que puedes conseguir. Si crees que te mereces uno, solicítalo.",
         ),
-        "companySince": m33,
+        "companyIndustryLabel": MessageLookupByLibrary.simpleMessage(
+          "Sector (opcional)",
+        ),
+        "companyLocationLabel": MessageLookupByLibrary.simpleMessage(
+          "Ciudad (opcional)",
+        ),
+        "companyNameLabel": MessageLookupByLibrary.simpleMessage(
+          "Nombre de la empresa",
+        ),
+        "companyNameRequired": MessageLookupByLibrary.simpleMessage(
+          "Introduce el nombre de la empresa",
+        ),
+        "companySince": m39,
         "confirmLabel": MessageLookupByLibrary.simpleMessage("Confirmar"),
         "confirmNewPassword": MessageLookupByLibrary.simpleMessage(
           "Confirma la nueva contraseña",
@@ -469,17 +530,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "consoleAssign": MessageLookupByLibrary.simpleMessage("Asignar"),
         "consoleCatalog": MessageLookupByLibrary.simpleMessage("Catálogo"),
         "consoleCompany": MessageLookupByLibrary.simpleMessage("Empresa"),
+        "consoleMembers": MessageLookupByLibrary.simpleMessage("Miembros"),
         "consoleReports": MessageLookupByLibrary.simpleMessage("Informes"),
-        "consoleRequests": m34,
+        "consoleRequests": m40,
         "consoleSeasons": MessageLookupByLibrary.simpleMessage("Temporadas"),
         "consoleStats": MessageLookupByLibrary.simpleMessage("Estadísticas"),
-        "consoleSubtitle": m35,
+        "consoleSubtitle": m41,
         "consoleTeams": MessageLookupByLibrary.simpleMessage("Equipos"),
         "createAccount": MessageLookupByLibrary.simpleMessage("Crear cuenta"),
         "createDialogSubtitle": MessageLookupByLibrary.simpleMessage(
           "Cualquiera de tu empresa puede enviárselo a un compañero.",
         ),
-        "createdBy": m36,
+        "createdBy": m42,
         "createdByYou": MessageLookupByLibrary.simpleMessage("Creado por ti"),
         "currentPassword": MessageLookupByLibrary.simpleMessage(
           "Contraseña actual",
@@ -491,16 +553,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteSeasonBody": MessageLookupByLibrary.simpleMessage(
           "Su clasificación desaparece. Los logros se conservan.",
         ),
-        "deleteSeasonTitle": m37,
+        "deleteSeasonTitle": m43,
         "deleteTeamBody": MessageLookupByLibrary.simpleMessage(
           "Sus miembros se quedarán sin equipo. Sus logros se conservan.",
         ),
-        "deleteTeamTitle": m38,
+        "deleteTeamTitle": m44,
         "deleteTemplateBody": MessageLookupByLibrary.simpleMessage(
           "Se quitará de la biblioteca. Los compañeros que ya lo recibieron conservan su logro.",
         ),
-        "deleteTemplateTitle": m39,
-        "demoAccount": m40,
+        "deleteTemplateTitle": m45,
+        "demoAccount": m46,
         "descriptionHint": MessageLookupByLibrary.simpleMessage(
           "¿Qué hay que hacer para merecerlo?",
         ),
@@ -510,7 +572,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "detailCompany": MessageLookupByLibrary.simpleMessage("Empresa"),
         "detailEarnedOn": MessageLookupByLibrary.simpleMessage("Conseguido el"),
         "detailExperience": MessageLookupByLibrary.simpleMessage("Experiencia"),
-        "detailId": m41,
+        "detailId": m47,
         "detailSentBy": MessageLookupByLibrary.simpleMessage("Enviado por"),
         "detailTier": MessageLookupByLibrary.simpleMessage("Nivel"),
         "earnedLabel": MessageLookupByLibrary.simpleMessage("Conseguido"),
@@ -528,19 +590,34 @@ class MessageLookup extends MessageLookupByLibrary {
         "emptyOpenCatalog": MessageLookupByLibrary.simpleMessage(
           "Abrir el catálogo",
         ),
+        "errorAlreadyMember": MessageLookupByLibrary.simpleMessage(
+          "Esta persona ya tiene una cuenta de Scoreboard.",
+        ),
         "errorAlreadyOwned": MessageLookupByLibrary.simpleMessage(
           "Ya tienes este logro.",
         ),
-        "errorAlreadySent": m42,
-        "errorBudgetExhausted": m43,
-        "errorCatalogPoints": m44,
+        "errorAlreadySent": m48,
+        "errorBudgetExhausted": m49,
+        "errorCatalogPoints": m50,
+        "errorCompanyNameTaken": MessageLookupByLibrary.simpleMessage(
+          "Ya hay una empresa con este nombre en Scoreboard. Pide a uno de sus administradores que te invite.",
+        ),
+        "errorEmailNotSent": MessageLookupByLibrary.simpleMessage(
+          "No se ha podido enviar el correo de invitación. Inténtalo más tarde.",
+        ),
         "errorEmailTaken": MessageLookupByLibrary.simpleMessage(
           "Ya existe una cuenta con este correo.",
         ),
         "errorInvalidDates": MessageLookupByLibrary.simpleMessage(
           "La fecha de fin no puede ser anterior a la de inicio.",
         ),
-        "errorInvalidPoints": m45,
+        "errorInvalidInviteCode": MessageLookupByLibrary.simpleMessage(
+          "El código no es válido para este correo o ha caducado. Pide una nueva invitación a un administrador.",
+        ),
+        "errorInvalidPoints": m51,
+        "errorLastAdmin": MessageLookupByLibrary.simpleMessage(
+          "La empresa necesita al menos un administrador.",
+        ),
         "errorMissingCredentials": MessageLookupByLibrary.simpleMessage(
           "Escribe tu correo y tu contraseña.",
         ),
@@ -569,7 +646,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorNotTemplateOwner": MessageLookupByLibrary.simpleMessage(
           "Solo puedes eliminar los logros básicos que has creado tú.",
         ),
-        "errorPasswordTooShort": m46,
+        "errorPasswordTooShort": m52,
         "errorRequestPending": MessageLookupByLibrary.simpleMessage(
           "Ya tienes una solicitud pendiente para este logro.",
         ),
@@ -631,8 +708,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "fieldName": MessageLookupByLibrary.simpleMessage("Nombre"),
         "fieldPhoto": MessageLookupByLibrary.simpleMessage("Foto"),
         "fieldRole": MessageLookupByLibrary.simpleMessage("Puesto"),
-        "filterAll": m47,
-        "filterTier": m48,
+        "filterAll": m53,
+        "filterTier": m54,
         "flipHint": MessageLookupByLibrary.simpleMessage(
           "Haz clic en la tarjeta para darle la vuelta",
         ),
@@ -654,16 +731,48 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidUrl": MessageLookupByLibrary.simpleMessage(
           "Escribe un enlace http(s) válido",
         ),
-        "issuedCount": m49,
-        "issuedTimes": m50,
+        "inviteCodeChip": m55,
+        "inviteCodeLabel": MessageLookupByLibrary.simpleMessage(
+          "Código de invitación",
+        ),
+        "inviteCodeRequired": MessageLookupByLibrary.simpleMessage(
+          "Introduce el código que recibiste",
+        ),
+        "inviteDetails": m56,
+        "inviteDialogBody": m57,
+        "inviteDialogTitle": MessageLookupByLibrary.simpleMessage(
+          "Invitar a un compañero",
+        ),
+        "inviteEmailHint": MessageLookupByLibrary.simpleMessage(
+          "El correo al que llegó la invitación",
+        ),
+        "inviteExpired": MessageLookupByLibrary.simpleMessage("Caducada"),
+        "inviteMember": MessageLookupByLibrary.simpleMessage("Invitar"),
+        "inviteResend": MessageLookupByLibrary.simpleMessage("Volver a enviar"),
+        "inviteRevoke": MessageLookupByLibrary.simpleMessage("Revocar"),
+        "inviteRevokeBody": MessageLookupByLibrary.simpleMessage(
+          "El código dejará de funcionar. Podrás volver a invitar a esta persona más adelante.",
+        ),
+        "inviteRevokeTitle": m58,
+        "inviteRevoked": MessageLookupByLibrary.simpleMessage(
+          "Invitación revocada",
+        ),
+        "inviteSend": MessageLookupByLibrary.simpleMessage("Enviar invitación"),
+        "inviteSent": m59,
+        "inviteSentDemo": m60,
+        "invitesEmpty": MessageLookupByLibrary.simpleMessage(
+          "No hay invitaciones pendientes.",
+        ),
+        "issuedCount": m61,
+        "issuedTimes": m62,
         "labelVerified": MessageLookupByLibrary.simpleMessage("Verificado"),
         "languageSystem": MessageLookupByLibrary.simpleMessage("Sistema"),
         "languageTitle": MessageLookupByLibrary.simpleMessage("Idioma"),
         "leaderboard": MessageLookupByLibrary.simpleMessage("Clasificación"),
         "legendPeer": MessageLookupByLibrary.simpleMessage("Entre compañeros"),
-        "levelAndXp": m51,
-        "levelN": m52,
-        "libraryCount": m53,
+        "levelAndXp": m63,
+        "levelN": m64,
+        "libraryCount": m65,
         "libraryEmpty": MessageLookupByLibrary.simpleMessage(
           "Todavía no hay logros básicos. ¡Crea el primero!",
         ),
@@ -673,9 +782,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "markAllRead": MessageLookupByLibrary.simpleMessage(
           "Marcar todo como leído",
         ),
-        "memberSince": m54,
-        "memberTeamLabel": m55,
-        "membersCount": m56,
+        "memberSince": m66,
+        "memberTeamLabel": m67,
+        "membersCount": m68,
+        "membersHint": MessageLookupByLibrary.simpleMessage(
+          "Invita a personas a la empresa y elige quién puede gestionarla.",
+        ),
         "membersWithoutTeam":
             MessageLookupByLibrary.simpleMessage("Sin equipo"),
         "menuLabel": MessageLookupByLibrary.simpleMessage("MENÚ"),
@@ -721,7 +833,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "Ningún resultado coincide con tu búsqueda.",
         ),
         "noTeam": MessageLookupByLibrary.simpleMessage("Sin equipo"),
-        "nominateDialogSubtitle": m57,
+        "nominateDialogSubtitle": m69,
         "nominateDialogTitle": MessageLookupByLibrary.simpleMessage(
           "Proponer un logro verificado",
         ),
@@ -733,42 +845,42 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "noteAuthorFallback":
             MessageLookupByLibrary.simpleMessage("Un compañero"),
-        "notifApprovedBody": m58,
+        "notifApprovedBody": m70,
         "notifApprovedTitle": MessageLookupByLibrary.simpleMessage(
           "Solicitud aprobada",
         ),
-        "notifCommentBody": m59,
+        "notifCommentBody": m71,
         "notifCommentTitle": MessageLookupByLibrary.simpleMessage(
           "Nuevo comentario",
         ),
-        "notifLevelUpBody": m60,
+        "notifLevelUpBody": m72,
         "notifLevelUpTitle": MessageLookupByLibrary.simpleMessage(
           "¡Subes de nivel!",
         ),
-        "notifNewRequestBody": m61,
+        "notifNewRequestBody": m73,
         "notifNewRequestTitle": MessageLookupByLibrary.simpleMessage(
           "Nueva solicitud",
         ),
-        "notifNominationBody": m62,
+        "notifNominationBody": m74,
         "notifNominationTitle": MessageLookupByLibrary.simpleMessage(
           "Nueva propuesta",
         ),
-        "notifPeerBody": m63,
+        "notifPeerBody": m75,
         "notifPeerTitle": MessageLookupByLibrary.simpleMessage("Nuevo logro"),
-        "notifReactionBody": m64,
+        "notifReactionBody": m76,
         "notifReactionTitle": MessageLookupByLibrary.simpleMessage(
           "Nueva reacción",
         ),
-        "notifRecapBody": m65,
+        "notifRecapBody": m77,
         "notifRecapTitle": MessageLookupByLibrary.simpleMessage(
           "Tu resumen semanal",
         ),
-        "notifRejectedBody": m66,
-        "notifRejectedBodyReason": m67,
+        "notifRejectedBody": m78,
+        "notifRejectedBodyReason": m79,
         "notifRejectedTitle": MessageLookupByLibrary.simpleMessage(
           "Solicitud rechazada",
         ),
-        "notifVerifiedBody": m68,
+        "notifVerifiedBody": m80,
         "notifVerifiedTitle": MessageLookupByLibrary.simpleMessage(
           "Logro verificado",
         ),
@@ -781,9 +893,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "notificationsTitle": MessageLookupByLibrary.simpleMessage(
           "Notificaciones",
         ),
-        "notificationsUnread": m69,
+        "notificationsUnread": m81,
         "onboardingDone": MessageLookupByLibrary.simpleMessage("Empezar"),
-        "onboardingFastBody": m70,
+        "onboardingFastBody": m82,
         "onboardingFastTitle":
             MessageLookupByLibrary.simpleMessage("Ve rápido"),
         "onboardingFeedBody": MessageLookupByLibrary.simpleMessage(
@@ -792,7 +904,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "onboardingFeedTitle": MessageLookupByLibrary.simpleMessage(
           "Celebrad juntos",
         ),
-        "onboardingKindsBody": m71,
+        "onboardingKindsBody": m83,
         "onboardingKindsTitle": MessageLookupByLibrary.simpleMessage(
           "Logros verificados y entre compañeros",
         ),
@@ -814,7 +926,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "Contraseña cambiada",
         ),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("Contraseña"),
-        "passwordMinLength": m72,
+        "passwordMinLength": m84,
         "passwordRequired": MessageLookupByLibrary.simpleMessage(
           "Escribe tu contraseña",
         ),
@@ -822,8 +934,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordsDontMatch": MessageLookupByLibrary.simpleMessage(
           "Las contraseñas no coinciden",
         ),
+        "pendingInvites": MessageLookupByLibrary.simpleMessage(
+          "Invitaciones pendientes",
+        ),
         "pendingSection": MessageLookupByLibrary.simpleMessage("Pendientes"),
-        "percentValue": m73,
+        "percentValue": m85,
         "periodAll": MessageLookupByLibrary.simpleMessage("Desde siempre"),
         "periodLast30": MessageLookupByLibrary.simpleMessage("Últimos 30 días"),
         "periodQuarter": MessageLookupByLibrary.simpleMessage("Este trimestre"),
@@ -853,7 +968,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "Perfil actualizado",
         ),
         "rankHidden": MessageLookupByLibrary.simpleMessage("Oculto"),
-        "rankValue": m74,
+        "rankValue": m86,
         "reactionCelebrate": MessageLookupByLibrary.simpleMessage("Celebrar"),
         "reactionInsightful":
             MessageLookupByLibrary.simpleMessage("Interesante"),
@@ -862,6 +977,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "recentAchievements": MessageLookupByLibrary.simpleMessage(
           "Logros recientes",
         ),
+        "registerCreateCompany": MessageLookupByLibrary.simpleMessage(
+          "Crear una empresa",
+        ),
+        "registerJoin": MessageLookupByLibrary.simpleMessage(
+          "Unirse a una empresa",
+        ),
         "reject": MessageLookupByLibrary.simpleMessage("Rechazar"),
         "rejectDialogTitle": MessageLookupByLibrary.simpleMessage(
           "¿Rechazar la solicitud?",
@@ -869,7 +990,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "rejectReasonHint": MessageLookupByLibrary.simpleMessage(
           "Motivo (opcional)",
         ),
-        "rejectionReason": m75,
+        "rejectionReason": m87,
         "replaceImage": MessageLookupByLibrary.simpleMessage("Cambiar imagen"),
         "reportAchievementsBody": MessageLookupByLibrary.simpleMessage(
           "Una fila por logro recibido: fecha, persona, equipo, tipo, XP y quién lo dio.",
@@ -889,7 +1010,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "requestApprovedMessage": MessageLookupByLibrary.simpleMessage(
           "Solicitud aprobada",
         ),
-        "requestDialogSubtitle": m76,
+        "requestDialogSubtitle": m88,
         "requestDialogTitle": MessageLookupByLibrary.simpleMessage(
           "Solicitar un logro",
         ),
@@ -900,7 +1021,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "requestMessageRequired": MessageLookupByLibrary.simpleMessage(
           "Escribe un mensaje",
         ),
-        "requestNominatedBy": m77,
+        "requestNominatedBy": m89,
         "requestRejectedMessage": MessageLookupByLibrary.simpleMessage(
           "Solicitud rechazada",
         ),
@@ -910,7 +1031,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "No hay solicitudes.",
         ),
         "restore": MessageLookupByLibrary.simpleMessage("Restaurar"),
-        "roleAtCompany": m78,
+        "roleAtCompany": m90,
         "roleRequired":
             MessageLookupByLibrary.simpleMessage("Escribe tu puesto"),
         "saveProfile": MessageLookupByLibrary.simpleMessage("Guardar perfil"),
@@ -927,7 +1048,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "seasonCurrent":
             MessageLookupByLibrary.simpleMessage("Temporada en curso"),
         "seasonDates": MessageLookupByLibrary.simpleMessage("Fechas"),
-        "seasonDaysLeft": m79,
+        "seasonDaysLeft": m91,
         "seasonDeletedMessage": MessageLookupByLibrary.simpleMessage(
           "Temporada eliminada",
         ),
@@ -935,11 +1056,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "seasonName": MessageLookupByLibrary.simpleMessage("Nombre"),
         "seasonNameHint":
             MessageLookupByLibrary.simpleMessage("p. ej. Otoño 2026"),
-        "seasonRange": m80,
+        "seasonRange": m92,
         "seasonSaved":
             MessageLookupByLibrary.simpleMessage("Temporada guardada"),
         "seasonUpcoming": MessageLookupByLibrary.simpleMessage("Próxima"),
-        "seasonYourRank": m81,
+        "seasonYourRank": m93,
         "seasonsEmpty": MessageLookupByLibrary.simpleMessage(
           "Todavía no hay temporadas.",
         ),
@@ -969,9 +1090,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "sendPreviewHint": MessageLookupByLibrary.simpleMessage(
           "Elige un logro para ver cómo quedará.",
         ),
-        "sendSuccess": m82,
-        "sentByYouCount": m83,
-        "sentCount": m84,
+        "sendSuccess": m94,
+        "sentByYouCount": m95,
+        "sentCount": m96,
         "sentEmpty": MessageLookupByLibrary.simpleMessage(
           "Todavía no has enviado ningún logro. Elige uno de la biblioteca y alégrale el día a un compañero.",
         ),
@@ -987,7 +1108,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "shareAddToProfile": MessageLookupByLibrary.simpleMessage(
           "Añadir al perfil",
         ),
-        "shareAddToProfileHint": m85,
+        "shareAddToProfileHint": m97,
         "shareCopyText": MessageLookupByLibrary.simpleMessage("Copiar texto"),
         "shareDialogSubtitle": MessageLookupByLibrary.simpleMessage(
           "Publícalo o añádelo a tu perfil de LinkedIn.",
@@ -998,7 +1119,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "shareImageHint": MessageLookupByLibrary.simpleMessage(
           "Los enlaces de LinkedIn no pueden adjuntar imágenes: guarda esta y añádela a tu publicación.",
         ),
-        "shareImageIssuedBy": m86,
+        "shareImageIssuedBy": m98,
         "shareImageSaved":
             MessageLookupByLibrary.simpleMessage("Imagen guardada"),
         "shareOnLinkedIn": MessageLookupByLibrary.simpleMessage(
@@ -1016,8 +1137,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "sharePostLabel": MessageLookupByLibrary.simpleMessage(
           "Texto de la publicación",
         ),
-        "sharePostPeer": m87,
-        "sharePostVerified": m88,
+        "sharePostPeer": m99,
+        "sharePostVerified": m100,
         "shareSaveError": MessageLookupByLibrary.simpleMessage(
           "No se pudo guardar la imagen. Inténtalo de nuevo.",
         ),
@@ -1105,12 +1226,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "teamEmpty": MessageLookupByLibrary.simpleMessage(
           "Todavía no hay nadie en tu equipo.",
         ),
-        "teamLastRecognized": m89,
+        "teamLastRecognized": m101,
         "teamLeaderboard": MessageLookupByLibrary.simpleMessage(
           "Clasificación del equipo",
         ),
         "teamManager": MessageLookupByLibrary.simpleMessage("Responsable"),
-        "teamMemberActivity": m90,
+        "teamMemberActivity": m102,
         "teamName": MessageLookupByLibrary.simpleMessage("Nombre del equipo"),
         "teamNeverRecognized": MessageLookupByLibrary.simpleMessage(
           "Todavía sin reconocimientos",
@@ -1138,14 +1259,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "teamsHint": MessageLookupByLibrary.simpleMessage(
           "Cada equipo tiene un responsable, que ve cómo se reconoce a sus miembros y puede proponer logros verificados para ellos.",
         ),
-        "templateAdded": m91,
+        "templateAdded": m103,
         "templateCreateError": MessageLookupByLibrary.simpleMessage(
           "No se pudo crear el logro. Inténtalo de nuevo.",
         ),
         "templateDeleteError": MessageLookupByLibrary.simpleMessage(
           "No se pudo eliminar el logro. Inténtalo de nuevo.",
         ),
-        "templateDeleted": m92,
+        "templateDeleted": m104,
         "templateNameRequired": MessageLookupByLibrary.simpleMessage(
           "Ponle un nombre",
         ),
@@ -1157,10 +1278,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "tierPeer": MessageLookupByLibrary.simpleMessage("Compañeros"),
         "tierPlatinum": MessageLookupByLibrary.simpleMessage("Platino"),
         "tierSilver": MessageLookupByLibrary.simpleMessage("Plata"),
-        "timeDays": m93,
-        "timeHours": m94,
+        "timeDays": m105,
+        "timeHours": m106,
         "timeJustNow": MessageLookupByLibrary.simpleMessage("Ahora mismo"),
-        "timeMinutes": m95,
+        "timeMinutes": m107,
         "top3": MessageLookupByLibrary.simpleMessage("Top 3"),
         "topPerformers": MessageLookupByLibrary.simpleMessage("Los mejores"),
         "trayOpen": MessageLookupByLibrary.simpleMessage("Abrir Scoreboard"),
@@ -1171,7 +1292,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateAvailableBody": MessageLookupByLibrary.simpleMessage(
           "Descárgala desde la página de versiones en GitHub.",
         ),
-        "updateAvailableTitle": m96,
+        "updateAvailableTitle": m108,
         "updateCheckError": MessageLookupByLibrary.simpleMessage(
           "No se pudo comprobar si hay actualizaciones.",
         ),
@@ -1186,11 +1307,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "verifiedByCompany": MessageLookupByLibrary.simpleMessage(
           "Verificado por la empresa",
         ),
-        "verifiedCount": m97,
-        "versionLabel": m98,
+        "verifiedCount": m109,
+        "versionLabel": m110,
         "workEmail": MessageLookupByLibrary.simpleMessage("Correo del trabajo"),
-        "xpToNextLevel": m99,
-        "xpValue": m100,
-        "youSuffix": m101,
+        "xpToNextLevel": m111,
+        "xpValue": m112,
+        "youLabel": MessageLookupByLibrary.simpleMessage("(tú)"),
+        "youSuffix": m113,
       };
 }

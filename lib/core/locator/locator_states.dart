@@ -14,6 +14,7 @@ void setupLocatorStates() {
   getIt.registerFactory<FeedState>(() => FeedState());
   getIt.registerFactory<ConsoleState>(() => ConsoleState());
   getIt.registerFactory<TeamState>(() => TeamState());
+  getIt.registerFactory<MembersAdminState>(() => MembersAdminState());
   getIt.registerFactory<TeamsAdminState>(() => TeamsAdminState());
   getIt.registerFactory<SeasonsAdminState>(() => SeasonsAdminState());
   getIt.registerFactory<ReportsState>(() => ReportsState());

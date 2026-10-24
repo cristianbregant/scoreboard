@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:scoreboard/core/app_navigation.dart';
 import 'package:scoreboard/core/locator/locator.dart';
-import 'package:scoreboard/interactors/auth_interactor.dart';
+import 'package:scoreboard/app/app.dart';
+import 'package:scoreboard/interactors/interactors.dart';
+import 'package:scoreboard/views/view_contracts.dart';
+import 'package:scoreboard/views/view_models.dart';
+import 'package:scoreboard/model/achievement.dart';
+import 'package:scoreboard/services/scoreboard_repository.dart';
+import 'package:scoreboard/services/shared_preferences.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/core/theme.dart';
 import 'package:scoreboard/views/views.dart';
@@ -189,12 +196,13 @@ void main() {
     late String userId;
     await tester.runAsync(() async {
       await setUpApp(prefs: basePrefs(signedIn: false));
-      userId = (await getIt<AuthInteractor>().register(const RegistrationDraft(
+      final code = await inviteToNorthwind('ada@northwind.dev');
+      userId = (await getIt<AuthInteractor>().register(RegistrationDraft.join(
               name: 'Ada Lovelace',
               role: 'Engineer',
-              companyId: 'c_northwind',
               email: 'ada@northwind.dev',
-              password: 'analytical')))
+              password: 'analytical',
+              inviteCode: code)))
           .id;
     });
     await pumpApp(tester,
@@ -213,5 +221,62 @@ void main() {
     await pumpApp(tester,
         prefs: {...basePrefs(), 'onboarding_done_$demoUserId': false});
     expect(find.text(l10n.onboardingWelcomeBody), findsOneWidget);
+  });
+
+  group('with the backend', () {
+    /// The app as with a backend: the main window checks for news every
+    /// second.
+    Future<void> pumpRefreshingApp(WidgetTester tester) async {
+      await tester.runAsync(() => setUpApp());
+      getIt.unregister<BaseWindowViewModelContract>();
+      getIt.registerFactory<BaseWindowViewModelContract>(() =>
+          BaseWindowViewModel(
+              getIt<ScoreboardInteractor>(),
+              getIt<NotificationInteractor>(),
+              getIt<AppNavigation>(),
+              getIt<AppConfigurationInteractor>(),
+              getIt<UpdateInteractor>(),
+              getIt<AdminInteractor>(),
+              getIt<TeamInteractor>(),
+              refreshInterval: const Duration(seconds: 1)));
+      tester.view.physicalSize = const Size(1400, 900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(const CompanyAchievements());
+      await settle(tester);
+    }
+
+    testWidgets('shows what colleagues send without any action',
+        (tester) async {
+      await pumpRefreshingApp(tester);
+      final shownBefore = systemNotifications.shown.length;
+
+      // A colleague sends an achievement, as another app would.
+      await tester.runAsync(() => getIt<ScoreboardRepository>().addAchievement(
+          Achievement(
+              id: 'ach_from_luca',
+              userId: demoUserId,
+              name: 'Coffee Hero',
+              points: 10,
+              verified: false,
+              awardedById: 'u_02',
+              awardedByName: 'Luca Ferrari',
+              date: DateTime.now())));
+      await tester.pump(const Duration(seconds: 1));
+      await settle(tester);
+
+      expect(systemNotifications.shown.length, shownBefore + 1);
+      expect(systemNotifications.shown.last.body, contains('Coffee Hero'));
+    });
+
+    testWidgets('goes back to sign in when the session ends', (tester) async {
+      await pumpRefreshingApp(tester);
+      await tester
+          .runAsync(() => getIt<SharedPreference>().setSessionUserId(null));
+      await tester.pump(const Duration(seconds: 1));
+      await settle(tester);
+
+      expect(find.text(l10n.authSignInSubtitle), findsOneWidget);
+    });
   });
 }

@@ -45,4 +45,14 @@ class Company {
           json['brand'] != null ? CompanyBrand.fromJson(json['brand']) : null,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'description': description,
+        'industry': industry,
+        'location': location,
+        'founded_year': foundedYear,
+        'brand': brand?.toJson(),
+      };
 }

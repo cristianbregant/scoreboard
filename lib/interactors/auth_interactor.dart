@@ -1,6 +1,5 @@
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/model/auth.dart';
-import 'package:scoreboard/model/company.dart';
 import 'package:scoreboard/model/user_profile.dart';
 import 'package:scoreboard/services/scoreboard_repository.dart';
 
@@ -36,6 +35,12 @@ class AuthInteractor {
       throw const AuthException(AuthError.invalidEmail);
     }
     _checkPassword(draft.password);
+    if (draft.newCompany case final company? when company.name.trim().isEmpty) {
+      throw const AuthException(AuthError.missingCompanyName);
+    }
+    if (draft.inviteCode case final code? when code.trim().isEmpty) {
+      throw const AuthException(AuthError.invalidInviteCode);
+    }
     final user = await _repository.register(draft);
     _scoreboard.dataChanged();
     return user;
@@ -51,8 +56,6 @@ class AuthInteractor {
     _checkPassword(newPassword);
     return _repository.changePassword(currentPassword, newPassword);
   }
-
-  Future<List<Company>> getCompanies() => _repository.getCompanies();
 
   void _checkPassword(String password) {
     if (password.length < minPasswordLength) {

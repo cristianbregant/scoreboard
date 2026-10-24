@@ -10,7 +10,6 @@ import 'package:scoreboard/views/_base/base_state.dart';
 import 'package:scoreboard/views/_base/base_stateful_widget.dart';
 import 'package:scoreboard/views/_base/base_widget.dart';
 import 'package:scoreboard/views/auth/auth_contract.dart';
-import 'package:scoreboard/widgets/common/company_logo.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
 import 'package:scoreboard/core/window_chrome.dart';
 
@@ -28,7 +27,10 @@ class _AuthViewState
   final _nameController = TextEditingController();
   final _roleController = TextEditingController();
   final _confirmController = TextEditingController();
-  String? _companyId;
+  final _inviteCodeController = TextEditingController();
+  final _companyNameController = TextEditingController();
+  final _industryController = TextEditingController();
+  final _locationController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
@@ -39,6 +41,10 @@ class _AuthViewState
       _nameController,
       _roleController,
       _confirmController,
+      _inviteCodeController,
+      _companyNameController,
+      _industryController,
+      _locationController,
     ]) {
       controller.dispose();
     }
@@ -56,13 +62,26 @@ class _AuthViewState
       viewModel.signIn(_emailController.text, _passwordController.text);
     } else {
       if (!_registerKey.currentState!.validate()) return;
-      viewModel.register(RegistrationDraft(
-        name: _nameController.text,
-        role: _roleController.text,
-        companyId: _companyId!,
-        email: _emailController.text,
-        password: _passwordController.text,
-      ));
+      viewModel.register(switch (vmState.registerMode) {
+        RegisterMode.join => RegistrationDraft.join(
+            name: _nameController.text,
+            role: _roleController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            inviteCode: _inviteCodeController.text,
+          ),
+        RegisterMode.createCompany => RegistrationDraft.createCompany(
+            name: _nameController.text,
+            role: _roleController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            newCompany: CompanyDraft(
+              name: _companyNameController.text,
+              industry: _industryController.text,
+              location: _locationController.text,
+            ),
+          ),
+      });
     }
   }
 
@@ -123,7 +142,11 @@ class _AuthViewState
         Text(
             signIn
                 ? context.l10n.authSignInSubtitle
-                : context.l10n.authCreateSubtitle,
+                : switch (vmState.registerMode) {
+                    RegisterMode.join => context.l10n.authJoinSubtitle,
+                    RegisterMode.createCompany =>
+                      context.l10n.authCreateCompanySubtitle,
+                  },
             style: TextStyle(color: colorScheme.onSurfaceVariant)),
         const SizedBox(height: 24),
         SegmentedButton<AuthMode>(
@@ -203,12 +226,13 @@ class _AuthViewState
     );
   }
 
-  Widget _emailField() {
+  Widget _emailField({String? helperText}) {
     return TextFormField(
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
           labelText: context.l10n.workEmail,
+          helperText: helperText,
           prefixIcon: const Icon(Icons.mail_outline_rounded)),
       validator: (value) =>
           RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value?.trim() ?? '')
@@ -240,10 +264,63 @@ class _AuthViewState
     String? required(String? value, String message) =>
         (value == null || value.trim().isEmpty) ? message : null;
 
+    final join = vmState.registerMode == RegisterMode.join;
+
     return Form(
       key: _registerKey,
       child: Column(
         children: [
+          SizedBox(
+            width: double.infinity,
+            child: SegmentedButton<RegisterMode>(
+              showSelectedIcon: false,
+              segments: [
+                ButtonSegment(
+                    value: RegisterMode.join,
+                    icon: const Icon(Icons.mail_outline_rounded, size: 18),
+                    label: Text(context.l10n.registerJoin)),
+                ButtonSegment(
+                    value: RegisterMode.createCompany,
+                    icon: const Icon(Icons.add_business_outlined, size: 18),
+                    label: Text(context.l10n.registerCreateCompany)),
+              ],
+              selected: {vmState.registerMode},
+              onSelectionChanged: (value) =>
+                  viewModel.onChangeRegisterMode(value.first),
+            ),
+          ),
+          const SizedBox(height: 16),
+          if (!join) ...[
+            TextFormField(
+              controller: _companyNameController,
+              decoration: InputDecoration(
+                  labelText: context.l10n.companyNameLabel,
+                  prefixIcon: const Icon(Icons.business_outlined)),
+              validator: (value) =>
+                  required(value, context.l10n.companyNameRequired),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _industryController,
+                    decoration: InputDecoration(
+                        labelText: context.l10n.companyIndustryLabel),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: TextFormField(
+                    controller: _locationController,
+                    decoration: InputDecoration(
+                        labelText: context.l10n.companyLocationLabel),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+          ],
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -269,30 +346,21 @@ class _AuthViewState
             ],
           ),
           const SizedBox(height: 12),
-          DropdownButtonFormField<String>(
-            initialValue: _companyId,
-            decoration: InputDecoration(labelText: context.l10n.detailCompany),
-            borderRadius: BorderRadius.circular(12),
-            items: [
-              for (final Company company in vmState.companies)
-                DropdownMenuItem(
-                  value: company.id,
-                  child: Row(
-                    children: [
-                      CompanyLogo(
-                          name: company.name, brand: company.brand, size: 22),
-                      const SizedBox(width: 10),
-                      Text(company.name),
-                    ],
-                  ),
-                ),
-            ],
-            onChanged: (value) => setState(() => _companyId = value),
-            validator: (value) =>
-                value == null ? context.l10n.chooseCompany : null,
-          ),
-          const SizedBox(height: 12),
-          _emailField(),
+          if (join) ...[
+            _emailField(helperText: context.l10n.inviteEmailHint),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: _inviteCodeController,
+              textCapitalization: TextCapitalization.characters,
+              decoration: InputDecoration(
+                  labelText: context.l10n.inviteCodeLabel,
+                  hintText: 'ABCD-EFGH',
+                  prefixIcon: const Icon(Icons.key_rounded)),
+              validator: (value) =>
+                  required(value, context.l10n.inviteCodeRequired),
+            ),
+          ] else
+            _emailField(),
           const SizedBox(height: 12),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

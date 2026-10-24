@@ -10,6 +10,16 @@ enum AdminError {
   seasonOverlap,
   notManager,
   notInTeam,
+  invalidEmail,
+
+  /// The invited email already has an account.
+  alreadyMember,
+
+  /// Revoking the admin role of a company's only admin.
+  lastAdmin,
+
+  /// The invitation email could not be sent.
+  emailNotSent,
 }
 
 /// Carries an [AdminError] code; the UI turns it into localized text.

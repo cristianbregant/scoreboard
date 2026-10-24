@@ -15,6 +15,9 @@ abstract class BaseWindowViewContract extends SendAchievementViewContract {
   void openNotificationsPanel();
   Future<void> showOnboarding();
   void showUpdateAvailable(ReleaseInfo release);
+
+  /// The session ended, e.g. it expired on the server.
+  void openSignIn();
 }
 
 abstract class BaseWindowViewModelContract

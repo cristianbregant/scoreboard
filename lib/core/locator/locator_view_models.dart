@@ -1,4 +1,5 @@
 import 'package:scoreboard/core/app_navigation.dart';
+import 'package:scoreboard/core/constants.dart';
 import 'package:scoreboard/core/locator/locator.dart';
 import 'package:scoreboard/interactors/interactors.dart';
 import 'package:scoreboard/views/view_contracts.dart';
@@ -16,7 +17,9 @@ void setupLocatorViewModels() {
       getIt<AppConfigurationInteractor>(),
       getIt<UpdateInteractor>(),
       getIt<AdminInteractor>(),
-      getIt<TeamInteractor>()));
+      getIt<TeamInteractor>(),
+      refreshInterval:
+          Constants.apiUrl.isEmpty ? null : const Duration(seconds: 30)));
 
   getIt.registerFactory<SettingsViewModelContract>(() => SettingsViewModel(
       getIt<ScoreboardInteractor>(),
@@ -53,6 +56,9 @@ void setupLocatorViewModels() {
       getIt<TeamInteractor>(),
       getIt<AdminInteractor>(),
       getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<MembersAdminViewModelContract>(() =>
+      MembersAdminViewModel(
+          getIt<MemberInteractor>(), getIt<ScoreboardInteractor>()));
   getIt.registerFactory<TeamsAdminViewModelContract>(() => TeamsAdminViewModel(
       getIt<TeamInteractor>(), getIt<ScoreboardInteractor>()));
   getIt.registerFactory<SeasonsAdminViewModelContract>(() =>

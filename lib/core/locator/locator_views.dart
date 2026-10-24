@@ -9,6 +9,7 @@ void setupLocatorViews() {
   getIt.registerFactory<FeedView>(() => FeedView());
   getIt.registerFactory<ConsoleView>(() => ConsoleView());
   getIt.registerFactory<TeamView>(() => TeamView());
+  getIt.registerFactory<MembersAdminView>(() => MembersAdminView());
   getIt.registerFactory<TeamsAdminView>(() => TeamsAdminView());
   getIt.registerFactory<SeasonsAdminView>(() => SeasonsAdminView());
   getIt.registerFactory<ReportsView>(() => ReportsView());

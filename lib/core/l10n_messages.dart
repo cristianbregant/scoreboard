@@ -24,6 +24,9 @@ extension AuthExceptionText on AuthException {
         AuthError.invalidEmail => l10n.invalidEmail,
         AuthError.passwordTooShort =>
           l10n.errorPasswordTooShort(AuthInteractor.minPasswordLength),
+        AuthError.invalidInviteCode => l10n.errorInvalidInviteCode,
+        AuthError.missingCompanyName => l10n.companyNameRequired,
+        AuthError.companyNameTaken => l10n.errorCompanyNameTaken,
       };
 }
 
@@ -76,6 +79,10 @@ extension AdminExceptionText on AdminException {
         AdminError.seasonOverlap => l10n.errorSeasonOverlap,
         AdminError.notManager => l10n.errorNotManager,
         AdminError.notInTeam => l10n.errorNotInTeam,
+        AdminError.invalidEmail => l10n.invalidEmail,
+        AdminError.alreadyMember => l10n.errorAlreadyMember,
+        AdminError.lastAdmin => l10n.errorLastAdmin,
+        AdminError.emailNotSent => l10n.errorEmailNotSent,
       };
 }
 
@@ -171,6 +178,10 @@ extension ActivityEntryText on ActivityEntry {
           : l10n.activityReportAchievements(target),
       ActivityType.personalDataExported =>
         l10n.activityPersonalDataExported(target),
+      ActivityType.memberInvited => l10n.activityMemberInvited(subject),
+      ActivityType.inviteRevoked => l10n.activityInviteRevoked(subject),
+      ActivityType.adminGranted => l10n.activityAdminGranted(subject),
+      ActivityType.adminRevoked => l10n.activityAdminRevoked(subject),
     };
   }
 }

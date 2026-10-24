@@ -12,18 +12,15 @@ class AuthViewModel extends BaseViewModel<AuthViewContract, AuthState>
   AuthViewModel(this._interactor);
 
   @override
-  Future<void> onInitState() async {
-    try {
-      vmState.companies = await _interactor.getCompanies();
-      notifyListeners();
-    } catch (_) {
-      // Registration shows an empty company list; sign in still works.
-    }
+  void onChangeMode(AuthMode mode) {
+    vmState.mode = mode;
+    vmState.errorMessage = null;
+    notifyListeners();
   }
 
   @override
-  void onChangeMode(AuthMode mode) {
-    vmState.mode = mode;
+  void onChangeRegisterMode(RegisterMode mode) {
+    vmState.registerMode = mode;
     vmState.errorMessage = null;
     notifyListeners();
   }

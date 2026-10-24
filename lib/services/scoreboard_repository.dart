@@ -6,6 +6,7 @@ import 'package:scoreboard/model/team.dart';
 import 'package:scoreboard/model/app_notification.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
 import 'package:scoreboard/model/feed.dart';
+import 'package:scoreboard/model/invite.dart';
 import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/model/achievement_template.dart';
 import 'package:scoreboard/model/auth.dart';
@@ -24,8 +25,10 @@ abstract class ScoreboardRepository {
   /// Throws [AuthException] when the credentials are wrong.
   Future<UserProfile> signIn(String email, String password);
 
-  /// Creates the user and signs them in. Throws [AuthException] when the
-  /// email is already registered.
+  /// Creates the user and signs them in: into the company that invited
+  /// them, or into a new company they become the admin of. Throws
+  /// [AuthException] when the email is already registered, the invitation
+  /// code is not valid or the company name is taken.
   Future<UserProfile> register(RegistrationDraft draft);
 
   Future<void> signOut();
@@ -112,4 +115,19 @@ abstract class ScoreboardRepository {
 
   /// Also brings the work anniversary achievements in line with them.
   Future<void> saveCompanySettings(CompanySettings settings);
+
+  /// Invitations not used yet, expired ones included, newest first.
+  Future<List<Invite>> getInvites(String companyId);
+
+  /// Invites [email] to the signed-in admin's company and emails them a
+  /// code, written in [languageCode]. Replaces an earlier invitation of the
+  /// same email. Throws [AdminException] when the email has an account or
+  /// can't be reached.
+  Future<Invite> createInvite(String email, {required String languageCode});
+
+  Future<void> revokeInvite(String inviteId);
+
+  /// Grants or revokes the admin role. Throws [AdminException] with
+  /// [AdminError.lastAdmin] for the company's only admin.
+  Future<void> setCompanyAdmin(String userId, bool isAdmin);
 }

@@ -46,6 +46,13 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
       showUpdateDialog(context, release, onDownload: openExternalLink);
 
   @override
+  void openSignIn() {
+    if (!mounted) return;
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil(RouteNames.auth, (route) => false);
+  }
+
+  @override
   void initState() {
     super.initState();
     HardwareKeyboard.instance.addHandler(_onKey);
@@ -173,8 +180,12 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
           icon: LucideIcons300.inbox,
           selectedIcon: LucideIcons500.inbox,
           badge: vmState.pendingRequests),
-      ConsoleSection.teams => SidebarItem(
+      ConsoleSection.members => SidebarItem(
           header: l10n.adminGroupPeople,
+          label: l10n.consoleMembers,
+          icon: LucideIcons300.userCog,
+          selectedIcon: LucideIcons500.userCog),
+      ConsoleSection.teams => SidebarItem(
           label: l10n.consoleTeams,
           icon: LucideIcons300.usersRound,
           selectedIcon: LucideIcons500.usersRound),

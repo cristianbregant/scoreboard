@@ -83,6 +83,7 @@ class _ConsoleViewState
 
   /// The sections with a screen of their own; the others are built here.
   static Widget? _sectionScreen(ConsoleSection section) => switch (section) {
+        ConsoleSection.members => getIt<MembersAdminView>(),
         ConsoleSection.teams => getIt<TeamsAdminView>(),
         ConsoleSection.seasons => getIt<SeasonsAdminView>(),
         ConsoleSection.reports => getIt<ReportsView>(),

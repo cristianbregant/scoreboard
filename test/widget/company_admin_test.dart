@@ -161,4 +161,81 @@ void main() {
     expect(find.text(l10n.seasonCurrent.toUpperCase()), findsOneWidget);
     expect(find.text('Season 3'), findsOneWidget);
   });
+
+  group('members', () {
+    Future<void> openMembers(WidgetTester tester) async {
+      await pumpApp(tester);
+      await _adminMode(tester);
+      await _open(tester, l10n.consoleMembers);
+    }
+
+    testWidgets('lists the people with their role', (tester) async {
+      await openMembers(tester);
+      expect(find.text(l10n.membersHint), findsOneWidget);
+      expect(find.text(l10n.invitesEmpty), findsOneWidget);
+      expect(find.text('Mario Rossi ${l10n.youLabel}'), findsOneWidget);
+      expect(find.text('Giulia Bianchi'), findsOneWidget);
+      // Other companies stay out.
+      expect(find.text('Marco Colombo'), findsNothing);
+    });
+
+    testWidgets('an invitation shows its code in demo mode', (tester) async {
+      await openMembers(tester);
+      await tester.tap(find.text(l10n.inviteMember));
+      await settle(tester);
+
+      final send = find.widgetWithText(FilledButton, l10n.inviteSend);
+      expect(tester.widget<FilledButton>(send).onPressed, isNull);
+      await tester.enterText(
+          find.descendant(
+              of: find.byType(Dialog), matching: find.byType(TextField)),
+          'ada@northwind.dev');
+      await tester.pump();
+      await tester.tap(send);
+      await settle(tester);
+
+      late String code;
+      await tester.runAsync(() async =>
+          code = (await getIt<MemberInteractor>().getInvites()).single.code!);
+      expect(find.text(l10n.inviteSentDemo('ada@northwind.dev', code)),
+          findsOneWidget);
+      expect(find.text('ada@northwind.dev'), findsOneWidget);
+      expect(find.text(l10n.inviteCodeChip(code)), findsOneWidget);
+    });
+
+    testWidgets('admins are made with the switch, and one always remains',
+        (tester) async {
+      await openMembers(tester);
+      Finder switchOf(String name) => find.descendant(
+          of: find.ancestor(
+              of: find.textContaining(name), matching: find.byType(ListTile)),
+          matching: find.byType(Switch));
+
+      expect(tester.widget<Switch>(switchOf('Giulia Bianchi')).value, isFalse);
+      await tester.tap(switchOf('Giulia Bianchi'));
+      await settle(tester);
+      expect(find.text(l10n.adminGrantedMessage('Giulia Bianchi')),
+          findsOneWidget);
+      expect(tester.widget<Switch>(switchOf('Giulia Bianchi')).value, isTrue);
+
+      await tester.tap(switchOf('Giulia Bianchi'));
+      await settle(tester);
+      expect(tester.widget<Switch>(switchOf('Giulia Bianchi')).value, isFalse);
+
+      // The demo user is now the only admin again. Snack bars are shown one
+      // at a time: the earlier messages go first.
+      for (final messenger in tester
+          .stateList<ScaffoldMessengerState>(find.byType(ScaffoldMessenger))) {
+        messenger.clearSnackBars();
+      }
+      await settle(tester);
+      await tester.tap(switchOf('Mario Rossi'));
+      await settle(tester);
+      expect(find.text(l10n.adminRevokeSelfTitle), findsOneWidget);
+      await tester.tap(find.text(l10n.adminRevokeSelfAction));
+      await settle(tester);
+      expect(find.text(l10n.errorLastAdmin), findsOneWidget);
+      expect(tester.widget<Switch>(switchOf('Mario Rossi')).value, isTrue);
+    });
+  });
 }

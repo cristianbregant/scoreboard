@@ -7,6 +7,13 @@ enum AuthError {
   missingNameOrRole,
   invalidEmail,
   passwordTooShort,
+
+  /// The invitation code is wrong, expired or for another email.
+  invalidInviteCode,
+  missingCompanyName,
+
+  /// A company with that name exists: join it with an invitation instead.
+  companyNameTaken,
 }
 
 /// Carries an [AuthError] code; the UI turns it into localized text.
@@ -19,19 +26,42 @@ class AuthException implements Exception {
   String toString() => 'AuthException($error)';
 }
 
+/// A new account, which either joins an existing company with the code of
+/// an invitation ([inviteCode]) or creates a company ([newCompany]) and
+/// becomes its first admin.
 class RegistrationDraft {
   final String name;
   final String role;
-  final String companyId;
   final String email;
   final String password;
+  final String? inviteCode;
+  final CompanyDraft? newCompany;
 
-  const RegistrationDraft(
+  const RegistrationDraft.join(
       {required this.name,
       required this.role,
-      required this.companyId,
       required this.email,
-      required this.password});
+      required this.password,
+      required String this.inviteCode})
+      : newCompany = null;
+
+  const RegistrationDraft.createCompany(
+      {required this.name,
+      required this.role,
+      required this.email,
+      required this.password,
+      required CompanyDraft this.newCompany})
+      : inviteCode = null;
+}
+
+/// A company created at registration. Industry and location may be empty.
+class CompanyDraft {
+  final String name;
+  final String industry;
+  final String location;
+
+  const CompanyDraft(
+      {required this.name, this.industry = '', this.location = ''});
 }
 
 /// Changes to the public profile. Image fields hold the path of a newly

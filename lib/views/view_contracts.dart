@@ -10,6 +10,7 @@ export 'package:scoreboard/views/auth/auth_contract.dart';
 export 'package:scoreboard/views/feed/feed_contract.dart';
 export 'package:scoreboard/views/console/console_contract.dart';
 export 'package:scoreboard/views/team/team_contract.dart';
+export 'package:scoreboard/views/admin/members/members_admin_contract.dart';
 export 'package:scoreboard/views/admin/teams/teams_admin_contract.dart';
 export 'package:scoreboard/views/admin/seasons/seasons_admin_contract.dart';
 export 'package:scoreboard/views/admin/reports/reports_contract.dart';

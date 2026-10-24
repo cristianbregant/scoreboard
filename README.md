@@ -46,7 +46,8 @@ A desktop app for workplace recognition, for macOS, Windows and Linux. Companies
   - Keyboard shortcuts, listed in *Settings → About*.
   - An update check against the GitHub releases.
 - **Getting started.** A short introduction on first sign-in, search and sorting for your achievements, and a helpful empty state.
-- **Accounts.** Sign in, registration, email and password changes, sign out.
+- **Accounts.** Sign in, email and password changes, sign out. Registration either joins a company with the code of an invitation or creates a new company, whose founder becomes its admin.
+- **Members** (console): invite people by email, revoke invitations, grant and revoke the admin role. A company always keeps one admin.
 - **Light and dark themes**, with the choice remembered.
 
 | | |
@@ -78,6 +79,8 @@ The first launch opens the sign-in screen. Sign in with the demo account (the **
 |---|---|
 | `mario.rossi@northwind.dev` | `scoreboard` |
 
+To register a new account, either create a company, or sign in as the demo user, invite an email from *Console → Members* and register with it. On the mock no email is sent, so the console shows the code.
+
 The demo user is the admin of Northwind Labs and the manager of its *Platform & QA* team, so both the company console (turn on *Admin mode* at the bottom of the sidebar) and the *My team* page are available. Seed data includes pending requests, feed activity and a few notifications.
 
 > The `android`, `ios` and `web` folders are the default Flutter scaffolding. The app depends on [`multiview_desktop`](https://pub.dev/packages/multiview_desktop) for its native window and targets desktop only.
@@ -104,18 +107,46 @@ Both behaviors are defined in [lib/core/window_chrome.dart](lib/core/window_chro
 
 ## Data and persistence
 
-There is no backend yet. All data goes through the `ScoreboardRepository` interface ([lib/services/scoreboard_repository.dart](lib/services/scoreboard_repository.dart)), and the app currently uses `MockScoreboardRepository`, a local stand-in:
+All data goes through the `ScoreboardRepository` interface ([lib/services/scoreboard_repository.dart](lib/services/scoreboard_repository.dart)), which has two implementations. [locator_objects.dart](lib/core/locator/locator_objects.dart) picks one at startup:
+
+- **The backend**, `RestScoreboardRepository`, when the app is started with `SCOREBOARD_API_URL`.
+- **The local mock**, `MockScoreboardRepository`, otherwise, and always in tests.
+
+### Running against the backend
+
+Start [scoreboard_backend](../scoreboard_backend) (`npm start`, on port 3000), then:
+
+```sh
+flutter run -d macos --dart-define=SCOREBOARD_API_URL=http://localhost:3000
+```
+
+In VS Code, pick *Scoreboard (local backend)* in Run and Debug. The demo account and the seed data are the same as the mock's.
+
+- The session is a bearer token, saved in the preferences next to the user's id. When it expires the app goes back to the sign-in screen.
+- The server's error codes come back as the usual `AuthException`, `AdminException` and `SendAchievementException`, so the screens show the same messages. Any other failure, such as a lost connection, is an `ApiError` (see [lib/api](lib/api)).
+- The server creates notifications and issues work anniversaries and weekly recaps with scheduled jobs. It also checks the business rules again.
+- Profile photos, covers and the company logo are still copied into the app's support directory. The server stores only their local path, so they show only on the computer where they were picked. Moving them to the server needs an upload endpoint.
+
+[test/integration/backend_test.dart](test/integration/backend_test.dart) runs the REST repository against a real backend:
+
+```sh
+flutter test test/integration --dart-define=SCOREBOARD_API_URL=http://localhost:3000
+```
+
+It is skipped without the define, and it adds data to the backend: reset it afterwards with `npm run reset`.
+
+### The local mock
 
 - **Seed data**: 4 companies, each with an admin and a catalog, 12 people and their achievements, plus requests, feed activity and notifications. Achievements are rebuilt at every launch. The other collections are seeded once and then saved.
 - **Saved data**: everything created in the app is stored with `shared_preferences` and survives restarts. That covers accounts, profile edits, base achievements, sent and issued achievements, catalog changes, requests, reactions, comments and notifications.
-- **Notifications** are created by the repository, as a server would do. A backend can push them instead.
+- **Notifications** are created by the repository, as the server does.
 - **Images**: profile photos and covers are copied into the app's support directory, so moving or deleting the original file doesn't break them.
-- **Passwords**: stored as salted SHA-256 hashes, never in plain text. This is fine for a local mock. A real backend should hash passwords server-side with a slow algorithm such as bcrypt or Argon2.
+- **Passwords**: stored as salted SHA-256 hashes, never in plain text. This is fine for a local mock. The backend uses scrypt.
 
-To connect a real backend, implement `ScoreboardRepository` (the HTTP client in [lib/api](lib/api) is a starting point) and register it in [lib/core/locator/locator_objects.dart](lib/core/locator/locator_objects.dart). Business rules, such as who can send what, the XP limits and the one-per-colleague rule, live in the interactors, so they don't change. They should also be enforced by the server.
+Business rules, such as who can send what, the XP limits and the one-per-colleague rule, live in the interactors, so they are the same with both repositories.
 
+The rules for teams, seasons, reports, company settings and the activity log sit in the interactors (`TeamInteractor`, `SeasonInteractor`, `ReportInteractor`, `CompanySettingsInteractor`, `ActivityInteractor`). With the backend, work anniversaries are issued by a server job. The activity log is still written by `ActivityInteractor` after each action; it should move server side, where an action can't skip its log entry.
 
-Teams, seasons, the activity log, company settings and work anniversaries live in the mock backend for now, behind the same `ScoreboardRepository` contract a real backend will implement. The rules sit in the interactors (`TeamInteractor`, `SeasonInteractor`, `ReportInteractor`, `CompanySettingsInteractor`, `ActivityInteractor`). With a backend, the activity log and the anniversaries should move server side, where an action can't skip its log entry and anniversaries are issued by a scheduled job.
 ## Architecture
 
 The app follows an MVVM-style structure wired with [`get_it`](https://pub.dev/packages/get_it):

@@ -31,6 +31,10 @@ void setupLocatorInteractors() {
       getIt<ScoreboardRepository>(),
       getIt<ScoreboardInteractor>(),
       getIt<ActivityInteractor>()));
+  getIt.registerFactory<MemberInteractor>(() => MemberInteractor(
+      getIt<ScoreboardRepository>(),
+      getIt<ScoreboardInteractor>(),
+      getIt<ActivityInteractor>()));
   getIt.registerFactory<SeasonInteractor>(() => SeasonInteractor(
       getIt<ScoreboardRepository>(),
       getIt<ScoreboardInteractor>(),

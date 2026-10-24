@@ -1591,16 +1591,6 @@ class AppLocalization {
     );
   }
 
-  /// `Scegli la tua azienda`
-  String get chooseCompany {
-    return Intl.message(
-      'Scegli la tua azienda',
-      name: 'chooseCompany',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Conferma`
   String get confirmLabel {
     return Intl.message('Conferma', name: 'confirmLabel', desc: '', args: []);
@@ -4546,6 +4536,436 @@ class AppLocalization {
       name: 'settingsSavedMessage',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Entra in un'azienda`
+  String get registerJoin {
+    return Intl.message(
+      'Entra in un\'azienda',
+      name: 'registerJoin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Crea un'azienda`
+  String get registerCreateCompany {
+    return Intl.message(
+      'Crea un\'azienda',
+      name: 'registerCreateCompany',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Usa il codice dell'invito che hai ricevuto via email.`
+  String get authJoinSubtitle {
+    return Intl.message(
+      'Usa il codice dell\'invito che hai ricevuto via email.',
+      name: 'authJoinSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Porta Scoreboard nella tua azienda: ne sarai l'amministratore.`
+  String get authCreateCompanySubtitle {
+    return Intl.message(
+      'Porta Scoreboard nella tua azienda: ne sarai l\'amministratore.',
+      name: 'authCreateCompanySubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Codice d'invito`
+  String get inviteCodeLabel {
+    return Intl.message(
+      'Codice d\'invito',
+      name: 'inviteCodeLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inserisci il codice che hai ricevuto`
+  String get inviteCodeRequired {
+    return Intl.message(
+      'Inserisci il codice che hai ricevuto',
+      name: 'inviteCodeRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `La stessa email a cui è arrivato l'invito`
+  String get inviteEmailHint {
+    return Intl.message(
+      'La stessa email a cui è arrivato l\'invito',
+      name: 'inviteEmailHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nome dell'azienda`
+  String get companyNameLabel {
+    return Intl.message(
+      'Nome dell\'azienda',
+      name: 'companyNameLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inserisci il nome dell'azienda`
+  String get companyNameRequired {
+    return Intl.message(
+      'Inserisci il nome dell\'azienda',
+      name: 'companyNameRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settore (facoltativo)`
+  String get companyIndustryLabel {
+    return Intl.message(
+      'Settore (facoltativo)',
+      name: 'companyIndustryLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Città (facoltativo)`
+  String get companyLocationLabel {
+    return Intl.message(
+      'Città (facoltativo)',
+      name: 'companyLocationLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Il codice non è valido per questa email o è scaduto. Chiedi un nuovo invito a un amministratore.`
+  String get errorInvalidInviteCode {
+    return Intl.message(
+      'Il codice non è valido per questa email o è scaduto. Chiedi un nuovo invito a un amministratore.',
+      name: 'errorInvalidInviteCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Un'azienda con questo nome è già su Scoreboard. Chiedi a uno dei suoi amministratori di invitarti.`
+  String get errorCompanyNameTaken {
+    return Intl.message(
+      'Un\'azienda con questo nome è già su Scoreboard. Chiedi a uno dei suoi amministratori di invitarti.',
+      name: 'errorCompanyNameTaken',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Membri`
+  String get consoleMembers {
+    return Intl.message('Membri', name: 'consoleMembers', desc: '', args: []);
+  }
+
+  /// `Invita le persone nell'azienda e scegli chi può gestirla.`
+  String get membersHint {
+    return Intl.message(
+      'Invita le persone nell\'azienda e scegli chi può gestirla.',
+      name: 'membersHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invita`
+  String get inviteMember {
+    return Intl.message('Invita', name: 'inviteMember', desc: '', args: []);
+  }
+
+  /// `Invita un collega`
+  String get inviteDialogTitle {
+    return Intl.message(
+      'Invita un collega',
+      name: 'inviteDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Riceverà via email un codice per entrare in {company}. Il codice vale 7 giorni.`
+  String inviteDialogBody(Object company) {
+    return Intl.message(
+      'Riceverà via email un codice per entrare in $company. Il codice vale 7 giorni.',
+      name: 'inviteDialogBody',
+      desc: '',
+      args: [company],
+    );
+  }
+
+  /// `Invia invito`
+  String get inviteSend {
+    return Intl.message('Invia invito', name: 'inviteSend', desc: '', args: []);
+  }
+
+  /// `Invito inviato a {email}`
+  String inviteSent(Object email) {
+    return Intl.message(
+      'Invito inviato a $email',
+      name: 'inviteSent',
+      desc: '',
+      args: [email],
+    );
+  }
+
+  /// `Modalità demo, nessuna email inviata: dai a {email} il codice {code}`
+  String inviteSentDemo(Object email, Object code) {
+    return Intl.message(
+      'Modalità demo, nessuna email inviata: dai a $email il codice $code',
+      name: 'inviteSentDemo',
+      desc: '',
+      args: [email, code],
+    );
+  }
+
+  /// `Inviti in attesa`
+  String get pendingInvites {
+    return Intl.message(
+      'Inviti in attesa',
+      name: 'pendingInvites',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nessun invito in attesa.`
+  String get invitesEmpty {
+    return Intl.message(
+      'Nessun invito in attesa.',
+      name: 'invitesEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invitato da {name} · scade il {date}`
+  String inviteDetails(Object name, Object date) {
+    return Intl.message(
+      'Invitato da $name · scade il $date',
+      name: 'inviteDetails',
+      desc: '',
+      args: [name, date],
+    );
+  }
+
+  /// `Scaduto`
+  String get inviteExpired {
+    return Intl.message('Scaduto', name: 'inviteExpired', desc: '', args: []);
+  }
+
+  /// `Codice {code}`
+  String inviteCodeChip(Object code) {
+    return Intl.message(
+      'Codice $code',
+      name: 'inviteCodeChip',
+      desc: '',
+      args: [code],
+    );
+  }
+
+  /// `Invia di nuovo`
+  String get inviteResend {
+    return Intl.message(
+      'Invia di nuovo',
+      name: 'inviteResend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Revoca`
+  String get inviteRevoke {
+    return Intl.message('Revoca', name: 'inviteRevoke', desc: '', args: []);
+  }
+
+  /// `Revocare l'invito per {email}?`
+  String inviteRevokeTitle(Object email) {
+    return Intl.message(
+      'Revocare l\'invito per $email?',
+      name: 'inviteRevokeTitle',
+      desc: '',
+      args: [email],
+    );
+  }
+
+  /// `Il codice smetterà di funzionare. Potrai invitare di nuovo questa persona in seguito.`
+  String get inviteRevokeBody {
+    return Intl.message(
+      'Il codice smetterà di funzionare. Potrai invitare di nuovo questa persona in seguito.',
+      name: 'inviteRevokeBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invito revocato`
+  String get inviteRevoked {
+    return Intl.message(
+      'Invito revocato',
+      name: 'inviteRevoked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amministratore`
+  String get adminRole {
+    return Intl.message(
+      'Amministratore',
+      name: 'adminRole',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Può usare la console e gestire l'azienda`
+  String get adminRoleTooltip {
+    return Intl.message(
+      'Può usare la console e gestire l\'azienda',
+      name: 'adminRoleTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{name} ora è amministratore`
+  String adminGrantedMessage(Object name) {
+    return Intl.message(
+      '$name ora è amministratore',
+      name: 'adminGrantedMessage',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `{name} non è più amministratore`
+  String adminRevokedMessage(Object name) {
+    return Intl.message(
+      '$name non è più amministratore',
+      name: 'adminRevokedMessage',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Rinunciare ai diritti di amministratore?`
+  String get adminRevokeSelfTitle {
+    return Intl.message(
+      'Rinunciare ai diritti di amministratore?',
+      name: 'adminRevokeSelfTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Uscirai dalla console e non potrai più gestire l'azienda. Un altro amministratore potrà ridarti questi diritti.`
+  String get adminRevokeSelfBody {
+    return Intl.message(
+      'Uscirai dalla console e non potrai più gestire l\'azienda. Un altro amministratore potrà ridarti questi diritti.',
+      name: 'adminRevokeSelfBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rinuncia`
+  String get adminRevokeSelfAction {
+    return Intl.message(
+      'Rinuncia',
+      name: 'adminRevokeSelfAction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `(tu)`
+  String get youLabel {
+    return Intl.message('(tu)', name: 'youLabel', desc: '', args: []);
+  }
+
+  /// `L'azienda deve avere almeno un amministratore.`
+  String get errorLastAdmin {
+    return Intl.message(
+      'L\'azienda deve avere almeno un amministratore.',
+      name: 'errorLastAdmin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Questa persona ha già un account Scoreboard.`
+  String get errorAlreadyMember {
+    return Intl.message(
+      'Questa persona ha già un account Scoreboard.',
+      name: 'errorAlreadyMember',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Non è stato possibile inviare l'email d'invito. Riprova più tardi.`
+  String get errorEmailNotSent {
+    return Intl.message(
+      'Non è stato possibile inviare l\'email d\'invito. Riprova più tardi.',
+      name: 'errorEmailNotSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ha invitato {subject}`
+  String activityMemberInvited(Object subject) {
+    return Intl.message(
+      'ha invitato $subject',
+      name: 'activityMemberInvited',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha revocato l'invito per {subject}`
+  String activityInviteRevoked(Object subject) {
+    return Intl.message(
+      'ha revocato l\'invito per $subject',
+      name: 'activityInviteRevoked',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha reso {subject} amministratore`
+  String activityAdminGranted(Object subject) {
+    return Intl.message(
+      'ha reso $subject amministratore',
+      name: 'activityAdminGranted',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha tolto a {subject} i diritti di amministratore`
+  String activityAdminRevoked(Object subject) {
+    return Intl.message(
+      'ha tolto a $subject i diritti di amministratore',
+      name: 'activityAdminRevoked',
+      desc: '',
+      args: [subject],
     );
   }
 }
