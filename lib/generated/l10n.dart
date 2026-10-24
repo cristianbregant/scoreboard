@@ -3434,6 +3434,1120 @@ class AppLocalization {
       args: [],
     );
   }
+
+  /// `{count, plural, =0{Nessuna notifica da leggere} one{1 notifica da leggere} other{{count} notifiche da leggere}}`
+  String notificationsUnread(int count) {
+    return Intl.plural(
+      count,
+      zero: 'Nessuna notifica da leggere',
+      one: '1 notifica da leggere',
+      other: '$count notifiche da leggere',
+      name: 'notificationsUnread',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Gira la card selezionata`
+  String get shortcutFlipCard {
+    return Intl.message(
+      'Gira la card selezionata',
+      name: 'shortcutFlipCard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feedback aptico`
+  String get hapticsTitle {
+    return Intl.message(
+      'Feedback aptico',
+      name: 'hapticsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tieni premuta una card per girarla, e senti lo scatto sul trackpad Force Touch.`
+  String get hapticsSubtitle {
+    return Intl.message(
+      'Tieni premuta una card per girarla, e senti lo scatto sul trackpad Force Touch.',
+      name: 'hapticsSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Richieste`
+  String get navRequests {
+    return Intl.message('Richieste', name: 'navRequests', desc: '', args: []);
+  }
+
+  /// `Modalità admin`
+  String get adminMode {
+    return Intl.message(
+      'Modalità admin',
+      name: 'adminMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gestisci i traguardi verificati dell'azienda`
+  String get adminModeHint {
+    return Intl.message(
+      'Gestisci i traguardi verificati dell\'azienda',
+      name: 'adminModeHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Admin · {company}`
+  String adminBadge(Object company) {
+    return Intl.message(
+      'Admin · $company',
+      name: 'adminBadge',
+      desc: '',
+      args: [company],
+    );
+  }
+
+  /// `La data di fine non può precedere quella di inizio.`
+  String get errorInvalidDates {
+    return Intl.message(
+      'La data di fine non può precedere quella di inizio.',
+      name: 'errorInvalidDates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Queste date si sovrappongono a un'altra stagione.`
+  String get errorSeasonOverlap {
+    return Intl.message(
+      'Queste date si sovrappongono a un\'altra stagione.',
+      name: 'errorSeasonOverlap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Solo i responsabili di un team possono farlo.`
+  String get errorNotManager {
+    return Intl.message(
+      'Solo i responsabili di un team possono farlo.',
+      name: 'errorNotManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Questa persona non fa parte del tuo team.`
+  String get errorNotInTeam {
+    return Intl.message(
+      'Questa persona non fa parte del tuo team.',
+      name: 'errorNotInTeam',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nuova proposta`
+  String get notifNominationTitle {
+    return Intl.message(
+      'Nuova proposta',
+      name: 'notifNominationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{actor} propone “{achievement}” per {member}`
+  String notifNominationBody(Object actor, Object achievement, Object member) {
+    return Intl.message(
+      '$actor propone “$achievement” per $member',
+      name: 'notifNominationBody',
+      desc: '',
+      args: [actor, achievement, member],
+    );
+  }
+
+  /// `ha aggiunto “{subject}” al catalogo`
+  String activityCatalogCreated(Object subject) {
+    return Intl.message(
+      'ha aggiunto “$subject” al catalogo',
+      name: 'activityCatalogCreated',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha modificato “{subject}”`
+  String activityCatalogUpdated(Object subject) {
+    return Intl.message(
+      'ha modificato “$subject”',
+      name: 'activityCatalogUpdated',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha archiviato “{subject}”`
+  String activityCatalogArchived(Object subject) {
+    return Intl.message(
+      'ha archiviato “$subject”',
+      name: 'activityCatalogArchived',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha ripristinato “{subject}”`
+  String activityCatalogRestored(Object subject) {
+    return Intl.message(
+      'ha ripristinato “$subject”',
+      name: 'activityCatalogRestored',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `{count, plural, one{ha assegnato “{subject}” a 1 persona} other{ha assegnato “{subject}” a {count} persone}}`
+  String activityAchievementsIssued(int count, Object subject) {
+    return Intl.plural(
+      count,
+      one: 'ha assegnato “$subject” a 1 persona',
+      other: 'ha assegnato “$subject” a $count persone',
+      name: 'activityAchievementsIssued',
+      desc: '',
+      args: [count, subject],
+    );
+  }
+
+  /// `ha approvato “{subject}” per {target}`
+  String activityRequestApproved(Object subject, Object target) {
+    return Intl.message(
+      'ha approvato “$subject” per $target',
+      name: 'activityRequestApproved',
+      desc: '',
+      args: [subject, target],
+    );
+  }
+
+  /// `ha respinto “{subject}” per {target}`
+  String activityRequestRejected(Object subject, Object target) {
+    return Intl.message(
+      'ha respinto “$subject” per $target',
+      name: 'activityRequestRejected',
+      desc: '',
+      args: [subject, target],
+    );
+  }
+
+  /// `ha proposto “{subject}” per {target}`
+  String activityNominationSubmitted(Object subject, Object target) {
+    return Intl.message(
+      'ha proposto “$subject” per $target',
+      name: 'activityNominationSubmitted',
+      desc: '',
+      args: [subject, target],
+    );
+  }
+
+  /// `ha creato il team {subject}`
+  String activityTeamCreated(Object subject) {
+    return Intl.message(
+      'ha creato il team $subject',
+      name: 'activityTeamCreated',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha modificato il team {subject}`
+  String activityTeamUpdated(Object subject) {
+    return Intl.message(
+      'ha modificato il team $subject',
+      name: 'activityTeamUpdated',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha eliminato il team {subject}`
+  String activityTeamDeleted(Object subject) {
+    return Intl.message(
+      'ha eliminato il team $subject',
+      name: 'activityTeamDeleted',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha spostato {subject} in {target}`
+  String activityMemberMoved(Object subject, Object target) {
+    return Intl.message(
+      'ha spostato $subject in $target',
+      name: 'activityMemberMoved',
+      desc: '',
+      args: [subject, target],
+    );
+  }
+
+  /// `ha tolto {subject} dal suo team`
+  String activityMemberRemoved(Object subject) {
+    return Intl.message(
+      'ha tolto $subject dal suo team',
+      name: 'activityMemberRemoved',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha creato la stagione {subject}`
+  String activitySeasonCreated(Object subject) {
+    return Intl.message(
+      'ha creato la stagione $subject',
+      name: 'activitySeasonCreated',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha modificato la stagione {subject}`
+  String activitySeasonUpdated(Object subject) {
+    return Intl.message(
+      'ha modificato la stagione $subject',
+      name: 'activitySeasonUpdated',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha eliminato la stagione {subject}`
+  String activitySeasonDeleted(Object subject) {
+    return Intl.message(
+      'ha eliminato la stagione $subject',
+      name: 'activitySeasonDeleted',
+      desc: '',
+      args: [subject],
+    );
+  }
+
+  /// `ha cambiato il colore o il logo dell'azienda`
+  String get activityBrandUpdated {
+    return Intl.message(
+      'ha cambiato il colore o il logo dell\'azienda',
+      name: 'activityBrandUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ha cambiato le ricorrenze di servizio`
+  String get activityAnniversariesUpdated {
+    return Intl.message(
+      'ha cambiato le ricorrenze di servizio',
+      name: 'activityAnniversariesUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ha esportato il report dei traguardi ({target})`
+  String activityReportAchievements(Object target) {
+    return Intl.message(
+      'ha esportato il report dei traguardi ($target)',
+      name: 'activityReportAchievements',
+      desc: '',
+      args: [target],
+    );
+  }
+
+  /// `ha esportato il report per persona ({target})`
+  String activityReportPeople(Object target) {
+    return Intl.message(
+      'ha esportato il report per persona ($target)',
+      name: 'activityReportPeople',
+      desc: '',
+      args: [target],
+    );
+  }
+
+  /// `ha esportato i dati personali di {target}`
+  String activityPersonalDataExported(Object target) {
+    return Intl.message(
+      'ha esportato i dati personali di $target',
+      name: 'activityPersonalDataExported',
+      desc: '',
+      args: [target],
+    );
+  }
+
+  /// `Ancora nessuna attività registrata.`
+  String get activityEmpty {
+    return Intl.message(
+      'Ancora nessuna attività registrata.',
+      name: 'activityEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cosa hanno fatto admin e responsabili, dalla più recente. Non si può modificare.`
+  String get activityHint {
+    return Intl.message(
+      'Cosa hanno fatto admin e responsabili, dalla più recente. Non si può modificare.',
+      name: 'activityHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Il mio team`
+  String get navTeam {
+    return Intl.message('Il mio team', name: 'navTeam', desc: '', args: []);
+  }
+
+  /// `Team`
+  String get consoleTeams {
+    return Intl.message('Team', name: 'consoleTeams', desc: '', args: []);
+  }
+
+  /// `Stagioni`
+  String get consoleSeasons {
+    return Intl.message('Stagioni', name: 'consoleSeasons', desc: '', args: []);
+  }
+
+  /// `Report`
+  String get consoleReports {
+    return Intl.message('Report', name: 'consoleReports', desc: '', args: []);
+  }
+
+  /// `Registro attività`
+  String get consoleActivity {
+    return Intl.message(
+      'Registro attività',
+      name: 'consoleActivity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Azienda`
+  String get consoleCompany {
+    return Intl.message('Azienda', name: 'consoleCompany', desc: '', args: []);
+  }
+
+  /// `RICONOSCIMENTI`
+  String get adminGroupRecognition {
+    return Intl.message(
+      'RICONOSCIMENTI',
+      name: 'adminGroupRecognition',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PERSONE`
+  String get adminGroupPeople {
+    return Intl.message(
+      'PERSONE',
+      name: 'adminGroupPeople',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DATI`
+  String get adminGroupData {
+    return Intl.message('DATI', name: 'adminGroupData', desc: '', args: []);
+  }
+
+  /// `AZIENDA`
+  String get adminGroupCompany {
+    return Intl.message(
+      'AZIENDA',
+      name: 'adminGroupCompany',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Come viene riconosciuto il lavoro del tuo team`
+  String get teamSubtitle {
+    return Intl.message(
+      'Come viene riconosciuto il lavoro del tuo team',
+      name: 'teamSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Da seguire`
+  String get teamStatNeedAttention {
+    return Intl.message(
+      'Da seguire',
+      name: 'teamStatNeedAttention',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ricevuti in 30 giorni`
+  String get teamStatReceived30 {
+    return Intl.message(
+      'Ricevuti in 30 giorni',
+      name: 'teamStatReceived30',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Niente da oltre 30 giorni`
+  String get teamNoRecent {
+    return Intl.message(
+      'Niente da oltre 30 giorni',
+      name: 'teamNoRecent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ultimo riconoscimento: {time}`
+  String teamLastRecognized(Object time) {
+    return Intl.message(
+      'Ultimo riconoscimento: $time',
+      name: 'teamLastRecognized',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  /// `Ancora nessun riconoscimento`
+  String get teamNeverRecognized {
+    return Intl.message(
+      'Ancora nessun riconoscimento',
+      name: 'teamNeverRecognized',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{received} ricevuti · {sent} inviati in 90 giorni`
+  String teamMemberActivity(Object received, Object sent) {
+    return Intl.message(
+      '$received ricevuti · $sent inviati in 90 giorni',
+      name: 'teamMemberActivity',
+      desc: '',
+      args: [received, sent],
+    );
+  }
+
+  /// `Proponi`
+  String get teamNominate {
+    return Intl.message('Proponi', name: 'teamNominate', desc: '', args: []);
+  }
+
+  /// `Proponi un traguardo verificato`
+  String get teamNominateTooltip {
+    return Intl.message(
+      'Proponi un traguardo verificato',
+      name: 'teamNominateTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ancora nessuno nel tuo team.`
+  String get teamEmpty {
+    return Intl.message(
+      'Ancora nessuno nel tuo team.',
+      name: 'teamEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proponi un traguardo verificato`
+  String get nominateDialogTitle {
+    return Intl.message(
+      'Proponi un traguardo verificato',
+      name: 'nominateDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Per {name}. Un admin valuterà la tua proposta.`
+  String nominateDialogSubtitle(Object name) {
+    return Intl.message(
+      'Per $name. Un admin valuterà la tua proposta.',
+      name: 'nominateDialogSubtitle',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Perché se lo merita?`
+  String get nominateMessageHint {
+    return Intl.message(
+      'Perché se lo merita?',
+      name: 'nominateMessageHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proposta inviata agli admin`
+  String get nominateSent {
+    return Intl.message(
+      'Proposta inviata agli admin',
+      name: 'nominateSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Proposto da {name}`
+  String requestNominatedBy(Object name) {
+    return Intl.message(
+      'Proposto da $name',
+      name: 'requestNominatedBy',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Nuovo team`
+  String get newTeam {
+    return Intl.message('Nuovo team', name: 'newTeam', desc: '', args: []);
+  }
+
+  /// `Modifica team`
+  String get editTeam {
+    return Intl.message('Modifica team', name: 'editTeam', desc: '', args: []);
+  }
+
+  /// `Nome del team`
+  String get teamName {
+    return Intl.message('Nome del team', name: 'teamName', desc: '', args: []);
+  }
+
+  /// `Responsabile`
+  String get teamManager {
+    return Intl.message(
+      'Responsabile',
+      name: 'teamManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nessun responsabile`
+  String get noManager {
+    return Intl.message(
+      'Nessun responsabile',
+      name: 'noManager',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Eliminare {name}?`
+  String deleteTeamTitle(Object name) {
+    return Intl.message(
+      'Eliminare $name?',
+      name: 'deleteTeamTitle',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `I suoi membri resteranno senza team. I loro traguardi restano.`
+  String get deleteTeamBody {
+    return Intl.message(
+      'I suoi membri resteranno senza team. I loro traguardi restano.',
+      name: 'deleteTeamBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nessun team`
+  String get noTeam {
+    return Intl.message('Nessun team', name: 'noTeam', desc: '', args: []);
+  }
+
+  /// `Senza team`
+  String get membersWithoutTeam {
+    return Intl.message(
+      'Senza team',
+      name: 'membersWithoutTeam',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Team salvato`
+  String get teamSaved {
+    return Intl.message('Team salvato', name: 'teamSaved', desc: '', args: []);
+  }
+
+  /// `Team eliminato`
+  String get teamDeletedMessage {
+    return Intl.message(
+      'Team eliminato',
+      name: 'teamDeletedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ancora nessun team. Crea il primo.`
+  String get teamsEmpty {
+    return Intl.message(
+      'Ancora nessun team. Crea il primo.',
+      name: 'teamsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ogni team ha un responsabile, che vede come vengono riconosciuti i suoi membri e può proporre per loro traguardi verificati.`
+  String get teamsHint {
+    return Intl.message(
+      'Ogni team ha un responsabile, che vede come vengono riconosciuti i suoi membri e può proporre per loro traguardi verificati.',
+      name: 'teamsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Team di {name}`
+  String memberTeamLabel(Object name) {
+    return Intl.message(
+      'Team di $name',
+      name: 'memberTeamLabel',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Nuova stagione`
+  String get newSeason {
+    return Intl.message(
+      'Nuova stagione',
+      name: 'newSeason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Modifica stagione`
+  String get editSeason {
+    return Intl.message(
+      'Modifica stagione',
+      name: 'editSeason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nome`
+  String get seasonName {
+    return Intl.message('Nome', name: 'seasonName', desc: '', args: []);
+  }
+
+  /// `es. Autunno 2026`
+  String get seasonNameHint {
+    return Intl.message(
+      'es. Autunno 2026',
+      name: 'seasonNameHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get seasonDates {
+    return Intl.message('Date', name: 'seasonDates', desc: '', args: []);
+  }
+
+  /// `Scegli le date`
+  String get pickDates {
+    return Intl.message(
+      'Scegli le date',
+      name: 'pickDates',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{start} – {end}`
+  String seasonRange(Object start, Object end) {
+    return Intl.message(
+      '$start – $end',
+      name: 'seasonRange',
+      desc: '',
+      args: [start, end],
+    );
+  }
+
+  /// `In arrivo`
+  String get seasonUpcoming {
+    return Intl.message(
+      'In arrivo',
+      name: 'seasonUpcoming',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In corso`
+  String get seasonActive {
+    return Intl.message('In corso', name: 'seasonActive', desc: '', args: []);
+  }
+
+  /// `Conclusa`
+  String get seasonEnded {
+    return Intl.message('Conclusa', name: 'seasonEnded', desc: '', args: []);
+  }
+
+  /// `Eliminare {name}?`
+  String deleteSeasonTitle(Object name) {
+    return Intl.message(
+      'Eliminare $name?',
+      name: 'deleteSeasonTitle',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `La sua classifica sparisce. I traguardi restano.`
+  String get deleteSeasonBody {
+    return Intl.message(
+      'La sua classifica sparisce. I traguardi restano.',
+      name: 'deleteSeasonBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stagione salvata`
+  String get seasonSaved {
+    return Intl.message(
+      'Stagione salvata',
+      name: 'seasonSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stagione eliminata`
+  String get seasonDeletedMessage {
+    return Intl.message(
+      'Stagione eliminata',
+      name: 'seasonDeletedMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ancora nessuna stagione.`
+  String get seasonsEmpty {
+    return Intl.message(
+      'Ancora nessuna stagione.',
+      name: 'seasonsEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ogni stagione ha una sua classifica, che conta gli XP ottenuti tra le sue date. Le stagioni non possono sovrapporsi.`
+  String get seasonsHint {
+    return Intl.message(
+      'Ogni stagione ha una sua classifica, che conta gli XP ottenuti tra le sue date. Le stagioni non possono sovrapporsi.',
+      name: 'seasonsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stagione in corso`
+  String get seasonCurrent {
+    return Intl.message(
+      'Stagione in corso',
+      name: 'seasonCurrent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{days, plural, one{Manca 1 giorno} other{Mancano {days} giorni}}`
+  String seasonDaysLeft(int days) {
+    return Intl.plural(
+      days,
+      one: 'Manca 1 giorno',
+      other: 'Mancano $days giorni',
+      name: 'seasonDaysLeft',
+      desc: '',
+      args: [days],
+    );
+  }
+
+  /// `Sei #{rank} con {points} XP`
+  String seasonYourRank(Object rank, Object points) {
+    return Intl.message(
+      'Sei #$rank con $points XP',
+      name: 'seasonYourRank',
+      desc: '',
+      args: [rank, points],
+    );
+  }
+
+  /// `Per le valutazioni e i sistemi HR. Ogni esportazione finisce nel registro attività.`
+  String get reportsHint {
+    return Intl.message(
+      'Per le valutazioni e i sistemi HR. Ogni esportazione finisce nel registro attività.',
+      name: 'reportsHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Periodo`
+  String get reportPeriod {
+    return Intl.message('Periodo', name: 'reportPeriod', desc: '', args: []);
+  }
+
+  /// `Ultimi 30 giorni`
+  String get periodLast30 {
+    return Intl.message(
+      'Ultimi 30 giorni',
+      name: 'periodLast30',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Questo trimestre`
+  String get periodQuarter {
+    return Intl.message(
+      'Questo trimestre',
+      name: 'periodQuarter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quest'anno`
+  String get periodYear {
+    return Intl.message('Quest\'anno', name: 'periodYear', desc: '', args: []);
+  }
+
+  /// `Da sempre`
+  String get periodAll {
+    return Intl.message('Da sempre', name: 'periodAll', desc: '', args: []);
+  }
+
+  /// `Traguardi`
+  String get reportAchievementsTitle {
+    return Intl.message(
+      'Traguardi',
+      name: 'reportAchievementsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Una riga per traguardo ricevuto: data, persona, team, tipo, XP e chi l'ha dato.`
+  String get reportAchievementsBody {
+    return Intl.message(
+      'Una riga per traguardo ricevuto: data, persona, team, tipo, XP e chi l\'ha dato.',
+      name: 'reportAchievementsBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Persone`
+  String get reportPeopleTitle {
+    return Intl.message(
+      'Persone',
+      name: 'reportPeopleTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Una riga per persona: traguardi ricevuti e inviati, XP e ultimo riconoscimento.`
+  String get reportPeopleBody {
+    return Intl.message(
+      'Una riga per persona: traguardi ricevuti e inviati, XP e ultimo riconoscimento.',
+      name: 'reportPeopleBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Esporta CSV`
+  String get exportCsv {
+    return Intl.message('Esporta CSV', name: 'exportCsv', desc: '', args: []);
+  }
+
+  /// `Report salvato`
+  String get reportSaved {
+    return Intl.message(
+      'Report salvato',
+      name: 'reportSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dati personali`
+  String get personalDataTitle {
+    return Intl.message(
+      'Dati personali',
+      name: 'personalDataTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tutto ciò che Scoreboard conserva su una persona, in JSON, per le richieste sulla protezione dei dati.`
+  String get personalDataBody {
+    return Intl.message(
+      'Tutto ciò che Scoreboard conserva su una persona, in JSON, per le richieste sulla protezione dei dati.',
+      name: 'personalDataBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Persona`
+  String get personalDataPerson {
+    return Intl.message(
+      'Persona',
+      name: 'personalDataPerson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Esporta JSON`
+  String get exportJson {
+    return Intl.message('Esporta JSON', name: 'exportJson', desc: '', args: []);
+  }
+
+  /// `Marchio`
+  String get brandTitle {
+    return Intl.message('Marchio', name: 'brandTitle', desc: '', args: []);
+  }
+
+  /// `Il vostro colore e il vostro logo sostituiscono l'oro di Scoreboard per tutti in {company}. Il colore viene adattato perché i testi restino leggibili.`
+  String brandBody(Object company) {
+    return Intl.message(
+      'Il vostro colore e il vostro logo sostituiscono l\'oro di Scoreboard per tutti in $company. Il colore viene adattato perché i testi restino leggibili.',
+      name: 'brandBody',
+      desc: '',
+      args: [company],
+    );
+  }
+
+  /// `Colore`
+  String get brandColor {
+    return Intl.message('Colore', name: 'brandColor', desc: '', args: []);
+  }
+
+  /// `Oro di Scoreboard`
+  String get brandDefault {
+    return Intl.message(
+      'Oro di Scoreboard',
+      name: 'brandDefault',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logo`
+  String get brandLogo {
+    return Intl.message('Logo', name: 'brandLogo', desc: '', args: []);
+  }
+
+  /// `Carica logo`
+  String get uploadLogo {
+    return Intl.message('Carica logo', name: 'uploadLogo', desc: '', args: []);
+  }
+
+  /// `Anteprima`
+  String get brandPreview {
+    return Intl.message('Anteprima', name: 'brandPreview', desc: '', args: []);
+  }
+
+  /// `Anni di servizio`
+  String get anniversariesTitle {
+    return Intl.message(
+      'Anni di servizio',
+      name: 'anniversariesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Un traguardo verificato a ogni anniversario di assunzione che festeggiate, assegnato in automatico.`
+  String get anniversariesBody {
+    return Intl.message(
+      'Un traguardo verificato a ogni anniversario di assunzione che festeggiate, assegnato in automatico.',
+      name: 'anniversariesBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Festeggia gli anni di servizio`
+  String get anniversariesEnabled {
+    return Intl.message(
+      'Festeggia gli anni di servizio',
+      name: 'anniversariesEnabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{years, plural, one{1 anno} other{{years} anni}}`
+  String anniversaryYears(int years) {
+    return Intl.plural(
+      years,
+      one: '1 anno',
+      other: '$years anni',
+      name: 'anniversaryYears',
+      desc: '',
+      args: [years],
+    );
+  }
+
+  /// `{points} XP`
+  String anniversaryXp(Object points) {
+    return Intl.message(
+      '$points XP',
+      name: 'anniversaryXp',
+      desc: '',
+      args: [points],
+    );
+  }
+
+  /// `Impostazioni salvate`
+  String get settingsSavedMessage {
+    return Intl.message(
+      'Impostazioni salvate',
+      name: 'settingsSavedMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
@@ -3442,7 +4556,10 @@ class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'it'),
+      Locale.fromSubtags(languageCode: 'de'),
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'es'),
+      Locale.fromSubtags(languageCode: 'fr'),
     ];
   }
 

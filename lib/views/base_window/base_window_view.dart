@@ -1,3 +1,5 @@
+import 'package:provider/provider.dart';
+import 'package:scoreboard/core/providers.dart';
 import 'package:flutter/services.dart';
 import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/core/shortcuts.dart';
@@ -9,7 +11,7 @@ import 'package:scoreboard/core/routing/dynamic_routes.dart';
 import 'package:scoreboard/core/routing/route_names.dart';
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/widgets/notifications_panel.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:multiview_desktop/multiview_desktop.dart';
 import 'package:scoreboard/model/player_level.dart';
 import 'package:scoreboard/views/views.dart';
 import 'package:scoreboard/widgets/base_view/side_bar.dart';
@@ -21,6 +23,9 @@ import 'package:scoreboard/views/_base/base_widget.dart';
 import 'package:scoreboard/views/base_window/base_window_contract.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 import 'package:scoreboard/core/window_chrome.dart';
+import 'package:scoreboard/core/theme.dart';
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
+import 'package:lucide_icons_flutter/lucide_icons_500.dart';
 
 class BaseWindowView extends BaseStatefulWidget {
   BaseWindowView({super.key}) : super(_BaseWindowViewState());
@@ -59,14 +64,15 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
         !(ModalRoute.of(context)?.isCurrent ?? false)) {
       return false;
     }
-    final pages = vmState.pages;
     final actions = <ShortcutActivator, VoidCallback>{
       AppShortcuts.quickSend: () => viewModel.onTapSendAchievement(),
       AppShortcuts.notifications: _openNotifications,
       AppShortcuts.settings: () => viewModel.onChangePage(AppPage.settings),
-      for (var i = 0; i < pages.length && i < AppShortcuts.pageKeys.length; i++)
+      for (var i = 0;
+          i < vmState.destinationCount && i < AppShortcuts.pageKeys.length;
+          i++)
         AppShortcuts.primary(AppShortcuts.pageKeys[i]): () =>
-            viewModel.onChangePage(pages[i]),
+            _selectDestination(i),
     };
     for (final entry in actions.entries) {
       if (entry.key.accepts(event, HardwareKeyboard.instance)) {
@@ -87,45 +93,113 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
 
   @override
   Future<void> bringToFront() async {
-    await windowManager.show();
-    await windowManager.focus();
+    MultiViewDesktop.of(context)
+      ..show()
+      ..focus();
   }
+
+  /// The sidebar's [index]-th entry: a page, or a console section in admin
+  /// mode.
+  void _selectDestination(int index) => vmState.adminMode
+      ? viewModel.onChangeConsoleSection(ConsoleSection.values[index])
+      : viewModel.onChangePage(vmState.pages[index]);
 
   SidebarItem _item(AppPage page) {
     final l10n = context.l10n;
-    return switch (page) {
-      AppPage.achievements => SidebarItem(
-          label: l10n.navAchievements,
-          icon: Icons.emoji_events_outlined,
-          selectedIcon: Icons.emoji_events_rounded),
-      AppPage.baseAchievements => SidebarItem(
-          label: l10n.navBaseAchievements,
-          icon: Icons.volunteer_activism_outlined,
-          selectedIcon: Icons.volunteer_activism_rounded),
-      AppPage.feed => SidebarItem(
-          label: l10n.navFeed,
-          icon: Icons.dynamic_feed_outlined,
-          selectedIcon: Icons.dynamic_feed_rounded),
-      AppPage.yourCompany => SidebarItem(
-          label: l10n.navYourCompany,
-          icon: Icons.business_outlined,
-          selectedIcon: Icons.business_rounded),
-      AppPage.community => SidebarItem(
-          label: l10n.navCommunity,
-          icon: Icons.people_outline,
-          selectedIcon: Icons.people_rounded),
-      AppPage.profile => SidebarItem(
-          label: l10n.navProfile,
-          icon: Icons.person_outline,
-          selectedIcon: Icons.person_rounded),
-      AppPage.console => SidebarItem(
-          label: l10n.navConsole,
-          icon: Icons.admin_panel_settings_outlined,
-          selectedIcon: Icons.admin_panel_settings_rounded),
-      AppPage.settings => SidebarItem(
-          label: l10n.navSettings,
-          icon: Icons.tune_outlined,
-          selectedIcon: Icons.tune_rounded),
+    final (label, icon, selectedIcon) = switch (page) {
+      AppPage.achievements => (
+          l10n.navAchievements,
+          LucideIcons300.trophy,
+          LucideIcons500.trophy
+        ),
+      AppPage.baseAchievements => (
+          l10n.navBaseAchievements,
+          LucideIcons300.heartHandshake,
+          LucideIcons500.heartHandshake
+        ),
+      AppPage.feed => (
+          l10n.navFeed,
+          LucideIcons300.newspaper,
+          LucideIcons500.newspaper
+        ),
+      AppPage.yourCompany => (
+          l10n.navYourCompany,
+          LucideIcons300.building2,
+          LucideIcons500.building2
+        ),
+      AppPage.team => (
+          l10n.navTeam,
+          LucideIcons300.usersRound,
+          LucideIcons500.usersRound
+        ),
+      AppPage.community => (
+          l10n.navCommunity,
+          LucideIcons300.globe,
+          LucideIcons500.globe
+        ),
+      AppPage.profile => (
+          l10n.navProfile,
+          LucideIcons300.circleUser,
+          LucideIcons500.circleUser
+        ),
+      AppPage.console => (
+          l10n.navConsole,
+          LucideIcons300.shieldCheck,
+          LucideIcons500.shieldCheck
+        ),
+      AppPage.settings => (
+          l10n.navSettings,
+          LucideIcons300.settings2,
+          LucideIcons500.settings2
+        ),
+    };
+    return SidebarItem(label: label, icon: icon, selectedIcon: selectedIcon);
+  }
+
+  SidebarItem _sectionItem(ConsoleSection section) {
+    final l10n = context.l10n;
+    return switch (section) {
+      ConsoleSection.catalog => SidebarItem(
+          header: l10n.adminGroupRecognition,
+          label: l10n.consoleCatalog,
+          icon: LucideIcons300.library,
+          selectedIcon: LucideIcons500.library),
+      ConsoleSection.assign => SidebarItem(
+          label: l10n.consoleAssign,
+          icon: LucideIcons300.badgeCheck,
+          selectedIcon: LucideIcons500.badgeCheck),
+      ConsoleSection.requests => SidebarItem(
+          label: l10n.navRequests,
+          icon: LucideIcons300.inbox,
+          selectedIcon: LucideIcons500.inbox,
+          badge: vmState.pendingRequests),
+      ConsoleSection.teams => SidebarItem(
+          header: l10n.adminGroupPeople,
+          label: l10n.consoleTeams,
+          icon: LucideIcons300.usersRound,
+          selectedIcon: LucideIcons500.usersRound),
+      ConsoleSection.seasons => SidebarItem(
+          label: l10n.consoleSeasons,
+          icon: LucideIcons300.flag,
+          selectedIcon: LucideIcons500.flag),
+      ConsoleSection.insights => SidebarItem(
+          header: l10n.adminGroupData,
+          label: l10n.consoleStats,
+          icon: LucideIcons300.chartColumn,
+          selectedIcon: LucideIcons500.chartColumn),
+      ConsoleSection.reports => SidebarItem(
+          label: l10n.consoleReports,
+          icon: LucideIcons300.fileSpreadsheet,
+          selectedIcon: LucideIcons500.fileSpreadsheet),
+      ConsoleSection.activity => SidebarItem(
+          label: l10n.consoleActivity,
+          icon: LucideIcons300.history,
+          selectedIcon: LucideIcons500.history),
+      ConsoleSection.company => SidebarItem(
+          header: l10n.adminGroupCompany,
+          label: l10n.consoleCompany,
+          icon: LucideIcons300.palette,
+          selectedIcon: LucideIcons500.palette),
     };
   }
 
@@ -134,6 +208,7 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
         AppPage.baseAchievements => getIt<BaseAchievementsView>(),
         AppPage.feed => getIt<FeedView>(),
         AppPage.yourCompany => getIt<YourCompanyView>(),
+        AppPage.team => getIt<TeamView>(),
         AppPage.community => getIt<CommunityView>(),
         AppPage.profile => getIt<ProfileView>(),
         AppPage.console => getIt<ConsoleView>(),
@@ -145,26 +220,55 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
     return BaseWidget<BaseWindowViewModelContract, BaseWindowState>(
         model: viewModel,
         builder: (context, viewModel, child) {
-          final pages = vmState.pages;
-          return Scaffold(
+          final adminMode = vmState.adminMode;
+          final stackPages = vmState.stackPages;
+          final dark = Theme.of(context).brightness == Brightness.dark;
+          final content = Scaffold(
             body: Row(
               children: [
                 Sidebar(
-                    items: [for (final page in pages) _item(page)],
+                    logoPath: context.watch<BrandProvider>().logoPath,
+                    adminMode: adminMode,
+                    sectionLabel: adminMode ? null : context.l10n.menuLabel,
+                    items: adminMode
+                        ? [
+                            for (final s in ConsoleSection.values)
+                              _sectionItem(s)
+                          ]
+                        : [for (final page in vmState.pages) _item(page)],
                     headerAction: _buildBell(),
-                    trailing: vmState.currentUser != null
-                        ? _buildUserCard(context)
+                    banner: adminMode && vmState.companyName != null
+                        ? AdminBanner(
+                            label:
+                                context.l10n.adminBadge(vmState.companyName!))
                         : null,
-                    onItemSelected: (index) =>
-                        viewModel.onChangePage(pages[index]),
-                    index: pages.indexOf(vmState.page)),
+                    trailing: vmState.currentUser != null
+                        ? Column(
+                            children: [
+                              if (vmState.isAdmin)
+                                AdminModeSwitch(
+                                  value: adminMode,
+                                  onChanged: viewModel.onToggleAdminMode,
+                                ),
+                              // Room for the console sections in admin mode.
+                              if (!adminMode) ...[
+                                if (vmState.isAdmin) const SizedBox(height: 10),
+                                _buildUserCard(context),
+                              ],
+                            ],
+                          )
+                        : null,
+                    onItemSelected: _selectDestination,
+                    index: adminMode
+                        ? vmState.consoleSection.index
+                        : vmState.pages.indexOf(vmState.page)),
                 Expanded(
                   child: Stack(
                     children: [
                       IndexedStack(
-                        index: pages.indexOf(vmState.page),
+                        index: stackPages.indexOf(vmState.page),
                         children: [
-                          for (final page in pages)
+                          for (final page in stackPages)
                             KeyedSubtree(
                                 key: ValueKey(page), child: _page(page)),
                         ],
@@ -184,6 +288,18 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
               ],
             ),
           );
+          // Admin mode recolors the whole window, so it is never mistaken
+          // for the regular app. The Theme is always there and only its
+          // data changes: adding or removing it would rebuild every page
+          // from scratch, disposing their view models mid-load.
+          return Theme(
+            data: !adminMode
+                ? Theme.of(context)
+                : dark
+                    ? AppTheme.adminThemeDataDark
+                    : AppTheme.adminThemeDataLight,
+            child: content,
+          );
         });
   }
 
@@ -192,12 +308,16 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
     return IconButton(
       tooltip: context.l10n.notificationsOpen,
       onPressed: _openNotifications,
-      icon: Badge(
-        isLabelVisible: unread > 0,
-        label: Text(unread > 9 ? '9+' : '$unread'),
-        child: Icon(unread > 0
-            ? Icons.notifications_rounded
-            : Icons.notifications_none_rounded),
+      // Read as "Open notifications, 4 unread notifications", not "4".
+      icon: Semantics(
+        label: context.l10n.notificationsUnread(unread),
+        excludeSemantics: true,
+        child: Badge(
+          isLabelVisible: unread > 0,
+          label: Text(unread > 9 ? '9+' : '$unread'),
+          child: Icon(unread > 0 ? LucideIcons500.bellDot : LucideIcons300.bell,
+              size: 19),
+        ),
       ),
     );
   }

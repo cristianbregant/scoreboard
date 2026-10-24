@@ -13,4 +13,10 @@ void setupLocatorStates() {
   getIt.registerFactory<BaseAchievementsState>(() => BaseAchievementsState());
   getIt.registerFactory<FeedState>(() => FeedState());
   getIt.registerFactory<ConsoleState>(() => ConsoleState());
+  getIt.registerFactory<TeamState>(() => TeamState());
+  getIt.registerFactory<TeamsAdminState>(() => TeamsAdminState());
+  getIt.registerFactory<SeasonsAdminState>(() => SeasonsAdminState());
+  getIt.registerFactory<ReportsState>(() => ReportsState());
+  getIt.registerFactory<ActivityState>(() => ActivityState());
+  getIt.registerFactory<CompanySettingsState>(() => CompanySettingsState());
 }

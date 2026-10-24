@@ -17,12 +17,35 @@ void setupLocatorInteractors() {
       getIt<ScoreboardRepository>(),
       getIt<FilePickerService>(),
       getIt<ImageStorageService>()));
-  getIt.registerFactory<AuthInteractor>(
-      () => AuthInteractor(getIt<ScoreboardRepository>()));
+  getIt.registerFactory<AuthInteractor>(() => AuthInteractor(
+      getIt<ScoreboardRepository>(), getIt<ScoreboardInteractor>()));
   getIt.registerFactory<ShareInteractor>(
       () => ShareInteractor(getIt<ShareService>()));
-  getIt.registerFactory<AdminInteractor>(() => AdminInteractor(
+  getIt.registerFactory<ActivityInteractor>(() => ActivityInteractor(
       getIt<ScoreboardRepository>(), getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<AdminInteractor>(() => AdminInteractor(
+      getIt<ScoreboardRepository>(),
+      getIt<ScoreboardInteractor>(),
+      getIt<ActivityInteractor>()));
+  getIt.registerFactory<TeamInteractor>(() => TeamInteractor(
+      getIt<ScoreboardRepository>(),
+      getIt<ScoreboardInteractor>(),
+      getIt<ActivityInteractor>()));
+  getIt.registerFactory<SeasonInteractor>(() => SeasonInteractor(
+      getIt<ScoreboardRepository>(),
+      getIt<ScoreboardInteractor>(),
+      getIt<ActivityInteractor>()));
+  getIt.registerFactory<ReportInteractor>(() => ReportInteractor(
+      getIt<ScoreboardRepository>(),
+      getIt<ScoreboardInteractor>(),
+      getIt<ShareService>(),
+      getIt<ActivityInteractor>()));
+  getIt.registerFactory<CompanySettingsInteractor>(() =>
+      CompanySettingsInteractor(
+          getIt<ScoreboardRepository>(),
+          getIt<ScoreboardInteractor>(),
+          getIt<ImageStorageService>(),
+          getIt<ActivityInteractor>()));
   getIt.registerFactory<FeedInteractor>(() => FeedInteractor(
       getIt<ScoreboardRepository>(), getIt<ScoreboardInteractor>()));
   getIt.registerFactory<NotificationInteractor>(() => NotificationInteractor(

@@ -1,11 +1,14 @@
 import 'package:scoreboard/core/app_navigation.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/interactors/admin_interactor.dart';
 import 'package:scoreboard/interactors/app_configuration_interactor.dart';
+import 'package:scoreboard/interactors/team_interactor.dart';
 import 'package:scoreboard/interactors/notification_interactor.dart';
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/interactors/update_interactor.dart';
 import 'package:scoreboard/model/app_notification.dart';
+import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/views/_base/base_view_model.dart';
 import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 import 'package:scoreboard/views/base_window/base_window_contract.dart';
@@ -20,10 +23,15 @@ class BaseWindowViewModel
   final AppNavigation _navigation;
   final AppConfigurationInteractor _configuration;
   final UpdateInteractor _updates;
+  final AdminInteractor _admin;
+  final TeamInteractor _teams;
   bool _startupChecksDone = false;
 
+  /// Where the sidebar returns when admin mode is turned off.
+  AppPage _lastPage = AppPage.achievements;
+
   BaseWindowViewModel(this.interactor, this._notifications, this._navigation,
-      this._configuration, this._updates);
+      this._configuration, this._updates, this._admin, this._teams);
 
   @override
   void onInitState() {
@@ -44,7 +52,7 @@ class BaseWindowViewModel
     if (request == null) return;
     switch (request) {
       case (NavigationRequest.openPage, final AppPage page):
-        if (vmState.pages.contains(page)) onChangePage(page);
+        if (vmState.stackPages.contains(page)) onChangePage(page);
       case (NavigationRequest.quickSend, _):
         onTapSendAchievement();
       case (NavigationRequest.openNotifications, _):
@@ -69,9 +77,30 @@ class BaseWindowViewModel
 
   @override
   void onChangePage(AppPage page) {
+    if (page == AppPage.console) {
+      onChangeConsoleSection(vmState.consoleSection);
+      return;
+    }
+    vmState.adminMode = false;
     vmState.page = page;
+    _lastPage = page;
     notifyListeners();
   }
+
+  @override
+  void onChangeConsoleSection(ConsoleSection section) {
+    if (!vmState.isAdmin) return;
+    vmState.adminMode = true;
+    vmState.page = AppPage.console;
+    vmState.consoleSection = section;
+    _navigation.consoleSection.value = section;
+    notifyListeners();
+  }
+
+  @override
+  void onToggleAdminMode(bool enabled) => enabled
+      ? onChangeConsoleSection(vmState.consoleSection)
+      : onChangePage(_lastPage);
 
   @override
   Future<void> loadCurrentUser() async {
@@ -81,7 +110,15 @@ class BaseWindowViewModel
       vmState.currentUser = user;
       vmState.currentUserPoints =
           achievements.fold(0, (sum, a) => sum + (a.points ?? 0));
-      if (!vmState.pages.contains(vmState.page)) {
+      vmState.companyName = (await interactor.getCompany(user.companyId)).name;
+      vmState.isManager = await _teams.managedTeam() != null;
+      vmState.pendingRequests = user.isCompanyAdmin
+          ? (await _admin.getRequests())
+              .where((r) => r.status == RequestStatus.pending)
+              .length
+          : 0;
+      if (!vmState.stackPages.contains(vmState.page)) {
+        vmState.adminMode = false;
         vmState.page = AppPage.achievements;
       }
       await _notifications
@@ -103,9 +140,10 @@ class BaseWindowViewModel
       case NotificationType.feedComment:
         onChangePage(AppPage.feed);
       case NotificationType.newRequest:
-        onChangePage(vmState.pages.contains(AppPage.console)
-            ? AppPage.console
-            : AppPage.yourCompany);
+      case NotificationType.newNomination:
+        vmState.isAdmin
+            ? onChangeConsoleSection(ConsoleSection.requests)
+            : onChangePage(AppPage.yourCompany);
       case NotificationType.requestApproved:
       case NotificationType.requestRejected:
         onChangePage(AppPage.yourCompany);

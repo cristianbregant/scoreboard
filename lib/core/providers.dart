@@ -3,11 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:scoreboard/core/locator/locator.dart';
 import 'package:scoreboard/interactors/app_configuration_interactor.dart';
+import 'package:scoreboard/interactors/company_settings_interactor.dart';
+import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 
 List<SingleChildWidget> providers = [
   ChangeNotifierProvider(create: (_) => UploadStatusProvider()),
   ChangeNotifierProvider(create: (_) => DarkThemeProvider()),
   ChangeNotifierProvider(create: (_) => LocaleProvider()),
+  ChangeNotifierProvider(create: (_) => BrandProvider()),
 ];
 
 enum UploadStatus {
@@ -86,5 +89,43 @@ class LocaleProvider extends ChangeNotifier {
     _locale = value;
     getIt<AppConfigurationInteractor>().setAppLocale(value);
     notifyListeners();
+  }
+}
+
+/// The signed-in user's company look: its accent and logo, or Scoreboard's
+/// own when it set none. Reloaded whenever the data or the session change.
+class BrandProvider extends ChangeNotifier {
+  final ScoreboardInteractor _scoreboard = getIt<ScoreboardInteractor>();
+  int? _accentColor;
+  String? _logoPath;
+
+  BrandProvider() {
+    _scoreboard.addListener(_load);
+    _load();
+  }
+
+  int? get accentColor => _accentColor;
+  String? get logoPath => _logoPath;
+
+  Future<void> _load() async {
+    try {
+      final settings =
+          await getIt<CompanySettingsInteractor>().currentSettings();
+      if (settings?.accentColor == _accentColor &&
+          settings?.logoPath == _logoPath) {
+        return;
+      }
+      _accentColor = settings?.accentColor;
+      _logoPath = settings?.logoPath;
+      notifyListeners();
+    } catch (_) {
+      // Signed out mid-load: keep the current look.
+    }
+  }
+
+  @override
+  void dispose() {
+    _scoreboard.removeListener(_load);
+    super.dispose();
   }
 }

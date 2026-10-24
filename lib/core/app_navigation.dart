@@ -6,12 +6,29 @@ enum AppPage {
   baseAchievements,
   feed,
   yourCompany,
+
+  /// Team managers only.
+  team,
   community,
   profile,
 
-  /// Company admins only.
+  /// Company admins only, in admin mode.
   console,
   settings,
+}
+
+/// Sections of the admin console, listed in the sidebar in admin mode, in
+/// this order.
+enum ConsoleSection {
+  catalog,
+  assign,
+  requests,
+  teams,
+  seasons,
+  insights,
+  reports,
+  activity,
+  company,
 }
 
 enum NavigationRequest { openPage, quickSend, openNotifications }
@@ -21,6 +38,10 @@ enum NavigationRequest { openPage, quickSend, openNotifications }
 class AppNavigation extends ChangeNotifier {
   NavigationRequest? _request;
   AppPage? _page;
+
+  /// Console section picked in the sidebar; the console page follows it.
+  final ValueNotifier<ConsoleSection> consoleSection =
+      ValueNotifier(ConsoleSection.catalog);
 
   /// Read once by the main window; returns null when nothing is pending.
   (NavigationRequest, AppPage?)? takeRequest() {

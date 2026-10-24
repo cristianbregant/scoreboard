@@ -22,6 +22,7 @@ class NotificationsPanel extends StatelessWidget {
         NotificationType.requestApproved => Icons.check_circle_rounded,
         NotificationType.requestRejected => Icons.cancel_rounded,
         NotificationType.newRequest => Icons.inbox_rounded,
+        NotificationType.newNomination => Icons.how_to_reg_rounded,
         NotificationType.feedReaction => Icons.celebration_rounded,
         NotificationType.feedComment => Icons.chat_bubble_rounded,
         NotificationType.weeklyRecap => Icons.insights_rounded,

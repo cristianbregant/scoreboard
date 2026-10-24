@@ -4,12 +4,15 @@ import 'package:scoreboard/generated/l10n.dart';
 import 'dart:math' as math;
 
 import 'package:scoreboard/core/formatters.dart';
+import 'package:scoreboard/core/haptics.dart';
 import 'package:scoreboard/core/theme.dart';
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/widgets/achievement_style.dart';
 import 'package:scoreboard/widgets/common/company_logo.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:flutter/services.dart';
 
 class InteractiveCard extends StatefulWidget {
   final Achievement achievement;
@@ -59,10 +62,50 @@ class _InteractiveCardState extends State<InteractiveCard>
   Size get cardSize => Size(widget.width,
       widget.width * InteractiveCard.baseHeight / InteractiveCard.baseWidth);
 
+  bool isFocused = false;
+
+  /// Hovered or focused with the keyboard: the card lifts and shows its
+  /// flip button.
+  bool get isLifted => isHovering || isFocused;
+
+  /// The system's "reduce motion" setting: no tilt, no flip animation.
+  bool get reduceMotion =>
+      MediaQuery.maybeDisableAnimationsOf(context) ?? false;
+
   void _toggleFlip() {
     final showingBack = _flip.status == AnimationStatus.forward ||
         _flip.status == AnimationStatus.completed;
-    showingBack ? _flip.reverse() : _flip.forward();
+    if (reduceMotion) {
+      _flip.value = showingBack ? 0 : 1;
+    } else {
+      showingBack ? _flip.reverse() : _flip.forward();
+    }
+  }
+
+  /// Holding a card flips it, with a haptic "snap" while the trackpad is
+  /// still pressed: the only moment macOS lets one be felt.
+  void _flipFromLongPress() {
+    Haptics.snap();
+    _toggleFlip();
+  }
+
+  void _onTap() =>
+      widget.flipOnTap && canFlip ? _toggleFlip() : widget.onPressed();
+
+  /// What screen readers say, in reading order rather than layout order.
+  String _semanticLabel(AppLocalization l10n) {
+    final achievement = widget.achievement;
+    return [
+      achievement.name ?? '',
+      '${achievement.tier.localized(l10n)}, '
+          '${l10n.xpValue(achievement.points ?? 0)}',
+      if (achievement.verified == true) ...[
+        l10n.labelVerified,
+        if (achievement.company != null) achievement.company!,
+      ] else if (achievement.awardedByName != null)
+        l10n.cardFrom(achievement.awardedByName!),
+      if (achievement.date != null) formatDate(achievement.date),
+    ].join('. ');
   }
 
   @override
@@ -73,12 +116,45 @@ class _InteractiveCardState extends State<InteractiveCard>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final animationDuration = reduceMotion ? Duration.zero : _animationDuration;
+    // One node for screen readers, with flipping as an extra action.
+    return Semantics(
+      container: true,
+      button: true,
+      label: _semanticLabel(l10n),
+      onTap: _onTap,
+      customSemanticsActions: canFlip
+          ? {CustomSemanticsAction(label: l10n.cardFlip): _toggleFlip}
+          : null,
+      child: ExcludeSemantics(
+        // Tab focuses the card, Enter or Space opens it, F flips it.
+        child: FocusableActionDetector(
+          onShowFocusHighlight: (value) => setState(() => isFocused = value),
+          shortcuts: const {
+            SingleActivator(LogicalKeyboardKey.keyF): _FlipIntent(),
+          },
+          actions: {
+            ActivateIntent:
+                CallbackAction<ActivateIntent>(onInvoke: (_) => _onTap()),
+            _FlipIntent: CallbackAction<_FlipIntent>(
+                onInvoke: (_) => canFlip ? _toggleFlip() : null),
+          },
+          child: _buildCard(animationDuration),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCard(Duration animationDuration) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Hero(
       tag: widget.heroTag ?? ValueKey(widget.achievement.id),
       child: Material(
         type: MaterialType.transparency,
         child: GestureDetector(
-          onTap: widget.flipOnTap && canFlip ? _toggleFlip : widget.onPressed,
+          onTap: _onTap,
+          onLongPress: canFlip ? _flipFromLongPress : null,
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
             onEnter: (_) => setState(() => isHovering = true),
@@ -86,16 +162,18 @@ class _InteractiveCardState extends State<InteractiveCard>
               isHovering = false;
               pointer = Offset.zero;
             }),
-            onHover: (event) => setState(() {
-              pointer = Offset(
-                (event.localPosition.dx / cardSize.width) * 2 - 1,
-                (event.localPosition.dy / cardSize.height) * 2 - 1,
-              );
-            }),
+            onHover: (event) => reduceMotion
+                ? null
+                : setState(() {
+                    pointer = Offset(
+                      (event.localPosition.dx / cardSize.width) * 2 - 1,
+                      (event.localPosition.dy / cardSize.height) * 2 - 1,
+                    );
+                  }),
             // The shadow lives outside the 3D transform: blurs are not
             // rendered reliably under a perspective matrix.
             child: AnimatedContainer(
-              duration: _animationDuration,
+              duration: animationDuration,
               curve: Curves.easeOut,
               width: cardSize.width,
               height: cardSize.height,
@@ -103,22 +181,25 @@ class _InteractiveCardState extends State<InteractiveCard>
                 borderRadius: BorderRadius.circular(18),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black
-                        .withValues(alpha: isHovering ? 0.35 : 0.18),
-                    blurRadius: isHovering ? 36 : 18,
+                    color:
+                        Colors.black.withValues(alpha: isLifted ? 0.35 : 0.18),
+                    blurRadius: isLifted ? 36 : 18,
                     spreadRadius: -6,
-                    offset: Offset(0, isHovering ? 18 : 10),
+                    offset: Offset(0, isLifted ? 18 : 10),
                   ),
+                  // Keyboard focus ring.
+                  if (isFocused)
+                    BoxShadow(color: colorScheme.primary, spreadRadius: 3),
                 ],
               ),
               child: AnimatedContainer(
-                duration: _animationDuration,
+                duration: animationDuration,
                 curve: Curves.easeOut,
                 transformAlignment: Alignment.center,
                 transform: Matrix4.identity()
                   ..setEntry(3, 2, 0.001) // perspective
                   ..scaleByDouble(
-                      isHovering ? 1.06 : 1.0, isHovering ? 1.06 : 1.0, 1, 1)
+                      isLifted ? 1.06 : 1.0, isLifted ? 1.06 : 1.0, 1, 1)
                   ..rotateX(-pointer.dy * 0.18)
                   ..rotateY(pointer.dx * 0.18),
                 child: FittedBox(
@@ -132,10 +213,10 @@ class _InteractiveCardState extends State<InteractiveCard>
                             right: 10,
                             top: 136,
                             child: IgnorePointer(
-                              ignoring: !isHovering,
+                              ignoring: !isLifted,
                               child: AnimatedOpacity(
                                 duration: const Duration(milliseconds: 150),
-                                opacity: isHovering ? 1 : 0,
+                                opacity: isLifted ? 1 : 0,
                                 child: _FlipButton(onTap: _toggleFlip),
                               ),
                             ),
@@ -370,7 +451,8 @@ class _CardFront extends StatelessWidget {
                   message: l10n.labelVerified,
                   child: Icon(Icons.verified_rounded,
                       semanticLabel: l10n.labelVerified,
-                      color: AppColors.verified,
+                      color: colorScheme.legible(AppColors.verified,
+                          minContrast: 3),
                       size: 16),
                 ),
             ],
@@ -450,17 +532,17 @@ class _CardBack extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.verified_rounded,
-                size: 13, color: AppColors.verified),
+            Icon(Icons.verified_rounded,
+                size: 13, color: colorScheme.legible(AppColors.verified)),
             const SizedBox(width: 4),
             Flexible(
               child: Text(l10n.cardVerifiedAchievement,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 10.5,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.verified)),
+                      color: colorScheme.legible(AppColors.verified))),
             ),
           ],
         ),
@@ -541,6 +623,10 @@ class _CardBack extends StatelessWidget {
       .take(2)
       .map((part) => part[0].toUpperCase())
       .join();
+}
+
+class _FlipIntent extends Intent {
+  const _FlipIntent();
 }
 
 class _FlipButton extends StatelessWidget {

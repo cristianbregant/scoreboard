@@ -1,3 +1,4 @@
+import 'package:scoreboard/interactors/season_interactor.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/interactors/admin_interactor.dart';
@@ -16,8 +17,9 @@ class YourCompanyViewModel
   final ScoreboardInteractor interactor;
 
   final AdminInteractor _admin;
+  final SeasonInteractor _seasons;
 
-  YourCompanyViewModel(this.interactor, this._admin);
+  YourCompanyViewModel(this.interactor, this._admin, this._seasons);
 
   @override
   void onInitState() {
@@ -38,6 +40,10 @@ class YourCompanyViewModel
       vmState.company = await interactor.getCompany(user.companyId);
       vmState.members =
           await interactor.getUserLeaderboard(companyId: user.companyId);
+      vmState.season = await _seasons.currentSeason();
+      vmState.seasonBoard = vmState.season == null
+          ? []
+          : await _seasons.leaderboard(vmState.season!);
       vmState.catalog = await _admin.getCatalog();
       vmState.ownedCatalogIds = {
         for (final a in await interactor.getAchievementsOf(user.id))

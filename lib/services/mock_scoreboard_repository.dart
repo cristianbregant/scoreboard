@@ -4,6 +4,10 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 
 import 'package:scoreboard/model/achievement.dart';
+import 'package:scoreboard/model/activity.dart';
+import 'package:scoreboard/model/company_settings.dart';
+import 'package:scoreboard/model/season.dart';
+import 'package:scoreboard/model/team.dart';
 import 'package:scoreboard/model/achievement_template.dart';
 import 'package:scoreboard/model/app_notification.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
@@ -42,6 +46,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
   ];
   late final List<Achievement> _achievements = [
     ..._buildAchievements(),
+    ..._buildAnniversaries(),
     ..._preferences.sentAchievements
         .map((json) => Achievement.fromJson(jsonDecode(json))),
   ];
@@ -59,6 +64,13 @@ class MockScoreboardRepository implements ScoreboardRepository {
       _load('comments', FeedComment.fromJson, _buildComments);
   late final List<AppNotification> _notifications =
       _load('notifications', AppNotification.fromJson, _buildNotifications);
+  late final List<Team> _teams = _load('teams', Team.fromJson, _buildTeams);
+  late final List<Season> _seasons =
+      _load('seasons', Season.fromJson, _buildSeasons);
+  late final List<ActivityEntry> _activity =
+      _load('activity', ActivityEntry.fromJson, _buildActivity);
+  late final List<CompanySettings> _companySettings =
+      _load('company_settings', CompanySettings.fromJson, () => []);
 
   /// Users whose profile differs from the seed and must be persisted.
   late final Set<String> _storedUserIds = _preferences.storedUsers
@@ -304,12 +316,20 @@ class MockScoreboardRepository implements ScoreboardRepository {
     final catalogName =
         _catalog.where((c) => c.id == request.catalogId).firstOrNull?.name;
     if (isNew) {
+      final nominated = request.nominatedById != null;
       for (final admin in _users.where((u) =>
           u.isCompanyAdmin &&
           u.companyId == request.companyId &&
-          u.id != request.userId)) {
-        _notify(admin.id, NotificationType.newRequest,
-            actorName: _userName(request.userId), achievementName: catalogName);
+          u.id != request.userId &&
+          u.id != request.nominatedById)) {
+        _notify(
+            admin.id,
+            nominated
+                ? NotificationType.newNomination
+                : NotificationType.newRequest,
+            actorName: _userName(request.nominatedById ?? request.userId),
+            achievementName: catalogName,
+            text: nominated ? _userName(request.userId) : null);
       }
     } else if (request.status != RequestStatus.pending) {
       _notify(
@@ -366,6 +386,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
   Future<List<AppNotification>> getNotifications(String userId) async {
     await Future.delayed(_latency);
     _addWeeklyRecapIfDue(userId);
+    _notifyRecentAnniversaries(userId);
     return _notifications.where((n) => n.userId == userId).toList()
       ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
   }
@@ -377,6 +398,164 @@ class MockScoreboardRepository implements ScoreboardRepository {
       _upsert(_notifications, notification, (n) => n.id == notification.id);
     }
     await _persistNotifications();
+  }
+
+  @override
+  Future<List<Team>> getTeams(String companyId) async {
+    await Future.delayed(_latency);
+    return _teams.where((t) => t.companyId == companyId).toList()
+      ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+  }
+
+  @override
+  Future<void> saveTeam(Team team) async {
+    await Future.delayed(_latency);
+    _upsert(_teams, team, (t) => t.id == team.id);
+    await _save('teams', _teams, (t) => t.toJson());
+  }
+
+  @override
+  Future<void> deleteTeam(String teamId) async {
+    await Future.delayed(_latency);
+    _teams.removeWhere((t) => t.id == teamId);
+    await _save('teams', _teams, (t) => t.toJson());
+    final members = _users.where((u) => u.teamId == teamId).toList();
+    for (final member in members) {
+      _replaceUser(member.copyWith(teamId: ''));
+    }
+    if (members.isNotEmpty) await _persistUsers();
+  }
+
+  @override
+  Future<void> setUserTeam(String userId, String? teamId) async {
+    await Future.delayed(_latency);
+    final user = _users.firstWhere((u) => u.id == userId);
+    _replaceUser(user.copyWith(teamId: teamId ?? ''));
+    await _persistUsers();
+  }
+
+  void _replaceUser(UserProfile user) {
+    _users = [for (final u in _users) u.id == user.id ? user : u];
+    _storedUserIds.add(user.id);
+  }
+
+  @override
+  Future<List<Season>> getSeasons(String companyId) async {
+    await Future.delayed(_latency);
+    return _seasons.where((s) => s.companyId == companyId).toList()
+      ..sort((a, b) => a.start.compareTo(b.start));
+  }
+
+  @override
+  Future<void> saveSeason(Season season) async {
+    await Future.delayed(_latency);
+    _upsert(_seasons, season, (s) => s.id == season.id);
+    await _save('seasons', _seasons, (s) => s.toJson());
+  }
+
+  @override
+  Future<void> deleteSeason(String seasonId) async {
+    await Future.delayed(_latency);
+    _seasons.removeWhere((s) => s.id == seasonId);
+    await _save('seasons', _seasons, (s) => s.toJson());
+  }
+
+  @override
+  Future<List<ActivityEntry>> getActivity(String companyId) async {
+    await Future.delayed(_latency);
+    return _activity.where((a) => a.companyId == companyId).toList()
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  }
+
+  @override
+  Future<void> addActivity(ActivityEntry entry) async {
+    await Future.delayed(_latency);
+    _activity.add(entry);
+    await _save('activity', _activity, (a) => a.toJson());
+  }
+
+  @override
+  Future<CompanySettings> getCompanySettings(String companyId) async {
+    await Future.delayed(_latency);
+    return _settingsOf(companyId);
+  }
+
+  CompanySettings _settingsOf(String companyId) =>
+      _companySettings.where((s) => s.companyId == companyId).firstOrNull ??
+      CompanySettings(companyId: companyId);
+
+  @override
+  Future<void> saveCompanySettings(CompanySettings settings) async {
+    await Future.delayed(_latency);
+    _upsert(
+        _companySettings, settings, (s) => s.companyId == settings.companyId);
+    await _save('company_settings', _companySettings, (s) => s.toJson());
+    // Plays the role of the server reacting to the new milestones.
+    _achievements.removeWhere((a) =>
+        a.id!.startsWith(_anniversaryPrefix) &&
+        _users
+            .any((u) => u.id == a.userId && u.companyId == settings.companyId));
+    _achievements.addAll(_buildAnniversaries(companyId: settings.companyId));
+  }
+
+  static const String _anniversaryPrefix = 'anniv_';
+
+  /// Plays the role of a daily server job: a verified achievement on each
+  /// work anniversary the company celebrates. Rebuilt from the join dates,
+  /// like the seed, so it is never persisted.
+  List<Achievement> _buildAnniversaries({String? companyId}) {
+    final now = DateTime.now();
+    final achievements = <Achievement>[];
+    for (final user in _users) {
+      if (companyId != null && user.companyId != companyId) continue;
+      final settings = _settingsOf(user.companyId);
+      if (!settings.anniversariesEnabled) continue;
+      final company = _companies.firstWhere((c) => c.id == user.companyId);
+      for (final years in settings.anniversaryYears) {
+        final date = DateTime(
+            user.joinedAt.year + years, user.joinedAt.month, user.joinedAt.day);
+        if (date.isAfter(now)) continue;
+        final id = '$_anniversaryPrefix${user.id}_$years';
+        _seedAchievementIds.add(id);
+        achievements.add(Achievement(
+          id: id,
+          userId: user.id,
+          name: years == 1
+              ? '1 year at ${company.name}'
+              : '$years years at ${company.name}',
+          description: years == 1
+              ? 'A full year of work with the team. Thank you!'
+              : '$years years of work with the team. Thank you!',
+          icon: 'anniversary_icon.png',
+          points: CompanySettings.anniversaryPoints(years),
+          company: company.name,
+          companyId: company.id,
+          companyBrand: company.brand,
+          catalogId: 'anniversary_$years',
+          date: date,
+          verified: true,
+        ));
+      }
+    }
+    return achievements;
+  }
+
+  /// Anniversaries of the last week are announced once.
+  void _notifyRecentAnniversaries(String userId) {
+    final weekAgo = DateTime.now().subtract(const Duration(days: 7));
+    for (final achievement in _achievements.where((a) =>
+        a.userId == userId &&
+        a.id!.startsWith(_anniversaryPrefix) &&
+        a.date!.isAfter(weekAgo))) {
+      if (_notifications.any((n) => n.achievementId == achievement.id)) {
+        continue;
+      }
+      _notify(userId, NotificationType.verifiedAchievementReceived,
+          actorName: achievement.company,
+          achievementId: achievement.id,
+          achievementName: achievement.name);
+      _persistNotifications();
+    }
   }
 
   /// Plays the role of a weekly server job: at most one recap every 7 days.
@@ -690,7 +869,102 @@ class MockScoreboardRepository implements ScoreboardRepository {
           .map((user) => _seedAdminIds.contains(user.id)
               ? user.copyWith(isCompanyAdmin: true)
               : user)
+          .map((user) => user.copyWith(teamId: _seedTeamOf[user.id]))
           .toList();
+
+  /// Northwind has two teams: Giulia leads App & Web, the demo user leads
+  /// Platform & QA, so they can try the manager view.
+  static const Map<String, String> _seedTeamOf = {
+    'u_me': 't_nw_apps',
+    'u_01': 't_nw_apps',
+    'u_02': 't_nw_apps',
+    'u_03': 't_nw_platform',
+    'u_04': 't_bp_eng',
+    'u_05': 't_bp_eng',
+    'u_06': 't_bp_eng',
+    'u_07': 't_or_eng',
+    'u_08': 't_or_eng',
+    'u_09': 't_lu_product',
+    'u_10': 't_lu_product',
+    'u_11': 't_lu_product',
+  };
+
+  // A growable list: admins add teams to it.
+  List<Team> _buildTeams() => [
+        ...const [
+          Team(
+              id: 't_nw_apps',
+              companyId: 'c_northwind',
+              name: 'App & Web',
+              managerId: 'u_01'),
+          Team(
+              id: 't_nw_platform',
+              companyId: 'c_northwind',
+              name: 'Platform & QA',
+              managerId: demoUserId),
+          Team(
+              id: 't_bp_eng',
+              companyId: 'c_bluepeak',
+              name: 'Engineering',
+              managerId: 'u_04'),
+          Team(
+              id: 't_or_eng',
+              companyId: 'c_orbit',
+              name: 'Embedded',
+              managerId: 'u_07'),
+          Team(
+              id: 't_lu_product',
+              companyId: 'c_lumen',
+              name: 'Product',
+              managerId: 'u_11'),
+        ]
+      ];
+
+  /// A season running now and the one before it, relative to today.
+  List<Season> _buildSeasons() {
+    final now = DateTime.now();
+    final start = DateTime(now.year, now.month - 1, 1);
+    return [
+      for (final company in _companies) ...[
+        Season(
+            id: 's_${company.id}_prev',
+            companyId: company.id,
+            name: 'Season 2',
+            start: DateTime(start.year, start.month - 3, 1),
+            end: DateTime(start.year, start.month, 0)),
+        Season(
+            id: 's_${company.id}_now',
+            companyId: company.id,
+            name: 'Season 3',
+            start: start,
+            end: DateTime(start.year, start.month + 3, 0)),
+      ]
+    ];
+  }
+
+  List<ActivityEntry> _buildActivity() {
+    final now = DateTime.now();
+    ActivityEntry entry(String id, ActivityType type, int daysAgo,
+            {String? subject, String? target, int? count}) =>
+        ActivityEntry(
+          id: id,
+          companyId: 'c_northwind',
+          actorId: demoUserId,
+          actorName: 'Mario Rossi',
+          type: type,
+          createdAt: now.subtract(Duration(days: daysAgo, hours: 2)),
+          subject: subject,
+          target: target,
+          count: count,
+        );
+    return [
+      entry('act_seed_1', ActivityType.seasonCreated, 30, subject: 'Season 3'),
+      entry('act_seed_2', ActivityType.achievementsIssued, 12,
+          subject: 'Cloud Computing Expert', count: 2),
+      entry('act_seed_3', ActivityType.requestApproved, 8,
+          subject: 'Data Wizard', target: 'Giulia Bianchi'),
+    ];
+  }
 
   UserProfile _user(
       String id, String name, String role, String companyId, int year) {

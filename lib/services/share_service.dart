@@ -15,7 +15,11 @@ enum ShareFileType {
   json(XTypeGroup(
       label: 'JSON',
       extensions: ['json'],
-      uniformTypeIdentifiers: ['public.json']));
+      uniformTypeIdentifiers: ['public.json'])),
+  csv(XTypeGroup(
+      label: 'CSV',
+      extensions: ['csv'],
+      uniformTypeIdentifiers: ['public.comma-separated-values-text']));
 
   final XTypeGroup group;
 

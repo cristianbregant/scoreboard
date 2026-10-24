@@ -1,3 +1,4 @@
+import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/model/company.dart';
 import 'package:scoreboard/model/user_profile.dart';
@@ -7,8 +8,9 @@ class AuthInteractor {
   static const int minPasswordLength = 8;
 
   final ScoreboardRepository _repository;
+  final ScoreboardInteractor _scoreboard;
 
-  AuthInteractor(this._repository);
+  AuthInteractor(this._repository, this._scoreboard);
 
   bool get isSignedIn => _repository.sessionUserId != null;
 
@@ -19,7 +21,11 @@ class AuthInteractor {
     if (email.trim().isEmpty || password.isEmpty) {
       throw const AuthException(AuthError.missingCredentials);
     }
-    return _repository.signIn(email, password);
+    final user = await _repository.signIn(email, password);
+    // A new session: the app reloads what depends on the user, such as
+    // their company's colors.
+    _scoreboard.dataChanged();
+    return user;
   }
 
   Future<UserProfile> register(RegistrationDraft draft) async {
@@ -30,10 +36,15 @@ class AuthInteractor {
       throw const AuthException(AuthError.invalidEmail);
     }
     _checkPassword(draft.password);
-    return _repository.register(draft);
+    final user = await _repository.register(draft);
+    _scoreboard.dataChanged();
+    return user;
   }
 
-  Future<void> signOut() => _repository.signOut();
+  Future<void> signOut() async {
+    await _repository.signOut();
+    _scoreboard.dataChanged();
+  }
 
   Future<void> changePassword(
       String currentPassword, String newPassword) async {

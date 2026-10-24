@@ -1,3 +1,6 @@
+import 'package:lucide_icons_flutter/lucide_icons_300.dart';
+import 'package:lucide_icons_flutter/lucide_icons_500.dart';
+import 'package:scoreboard/core/haptics.dart';
 import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -100,22 +103,22 @@ class _SettingsViewState
                         ),
                         NavButton(
                           selected: vmState.currentPage == 0,
-                          icon: Icons.palette_outlined,
-                          selectedIcon: Icons.palette_rounded,
+                          icon: LucideIcons300.palette,
+                          selectedIcon: LucideIcons500.palette,
                           label: context.l10n.settingsAppearance,
                           onTap: () => viewModel.onTapChangePage(0),
                         ),
                         NavButton(
                           selected: vmState.currentPage == 1,
-                          icon: Icons.manage_accounts_outlined,
-                          selectedIcon: Icons.manage_accounts_rounded,
+                          icon: LucideIcons300.userRoundCog,
+                          selectedIcon: LucideIcons500.userRoundCog,
                           label: context.l10n.settingsAccount,
                           onTap: () => viewModel.onTapChangePage(1),
                         ),
                         NavButton(
                           selected: vmState.currentPage == 2,
-                          icon: Icons.info_outline_rounded,
-                          selectedIcon: Icons.info_rounded,
+                          icon: LucideIcons300.info,
+                          selectedIcon: LucideIcons500.info,
                           label: context.l10n.settingsAbout,
                           onTap: () => viewModel.onTapChangePage(2),
                         ),
@@ -138,9 +141,13 @@ class _SettingsViewState
 
   /// Language names are written in their own language, so anyone can find
   /// theirs whatever the current one is.
+  /// Each language in its own name, so anyone can find theirs.
   static const Map<String, String> _languages = {
-    'it': 'Italiano',
     'en': 'English',
+    'it': 'Italiano',
+    'es': 'Español',
+    'fr': 'Français',
+    'de': 'Deutsch',
   };
 
   Widget _buildGeneral() {
@@ -177,22 +184,37 @@ class _SettingsViewState
         SectionTitle(context.l10n.languageTitle),
         Align(
           alignment: Alignment.centerLeft,
-          child: SegmentedButton<String>(
-            showSelectedIcon: false,
-            segments: [
-              ButtonSegment(
+          // '' stands for "follow the system".
+          child: DropdownMenu<String>(
+            width: 260,
+            leadingIcon: const Icon(Icons.translate_rounded),
+            initialSelection: localeProvider.locale?.languageCode ?? '',
+            dropdownMenuEntries: [
+              DropdownMenuEntry(
                   value: '',
-                  icon: const Icon(Icons.computer_rounded),
-                  label: Text(context.l10n.languageSystem)),
+                  label: context.l10n.languageSystem,
+                  leadingIcon: const Icon(Icons.computer_rounded)),
               for (final entry in _languages.entries)
-                ButtonSegment(value: entry.key, label: Text(entry.value)),
+                DropdownMenuEntry(value: entry.key, label: entry.value),
             ],
-            // '' stands for "follow the system".
-            selected: {localeProvider.locale?.languageCode ?? ''},
-            onSelectionChanged: (selection) => localeProvider.locale =
-                selection.first.isEmpty ? null : Locale(selection.first),
+            onSelected: (code) {
+              if (code == null) return;
+              localeProvider.locale = code.isEmpty ? null : Locale(code);
+            },
           ),
         ),
+        // Only where the hardware can play it (a Force Touch trackpad).
+        if (Haptics.isSupported) ...[
+          SectionTitle(context.l10n.hapticsTitle),
+          Card(
+            child: SwitchListTile(
+              title: Text(context.l10n.hapticsTitle),
+              subtitle: Text(context.l10n.hapticsSubtitle),
+              value: vmState.hapticsEnabled,
+              onChanged: viewModel.onToggleHaptics,
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -436,6 +458,7 @@ class _SettingsViewState
                 ),
                 (AppShortcuts.pagesLabel, context.l10n.shortcutGoToPage),
                 (AppShortcuts.settingsLabel, context.l10n.navSettings),
+                ('F', context.l10n.shortcutFlipCard),
               ])
                 ListTile(
                   title: Text(action),

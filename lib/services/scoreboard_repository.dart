@@ -1,4 +1,8 @@
 import 'package:scoreboard/model/achievement.dart';
+import 'package:scoreboard/model/activity.dart';
+import 'package:scoreboard/model/company_settings.dart';
+import 'package:scoreboard/model/season.dart';
+import 'package:scoreboard/model/team.dart';
 import 'package:scoreboard/model/app_notification.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
 import 'package:scoreboard/model/feed.dart';
@@ -78,4 +82,34 @@ abstract class ScoreboardRepository {
 
   /// Saves read/delivered changes.
   Future<void> updateNotifications(List<AppNotification> notifications);
+
+  Future<List<Team>> getTeams(String companyId);
+
+  /// Inserts or updates a team.
+  Future<void> saveTeam(Team team);
+
+  /// Deletes the team; its members are left without one.
+  Future<void> deleteTeam(String teamId);
+
+  /// Moves [userId] to [teamId], or out of any team with null.
+  Future<void> setUserTeam(String userId, String? teamId);
+
+  /// Oldest first.
+  Future<List<Season>> getSeasons(String companyId);
+
+  /// Inserts or updates a season.
+  Future<void> saveSeason(Season season);
+
+  Future<void> deleteSeason(String seasonId);
+
+  /// Newest first.
+  Future<List<ActivityEntry>> getActivity(String companyId);
+
+  Future<void> addActivity(ActivityEntry entry);
+
+  /// Defaults when the company never changed them.
+  Future<CompanySettings> getCompanySettings(String companyId);
+
+  /// Also brings the work anniversary achievements in line with them.
+  Future<void> saveCompanySettings(CompanySettings settings);
 }

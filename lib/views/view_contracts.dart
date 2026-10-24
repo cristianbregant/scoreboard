@@ -9,3 +9,9 @@ export 'package:scoreboard/views/base_achievements/base_achievements_contract.da
 export 'package:scoreboard/views/auth/auth_contract.dart';
 export 'package:scoreboard/views/feed/feed_contract.dart';
 export 'package:scoreboard/views/console/console_contract.dart';
+export 'package:scoreboard/views/team/team_contract.dart';
+export 'package:scoreboard/views/admin/teams/teams_admin_contract.dart';
+export 'package:scoreboard/views/admin/seasons/seasons_admin_contract.dart';
+export 'package:scoreboard/views/admin/reports/reports_contract.dart';
+export 'package:scoreboard/views/admin/activity/activity_contract.dart';
+export 'package:scoreboard/views/admin/company/company_settings_contract.dart';

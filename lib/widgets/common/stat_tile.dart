@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scoreboard/core/theme.dart';
 
 class StatTile extends StatelessWidget {
   final String label;
@@ -22,7 +23,8 @@ class StatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final color = this.color ?? colorScheme.primary;
+    final color = colorScheme.legible(this.color ?? colorScheme.primary,
+        tint: 0.14, minContrast: 3);
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -98,7 +100,9 @@ class TagChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = color ?? Theme.of(context).colorScheme.onSurfaceVariant;
+    final colorScheme = Theme.of(context).colorScheme;
+    final foreground =
+        colorScheme.legible(color ?? colorScheme.onSurfaceVariant, tint: 0.12);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
@@ -112,11 +116,16 @@ class TagChip extends StatelessWidget {
             Icon(icon, size: 14, color: foreground),
             const SizedBox(width: 5),
           ],
-          Text(label,
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: foreground)),
+          // Shrinks with an ellipsis in a narrow parent.
+          Flexible(
+            child: Text(label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: foreground)),
+          ),
         ],
       ),
     );

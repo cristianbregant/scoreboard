@@ -18,11 +18,16 @@ class CompanyAchievements extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: providers,
-      child: Consumer2<DarkThemeProvider, LocaleProvider>(
-        builder: (context, themeProvider, localeProvider, child) => MaterialApp(
+      child: Consumer3<DarkThemeProvider, LocaleProvider, BrandProvider>(
+        builder: (context, themeProvider, localeProvider, brand, child) =>
+            MaterialApp(
           title: 'Scoreboard',
-          theme: AppTheme.themeDataLight,
-          darkTheme: AppTheme.themeDataDark,
+          theme: brand.accentColor == null
+              ? AppTheme.themeDataLight
+              : AppTheme.branded(Color(brand.accentColor!)).$1,
+          darkTheme: brand.accentColor == null
+              ? AppTheme.themeDataDark
+              : AppTheme.branded(Color(brand.accentColor!)).$2,
           themeMode: themeProvider.darkTheme ? ThemeMode.dark : ThemeMode.light,
           initialRoute: getIt<AuthInteractor>().isSignedIn
               ? RouteNames.baseWindow

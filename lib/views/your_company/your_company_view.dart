@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/formatters.dart';
 import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/theme.dart';
@@ -170,6 +171,7 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                           icon: Icons.leaderboard_rounded,
                           color: AppColors.success),
                     ]),
+                    if (vmState.season != null) _buildSeason(context),
                     ..._buildCatalog(),
                     ..._buildMyRequests(),
                     SectionTitle(context.l10n.topPerformers),
@@ -216,6 +218,106 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                 ),
               ));
             }));
+  }
+
+  /// The season running today: days left, the user's place and the top 3.
+  Widget _buildSeason(BuildContext context) {
+    final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
+    final season = vmState.season!;
+    final mine = vmState.mySeasonEntry;
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 42,
+                height: 42,
+                decoration: BoxDecoration(
+                  color: colorScheme.primary.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(Icons.flag_rounded, color: colorScheme.primary),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(l10n.seasonCurrent.toUpperCase(),
+                        style: TextStyle(
+                            fontSize: 11,
+                            letterSpacing: 0.8,
+                            fontWeight: FontWeight.w600,
+                            color: colorScheme.onSurfaceVariant)),
+                    const SizedBox(height: 2),
+                    Text(season.name,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w800)),
+                    const SizedBox(height: 4),
+                    Text(
+                        [
+                          l10n.seasonRange(
+                              formatDate(season.start), formatDate(season.end)),
+                          l10n.seasonDaysLeft(season.daysLeft(DateTime.now())),
+                        ].join(' · '),
+                        style: TextStyle(color: colorScheme.onSurfaceVariant)),
+                    if (mine != null) ...[
+                      const SizedBox(height: 10),
+                      TagChip(
+                          icon: Icons.leaderboard_rounded,
+                          color: colorScheme.primary,
+                          label:
+                              l10n.seasonYourRank('${mine.rank}', mine.points)),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: 16),
+              SizedBox(
+                width: 260,
+                child: Column(
+                  children: [
+                    for (final entry in vmState.seasonBoard.take(3))
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 28,
+                              child: Text(l10n.rankValue('${entry.rank}'),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w700)),
+                            ),
+                            UserAvatar(
+                                initials: entry.user.initials,
+                                imagePath: entry.user.avatarPath,
+                                radius: 13),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(entry.user.name,
+                                  maxLines: 1, overflow: TextOverflow.ellipsis),
+                            ),
+                            Text(l10n.xpValue(entry.points),
+                                style: TextStyle(
+                                    fontSize: 12.5,
+                                    fontWeight: FontWeight.w600,
+                                    color: colorScheme.onSurfaceVariant)),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildHeader(BuildContext context) {

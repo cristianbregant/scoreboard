@@ -1,0 +1,1203 @@
+// DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
+// This is a library that provides messages for a de locale. All the
+// messages from the main program should be duplicated here with the same
+// function name.
+
+// Ignore issues from commonly used lints in this file.
+// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
+// ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
+// ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
+
+import 'package:intl/intl.dart';
+import 'package:intl/message_lookup_by_library.dart';
+
+final messages = new MessageLookup();
+
+typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
+
+class MessageLookup extends MessageLookupByLibrary {
+  String get localeName => 'de';
+
+  static String m0(count) =>
+      "${Intl.plural(count, one: '1 Erfolg', other: '${count} Erfolge')}";
+
+  static String m1(count, subject) =>
+      "${Intl.plural(count, one: 'hat „${subject}“ an 1 Person vergeben', other: 'hat „${subject}“ an ${count} Personen vergeben')}";
+
+  static String m2(subject) => "hat „${subject}“ archiviert";
+
+  static String m3(subject) => "hat „${subject}“ zum Katalog hinzugefügt";
+
+  static String m4(subject) => "hat „${subject}“ wiederhergestellt";
+
+  static String m5(subject) => "hat „${subject}“ bearbeitet";
+
+  static String m6(subject, target) =>
+      "hat ${subject} nach ${target} verschoben";
+
+  static String m7(subject) => "hat ${subject} aus dem Team genommen";
+
+  static String m8(subject, target) =>
+      "hat „${subject}“ für ${target} vorgeschlagen";
+
+  static String m9(target) =>
+      "hat die personenbezogenen Daten von ${target} exportiert";
+
+  static String m10(target) => "hat den Erfolgsbericht exportiert (${target})";
+
+  static String m11(target) => "hat den Personenbericht exportiert (${target})";
+
+  static String m12(subject, target) =>
+      "hat „${subject}“ für ${target} genehmigt";
+
+  static String m13(subject, target) =>
+      "hat „${subject}“ für ${target} abgelehnt";
+
+  static String m14(subject) => "hat die Saison ${subject} erstellt";
+
+  static String m15(subject) => "hat die Saison ${subject} gelöscht";
+
+  static String m16(subject) => "hat die Saison ${subject} bearbeitet";
+
+  static String m17(subject) => "hat das Team ${subject} erstellt";
+
+  static String m18(subject) => "hat das Team ${subject} gelöscht";
+
+  static String m19(subject) => "hat das Team ${subject} bearbeitet";
+
+  static String m20(company) => "Admin · ${company}";
+
+  static String m21(points) => "${points} XP";
+
+  static String m22(years) =>
+      "${Intl.plural(years, one: '1 Jahr', other: '${years} Jahre')}";
+
+  static String m23(count) =>
+      "${Intl.plural(count, zero: 'Vergeben', one: 'An 1 Person vergeben', other: 'An ${count} Personen vergeben')}";
+
+  static String m24(maxPoints) =>
+      "Basis-Erfolge werden unter Kolleginnen und Kollegen gesendet und sind bis zu ${maxPoints} XP wert. Verifizierte Erfolge stellt nur dein Unternehmen aus. Du kannst jeden Basis-Erfolg derselben Person nur einmal senden.";
+
+  static String m25(company) =>
+      "Eure Farbe und euer Logo ersetzen das Gold von Scoreboard für alle bei ${company}. Die Farbe wird angepasst, damit Texte lesbar bleiben.";
+
+  static String m26(remaining, budget) =>
+      "Noch ${remaining} von ${budget} Sendungen in diesem Monat";
+
+  static String m27(name) => "Von ${name}";
+
+  static String m28(date) => "Ausgestellt am ${date}";
+
+  static String m29(date) => "Erhalten am ${date}";
+
+  static String m30(id) => "Nachweis-ID: ${id}";
+
+  static String m31(company, date) => "Ausgestellt von ${company} am ${date}";
+
+  static String m32(count) =>
+      "${Intl.plural(count, zero: 'Kommentieren', one: '1 Kommentar', other: '${count} Kommentare')}";
+
+  static String m33(year) => "Seit ${year}";
+
+  static String m34(count) => "Anfragen · ${count}";
+
+  static String m35(company) =>
+      "Verwalte die verifizierten Erfolge von ${company}";
+
+  static String m36(name) => "Von ${name}";
+
+  static String m37(name) => "${name} löschen?";
+
+  static String m38(name) => "${name} löschen?";
+
+  static String m39(name) => "„${name}“ löschen?";
+
+  static String m40(email, password) => "Demokonto: ${email} / ${password}";
+
+  static String m41(id) => "ID ${id}";
+
+  static String m42(template, colleague) =>
+      "Du hast „${template}“ bereits an ${colleague} gesendet.";
+
+  static String m43(budget) =>
+      "Du hast alle ${budget} Erfolge für diesen Monat gesendet. Das Kontingent wird am 1. erneuert.";
+
+  static String m44(min, max) =>
+      "Der Wert muss zwischen ${min} und ${max} XP liegen.";
+
+  static String m45(values) => "Basis-Erfolge können ${values} XP wert sein.";
+
+  static String m46(min) =>
+      "Das Passwort muss mindestens ${min} Zeichen lang sein.";
+
+  static String m47(count) => "Alle · ${count}";
+
+  static String m48(tier, count) => "${tier} · ${count}";
+
+  static String m49(count) =>
+      "${Intl.plural(count, one: 'An 1 Person ausgestellt', other: 'An ${count} Personen ausgestellt')}";
+
+  static String m50(count) =>
+      "${Intl.plural(count, one: 'einmal', other: '${count}-mal')}";
+
+  static String m51(level, points) => "Level ${level} · ${points} XP";
+
+  static String m52(level) => "Level ${level}";
+
+  static String m53(count) => "Bibliothek · ${count}";
+
+  static String m54(date) => "Mitglied seit ${date}";
+
+  static String m55(name) => "Team von ${name}";
+
+  static String m56(count) =>
+      "${Intl.plural(count, one: '1 Mitglied', other: '${count} Mitglieder')}";
+
+  static String m57(name) => "Für ${name}. Ein Admin prüft deinen Vorschlag.";
+
+  static String m58(achievement) =>
+      "„${achievement}“ wurde genehmigt und ist jetzt bei deinen Erfolgen";
+
+  static String m59(actor, achievement, text) =>
+      "${actor} hat „${achievement}“ kommentiert: ${text}";
+
+  static String m60(level) => "Du hast Level ${level} erreicht";
+
+  static String m61(actor, achievement) =>
+      "${actor} hat „${achievement}“ angefragt";
+
+  static String m62(actor, achievement, member) =>
+      "${actor} schlägt „${achievement}“ für ${member} vor";
+
+  static String m63(actor, achievement) =>
+      "${actor} hat dir „${achievement}“ gesendet";
+
+  static String m64(actor, achievement) =>
+      "${actor} hat auf „${achievement}“ reagiert";
+
+  static String m65(xp, rank) => "Diese Woche: +${xp} XP · Rang #${rank}";
+
+  static String m66(achievement) => "„${achievement}“ wurde nicht genehmigt";
+
+  static String m67(achievement, reason) =>
+      "„${achievement}“ wurde nicht genehmigt: ${reason}";
+
+  static String m68(company, achievement) =>
+      "${company} hat dir „${achievement}“ ausgestellt";
+
+  static String m69(count) =>
+      "${Intl.plural(count, zero: 'Keine ungelesenen Mitteilungen', one: '1 ungelesene Mitteilung', other: '${count} ungelesene Mitteilungen')}";
+
+  static String m70(shortcut) =>
+      "Drück ${shortcut}, um von überall einen Erfolg zu senden, oder nutz das Symbol in der Menüleiste.";
+
+  static String m71(budget) =>
+      "Verifizierte Erfolge kommen von deinem Unternehmen: Du kannst sie im Katalog anfragen. Basis-Erfolge werden unter Kolleginnen und Kollegen ausgetauscht, bis zu ${budget} im Monat.";
+
+  static String m72(min) => "Mindestens ${min} Zeichen";
+
+  static String m73(percent) => "${percent} %";
+
+  static String m74(rank) => "#${rank}";
+
+  static String m75(reason) => "Grund: ${reason}";
+
+  static String m76(company) => "Ein Admin von ${company} prüft deine Anfrage.";
+
+  static String m77(name) => "Vorgeschlagen von ${name}";
+
+  static String m78(role, company) => "${role} bei ${company}";
+
+  static String m79(days) =>
+      "${Intl.plural(days, one: 'Noch 1 Tag', other: 'Noch ${days} Tage')}";
+
+  static String m80(start, end) => "${start} – ${end}";
+
+  static String m81(rank, points) => "Du bist #${rank} mit ${points} XP";
+
+  static String m82(name) => "Erfolg an ${name} gesendet";
+
+  static String m83(count) => "Von dir gesendet · ${count}";
+
+  static String m84(count) => "${count} gesendet";
+
+  static String m85(company) =>
+      "Fügt ihn unter „Bescheinigungen und Zertifikate“ hinzu, mit ${company} als Aussteller.";
+
+  static String m86(company) => "Ausgestellt von ${company}";
+
+  static String m87(sender, name, description) =>
+      "🤝 ${sender} hat mich mit dem Erfolg „${name}“ gewürdigt.\n\n${description}\n\n#Scoreboard";
+
+  static String m88(name, company, description) =>
+      "🏆 Ich habe gerade den Erfolg „${name}“ erhalten, ausgestellt von ${company}.\n\n${description}\n\n#Scoreboard";
+
+  static String m89(time) => "Zuletzt gewürdigt: ${time}";
+
+  static String m90(received, sent) =>
+      "${received} erhalten · ${sent} gesendet in 90 Tagen";
+
+  static String m91(name) => "„${name}“ zur Bibliothek hinzugefügt";
+
+  static String m92(name) => "„${name}“ gelöscht";
+
+  static String m93(count) =>
+      "${Intl.plural(count, one: 'Gestern', other: 'vor ${count} Tagen')}";
+
+  static String m94(count) => "vor ${count} Std.";
+
+  static String m95(count) => "vor ${count} Min.";
+
+  static String m96(version) => "Version ${version} ist verfügbar";
+
+  static String m97(count) => "${count} verifiziert";
+
+  static String m98(version) => "Version ${version}";
+
+  static String m99(points, level) => "Noch ${points} XP bis Level ${level}";
+
+  static String m100(points) => "${points} XP";
+
+  static String m101(name) => "${name} (du)";
+
+  final messages = _notInlinedMessages(_notInlinedMessages);
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accountSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Anmeldedaten. Name, Foto und Titelbild findest du im Profil.",
+        ),
+        "achievementDetailTitle":
+            MessageLookupByLibrary.simpleMessage("Erfolg"),
+        "achievementNamePlaceholder": MessageLookupByLibrary.simpleMessage(
+          "Name des Erfolgs",
+        ),
+        "achievementsCount": m0,
+        "achievementsEmptyBody": MessageLookupByLibrary.simpleMessage(
+          "Frag einen verifizierten Erfolg aus dem Katalog deines Unternehmens an oder würdige die Arbeit einer Kollegin oder eines Kollegen: Das ist oft der beste Anfang.",
+        ),
+        "achievementsEmptyTitle": MessageLookupByLibrary.simpleMessage(
+          "Dein erster Erfolg wartet",
+        ),
+        "achievementsSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Jeder Meilenstein, den du unterwegs erreicht hast",
+        ),
+        "achievementsTitle":
+            MessageLookupByLibrary.simpleMessage("Deine Erfolge"),
+        "actionError": MessageLookupByLibrary.simpleMessage(
+          "Das hat nicht geklappt. Versuch es noch einmal.",
+        ),
+        "activityAchievementsIssued": m1,
+        "activityAnniversariesUpdated": MessageLookupByLibrary.simpleMessage(
+          "hat die Dienstjubiläen geändert",
+        ),
+        "activityBrandUpdated": MessageLookupByLibrary.simpleMessage(
+          "hat Farbe oder Logo des Unternehmens geändert",
+        ),
+        "activityCatalogArchived": m2,
+        "activityCatalogCreated": m3,
+        "activityCatalogRestored": m4,
+        "activityCatalogUpdated": m5,
+        "activityEmpty": MessageLookupByLibrary.simpleMessage(
+          "Noch keine Aktivität aufgezeichnet.",
+        ),
+        "activityHint": MessageLookupByLibrary.simpleMessage(
+          "Was Admins und Teamleitungen getan haben, das Neueste zuerst. Es kann nicht geändert werden.",
+        ),
+        "activityMemberMoved": m6,
+        "activityMemberRemoved": m7,
+        "activityNominationSubmitted": m8,
+        "activityPersonalDataExported": m9,
+        "activityReportAchievements": m10,
+        "activityReportPeople": m11,
+        "activityRequestApproved": m12,
+        "activityRequestRejected": m13,
+        "activitySeasonCreated": m14,
+        "activitySeasonDeleted": m15,
+        "activitySeasonUpdated": m16,
+        "activityTeamCreated": m17,
+        "activityTeamDeleted": m18,
+        "activityTeamUpdated": m19,
+        "adminBadge": m20,
+        "adminGroupCompany":
+            MessageLookupByLibrary.simpleMessage("UNTERNEHMEN"),
+        "adminGroupData": MessageLookupByLibrary.simpleMessage("DATEN"),
+        "adminGroupPeople": MessageLookupByLibrary.simpleMessage("PERSONEN"),
+        "adminGroupRecognition": MessageLookupByLibrary.simpleMessage(
+          "ANERKENNUNG",
+        ),
+        "adminMode": MessageLookupByLibrary.simpleMessage("Admin-Modus"),
+        "adminModeHint": MessageLookupByLibrary.simpleMessage(
+          "Verwalte die verifizierten Erfolge deines Unternehmens",
+        ),
+        "alreadyHasIt":
+            MessageLookupByLibrary.simpleMessage("Bereits vorhanden"),
+        "alreadySentToColleague": MessageLookupByLibrary.simpleMessage(
+          "Bereits an diese Person gesendet",
+        ),
+        "anniversariesBody": MessageLookupByLibrary.simpleMessage(
+          "Ein verifizierter Erfolg zu jedem Dienstjubiläum, das ihr feiert, automatisch vergeben.",
+        ),
+        "anniversariesEnabled": MessageLookupByLibrary.simpleMessage(
+          "Dienstjubiläen feiern",
+        ),
+        "anniversariesTitle": MessageLookupByLibrary.simpleMessage(
+          "Dienstjubiläen",
+        ),
+        "anniversaryXp": m21,
+        "anniversaryYears": m22,
+        "appearanceSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Wähle, wie Scoreboard aussieht",
+        ),
+        "approve": MessageLookupByLibrary.simpleMessage("Genehmigen"),
+        "archive": MessageLookupByLibrary.simpleMessage("Archivieren"),
+        "archivedLabel": MessageLookupByLibrary.simpleMessage("Archiviert"),
+        "assignButton": m23,
+        "assignNoteHint": MessageLookupByLibrary.simpleMessage(
+          "Eine Nachricht an die Empfänger",
+        ),
+        "assignNoteLabel":
+            MessageLookupByLibrary.simpleMessage("Notiz (optional)"),
+        "authCreateSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Mach mit beim Scoreboard deines Unternehmens.",
+        ),
+        "authCreateTitle":
+            MessageLookupByLibrary.simpleMessage("Konto erstellen"),
+        "authPitch": MessageLookupByLibrary.simpleMessage(
+          "Sammle die Erfolge, die dein Unternehmen ausstellt, und würdige die Kolleginnen und Kollegen, die etwas bewegen.",
+        ),
+        "authSignInSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Melde dich an, um deine Erfolge zu sehen.",
+        ),
+        "authTagline": MessageLookupByLibrary.simpleMessage(
+          "Jeder Erfolg,\nfestgehalten.",
+        ),
+        "authWelcomeBack": MessageLookupByLibrary.simpleMessage(
+          "Willkommen zurück",
+        ),
+        "bannerClay": MessageLookupByLibrary.simpleMessage("Ton"),
+        "bannerForest": MessageLookupByLibrary.simpleMessage("Wald"),
+        "bannerGold": MessageLookupByLibrary.simpleMessage("Gold"),
+        "bannerGraphite": MessageLookupByLibrary.simpleMessage("Graphit"),
+        "bannerOcean": MessageLookupByLibrary.simpleMessage("Ozean"),
+        "bannerSand": MessageLookupByLibrary.simpleMessage("Sand"),
+        "baseExplanation": m24,
+        "baseSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Erstelle Erfolge und sende sie an deine Kolleginnen und Kollegen",
+        ),
+        "bioHint": MessageLookupByLibrary.simpleMessage(
+          "Ein Satz über dich und deine Arbeit",
+        ),
+        "brandBody": m25,
+        "brandColor": MessageLookupByLibrary.simpleMessage("Farbe"),
+        "brandDefault": MessageLookupByLibrary.simpleMessage("Scoreboard-Gold"),
+        "brandLogo": MessageLookupByLibrary.simpleMessage("Logo"),
+        "brandPreview": MessageLookupByLibrary.simpleMessage("Vorschau"),
+        "brandTitle": MessageLookupByLibrary.simpleMessage("Marke"),
+        "budgetRemaining": m26,
+        "cardBaseAchievement":
+            MessageLookupByLibrary.simpleMessage("Basis-Erfolg"),
+        "cardFlip": MessageLookupByLibrary.simpleMessage("Karte umdrehen"),
+        "cardFrom": m27,
+        "cardIssuedBy": MessageLookupByLibrary.simpleMessage("AUSGESTELLT VON"),
+        "cardIssuedOn": m28,
+        "cardReceivedOn": m29,
+        "cardSentBy": MessageLookupByLibrary.simpleMessage("GESENDET VON"),
+        "cardVerifiedAchievement": MessageLookupByLibrary.simpleMessage(
+          "Verifizierter Erfolg",
+        ),
+        "catalogDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Nur Admins können ihn ausstellen, und er erscheint als verifiziert bei allen, die ihn erhalten.",
+        ),
+        "catalogEmpty": MessageLookupByLibrary.simpleMessage(
+          "Der Katalog ist leer. Erstelle den ersten Erfolg.",
+        ),
+        "catalogPointsHint": MessageLookupByLibrary.simpleMessage(
+          "Der Wert bestimmt die Stufe: Bronze unter 100 XP, Silber ab 100, Gold ab 120, Platin ab 140.",
+        ),
+        "catalogSaved": MessageLookupByLibrary.simpleMessage(
+          "Katalog aktualisiert",
+        ),
+        "certCredentialId": m30,
+        "certHasEarned": MessageLookupByLibrary.simpleMessage(
+          "den folgenden Erfolg erhalten hat",
+        ),
+        "certIssuedBy": m31,
+        "certPresentedTo": MessageLookupByLibrary.simpleMessage(
+          "Hiermit wird bestätigt, dass",
+        ),
+        "certTitle": MessageLookupByLibrary.simpleMessage("URKUNDE"),
+        "changePassword":
+            MessageLookupByLibrary.simpleMessage("Passwort ändern"),
+        "checkForUpdates": MessageLookupByLibrary.simpleMessage(
+          "Nach Updates suchen",
+        ),
+        "chooseCompany": MessageLookupByLibrary.simpleMessage(
+          "Wähle dein Unternehmen",
+        ),
+        "commentHint": MessageLookupByLibrary.simpleMessage(
+          "Schreib einen Kommentar…",
+        ),
+        "commentsCount": m32,
+        "commonBack": MessageLookupByLibrary.simpleMessage("Zurück"),
+        "commonCancel": MessageLookupByLibrary.simpleMessage("Abbrechen"),
+        "commonClose": MessageLookupByLibrary.simpleMessage("Schließen"),
+        "commonCreate": MessageLookupByLibrary.simpleMessage("Erstellen"),
+        "commonDelete": MessageLookupByLibrary.simpleMessage("Löschen"),
+        "commonEdit": MessageLookupByLibrary.simpleMessage("Bearbeiten"),
+        "commonPreview": MessageLookupByLibrary.simpleMessage("VORSCHAU"),
+        "commonRemove": MessageLookupByLibrary.simpleMessage("Entfernen"),
+        "commonRetry": MessageLookupByLibrary.simpleMessage("Erneut versuchen"),
+        "commonSave": MessageLookupByLibrary.simpleMessage("Speichern"),
+        "commonSend": MessageLookupByLibrary.simpleMessage("Senden"),
+        "communityCompanies":
+            MessageLookupByLibrary.simpleMessage("Unternehmen"),
+        "communityHiddenNotice": MessageLookupByLibrary.simpleMessage(
+          "Du erscheinst nicht in dieser Rangliste. Du kannst das unter Einstellungen → Konto ändern.",
+        ),
+        "communityPeople": MessageLookupByLibrary.simpleMessage("Personen"),
+        "communitySubtitle": MessageLookupByLibrary.simpleMessage(
+          "Sieh, wo du im Vergleich zu allen anderen stehst",
+        ),
+        "communityTitle": MessageLookupByLibrary.simpleMessage("Community"),
+        "companyCatalog": MessageLookupByLibrary.simpleMessage(
+          "Unternehmenskatalog",
+        ),
+        "companyCatalogHint": MessageLookupByLibrary.simpleMessage(
+          "Die verifizierten Erfolge, die du erhalten kannst. Wenn du findest, dass du einen verdient hast, frag ihn an.",
+        ),
+        "companySince": m33,
+        "confirmLabel": MessageLookupByLibrary.simpleMessage("Bestätigen"),
+        "confirmNewPassword": MessageLookupByLibrary.simpleMessage(
+          "Neues Passwort bestätigen",
+        ),
+        "consoleActivity": MessageLookupByLibrary.simpleMessage(
+          "Aktivitätsprotokoll",
+        ),
+        "consoleAssign": MessageLookupByLibrary.simpleMessage("Vergeben"),
+        "consoleCatalog": MessageLookupByLibrary.simpleMessage("Katalog"),
+        "consoleCompany": MessageLookupByLibrary.simpleMessage("Unternehmen"),
+        "consoleReports": MessageLookupByLibrary.simpleMessage("Berichte"),
+        "consoleRequests": m34,
+        "consoleSeasons": MessageLookupByLibrary.simpleMessage("Saisons"),
+        "consoleStats": MessageLookupByLibrary.simpleMessage("Statistiken"),
+        "consoleSubtitle": m35,
+        "consoleTeams": MessageLookupByLibrary.simpleMessage("Teams"),
+        "createAccount":
+            MessageLookupByLibrary.simpleMessage("Konto erstellen"),
+        "createDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Alle in deinem Unternehmen können ihn an Kolleginnen und Kollegen senden.",
+        ),
+        "createdBy": m36,
+        "createdByYou":
+            MessageLookupByLibrary.simpleMessage("Von dir erstellt"),
+        "currentPassword": MessageLookupByLibrary.simpleMessage(
+          "Aktuelles Passwort",
+        ),
+        "currentPasswordRequired": MessageLookupByLibrary.simpleMessage(
+          "Gib dein aktuelles Passwort ein",
+        ),
+        "decidedSection": MessageLookupByLibrary.simpleMessage("Entschieden"),
+        "deleteSeasonBody": MessageLookupByLibrary.simpleMessage(
+          "Die Rangliste verschwindet. Die Erfolge bleiben erhalten.",
+        ),
+        "deleteSeasonTitle": m37,
+        "deleteTeamBody": MessageLookupByLibrary.simpleMessage(
+          "Die Mitglieder sind dann ohne Team. Ihre Erfolge bleiben erhalten.",
+        ),
+        "deleteTeamTitle": m38,
+        "deleteTemplateBody": MessageLookupByLibrary.simpleMessage(
+          "Er wird aus der Bibliothek entfernt. Wer ihn schon erhalten hat, behält seinen Erfolg.",
+        ),
+        "deleteTemplateTitle": m39,
+        "demoAccount": m40,
+        "descriptionHint": MessageLookupByLibrary.simpleMessage(
+          "Was muss man tun, um ihn zu verdienen?",
+        ),
+        "descriptionRequired": MessageLookupByLibrary.simpleMessage(
+          "Füg eine kurze Beschreibung hinzu",
+        ),
+        "detailCompany": MessageLookupByLibrary.simpleMessage("Unternehmen"),
+        "detailEarnedOn": MessageLookupByLibrary.simpleMessage("Erhalten am"),
+        "detailExperience": MessageLookupByLibrary.simpleMessage("Erfahrung"),
+        "detailId": m41,
+        "detailSentBy": MessageLookupByLibrary.simpleMessage("Gesendet von"),
+        "detailTier": MessageLookupByLibrary.simpleMessage("Stufe"),
+        "earnedLabel": MessageLookupByLibrary.simpleMessage("Erhalten"),
+        "editCatalogAchievement": MessageLookupByLibrary.simpleMessage(
+          "Erfolg bearbeiten",
+        ),
+        "editProfile":
+            MessageLookupByLibrary.simpleMessage("Profil bearbeiten"),
+        "editSeason": MessageLookupByLibrary.simpleMessage("Saison bearbeiten"),
+        "editTeam": MessageLookupByLibrary.simpleMessage("Team bearbeiten"),
+        "emailSaveError": MessageLookupByLibrary.simpleMessage(
+          "Deine E-Mail konnte nicht gespeichert werden. Versuch es noch einmal.",
+        ),
+        "emailUpdated":
+            MessageLookupByLibrary.simpleMessage("E-Mail aktualisiert"),
+        "emptyOpenCatalog":
+            MessageLookupByLibrary.simpleMessage("Katalog öffnen"),
+        "errorAlreadyOwned": MessageLookupByLibrary.simpleMessage(
+          "Du hast diesen Erfolg bereits.",
+        ),
+        "errorAlreadySent": m42,
+        "errorBudgetExhausted": m43,
+        "errorCatalogPoints": m44,
+        "errorEmailTaken": MessageLookupByLibrary.simpleMessage(
+          "Es gibt bereits ein Konto mit dieser E-Mail.",
+        ),
+        "errorInvalidDates": MessageLookupByLibrary.simpleMessage(
+          "Das Enddatum darf nicht vor dem Startdatum liegen.",
+        ),
+        "errorInvalidPoints": m45,
+        "errorMissingCredentials": MessageLookupByLibrary.simpleMessage(
+          "Gib deine E-Mail und dein Passwort ein.",
+        ),
+        "errorMissingFields": MessageLookupByLibrary.simpleMessage(
+          "Füll alle Pflichtfelder aus.",
+        ),
+        "errorMissingNameOrRole": MessageLookupByLibrary.simpleMessage(
+          "Gib deinen Namen und deine Rolle ein.",
+        ),
+        "errorNotAColleague": MessageLookupByLibrary.simpleMessage(
+          "Du kannst Erfolge nur an Personen aus deinem Unternehmen senden.",
+        ),
+        "errorNotAdmin": MessageLookupByLibrary.simpleMessage(
+          "Das können nur Admins des Unternehmens.",
+        ),
+        "errorNotFound":
+            MessageLookupByLibrary.simpleMessage("Nicht gefunden."),
+        "errorNotInTeam": MessageLookupByLibrary.simpleMessage(
+          "Diese Person gehört nicht zu deinem Team.",
+        ),
+        "errorNotManager": MessageLookupByLibrary.simpleMessage(
+          "Das können nur Teamleitungen.",
+        ),
+        "errorNotSignedIn": MessageLookupByLibrary.simpleMessage(
+          "Du bist nicht angemeldet.",
+        ),
+        "errorNotTemplateOwner": MessageLookupByLibrary.simpleMessage(
+          "Du kannst nur Basis-Erfolge löschen, die du selbst erstellt hast.",
+        ),
+        "errorPasswordTooShort": m46,
+        "errorRequestPending": MessageLookupByLibrary.simpleMessage(
+          "Für diesen Erfolg hast du bereits eine offene Anfrage.",
+        ),
+        "errorSeasonOverlap": MessageLookupByLibrary.simpleMessage(
+          "Diese Daten überschneiden sich mit einer anderen Saison.",
+        ),
+        "errorTemplateNotFound": MessageLookupByLibrary.simpleMessage(
+          "Diesen Basis-Erfolg gibt es nicht mehr.",
+        ),
+        "errorWrongCredentials": MessageLookupByLibrary.simpleMessage(
+          "E-Mail oder Passwort falsch.",
+        ),
+        "errorWrongCurrentPassword": MessageLookupByLibrary.simpleMessage(
+          "Das aktuelle Passwort ist falsch.",
+        ),
+        "evidenceLink": MessageLookupByLibrary.simpleMessage("Nachweis öffnen"),
+        "evidenceUrlLabel": MessageLookupByLibrary.simpleMessage(
+          "Link zum Nachweis (optional)",
+        ),
+        "experienceNote": MessageLookupByLibrary.simpleMessage(
+          "Basis-Erfolge sind weniger wert als die verifizierten Erfolge deines Unternehmens.",
+        ),
+        "exportCsv":
+            MessageLookupByLibrary.simpleMessage("Als CSV exportieren"),
+        "exportError": MessageLookupByLibrary.simpleMessage(
+          "Die Datei konnte nicht gespeichert werden. Versuch es noch einmal.",
+        ),
+        "exportJson":
+            MessageLookupByLibrary.simpleMessage("Als JSON exportieren"),
+        "exportMenu": MessageLookupByLibrary.simpleMessage("Exportieren"),
+        "exportOpenBadge": MessageLookupByLibrary.simpleMessage(
+          "Open Badge (JSON)",
+        ),
+        "exportOpenBadgeHint": MessageLookupByLibrary.simpleMessage(
+          "Open-Badges-3.0-Nachweis. Die digitale Signatur kommt mit dem Backend.",
+        ),
+        "exportPdf": MessageLookupByLibrary.simpleMessage("PDF-Zertifikat"),
+        "exportSaved":
+            MessageLookupByLibrary.simpleMessage("Datei gespeichert"),
+        "feedEarned": MessageLookupByLibrary.simpleMessage("hat erhalten"),
+        "feedEmpty":
+            MessageLookupByLibrary.simpleMessage("Noch nichts im Feed."),
+        "feedSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Die Erfolge deiner Kolleginnen und Kollegen, gemeinsam gefeiert",
+        ),
+        "feedTitle": MessageLookupByLibrary.simpleMessage("Unternehmens-Feed"),
+        "fieldAchievement": MessageLookupByLibrary.simpleMessage("Erfolg"),
+        "fieldBio": MessageLookupByLibrary.simpleMessage("Über mich"),
+        "fieldColleague": MessageLookupByLibrary.simpleMessage(
+          "Kollegin oder Kollege",
+        ),
+        "fieldCover": MessageLookupByLibrary.simpleMessage("Titelbild"),
+        "fieldDescription":
+            MessageLookupByLibrary.simpleMessage("Beschreibung"),
+        "fieldEmail": MessageLookupByLibrary.simpleMessage("E-Mail"),
+        "fieldExperience": MessageLookupByLibrary.simpleMessage("Erfahrung"),
+        "fieldFullName":
+            MessageLookupByLibrary.simpleMessage("Vollständiger Name"),
+        "fieldIcon": MessageLookupByLibrary.simpleMessage("Symbol"),
+        "fieldMessageOptional": MessageLookupByLibrary.simpleMessage(
+          "Nachricht (optional)",
+        ),
+        "fieldName": MessageLookupByLibrary.simpleMessage("Name"),
+        "fieldPhoto": MessageLookupByLibrary.simpleMessage("Foto"),
+        "fieldRole": MessageLookupByLibrary.simpleMessage("Rolle"),
+        "filterAll": m47,
+        "filterTier": m48,
+        "flipHint": MessageLookupByLibrary.simpleMessage(
+          "Klick auf die Karte, um sie umzudrehen",
+        ),
+        "fromAColleague": MessageLookupByLibrary.simpleMessage(
+          "Von einer Kollegin oder einem Kollegen",
+        ),
+        "genericError": MessageLookupByLibrary.simpleMessage(
+          "Etwas ist schiefgelaufen. Versuch es noch einmal.",
+        ),
+        "hapticsSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Halte eine Karte gedrückt, um sie umzudrehen, und spür auf dem Force-Touch-Trackpad, wie sie einrastet.",
+        ),
+        "hapticsTitle":
+            MessageLookupByLibrary.simpleMessage("Haptisches Feedback"),
+        "hidePassword":
+            MessageLookupByLibrary.simpleMessage("Passwort verbergen"),
+        "invalidEmail": MessageLookupByLibrary.simpleMessage(
+          "Gib eine gültige E-Mail-Adresse ein",
+        ),
+        "invalidUrl": MessageLookupByLibrary.simpleMessage(
+          "Gib einen gültigen http(s)-Link ein",
+        ),
+        "issuedCount": m49,
+        "issuedTimes": m50,
+        "labelVerified": MessageLookupByLibrary.simpleMessage("Verifiziert"),
+        "languageSystem": MessageLookupByLibrary.simpleMessage("System"),
+        "languageTitle": MessageLookupByLibrary.simpleMessage("Sprache"),
+        "leaderboard": MessageLookupByLibrary.simpleMessage("Rangliste"),
+        "legendPeer": MessageLookupByLibrary.simpleMessage("Unter Kollegen"),
+        "levelAndXp": m51,
+        "levelN": m52,
+        "libraryCount": m53,
+        "libraryEmpty": MessageLookupByLibrary.simpleMessage(
+          "Noch keine Basis-Erfolge. Erstelle den ersten!",
+        ),
+        "loadError": MessageLookupByLibrary.simpleMessage(
+          "Beim Laden der Daten ist etwas schiefgelaufen.",
+        ),
+        "markAllRead": MessageLookupByLibrary.simpleMessage(
+          "Alle als gelesen markieren",
+        ),
+        "memberSince": m54,
+        "memberTeamLabel": m55,
+        "membersCount": m56,
+        "membersWithoutTeam": MessageLookupByLibrary.simpleMessage("Ohne Team"),
+        "menuLabel": MessageLookupByLibrary.simpleMessage("MENÜ"),
+        "messageHint": MessageLookupByLibrary.simpleMessage(
+          "Schreib, warum der Erfolg verdient ist",
+        ),
+        "myRequests": MessageLookupByLibrary.simpleMessage("Deine Anfragen"),
+        "nameHint": MessageLookupByLibrary.simpleMessage("z. B. Teamplayer"),
+        "nameRequired": MessageLookupByLibrary.simpleMessage(
+          "Gib deinen Namen ein",
+        ),
+        "navAchievements": MessageLookupByLibrary.simpleMessage("Erfolge"),
+        "navBaseAchievements": MessageLookupByLibrary.simpleMessage(
+          "Basis-Erfolge",
+        ),
+        "navCommunity": MessageLookupByLibrary.simpleMessage("Community"),
+        "navConsole":
+            MessageLookupByLibrary.simpleMessage("Unternehmenskonsole"),
+        "navFeed": MessageLookupByLibrary.simpleMessage("Feed"),
+        "navProfile": MessageLookupByLibrary.simpleMessage("Profil"),
+        "navRequests": MessageLookupByLibrary.simpleMessage("Anfragen"),
+        "navSettings": MessageLookupByLibrary.simpleMessage("Einstellungen"),
+        "navTeam": MessageLookupByLibrary.simpleMessage("Mein Team"),
+        "navYourCompany":
+            MessageLookupByLibrary.simpleMessage("Dein Unternehmen"),
+        "newBaseAchievement": MessageLookupByLibrary.simpleMessage(
+          "Neuer Basis-Erfolg",
+        ),
+        "newCatalogAchievement": MessageLookupByLibrary.simpleMessage(
+          "Neuer verifizierter Erfolg",
+        ),
+        "newPassword": MessageLookupByLibrary.simpleMessage("Neues Passwort"),
+        "newSeason": MessageLookupByLibrary.simpleMessage("Neue Saison"),
+        "newTeam": MessageLookupByLibrary.simpleMessage("Neues Team"),
+        "noAchievementsInTier": MessageLookupByLibrary.simpleMessage(
+          "In dieser Stufe gibt es noch keine Erfolge.",
+        ),
+        "noAchievementsYet": MessageLookupByLibrary.simpleMessage(
+          "Noch keine Erfolge.",
+        ),
+        "noManager": MessageLookupByLibrary.simpleMessage("Keine Teamleitung"),
+        "noSearchResults": MessageLookupByLibrary.simpleMessage(
+          "Keine Ergebnisse für deine Suche.",
+        ),
+        "noTeam": MessageLookupByLibrary.simpleMessage("Kein Team"),
+        "nominateDialogSubtitle": m57,
+        "nominateDialogTitle": MessageLookupByLibrary.simpleMessage(
+          "Einen verifizierten Erfolg vorschlagen",
+        ),
+        "nominateMessageHint": MessageLookupByLibrary.simpleMessage(
+          "Warum hat die Person ihn verdient?",
+        ),
+        "nominateSent": MessageLookupByLibrary.simpleMessage(
+          "Vorschlag an die Admins gesendet",
+        ),
+        "noteAuthorFallback": MessageLookupByLibrary.simpleMessage(
+          "Eine Kollegin oder ein Kollege",
+        ),
+        "notifApprovedBody": m58,
+        "notifApprovedTitle": MessageLookupByLibrary.simpleMessage(
+          "Anfrage genehmigt",
+        ),
+        "notifCommentBody": m59,
+        "notifCommentTitle": MessageLookupByLibrary.simpleMessage(
+          "Neuer Kommentar",
+        ),
+        "notifLevelUpBody": m60,
+        "notifLevelUpTitle": MessageLookupByLibrary.simpleMessage("Level-Up!"),
+        "notifNewRequestBody": m61,
+        "notifNewRequestTitle": MessageLookupByLibrary.simpleMessage(
+          "Neue Anfrage",
+        ),
+        "notifNominationBody": m62,
+        "notifNominationTitle": MessageLookupByLibrary.simpleMessage(
+          "Neuer Vorschlag",
+        ),
+        "notifPeerBody": m63,
+        "notifPeerTitle": MessageLookupByLibrary.simpleMessage("Neuer Erfolg"),
+        "notifReactionBody": m64,
+        "notifReactionTitle":
+            MessageLookupByLibrary.simpleMessage("Neue Reaktion"),
+        "notifRecapBody": m65,
+        "notifRecapTitle": MessageLookupByLibrary.simpleMessage(
+          "Dein Wochenrückblick",
+        ),
+        "notifRejectedBody": m66,
+        "notifRejectedBodyReason": m67,
+        "notifRejectedTitle": MessageLookupByLibrary.simpleMessage(
+          "Anfrage abgelehnt",
+        ),
+        "notifVerifiedBody": m68,
+        "notifVerifiedTitle": MessageLookupByLibrary.simpleMessage(
+          "Verifizierter Erfolg",
+        ),
+        "notificationsEmpty": MessageLookupByLibrary.simpleMessage(
+          "Noch keine Mitteilungen.",
+        ),
+        "notificationsOpen": MessageLookupByLibrary.simpleMessage(
+          "Mitteilungen öffnen",
+        ),
+        "notificationsTitle":
+            MessageLookupByLibrary.simpleMessage("Mitteilungen"),
+        "notificationsUnread": m69,
+        "onboardingDone": MessageLookupByLibrary.simpleMessage("Los geht’s"),
+        "onboardingFastBody": m70,
+        "onboardingFastTitle": MessageLookupByLibrary.simpleMessage(
+          "Schnell unterwegs",
+        ),
+        "onboardingFeedBody": MessageLookupByLibrary.simpleMessage(
+          "Der Feed zeigt die Erfolge deiner Kolleginnen und Kollegen, damit du reagieren und kommentieren kannst. Mitteilungen sagen dir, wenn es um dich geht.",
+        ),
+        "onboardingFeedTitle": MessageLookupByLibrary.simpleMessage(
+          "Gemeinsam feiern",
+        ),
+        "onboardingKindsBody": m71,
+        "onboardingKindsTitle": MessageLookupByLibrary.simpleMessage(
+          "Verifizierte Erfolge und Erfolge unter Kollegen",
+        ),
+        "onboardingNext": MessageLookupByLibrary.simpleMessage("Weiter"),
+        "onboardingReplay": MessageLookupByLibrary.simpleMessage(
+          "Einführung erneut ansehen",
+        ),
+        "onboardingSkip": MessageLookupByLibrary.simpleMessage("Überspringen"),
+        "onboardingWelcomeBody": MessageLookupByLibrary.simpleMessage(
+          "Hier sammelst du die Erfolge, die du bei der Arbeit erhältst, als Karten. Fahr mit der Maus darüber und dreh sie um, um zu sehen, wer sie ausgestellt hat.",
+        ),
+        "onboardingWelcomeTitle": MessageLookupByLibrary.simpleMessage(
+          "Willkommen bei Scoreboard",
+        ),
+        "passwordChangeError": MessageLookupByLibrary.simpleMessage(
+          "Dein Passwort konnte nicht geändert werden. Versuch es noch einmal.",
+        ),
+        "passwordChanged": MessageLookupByLibrary.simpleMessage(
+          "Passwort geändert",
+        ),
+        "passwordLabel": MessageLookupByLibrary.simpleMessage("Passwort"),
+        "passwordMinLength": m72,
+        "passwordRequired": MessageLookupByLibrary.simpleMessage(
+          "Gib dein Passwort ein",
+        ),
+        "passwordSection": MessageLookupByLibrary.simpleMessage("Passwort"),
+        "passwordsDontMatch": MessageLookupByLibrary.simpleMessage(
+          "Die Passwörter stimmen nicht überein",
+        ),
+        "pendingSection": MessageLookupByLibrary.simpleMessage("Offen"),
+        "percentValue": m73,
+        "periodAll": MessageLookupByLibrary.simpleMessage("Gesamter Zeitraum"),
+        "periodLast30": MessageLookupByLibrary.simpleMessage("Letzte 30 Tage"),
+        "periodQuarter": MessageLookupByLibrary.simpleMessage("Dieses Quartal"),
+        "periodYear": MessageLookupByLibrary.simpleMessage("Dieses Jahr"),
+        "personalDataBody": MessageLookupByLibrary.simpleMessage(
+          "Alles, was Scoreboard über eine Person speichert, als JSON, für Datenschutzanfragen.",
+        ),
+        "personalDataPerson": MessageLookupByLibrary.simpleMessage("Person"),
+        "personalDataTitle": MessageLookupByLibrary.simpleMessage(
+          "Personenbezogene Daten",
+        ),
+        "pickAchievementHint": MessageLookupByLibrary.simpleMessage(
+          "Wähl einen Erfolg aus dem Katalog.",
+        ),
+        "pickDates": MessageLookupByLibrary.simpleMessage("Zeitraum wählen"),
+        "privacyCommunitySubtitle": MessageLookupByLibrary.simpleMessage(
+          "Deine Kolleginnen und Kollegen sehen dich weiterhin in der Team-Rangliste.",
+        ),
+        "privacyCommunityTitle": MessageLookupByLibrary.simpleMessage(
+          "Mich in der Community-Rangliste zeigen",
+        ),
+        "privacySection": MessageLookupByLibrary.simpleMessage("Datenschutz"),
+        "profileSaveError": MessageLookupByLibrary.simpleMessage(
+          "Dein Profil konnte nicht gespeichert werden. Versuch es noch einmal.",
+        ),
+        "profileUpdated": MessageLookupByLibrary.simpleMessage(
+          "Profil aktualisiert",
+        ),
+        "rankHidden": MessageLookupByLibrary.simpleMessage("Verborgen"),
+        "rankValue": m74,
+        "reactionCelebrate": MessageLookupByLibrary.simpleMessage("Feiern"),
+        "reactionInsightful":
+            MessageLookupByLibrary.simpleMessage("Inspirierend"),
+        "reactionLike": MessageLookupByLibrary.simpleMessage("Gefällt mir"),
+        "reactionLove": MessageLookupByLibrary.simpleMessage("Super"),
+        "recentAchievements": MessageLookupByLibrary.simpleMessage(
+          "Neueste Erfolge",
+        ),
+        "reject": MessageLookupByLibrary.simpleMessage("Ablehnen"),
+        "rejectDialogTitle": MessageLookupByLibrary.simpleMessage(
+          "Anfrage ablehnen?",
+        ),
+        "rejectReasonHint": MessageLookupByLibrary.simpleMessage(
+          "Grund (optional)",
+        ),
+        "rejectionReason": m75,
+        "replaceImage": MessageLookupByLibrary.simpleMessage("Bild ersetzen"),
+        "reportAchievementsBody": MessageLookupByLibrary.simpleMessage(
+          "Eine Zeile pro erhaltenem Erfolg: Datum, Person, Team, Art, XP und von wem.",
+        ),
+        "reportAchievementsTitle":
+            MessageLookupByLibrary.simpleMessage("Erfolge"),
+        "reportPeopleBody": MessageLookupByLibrary.simpleMessage(
+          "Eine Zeile pro Person: erhaltene und gesendete Erfolge, XP und letzte Anerkennung.",
+        ),
+        "reportPeopleTitle": MessageLookupByLibrary.simpleMessage("Personen"),
+        "reportPeriod": MessageLookupByLibrary.simpleMessage("Zeitraum"),
+        "reportSaved":
+            MessageLookupByLibrary.simpleMessage("Bericht gespeichert"),
+        "reportsHint": MessageLookupByLibrary.simpleMessage(
+          "Für Mitarbeitergespräche und HR-Systeme. Jeder Export landet im Aktivitätsprotokoll.",
+        ),
+        "requestAction": MessageLookupByLibrary.simpleMessage("Anfragen"),
+        "requestApprovedMessage": MessageLookupByLibrary.simpleMessage(
+          "Anfrage genehmigt",
+        ),
+        "requestDialogSubtitle": m76,
+        "requestDialogTitle": MessageLookupByLibrary.simpleMessage(
+          "Einen Erfolg anfragen",
+        ),
+        "requestMessage": MessageLookupByLibrary.simpleMessage("Nachricht"),
+        "requestMessageHint": MessageLookupByLibrary.simpleMessage(
+          "Womit hast du ihn verdient?",
+        ),
+        "requestMessageRequired": MessageLookupByLibrary.simpleMessage(
+          "Schreib eine Nachricht",
+        ),
+        "requestNominatedBy": m77,
+        "requestRejectedMessage": MessageLookupByLibrary.simpleMessage(
+          "Anfrage abgelehnt",
+        ),
+        "requestSent": MessageLookupByLibrary.simpleMessage("Anfrage gesendet"),
+        "requestsEmpty":
+            MessageLookupByLibrary.simpleMessage("Keine Anfragen."),
+        "restore": MessageLookupByLibrary.simpleMessage("Wiederherstellen"),
+        "roleAtCompany": m78,
+        "roleRequired":
+            MessageLookupByLibrary.simpleMessage("Gib deine Rolle ein"),
+        "saveProfile": MessageLookupByLibrary.simpleMessage("Profil speichern"),
+        "searchAchievementsHint": MessageLookupByLibrary.simpleMessage(
+          "Deine Erfolge durchsuchen",
+        ),
+        "searchCompaniesHint": MessageLookupByLibrary.simpleMessage(
+          "Nach Name oder Branche suchen",
+        ),
+        "searchPeopleHint": MessageLookupByLibrary.simpleMessage(
+          "Nach Name, Rolle oder Unternehmen suchen",
+        ),
+        "seasonActive": MessageLookupByLibrary.simpleMessage("Läuft"),
+        "seasonCurrent":
+            MessageLookupByLibrary.simpleMessage("Aktuelle Saison"),
+        "seasonDates": MessageLookupByLibrary.simpleMessage("Zeitraum"),
+        "seasonDaysLeft": m79,
+        "seasonDeletedMessage": MessageLookupByLibrary.simpleMessage(
+          "Saison gelöscht",
+        ),
+        "seasonEnded": MessageLookupByLibrary.simpleMessage("Beendet"),
+        "seasonName": MessageLookupByLibrary.simpleMessage("Name"),
+        "seasonNameHint":
+            MessageLookupByLibrary.simpleMessage("z. B. Herbst 2026"),
+        "seasonRange": m80,
+        "seasonSaved":
+            MessageLookupByLibrary.simpleMessage("Saison gespeichert"),
+        "seasonUpcoming": MessageLookupByLibrary.simpleMessage("Geplant"),
+        "seasonYourRank": m81,
+        "seasonsEmpty":
+            MessageLookupByLibrary.simpleMessage("Noch keine Saisons."),
+        "seasonsHint": MessageLookupByLibrary.simpleMessage(
+          "Jede Saison hat eine eigene Rangliste mit den XP aus ihrem Zeitraum. Saisons dürfen sich nicht überschneiden.",
+        ),
+        "selectAll": MessageLookupByLibrary.simpleMessage("Alle auswählen"),
+        "sendAchievement":
+            MessageLookupByLibrary.simpleMessage("Erfolg senden"),
+        "sendAnAchievement": MessageLookupByLibrary.simpleMessage(
+          "Einen Erfolg senden",
+        ),
+        "sendDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Würdige eine Kollegin oder einen Kollegen mit einem deiner Basis-Erfolge.",
+        ),
+        "sendError": MessageLookupByLibrary.simpleMessage(
+          "Der Erfolg konnte nicht gesendet werden. Versuch es noch einmal.",
+        ),
+        "sendLoadError": MessageLookupByLibrary.simpleMessage(
+          "Deine Kolleginnen und Kollegen konnten nicht geladen werden. Versuch es noch einmal.",
+        ),
+        "sendNoColleagues": MessageLookupByLibrary.simpleMessage(
+          "In deinem Unternehmen gibt es noch keine weiteren Personen.",
+        ),
+        "sendNoTemplates": MessageLookupByLibrary.simpleMessage(
+          "Erstelle zuerst einen Basis-Erfolg.",
+        ),
+        "sendPreviewHint": MessageLookupByLibrary.simpleMessage(
+          "Wähl einen Erfolg, um zu sehen, wie er aussieht.",
+        ),
+        "sendSuccess": m82,
+        "sentByYouCount": m83,
+        "sentCount": m84,
+        "sentEmpty": MessageLookupByLibrary.simpleMessage(
+          "Du hast noch keinen Erfolg gesendet. Wähl einen aus der Bibliothek und mach jemandem im Team eine Freude.",
+        ),
+        "sentToConnector": MessageLookupByLibrary.simpleMessage("an"),
+        "sessionSection": MessageLookupByLibrary.simpleMessage("Sitzung"),
+        "settingsAbout": MessageLookupByLibrary.simpleMessage("Info"),
+        "settingsAccount": MessageLookupByLibrary.simpleMessage("Konto"),
+        "settingsAppearance":
+            MessageLookupByLibrary.simpleMessage("Darstellung"),
+        "settingsSavedMessage": MessageLookupByLibrary.simpleMessage(
+          "Einstellungen gespeichert",
+        ),
+        "shareAddToProfile": MessageLookupByLibrary.simpleMessage(
+          "Zum Profil hinzufügen",
+        ),
+        "shareAddToProfileHint": m85,
+        "shareCopyText": MessageLookupByLibrary.simpleMessage("Text kopieren"),
+        "shareDialogSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Poste darüber oder füg ihn deinem LinkedIn-Profil hinzu.",
+        ),
+        "shareImageHeadline": MessageLookupByLibrary.simpleMessage(
+          "ERFOLG FREIGESCHALTET",
+        ),
+        "shareImageHint": MessageLookupByLibrary.simpleMessage(
+          "LinkedIn-Links können keine Bilder anhängen: Speichere dieses Bild und füg es deinem Beitrag hinzu.",
+        ),
+        "shareImageIssuedBy": m86,
+        "shareImageSaved":
+            MessageLookupByLibrary.simpleMessage("Bild gespeichert"),
+        "shareOnLinkedIn": MessageLookupByLibrary.simpleMessage(
+          "Auf LinkedIn teilen",
+        ),
+        "shareOpenError": MessageLookupByLibrary.simpleMessage(
+          "LinkedIn konnte nicht geöffnet werden.",
+        ),
+        "shareOpenLinkedIn": MessageLookupByLibrary.simpleMessage(
+          "Auf LinkedIn posten",
+        ),
+        "shareOpened": MessageLookupByLibrary.simpleMessage(
+          "Text kopiert: Falls LinkedIn ihn nicht einfügt, füg ihn selbst in den Beitrag ein.",
+        ),
+        "sharePostLabel":
+            MessageLookupByLibrary.simpleMessage("Text des Beitrags"),
+        "sharePostPeer": m87,
+        "sharePostVerified": m88,
+        "shareSaveError": MessageLookupByLibrary.simpleMessage(
+          "Das Bild konnte nicht gespeichert werden. Versuch es noch einmal.",
+        ),
+        "shareSaveImage":
+            MessageLookupByLibrary.simpleMessage("Bild speichern"),
+        "shareTextCopied": MessageLookupByLibrary.simpleMessage(
+          "Text in die Zwischenablage kopiert",
+        ),
+        "shortcutFlipCard": MessageLookupByLibrary.simpleMessage(
+          "Ausgewählte Karte umdrehen",
+        ),
+        "shortcutGoToPage": MessageLookupByLibrary.simpleMessage(
+          "Zu Seite 1–8 wechseln",
+        ),
+        "shortcutsSection":
+            MessageLookupByLibrary.simpleMessage("Tastenkürzel"),
+        "showArchived": MessageLookupByLibrary.simpleMessage(
+          "Archivierte anzeigen",
+        ),
+        "showPassword":
+            MessageLookupByLibrary.simpleMessage("Passwort anzeigen"),
+        "signIn": MessageLookupByLibrary.simpleMessage("Anmelden"),
+        "signOut": MessageLookupByLibrary.simpleMessage("Abmelden"),
+        "signOutDescription": MessageLookupByLibrary.simpleMessage(
+          "Von Scoreboard auf diesem Computer abmelden.",
+        ),
+        "signOutError": MessageLookupByLibrary.simpleMessage(
+          "Abmelden fehlgeschlagen. Versuch es noch einmal.",
+        ),
+        "sortLabel": MessageLookupByLibrary.simpleMessage("Sortieren"),
+        "sortName": MessageLookupByLibrary.simpleMessage("Name (A–Z)"),
+        "sortNewest": MessageLookupByLibrary.simpleMessage("Neueste"),
+        "sortOldest": MessageLookupByLibrary.simpleMessage("Älteste"),
+        "sortPoints": MessageLookupByLibrary.simpleMessage("Meiste XP"),
+        "statAchievements": MessageLookupByLibrary.simpleMessage("Erfolge"),
+        "statCompanyRank": MessageLookupByLibrary.simpleMessage(
+          "Rang im Unternehmen",
+        ),
+        "statGlobalRank": MessageLookupByLibrary.simpleMessage("Globaler Rang"),
+        "statMembers": MessageLookupByLibrary.simpleMessage("Mitglieder"),
+        "statTotalXp": MessageLookupByLibrary.simpleMessage("XP gesamt"),
+        "statVerified": MessageLookupByLibrary.simpleMessage("Verifiziert"),
+        "statYourRank": MessageLookupByLibrary.simpleMessage("Dein Rang"),
+        "statsActiveSenders": MessageLookupByLibrary.simpleMessage(
+          "Personen, die andere würdigen",
+        ),
+        "statsCoverage": MessageLookupByLibrary.simpleMessage(
+          "In den letzten 30 Tagen gewürdigt",
+        ),
+        "statsIssuedThisMonth": MessageLookupByLibrary.simpleMessage(
+          "Verifiziert diesen Monat",
+        ),
+        "statsMonthlyChart": MessageLookupByLibrary.simpleMessage(
+          "Erfolge der letzten 6 Monate",
+        ),
+        "statsNoData":
+            MessageLookupByLibrary.simpleMessage("Noch keine Daten."),
+        "statsPeerThisMonth": MessageLookupByLibrary.simpleMessage(
+          "Unter Kollegen diesen Monat",
+        ),
+        "statsTopCatalog": MessageLookupByLibrary.simpleMessage(
+          "Am häufigsten ausgestellt",
+        ),
+        "statsTopSenders": MessageLookupByLibrary.simpleMessage(
+          "Wer am meisten würdigt",
+        ),
+        "statsTopSendersHint": MessageLookupByLibrary.simpleMessage(
+          "In den letzten 90 Tagen gesendete Basis-Erfolge.",
+        ),
+        "statsUnderRecognized": MessageLookupByLibrary.simpleMessage(
+          "Könnten etwas Anerkennung brauchen",
+        ),
+        "statsUnderRecognizedHint": MessageLookupByLibrary.simpleMessage(
+          "Wer in den letzten 90 Tagen die wenigsten Erfolge erhalten hat.",
+        ),
+        "statusApproved": MessageLookupByLibrary.simpleMessage("Genehmigt"),
+        "statusPending": MessageLookupByLibrary.simpleMessage("Offen"),
+        "statusRejected": MessageLookupByLibrary.simpleMessage("Abgelehnt"),
+        "submitRequest": MessageLookupByLibrary.simpleMessage("Anfrage senden"),
+        "teamDeletedMessage":
+            MessageLookupByLibrary.simpleMessage("Team gelöscht"),
+        "teamEmpty": MessageLookupByLibrary.simpleMessage(
+          "Noch niemand in deinem Team.",
+        ),
+        "teamLastRecognized": m89,
+        "teamLeaderboard":
+            MessageLookupByLibrary.simpleMessage("Team-Rangliste"),
+        "teamManager": MessageLookupByLibrary.simpleMessage("Teamleitung"),
+        "teamMemberActivity": m90,
+        "teamName": MessageLookupByLibrary.simpleMessage("Teamname"),
+        "teamNeverRecognized": MessageLookupByLibrary.simpleMessage(
+          "Noch keine Anerkennung",
+        ),
+        "teamNoRecent": MessageLookupByLibrary.simpleMessage(
+          "Seit über 30 Tagen nichts",
+        ),
+        "teamNominate": MessageLookupByLibrary.simpleMessage("Vorschlagen"),
+        "teamNominateTooltip": MessageLookupByLibrary.simpleMessage(
+          "Einen verifizierten Erfolg vorschlagen",
+        ),
+        "teamSaved": MessageLookupByLibrary.simpleMessage("Team gespeichert"),
+        "teamStatNeedAttention": MessageLookupByLibrary.simpleMessage(
+          "Brauchen Aufmerksamkeit",
+        ),
+        "teamStatReceived30": MessageLookupByLibrary.simpleMessage(
+          "In 30 Tagen erhalten",
+        ),
+        "teamSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Wie die Arbeit deines Teams gewürdigt wird",
+        ),
+        "teamsEmpty": MessageLookupByLibrary.simpleMessage(
+          "Noch keine Teams. Erstelle das erste.",
+        ),
+        "teamsHint": MessageLookupByLibrary.simpleMessage(
+          "Jedes Team hat eine Leitung, die sieht, wie die Mitglieder gewürdigt werden, und verifizierte Erfolge für sie vorschlagen kann.",
+        ),
+        "templateAdded": m91,
+        "templateCreateError": MessageLookupByLibrary.simpleMessage(
+          "Der Erfolg konnte nicht erstellt werden. Versuch es noch einmal.",
+        ),
+        "templateDeleteError": MessageLookupByLibrary.simpleMessage(
+          "Der Erfolg konnte nicht gelöscht werden. Versuch es noch einmal.",
+        ),
+        "templateDeleted": m92,
+        "templateNameRequired": MessageLookupByLibrary.simpleMessage(
+          "Gib ihm einen Namen",
+        ),
+        "themeDark": MessageLookupByLibrary.simpleMessage("Dunkel"),
+        "themeLight": MessageLookupByLibrary.simpleMessage("Hell"),
+        "themeTitle": MessageLookupByLibrary.simpleMessage("Design"),
+        "tierBronze": MessageLookupByLibrary.simpleMessage("Bronze"),
+        "tierGold": MessageLookupByLibrary.simpleMessage("Gold"),
+        "tierPeer": MessageLookupByLibrary.simpleMessage("Kollegen"),
+        "tierPlatinum": MessageLookupByLibrary.simpleMessage("Platin"),
+        "tierSilver": MessageLookupByLibrary.simpleMessage("Silber"),
+        "timeDays": m93,
+        "timeHours": m94,
+        "timeJustNow": MessageLookupByLibrary.simpleMessage("Gerade eben"),
+        "timeMinutes": m95,
+        "top3": MessageLookupByLibrary.simpleMessage("Top 3"),
+        "topPerformers": MessageLookupByLibrary.simpleMessage("Die Besten"),
+        "trayOpen": MessageLookupByLibrary.simpleMessage("Scoreboard öffnen"),
+        "trayQuit": MessageLookupByLibrary.simpleMessage("Scoreboard beenden"),
+        "upToDate": MessageLookupByLibrary.simpleMessage(
+          "Du hast die neueste Version.",
+        ),
+        "updateAvailableBody": MessageLookupByLibrary.simpleMessage(
+          "Lade sie von der Release-Seite auf GitHub herunter.",
+        ),
+        "updateAvailableTitle": m96,
+        "updateCheckError": MessageLookupByLibrary.simpleMessage(
+          "Die Suche nach Updates ist fehlgeschlagen.",
+        ),
+        "updateDownload": MessageLookupByLibrary.simpleMessage("Herunterladen"),
+        "updateLater": MessageLookupByLibrary.simpleMessage("Später"),
+        "updatesSection": MessageLookupByLibrary.simpleMessage("Updates"),
+        "uploadImage": MessageLookupByLibrary.simpleMessage("Bild hochladen"),
+        "uploadLogo": MessageLookupByLibrary.simpleMessage("Logo hochladen"),
+        "uploadPhoto": MessageLookupByLibrary.simpleMessage("Foto hochladen"),
+        "useDemo": MessageLookupByLibrary.simpleMessage("Verwenden"),
+        "verifiedByCompany": MessageLookupByLibrary.simpleMessage(
+          "Vom Unternehmen verifiziert",
+        ),
+        "verifiedCount": m97,
+        "versionLabel": m98,
+        "workEmail":
+            MessageLookupByLibrary.simpleMessage("Geschäftliche E-Mail"),
+        "xpToNextLevel": m99,
+        "xpValue": m100,
+        "youSuffix": m101,
+      };
+}

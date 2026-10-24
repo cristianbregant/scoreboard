@@ -4,7 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:scoreboard/core/locator/locator.dart';
 import 'package:scoreboard/interactors/auth_interactor.dart';
 import 'package:scoreboard/model/auth.dart';
+import 'package:scoreboard/core/theme.dart';
+import 'package:scoreboard/views/views.dart';
 import 'package:scoreboard/widgets/base_view/side_bar.dart';
+import 'package:scoreboard/widgets/common/nav_button.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
 import 'package:scoreboard/widgets/notifications_panel.dart';
@@ -44,11 +47,70 @@ void main() {
     }
   });
 
-  testWidgets('the console is for company admins only', (tester) async {
+  testWidgets('admin mode swaps the sidebar for the console sections',
+      (tester) async {
     await pumpApp(tester);
-    expect(_sidebarItem(l10n.navConsole), findsOneWidget);
-    await _open(tester, l10n.navConsole);
+    // The console isn't a regular page: admins reach it with admin mode.
+    expect(_sidebarItem(l10n.navConsole), findsNothing);
+    expect(find.byType(AdminBanner), findsNothing);
+
+    await tester.tap(find.byType(AdminModeSwitch));
+    await settle(tester);
+    expect(find.byType(AdminBanner), findsOneWidget);
+    expect(find.text(l10n.adminBadge('Northwind Labs')), findsOneWidget);
+    for (final section in [
+      l10n.consoleCatalog,
+      l10n.consoleAssign,
+      l10n.navRequests,
+      l10n.consoleStats,
+    ]) {
+      expect(_sidebarItem(section), findsOneWidget, reason: section);
+    }
+    expect(_sidebarItem(l10n.navFeed), findsNothing);
+    // The whole window takes the admin accent.
+    final sidebarTheme = Theme.of(tester.element(find.byType(Sidebar)));
+    expect(sidebarTheme.colorScheme.primary,
+        anyOf(AppColors.adminLight, AppColors.adminDark));
+
+    await _open(tester, l10n.navRequests);
     expect(find.text(l10n.consoleSubtitle('Northwind Labs')), findsOneWidget);
+    expect(find.text(l10n.pendingSection), findsOneWidget);
+
+    await tester.tap(find.byType(AdminModeSwitch));
+    await settle(tester);
+    expect(find.byType(AdminBanner), findsNothing);
+    expect(_sidebarItem(l10n.navFeed), findsOneWidget);
+  });
+
+  testWidgets('admin mode keeps every page alive', (tester) async {
+    await pumpApp(tester);
+    State<StatefulWidget> feed() =>
+        tester.state(find.byType(FeedView, skipOffstage: false));
+    final before = feed();
+
+    // Back and forth quickly, while pages are still loading.
+    await tester.tap(find.byType(AdminModeSwitch));
+    await tester.pump(const Duration(milliseconds: 1));
+    await tester.tap(find.byType(AdminModeSwitch));
+    await tester.pump(const Duration(milliseconds: 1));
+    await tester.tap(find.byType(AdminModeSwitch));
+    await settle(tester);
+    await tester.tap(find.byType(AdminModeSwitch));
+    await settle(tester);
+
+    expect(tester.takeException(), isNull);
+    expect(identical(feed(), before), isTrue,
+        reason: 'the feed page was rebuilt from scratch');
+  });
+
+  testWidgets('pending requests are counted on the sidebar', (tester) async {
+    await pumpApp(tester);
+    await tester.tap(find.byType(AdminModeSwitch));
+    await settle(tester);
+    final requests = find.ancestor(
+        of: _sidebarItem(l10n.navRequests), matching: find.byType(NavButton));
+    // The seed has two pending requests at Northwind.
+    expect(tester.widget<NavButton>(requests).badge, 2);
   });
 
   testWidgets('members do not see the console', (tester) async {
@@ -58,7 +120,7 @@ void main() {
       'onboarding_done_u_02': true,
     });
     expect(_sidebarItem(l10n.navYourCompany), findsOneWidget);
-    expect(_sidebarItem(l10n.navConsole), findsNothing);
+    expect(find.byType(AdminModeSwitch), findsNothing);
   });
 
   testWidgets('search narrows the cards and explains an empty result',
@@ -139,7 +201,7 @@ void main() {
         prefs: {...await savedPrefs(), 'onboarding_done_$userId': true});
 
     expect(find.text(l10n.achievementsEmptyTitle), findsOneWidget);
-    expect(_sidebarItem(l10n.navConsole), findsNothing);
+    expect(find.byType(AdminModeSwitch), findsNothing);
 
     await tester.tap(find.text(l10n.emptyOpenCatalog));
     await settle(tester);

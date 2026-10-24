@@ -9,6 +9,21 @@ abstract class BaseViewModel<V extends BaseViewContract, S extends BaseVMState>
   @override
   late S vmState;
 
+  bool _disposed = false;
+
+  /// Loads often finish after their page has closed; their updates are
+  /// dropped instead of failing on a disposed notifier.
+  @override
+  void notifyListeners() {
+    if (!_disposed) super.notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
   void startLoadingState() {
     vmState.isLoading = true;
     notifyListeners();

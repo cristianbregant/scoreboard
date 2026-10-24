@@ -48,6 +48,7 @@ const Map<String, IconData> achievementIcons = {
   'review_icon.png': Icons.rate_review_rounded,
   'support_icon.png': Icons.support_rounded,
   'celebration_icon.png': Icons.celebration_rounded,
+  'anniversary_icon.png': Icons.cake_rounded,
   'speed_icon.png': Icons.speed_rounded,
   'code_icon.png': Icons.code_rounded,
   'bug_icon.png': Icons.bug_report_rounded,

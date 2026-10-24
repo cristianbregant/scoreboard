@@ -10,6 +10,10 @@ enum NotificationType {
 
   /// For admins: a member asked for a catalog achievement.
   newRequest,
+
+  /// For admins: a manager proposed a catalog achievement for a member of
+  /// their team ([AppNotification.text] holds the member's name).
+  newNomination,
   feedReaction,
   feedComment,
   weeklyRecap,

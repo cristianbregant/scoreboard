@@ -6,6 +6,10 @@ enum AdminError {
   requestPending,
   invalidUrl,
   notFound,
+  invalidDates,
+  seasonOverlap,
+  notManager,
+  notInTeam,
 }
 
 /// Carries an [AdminError] code; the UI turns it into localized text.

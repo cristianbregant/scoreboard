@@ -14,6 +14,10 @@ class VerificationRequest {
   final String? decidedById;
   final String? rejectionReason;
 
+  /// The manager who proposed it for a member of their team; null when the
+  /// member asked for it.
+  final String? nominatedById;
+
   const VerificationRequest(
       {required this.id,
       required this.userId,
@@ -25,7 +29,8 @@ class VerificationRequest {
       required this.createdAt,
       this.decidedAt,
       this.decidedById,
-      this.rejectionReason});
+      this.rejectionReason,
+      this.nominatedById});
 
   VerificationRequest decide(RequestStatus status,
       {required String deciderId, String? reason}) {
@@ -41,6 +46,7 @@ class VerificationRequest {
       decidedAt: DateTime.now(),
       decidedById: deciderId,
       rejectionReason: reason,
+      nominatedById: nominatedById,
     );
   }
 
@@ -59,6 +65,7 @@ class VerificationRequest {
           : null,
       decidedById: json['decided_by_id'],
       rejectionReason: json['rejection_reason'],
+      nominatedById: json['nominated_by_id'],
     );
   }
 
@@ -74,5 +81,6 @@ class VerificationRequest {
         'decided_at': decidedAt?.toIso8601String(),
         'decided_by_id': decidedById,
         'rejection_reason': rejectionReason,
+        'nominated_by_id': nominatedById,
       };
 }

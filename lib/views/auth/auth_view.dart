@@ -399,78 +399,83 @@ class _Showcase extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return WindowDragArea(
-      child: Container(
+    // The background stays outside the drag area: being opaque to clicks,
+    // inside it would cover the drag surface.
+    return DecoratedBox(
         decoration: BoxDecoration(
           color: colorScheme.surfaceContainerLow,
           border: Border(right: BorderSide(color: colorScheme.outlineVariant)),
         ),
-        padding: EdgeInsets.fromLTRB(40, 20 + WindowChrome.topInset, 40, 40),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+        child: WindowDragArea(
+          child: Container(
+            padding:
+                EdgeInsets.fromLTRB(40, 20 + WindowChrome.topInset, 40, 40),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: colorScheme.primary,
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  child: Icon(Icons.emoji_events_rounded,
-                      color: colorScheme.onPrimary, size: 19),
+                Row(
+                  children: [
+                    Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary,
+                        borderRadius: BorderRadius.circular(9),
+                      ),
+                      child: Icon(Icons.emoji_events_rounded,
+                          color: colorScheme.onPrimary, size: 19),
+                    ),
+                    const SizedBox(width: 12),
+                    const Text("Scoreboard",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.4)),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                const Text("Scoreboard",
-                    style: TextStyle(
-                        fontSize: 18,
+                Expanded(
+                  child: Center(
+                    child: SizedBox(
+                      width: 320,
+                      height: 240,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          for (var i = 0; i < _samples.length; i++)
+                            Transform.translate(
+                              offset:
+                                  Offset((i - 1) * 82.0, (i - 1).abs() * 14.0),
+                              child: Transform.rotate(
+                                angle: (i - 1) * 0.14,
+                                child: InteractiveCard(
+                                  achievement: _samples[i],
+                                  heroTag: 'showcase_$i',
+                                  width: 150,
+                                  flipOnTap: true,
+                                  onPressed: () {},
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Text(context.l10n.authTagline,
+                    style: const TextStyle(
+                        fontSize: 30,
+                        height: 1.15,
                         fontWeight: FontWeight.w800,
-                        letterSpacing: -0.4)),
+                        letterSpacing: -0.8)),
+                const SizedBox(height: 10),
+                Text(context.l10n.authPitch,
+                    style: TextStyle(
+                        fontSize: 14,
+                        height: 1.45,
+                        color: colorScheme.onSurfaceVariant)),
               ],
             ),
-            Expanded(
-              child: Center(
-                child: SizedBox(
-                  width: 320,
-                  height: 240,
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      for (var i = 0; i < _samples.length; i++)
-                        Transform.translate(
-                          offset: Offset((i - 1) * 82.0, (i - 1).abs() * 14.0),
-                          child: Transform.rotate(
-                            angle: (i - 1) * 0.14,
-                            child: InteractiveCard(
-                              achievement: _samples[i],
-                              heroTag: 'showcase_$i',
-                              width: 150,
-                              flipOnTap: true,
-                              onPressed: () {},
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Text(context.l10n.authTagline,
-                style: const TextStyle(
-                    fontSize: 30,
-                    height: 1.15,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: -0.8)),
-            const SizedBox(height: 10),
-            Text(context.l10n.authPitch,
-                style: TextStyle(
-                    fontSize: 14,
-                    height: 1.45,
-                    color: colorScheme.onSurfaceVariant)),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

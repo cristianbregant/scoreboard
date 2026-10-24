@@ -1,3 +1,5 @@
+import 'package:scoreboard/core/locator/locator.dart';
+import 'package:scoreboard/views/views.dart';
 import 'package:scoreboard/core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
@@ -79,68 +81,63 @@ class _ConsoleViewState
   @override
   void clearAssignForm() => _noteController.clear();
 
+  /// The sections with a screen of their own; the others are built here.
+  static Widget? _sectionScreen(ConsoleSection section) => switch (section) {
+        ConsoleSection.teams => getIt<TeamsAdminView>(),
+        ConsoleSection.seasons => getIt<SeasonsAdminView>(),
+        ConsoleSection.reports => getIt<ReportsView>(),
+        ConsoleSection.activity => getIt<ActivityView>(),
+        ConsoleSection.company => getIt<CompanySettingsView>(),
+        ConsoleSection.catalog ||
+        ConsoleSection.assign ||
+        ConsoleSection.requests ||
+        ConsoleSection.insights =>
+          null,
+      };
+
   @override
   Widget build(BuildContext context) {
     return BaseWidget<ConsoleViewModelContract, ConsoleState>(
         model: viewModel,
-        builder: (context, viewModel, child) => Scaffold(
-              body: ContentStateView(
-                state: vmState,
-                onRetry: viewModel.loadConsole,
-                builder: (context) {
-                  final l10n = context.l10n;
-                  if (vmState.company == null) {
-                    return Center(child: Text(l10n.errorNotAdmin));
-                  }
-                  return ListView(
-                    padding: pagePadding,
-                    children: [
-                      PageHeader(
-                        title: l10n.navConsole,
-                        subtitle: l10n.consoleSubtitle(vmState.company!.name),
-                      ),
-                      const SizedBox(height: 20),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: SegmentedButton<ConsoleTab>(
-                          showSelectedIcon: false,
-                          segments: [
-                            ButtonSegment(
-                                value: ConsoleTab.catalog,
-                                icon: const Icon(
-                                    Icons.collections_bookmark_outlined),
-                                label: Text(l10n.consoleCatalog)),
-                            ButtonSegment(
-                                value: ConsoleTab.assign,
-                                icon: const Icon(Icons.how_to_reg_outlined),
-                                label: Text(l10n.consoleAssign)),
-                            ButtonSegment(
-                                value: ConsoleTab.requests,
-                                icon: const Icon(Icons.inbox_outlined),
-                                label: Text(l10n.consoleRequests(
-                                    vmState.pendingRequests.length))),
-                            ButtonSegment(
-                                value: ConsoleTab.insights,
-                                icon: const Icon(Icons.insights_outlined),
-                                label: Text(l10n.consoleStats)),
-                          ],
-                          selected: {vmState.tab},
-                          onSelectionChanged: (value) =>
-                              viewModel.onChangeTab(value.first),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      switch (vmState.tab) {
-                        ConsoleTab.catalog => _buildCatalog(),
-                        ConsoleTab.assign => _buildAssign(),
-                        ConsoleTab.requests => _buildRequests(),
-                        ConsoleTab.insights => _buildInsights(),
+        builder: (context, viewModel, child) {
+          final screen = _sectionScreen(vmState.section);
+          if (screen != null) {
+            return KeyedSubtree(key: ValueKey(vmState.section), child: screen);
+          }
+          return Scaffold(
+            body: ContentStateView(
+              state: vmState,
+              onRetry: viewModel.loadConsole,
+              builder: (context) {
+                final l10n = context.l10n;
+                if (vmState.company == null) {
+                  return Center(child: Text(l10n.errorNotAdmin));
+                }
+                return ListView(
+                  padding: pagePadding,
+                  children: [
+                    PageHeader(
+                      title: switch (vmState.section) {
+                        ConsoleSection.assign => l10n.consoleAssign,
+                        ConsoleSection.requests => l10n.navRequests,
+                        ConsoleSection.insights => l10n.consoleStats,
+                        _ => l10n.consoleCatalog,
                       },
-                    ],
-                  );
-                },
-              ),
-            ));
+                      subtitle: l10n.consoleSubtitle(vmState.company!.name),
+                    ),
+                    const SizedBox(height: 24),
+                    switch (vmState.section) {
+                      ConsoleSection.assign => _buildAssign(),
+                      ConsoleSection.requests => _buildRequests(),
+                      ConsoleSection.insights => _buildInsights(),
+                      _ => _buildCatalog(),
+                    },
+                  ],
+                );
+              },
+            ),
+          );
+        });
   }
 
   Widget _buildCatalog() {
@@ -154,11 +151,22 @@ class _ConsoleViewState
       children: [
         Row(
           children: [
-            Switch(
-                value: vmState.showArchived,
-                onChanged: viewModel.onToggleShowArchived),
-            const SizedBox(width: 8),
-            Text(l10n.showArchived),
+            // One control for screen readers: the switch, named by its label.
+            MergeSemantics(
+              child: Row(
+                children: [
+                  Switch(
+                      value: vmState.showArchived,
+                      onChanged: viewModel.onToggleShowArchived),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: () =>
+                        viewModel.onToggleShowArchived(!vmState.showArchived),
+                    child: Text(l10n.showArchived),
+                  ),
+                ],
+              ),
+            ),
             const Spacer(),
             FilledButton.icon(
               onPressed: viewModel.onTapNewCatalogAchievement,
@@ -547,6 +555,15 @@ class _ConsoleViewState
                           text: '  ·  ${timeAgo(l10n, request.createdAt)}',
                           style: mutedStyle),
                     ])),
+                    if (request.nominatedById != null) ...[
+                      const SizedBox(height: 6),
+                      TagChip(
+                          icon: Icons.how_to_reg_rounded,
+                          color: colorScheme.primary,
+                          label: l10n.requestNominatedBy(
+                              vmState.member(request.nominatedById!)?.name ??
+                                  '-')),
+                    ],
                     const SizedBox(height: 6),
                     if (item != null)
                       Row(

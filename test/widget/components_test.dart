@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/model/company.dart';
@@ -55,6 +58,40 @@ void main() {
 
       await flip(tester);
       expect(find.text(l10n.cardIssuedBy), findsNothing);
+    });
+
+    testWidgets('holding a card flips it with a haptic; a click has none',
+        (tester) async {
+      final played = <Object?>[];
+      const channel = MethodChannel('scoreboard/haptics');
+      final messenger = tester.binding.defaultBinaryMessenger;
+      messenger.setMockMethodCallHandler(channel, (call) async {
+        played.add(call.arguments);
+        return null;
+      });
+      debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
+      var opened = 0;
+      await pumpInApp(tester,
+          InteractiveCard(achievement: _verified, onPressed: () => opened++));
+
+      // A click opens the card: the trackpad's own click is the feedback.
+      await tester.tap(find.byType(InteractiveCard));
+      await tester.pump();
+      expect(opened, 1);
+      expect(played, isEmpty);
+
+      // Holding flips it, with the haptic played while still pressed.
+      final gesture = await tester
+          .startGesture(tester.getCenter(find.byType(InteractiveCard)));
+      await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+      expect(played, ['alignment']);
+      await gesture.up();
+      await tester.pump(const Duration(milliseconds: 600));
+      expect(find.text(l10n.cardIssuedBy), findsOneWidget);
+      expect(opened, 1);
+
+      debugDefaultTargetPlatformOverride = null;
+      messenger.setMockMethodCallHandler(channel, null);
     });
 
     testWidgets('a base card shows who sent it on the back', (tester) async {

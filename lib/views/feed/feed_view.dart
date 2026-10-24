@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/localization_manager.dart';
@@ -304,45 +305,51 @@ class _ReactionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final color = colorScheme.legible(type.color, tint: 0.16);
     return Padding(
-      padding: const EdgeInsets.only(right: 6),
-      child: Tooltip(
-        message: type.localized(context.l10n),
-        child: Material(
-          color: selected
-              ? type.color.withValues(alpha: 0.16)
-              : Colors.transparent,
-          shape: StadiumBorder(
-              side: BorderSide(
-                  color: selected ? type.color : colorScheme.outlineVariant)),
-          child: InkWell(
-            customBorder: const StadiumBorder(),
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(type.icon,
-                      size: 16,
-                      color: selected || count > 0
-                          ? type.color
-                          : colorScheme.onSurfaceVariant),
-                  if (count > 0) ...[
-                    const SizedBox(width: 5),
-                    Text('$count',
-                        style: TextStyle(
-                            fontSize: 12.5,
-                            fontWeight: FontWeight.w700,
-                            color:
-                                selected ? type.color : colorScheme.onSurface)),
-                  ],
-                ],
+        padding: const EdgeInsets.only(right: 6),
+        // Announced as "Like, 3, selected" rather than just "3".
+        child: Semantics(
+          button: true,
+          selected: selected,
+          child: Tooltip(
+            message: type.localized(context.l10n),
+            child: Material(
+              color: selected
+                  ? type.color.withValues(alpha: 0.16)
+                  : Colors.transparent,
+              shape: StadiumBorder(
+                  side: BorderSide(
+                      color: selected ? color : colorScheme.outlineVariant)),
+              child: InkWell(
+                customBorder: const StadiumBorder(),
+                onTap: onTap,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(type.icon,
+                          size: 16,
+                          color: selected || count > 0
+                              ? color
+                              : colorScheme.onSurfaceVariant),
+                      if (count > 0) ...[
+                        const SizedBox(width: 5),
+                        Text('$count',
+                            style: TextStyle(
+                                fontSize: 12.5,
+                                fontWeight: FontWeight.w700,
+                                color:
+                                    selected ? color : colorScheme.onSurface)),
+                      ],
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

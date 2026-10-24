@@ -220,10 +220,13 @@ class _ProfileViewState
               Icon(Icons.military_tech_rounded,
                   color: colorScheme.primary, size: 20),
               const SizedBox(width: 6),
-              Text(context.l10n.levelN(level.level),
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w800)),
-              const Spacer(),
+              Expanded(
+                child: Text(context.l10n.levelN(level.level),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w800)),
+              ),
               Text("${level.pointsIntoLevel}/${PlayerLevel.pointsPerLevel}",
                   style: TextStyle(
                       fontSize: 12, color: colorScheme.onSurfaceVariant)),

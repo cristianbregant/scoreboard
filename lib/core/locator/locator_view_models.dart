@@ -14,7 +14,9 @@ void setupLocatorViewModels() {
       getIt<NotificationInteractor>(),
       getIt<AppNavigation>(),
       getIt<AppConfigurationInteractor>(),
-      getIt<UpdateInteractor>()));
+      getIt<UpdateInteractor>(),
+      getIt<AdminInteractor>(),
+      getIt<TeamInteractor>()));
 
   getIt.registerFactory<SettingsViewModelContract>(() => SettingsViewModel(
       getIt<ScoreboardInteractor>(),
@@ -33,8 +35,8 @@ void setupLocatorViewModels() {
       () => CommunityViewModel(getIt<ScoreboardInteractor>()));
 
   getIt.registerFactory<YourCompanyViewModelContract>(() =>
-      YourCompanyViewModel(
-          getIt<ScoreboardInteractor>(), getIt<AdminInteractor>()));
+      YourCompanyViewModel(getIt<ScoreboardInteractor>(),
+          getIt<AdminInteractor>(), getIt<SeasonInteractor>()));
 
   getIt.registerFactory<BaseAchievementsViewModelContract>(
       () => BaseAchievementsViewModel(getIt<ScoreboardInteractor>()));
@@ -44,5 +46,23 @@ void setupLocatorViewModels() {
   getIt.registerFactory<FeedViewModelContract>(() =>
       FeedViewModel(getIt<FeedInteractor>(), getIt<ScoreboardInteractor>()));
   getIt.registerFactory<ConsoleViewModelContract>(() => ConsoleViewModel(
-      getIt<AdminInteractor>(), getIt<ScoreboardInteractor>()));
+      getIt<AdminInteractor>(),
+      getIt<ScoreboardInteractor>(),
+      getIt<AppNavigation>()));
+  getIt.registerFactory<TeamViewModelContract>(() => TeamViewModel(
+      getIt<TeamInteractor>(),
+      getIt<AdminInteractor>(),
+      getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<TeamsAdminViewModelContract>(() => TeamsAdminViewModel(
+      getIt<TeamInteractor>(), getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<SeasonsAdminViewModelContract>(() =>
+      SeasonsAdminViewModel(
+          getIt<SeasonInteractor>(), getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<ReportsViewModelContract>(() => ReportsViewModel(
+      getIt<ReportInteractor>(), getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<ActivityViewModelContract>(() => ActivityViewModel(
+      getIt<ActivityInteractor>(), getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<CompanySettingsViewModelContract>(() =>
+      CompanySettingsViewModel(
+          getIt<CompanySettingsInteractor>(), getIt<ScoreboardInteractor>()));
 }

@@ -20,7 +20,15 @@ class SettingsViewModel
   void onInitState() {
     vmState.appName = _appConfigurationInteractor.appName;
     vmState.appVersion = _appConfigurationInteractor.appVersion;
+    vmState.hapticsEnabled = _appConfigurationInteractor.isHapticsEnabled;
     loadAccount();
+  }
+
+  @override
+  Future<void> onToggleHaptics(bool enabled) async {
+    vmState.hapticsEnabled = enabled;
+    notifyListeners();
+    await _appConfigurationInteractor.setHapticsEnabled(enabled);
   }
 
   @override

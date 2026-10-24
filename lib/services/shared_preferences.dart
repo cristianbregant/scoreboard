@@ -23,6 +23,11 @@ class SharedPreference {
       ? _preferences.remove(_languageCodeKey)
       : _preferences.setString(_languageCodeKey, value);
 
+  /// Haptic feedback on the trackpad; on unless turned off.
+  bool get hapticsEnabled => _preferences.getBool('haptics_enabled') ?? true;
+  Future<void> setHapticsEnabled(bool value) =>
+      _preferences.setBool('haptics_enabled', value);
+
   /// Whether [userId] has seen the introduction on this device.
   bool onboardingDone(String userId) =>
       _preferences.getBool('onboarding_done_$userId') ?? false;

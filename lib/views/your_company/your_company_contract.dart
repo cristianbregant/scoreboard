@@ -1,3 +1,4 @@
+import 'package:scoreboard/model/season.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
 import 'package:scoreboard/model/company.dart';
 import 'package:scoreboard/model/leaderboard_entry.dart';
@@ -19,6 +20,13 @@ abstract class YourCompanyViewModelContract
 
 class YourCompanyState extends BaseVMState {
   Company? company;
+
+  /// The season running today, with its leaderboard.
+  Season? season;
+  List<UserLeaderboardEntry> seasonBoard = [];
+
+  UserLeaderboardEntry? get mySeasonEntry =>
+      seasonBoard.where((e) => e.user.id == currentUserId).firstOrNull;
   String? currentUserId;
   List<UserLeaderboardEntry> members = [];
 

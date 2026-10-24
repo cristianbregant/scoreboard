@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:scoreboard/core/haptics.dart';
 import 'package:scoreboard/core/locator/locator.dart';
 import 'package:scoreboard/interactors/auth_interactor.dart';
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
@@ -33,17 +34,38 @@ void main() {
     await _openSettings(tester);
     final englishNav = l10n.navAchievements;
 
-    await tester.tap(find.text('Italiano'));
-    await settle(tester);
-    final italianNav = l10n.navAchievements;
-    expect(italianNav, isNot(englishNav));
-    expect(find.text(italianNav), findsWidgets);
-    expect(find.text(englishNav), findsNothing);
-    expect((await savedPrefs())['language_code'], 'it');
+    Future<void> pick(String language) async {
+      await tester.tap(find.byType(DropdownMenu<String>));
+      await settle(tester, frames: 4);
+      await tester.tap(find.text(language).last);
+      await settle(tester);
+    }
 
-    await tester.tap(find.text('English'));
-    await settle(tester);
+    await pick('Deutsch');
+    expect(find.text('Erfolge'), findsWidgets);
+    expect(find.text(englishNav), findsNothing);
+    expect((await savedPrefs())['language_code'], 'de');
+
+    await pick('Italiano');
+    expect(find.text('Traguardi'), findsWidgets);
+
+    await pick('English');
     expect(find.text(englishNav), findsWidgets);
+  });
+
+  testWidgets('haptic feedback can be turned off', (tester) async {
+    await pumpApp(tester);
+    await _openSettings(tester);
+    final toggle = find.widgetWithText(SwitchListTile, l10n.hapticsTitle);
+    await _scrollTo(tester, toggle);
+    expect(tester.widget<SwitchListTile>(toggle).value, isTrue);
+
+    await tester.tap(toggle);
+    await settle(tester);
+    expect(tester.widget<SwitchListTile>(toggle).value, isFalse);
+    expect(Haptics.enabled, isFalse);
+    expect((await savedPrefs())['haptics_enabled'], isFalse);
+    Haptics.enabled = true;
   });
 
   testWidgets('the privacy switch hides me from the Community leaderboard',

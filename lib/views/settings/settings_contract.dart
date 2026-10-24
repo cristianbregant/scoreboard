@@ -19,6 +19,7 @@ abstract class SettingsViewModelContract
   void signOut();
   void onToggleCommunityVisibility(bool visible);
   void onCheckForUpdates();
+  void onToggleHaptics(bool enabled);
 }
 
 class SettingsState extends BaseVMState {
@@ -27,6 +28,7 @@ class SettingsState extends BaseVMState {
   bool isChangingPassword = false;
   bool hiddenFromCommunity = false;
   bool isCheckingUpdates = false;
+  bool hapticsEnabled = true;
   String appName = '';
   String appVersion = '';
 }

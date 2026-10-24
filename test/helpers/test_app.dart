@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -125,4 +128,23 @@ Future<void> pumpInApp(WidgetTester tester, Widget child) async {
     locale: const Locale('en'),
     home: Scaffold(body: Center(child: child)),
   ));
+}
+
+/// Loads the bundled Inter, so text measures as in the app rather than in
+/// the much wider test font. For layout tests.
+Future<void> loadAppFonts() async {
+  final inter = FontLoader('Inter');
+  for (final weight in [
+    'Regular',
+    'Italic',
+    'Medium',
+    'SemiBold',
+    'Bold',
+    'ExtraBold'
+  ]) {
+    inter.addFont(File('assets/fonts/Inter-$weight.ttf')
+        .readAsBytes()
+        .then((bytes) => ByteData.sublistView(bytes)));
+  }
+  await inter.load();
 }

@@ -1,4 +1,6 @@
+import 'package:scoreboard/interactors/activity_interactor.dart';
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
+import 'package:scoreboard/model/activity.dart';
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/model/admin.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
@@ -12,8 +14,9 @@ import 'package:scoreboard/services/scoreboard_repository.dart';
 class AdminInteractor {
   final ScoreboardRepository _repository;
   final ScoreboardInteractor _scoreboard;
+  final ActivityInteractor _activity;
 
-  AdminInteractor(this._repository, this._scoreboard);
+  AdminInteractor(this._repository, this._scoreboard, this._activity);
 
   Future<UserProfile> _requireAdmin() async {
     final user = await _scoreboard.getCurrentUser();
@@ -43,6 +46,8 @@ class AdminInteractor {
       points: draft.points,
       createdAt: now,
     ));
+    await _activity.log(ActivityType.catalogCreated,
+        subject: draft.name.trim());
     _scoreboard.dataChanged();
   }
 
@@ -57,12 +62,17 @@ class AdminInteractor {
       icon: draft.icon,
       points: draft.points,
     ));
+    await _activity.log(ActivityType.catalogUpdated,
+        subject: draft.name.trim());
     _scoreboard.dataChanged();
   }
 
   Future<void> setArchived(String id, bool archived) async {
     final item = await _catalogItem(id);
     await _repository.saveCatalogAchievement(item.copyWith(archived: archived));
+    await _activity.log(
+        archived ? ActivityType.catalogArchived : ActivityType.catalogRestored,
+        subject: item.name);
     _scoreboard.dataChanged();
   }
 
@@ -109,6 +119,10 @@ class AdminInteractor {
           .addAchievement(await _verifiedAchievement(item, userId, note: note));
       issued++;
     }
+    if (issued > 0) {
+      await _activity.log(ActivityType.achievementsIssued,
+          subject: item.name, count: issued);
+    }
     _scoreboard.dataChanged();
     return IssueResult(issued: issued, skipped: userIds.length - issued);
   }
@@ -137,13 +151,22 @@ class AdminInteractor {
     );
   }
 
-  /// Admins see every request of the company, members only their own.
+  /// Admins see every request of the company; managers their own and their
+  /// team's; members only their own.
   Future<List<VerificationRequest>> getRequests() async {
     final user = await _scoreboard.getCurrentUser();
     final requests = await _repository.getRequests(user.companyId);
-    return user.isCompanyAdmin
-        ? requests
-        : requests.where((r) => r.userId == user.id).toList();
+    if (user.isCompanyAdmin) return requests;
+    final team = (await _repository.getTeams(user.companyId))
+        .where((t) => t.managerId == user.id)
+        .firstOrNull;
+    final visible = {
+      user.id,
+      if (team != null)
+        for (final u in await _repository.getUsers())
+          if (u.teamId == team.id) u.id,
+    };
+    return requests.where((r) => visible.contains(r.userId)).toList();
   }
 
   Future<void> submitRequest(String catalogId,
@@ -191,8 +214,15 @@ class AdminInteractor {
     }
     await _repository.saveRequest(
         request.decide(RequestStatus.approved, deciderId: admin.id));
+    await _activity.log(ActivityType.requestApproved,
+        subject: item.name, target: await _nameOf(request.userId));
     _scoreboard.dataChanged();
   }
+
+  Future<String?> _nameOf(String userId) async => (await _repository.getUsers())
+      .where((u) => u.id == userId)
+      .firstOrNull
+      ?.name;
 
   Future<void> rejectRequest(String requestId, String reason) async {
     final admin = await _requireAdmin();
@@ -200,6 +230,9 @@ class AdminInteractor {
     final trimmed = reason.trim();
     await _repository.saveRequest(request.decide(RequestStatus.rejected,
         deciderId: admin.id, reason: trimmed.isEmpty ? null : trimmed));
+    await _activity.log(ActivityType.requestRejected,
+        subject: (await _catalogItem(request.catalogId)).name,
+        target: await _nameOf(request.userId));
     _scoreboard.dataChanged();
   }
 

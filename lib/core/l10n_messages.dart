@@ -1,3 +1,4 @@
+import 'package:scoreboard/model/activity.dart';
 import 'package:scoreboard/core/formatters.dart';
 import 'package:scoreboard/generated/l10n.dart';
 import 'package:scoreboard/interactors/auth_interactor.dart';
@@ -71,6 +72,10 @@ extension AdminExceptionText on AdminException {
         AdminError.requestPending => l10n.errorRequestPending,
         AdminError.invalidUrl => l10n.invalidUrl,
         AdminError.notFound => l10n.errorNotFound,
+        AdminError.invalidDates => l10n.errorInvalidDates,
+        AdminError.seasonOverlap => l10n.errorSeasonOverlap,
+        AdminError.notManager => l10n.errorNotManager,
+        AdminError.notInTeam => l10n.errorNotInTeam,
       };
 }
 
@@ -82,6 +87,7 @@ extension AppNotificationText on AppNotification {
         NotificationType.requestApproved => l10n.notifApprovedTitle,
         NotificationType.requestRejected => l10n.notifRejectedTitle,
         NotificationType.newRequest => l10n.notifNewRequestTitle,
+        NotificationType.newNomination => l10n.notifNominationTitle,
         NotificationType.feedReaction => l10n.notifReactionTitle,
         NotificationType.feedComment => l10n.notifCommentTitle,
         NotificationType.weeklyRecap => l10n.notifRecapTitle,
@@ -101,6 +107,8 @@ extension AppNotificationText on AppNotification {
           ? l10n.notifRejectedBody(name)
           : l10n.notifRejectedBodyReason(name, text!),
       NotificationType.newRequest => l10n.notifNewRequestBody(actor, name),
+      NotificationType.newNomination =>
+        l10n.notifNominationBody(actor, name, text ?? ''),
       NotificationType.feedReaction => l10n.notifReactionBody(actor, name),
       NotificationType.feedComment =>
         l10n.notifCommentBody(actor, name, text ?? ''),
@@ -127,4 +135,42 @@ extension ReactionTypeText on ReactionType {
         ReactionType.love => l10n.reactionLove,
         ReactionType.insightful => l10n.reactionInsightful,
       };
+}
+
+extension ActivityEntryText on ActivityEntry {
+  /// What the actor did, to show after their name: "approved “X” for Y".
+  String describe(AppLocalization l10n) {
+    final subject = this.subject ?? '';
+    final target = this.target ?? '';
+    return switch (type) {
+      ActivityType.catalogCreated => l10n.activityCatalogCreated(subject),
+      ActivityType.catalogUpdated => l10n.activityCatalogUpdated(subject),
+      ActivityType.catalogArchived => l10n.activityCatalogArchived(subject),
+      ActivityType.catalogRestored => l10n.activityCatalogRestored(subject),
+      ActivityType.achievementsIssued =>
+        l10n.activityAchievementsIssued(count ?? 0, subject),
+      ActivityType.requestApproved =>
+        l10n.activityRequestApproved(subject, target),
+      ActivityType.requestRejected =>
+        l10n.activityRequestRejected(subject, target),
+      ActivityType.nominationSubmitted =>
+        l10n.activityNominationSubmitted(subject, target),
+      ActivityType.teamCreated => l10n.activityTeamCreated(subject),
+      ActivityType.teamUpdated => l10n.activityTeamUpdated(subject),
+      ActivityType.teamDeleted => l10n.activityTeamDeleted(subject),
+      ActivityType.memberMoved => this.target == null
+          ? l10n.activityMemberRemoved(subject)
+          : l10n.activityMemberMoved(subject, target),
+      ActivityType.seasonCreated => l10n.activitySeasonCreated(subject),
+      ActivityType.seasonUpdated => l10n.activitySeasonUpdated(subject),
+      ActivityType.seasonDeleted => l10n.activitySeasonDeleted(subject),
+      ActivityType.brandUpdated => l10n.activityBrandUpdated,
+      ActivityType.anniversariesUpdated => l10n.activityAnniversariesUpdated,
+      ActivityType.reportExported => subject == 'people'
+          ? l10n.activityReportPeople(target)
+          : l10n.activityReportAchievements(target),
+      ActivityType.personalDataExported =>
+        l10n.activityPersonalDataExported(target),
+    };
+  }
 }

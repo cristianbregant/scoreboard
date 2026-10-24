@@ -28,22 +28,39 @@ void main() {
 
   group('translations', () {
     final en = _arb('en');
-    final it = _arb('it');
+    final locales = Directory('lib/l10n')
+        .listSync()
+        .map((f) => RegExp(r'intl_(\w+)\.arb$').firstMatch(f.path)?.group(1))
+        .whereType<String>()
+        .where((locale) => locale != 'en')
+        .toList()
+      ..sort();
 
-    test('Italian and English have the same messages', () {
-      expect(_messages(it).difference(_messages(en)), isEmpty,
-          reason: 'only in Italian');
-      expect(_messages(en).difference(_messages(it)), isEmpty,
-          reason: 'only in English');
+    test('every supported language has a file', () {
+      expect(locales, containsAll(['de', 'es', 'fr', 'it']));
+      expect(
+          AppLocalization.delegate.supportedLocales.map((l) => l.languageCode),
+          containsAll(['en', ...locales]));
     });
 
-    test('translations keep the placeholders', () {
-      for (final key in _messages(en)) {
-        expect(
-            _placeholders(it[key] as String), _placeholders(en[key] as String),
-            reason: key);
-      }
-    });
+    for (final locale in locales) {
+      final arb = _arb(locale);
+
+      test('$locale has the same messages as English', () {
+        expect(_messages(arb).difference(_messages(en)), isEmpty,
+            reason: 'only in $locale');
+        expect(_messages(en).difference(_messages(arb)), isEmpty,
+            reason: 'missing in $locale');
+      });
+
+      test('$locale keeps the placeholders', () {
+        for (final key in _messages(en)) {
+          expect(_placeholders(arb[key] as String),
+              _placeholders(en[key] as String),
+              reason: key);
+        }
+      });
+    }
   });
 
   group('messages', () {
@@ -73,9 +90,12 @@ void main() {
           contains('8'));
     });
 
-    test('tiers have names in both languages', () async {
+    test('tiers have names in every language', () async {
       expect(AchievementTier.gold.localized(en), 'Gold');
       expect(AchievementTier.gold.localized(await load('it')), 'Oro');
+      expect(AchievementTier.platinum.localized(await load('de')), 'Platin');
+      expect(AchievementTier.silver.localized(await load('fr')), 'Argent');
+      expect(AchievementTier.bronze.localized(await load('es')), 'Bronce');
     });
 
     test('every notification type has a title and a body', () async {
@@ -90,7 +110,8 @@ void main() {
             number: 3,
             secondNumber: 2,
             text: 'Nice');
-        for (final l10n in [await load('en'), await load('it')]) {
+        for (final code in ['en', 'it', 'es', 'fr', 'de']) {
+          final l10n = await load(code);
           expect(notification.title(l10n), isNotEmpty, reason: '$type');
           expect(notification.body(l10n), isNotEmpty, reason: '$type');
         }

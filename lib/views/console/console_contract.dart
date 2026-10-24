@@ -1,3 +1,4 @@
+import 'package:scoreboard/core/app_navigation.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
 import 'package:scoreboard/model/company.dart';
 import 'package:scoreboard/model/insights.dart';
@@ -6,7 +7,7 @@ import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/views/_base/base_contract.dart';
 import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 
-enum ConsoleTab { catalog, assign, requests, insights }
+export 'package:scoreboard/core/app_navigation.dart' show ConsoleSection;
 
 abstract class ConsoleViewContract extends SendAchievementViewContract {
   Future<CatalogAchievementDraft?> askCatalogAchievement(
@@ -21,7 +22,6 @@ abstract class ConsoleViewModelContract
     extends BaseViewModelContract<ConsoleState, ConsoleViewContract>
     implements SendAchievementActions {
   void loadConsole();
-  void onChangeTab(ConsoleTab tab);
   void onToggleShowArchived(bool value);
   void onTapNewCatalogAchievement();
   void onTapEditCatalogAchievement(CatalogAchievement item);
@@ -35,7 +35,8 @@ abstract class ConsoleViewModelContract
 }
 
 class ConsoleState extends BaseVMState {
-  ConsoleTab tab = ConsoleTab.catalog;
+  /// Picked in the sidebar.
+  ConsoleSection section = ConsoleSection.catalog;
   Company? company;
   String? currentUserId;
   List<CatalogAchievement> catalog = [];

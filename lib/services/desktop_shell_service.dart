@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:scoreboard/core/app_navigation.dart';
 import 'package:scoreboard/generated/l10n.dart';
 import 'package:tray_manager/tray_manager.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:multiview_desktop/multiview_desktop.dart';
 
 /// Tray (menu bar) icon and window lifecycle.
 ///
@@ -11,9 +13,12 @@ import 'package:window_manager/window_manager.dart';
 /// running in the tray. Linux keeps the regular close: its tray needs a
 /// StatusNotifierItem host (GNOME only with an extension), and without one
 /// a hidden window could not be reopened.
-class DesktopShellService with WindowListener {
+class DesktopShellService implements WindowListenerCallbacks {
   final AppNavigation _navigation;
   bool _initialized = false;
+
+  /// The main window, known once `runMultiApp` has created it.
+  int? _mainWindowId;
 
   /// Kept for the app's lifetime: a collected icon disappears from the tray.
   TrayIcon? _trayIcon;
@@ -28,9 +33,7 @@ class DesktopShellService with WindowListener {
   Future<void> init() async {
     if (_initialized) return;
     _initialized = true;
-    windowManager.addListener(this);
     try {
-      if (closesToTray) await windowManager.setPreventClose(true);
       final icon = TrayIcon.create();
       if (icon == null) return;
       icon.icon = ImageAsset.fromAsset(_isMac
@@ -78,22 +81,92 @@ class DesktopShellService with WindowListener {
     } catch (_) {}
   }
 
+  /// Called with the main window's id from the `runMultiApp` home builder,
+  /// which can run more than once.
+  void attachMainWindow(int windowId) {
+    if (_mainWindowId == windowId) return;
+    _mainWindowId = windowId;
+    // After the frame being built: the window's state isn't touched mid-build.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      MultiViewDesktop.addListenerForView(windowId, this);
+      // Closing then reaches onWindowClose instead of closing the window.
+      if (closesToTray) {
+        MultiViewDesktop.fromId(windowId).setPreventClose(true);
+      }
+    });
+  }
+
+  MultiViewDesktop? get _mainWindow {
+    final id = _mainWindowId;
+    return id == null ? null : MultiViewDesktop.fromId(id);
+  }
+
   Future<void> showWindow() async {
-    await windowManager.show();
-    await windowManager.focus();
+    _mainWindow
+      ?..show()
+      ..focus();
+  }
+
+  /// Lets the window close for real and removes the tray icon. Also runs
+  /// before ⌘Q on macOS, see `main`.
+  void prepareToQuit() {
+    _mainWindow?.setPreventClose(false);
+    _trayIcon?.dispose();
+    _trayIcon = null;
   }
 
   Future<void> quit() async {
-    await windowManager.setPreventClose(false);
-    _trayIcon?.dispose();
-    _trayIcon = null;
-    await windowManager.destroy();
+    prepareToQuit();
+    await MultiViewDesktop.closeApp(closeMode: CloseMode.destroy);
+  }
+
+  /// The close button hides the window to the tray. Returns false so a
+  /// cascade close stops here: the window was only hidden.
+  @override
+  FutureOr<bool> onWindowClose() {
+    if (!closesToTray) return true;
+    _mainWindow?.hide();
+    return false;
   }
 
   @override
-  void onWindowClose() {
-    if (closesToTray) windowManager.hide();
-  }
+  void onWindowFocus() {}
+
+  @override
+  void onWindowBlur() {}
+
+  @override
+  void onWindowMaximize() {}
+
+  @override
+  void onWindowUnmaximize() {}
+
+  @override
+  void onWindowMinimize() {}
+
+  @override
+  void onWindowRestore() {}
+
+  @override
+  void onWindowResize() {}
+
+  @override
+  void onWindowResized() {}
+
+  @override
+  void onWindowMove() {}
+
+  @override
+  void onWindowMoved() {}
+
+  @override
+  void onWindowEnterFullScreen() {}
+
+  @override
+  void onWindowLeaveFullScreen() {}
+
+  @override
+  void onWindowEvent(String eventName) {}
 }
 
 /// Keeps the tray menu in the app's current language.

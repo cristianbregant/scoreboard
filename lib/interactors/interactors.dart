@@ -7,3 +7,8 @@ export 'package:scoreboard/interactors/credential_interactor.dart';
 export 'package:scoreboard/interactors/feed_interactor.dart';
 export 'package:scoreboard/interactors/notification_interactor.dart';
 export 'package:scoreboard/interactors/update_interactor.dart';
+export 'package:scoreboard/interactors/activity_interactor.dart';
+export 'package:scoreboard/interactors/team_interactor.dart';
+export 'package:scoreboard/interactors/season_interactor.dart';
+export 'package:scoreboard/interactors/report_interactor.dart';
+export 'package:scoreboard/interactors/company_settings_interactor.dart';

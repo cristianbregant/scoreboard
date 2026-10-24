@@ -1,4 +1,5 @@
 import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
+import 'package:scoreboard/core/app_navigation.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/interactors/admin_interactor.dart';
@@ -14,20 +15,31 @@ class ConsoleViewModel extends BaseViewModel<ConsoleViewContract, ConsoleState>
     implements ConsoleViewModelContract {
   final AdminInteractor _admin;
   final ScoreboardInteractor _scoreboard;
+  final AppNavigation _navigation;
 
-  ConsoleViewModel(this._admin, this._scoreboard);
+  ConsoleViewModel(this._admin, this._scoreboard, this._navigation);
 
   @override
   ScoreboardInteractor get interactor => _scoreboard;
 
   @override
   void onInitState() {
+    vmState.section = _navigation.consoleSection.value;
+    _navigation.consoleSection.addListener(_onSectionChanged);
     _scoreboard.addListener(_reloadSilently);
     loadConsole();
   }
 
   @override
-  void onDispose() => _scoreboard.removeListener(_reloadSilently);
+  void onDispose() {
+    _navigation.consoleSection.removeListener(_onSectionChanged);
+    _scoreboard.removeListener(_reloadSilently);
+  }
+
+  void _onSectionChanged() {
+    vmState.section = _navigation.consoleSection.value;
+    notifyListeners();
+  }
 
   @override
   Future<void> loadConsole() async {
@@ -75,12 +87,6 @@ class ConsoleViewModel extends BaseViewModel<ConsoleViewContract, ConsoleState>
       sourceView.showMessage(l10n.actionError);
     }
     return false;
-  }
-
-  @override
-  void onChangeTab(ConsoleTab tab) {
-    vmState.tab = tab;
-    notifyListeners();
   }
 
   @override
