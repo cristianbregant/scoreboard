@@ -41,6 +41,8 @@ flutter:
   assets:
     - assets/fonts/
     - assets/tray/
+    # The Linux window icon; built by tool/generate_app_icons.sh.
+    - assets/app_icon/app_icon.png
   fonts:
     - family: Inter
       fonts:

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- Scoreboard's mark for Windows and Linux: the rounded square fills the
+       canvas. The macOS version is app_icon_macos.svg. -->
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7D27A"/>
+      <stop offset="1" stop-color="#DFA437"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.35"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="16" width="992" height="992" rx="224" fill="url(#gold)"/>
+  <rect x="16" y="16" width="992" height="992" rx="224" fill="url(#shine)"/>
+  <g transform="translate(512 530) scale(25.5) translate(-12 -12)" fill="none" stroke="#2A1D05"
+     stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+    <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+    <path d="M4 22h16"/>
+    <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+    <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+    <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" fill="#2A1D05"/>
+  </g>
+</svg>

@@ -22,6 +22,17 @@ static void my_application_activate(GApplication* application) {
   MyApplication* self = MY_APPLICATION(application);
   multiview_desktop_linux_runner_install(GTK_APPLICATION(application));
 
+  // The app icon for every window, from the Flutter assets next to the
+  // executable (assets/app_icon/app_icon.png).
+  g_autofree gchar* executable = g_file_read_link("/proc/self/exe", nullptr);
+  if (executable != nullptr) {
+    g_autofree gchar* directory = g_path_get_dirname(executable);
+    g_autofree gchar* icon = g_build_filename(
+        directory, "data", "flutter_assets", "assets", "app_icon",
+        "app_icon.png", nullptr);
+    gtk_window_set_default_icon_from_file(icon, nullptr);
+  }
+
   GtkWindow* window =
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
 
