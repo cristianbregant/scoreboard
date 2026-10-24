@@ -1,0 +1,1040 @@
+﻿#include "include/multi_view_desktop/multi_view_desktop.h"
+
+#include <windows.h>
+
+#include <cstdint>
+
+#include <flutter/dart_project.h>
+#include <flutter/flutter_engine.h>
+#include <flutter_windows.h>
+#include <flutter/method_channel.h>
+#include <flutter/method_result_functions.h>
+#include <flutter/plugin_registrar_windows.h>
+#include <flutter/plugin_registry.h>
+#include <flutter/standard_method_codec.h>
+
+#include <cstdarg>
+#include <cmath>
+#include <cstdio>
+#include <memory>
+#include <optional>
+#include <string>
+#include <vector>
+
+#include "multi_view_desktop.h"
+#include "mvd_windows_screen.h"
+#include "mvd_windows_taskbar_menu.h"
+
+extern "C" {
+void mvd_set_event_callback(void (*cb)(const char*, int64_t, int64_t));
+void mvd_set_screen_event_callback(void (*cb)(const char*));
+}
+
+namespace {
+void MvdLog(const char* fmt, ...);
+bool MvdIsEngineLifecycleMessage(UINT message);
+}  // namespace
+
+namespace multi_view_desktop {
+
+    namespace {
+
+        bool IsWindows11OrGreater() {
+            DWORD dw_version = 0;
+            DWORD dw_build = 0;
+#pragma warning(push)
+#pragma warning(disable : 4996)
+            dw_version = GetVersion();
+            if (dw_version < 0x80000000) {
+                dw_build = static_cast<DWORD>(HIWORD(dw_version));
+            }
+#pragma warning(pop)
+            return dw_build >= 22000;
+        }
+
+        void AdjustNCCalcSize(HWND hwnd, NCCALCSIZE_PARAMS *sz) {
+            LONG l = 8;
+            LONG t = 8;
+            HMONITOR monitor = MonitorFromRect(&sz->rgrc[0], MONITOR_DEFAULTTONEAREST);
+            if (monitor != NULL) {
+                MONITORINFO monitor_info;
+                monitor_info.cbSize = sizeof(MONITORINFO);
+                if (GetMonitorInfo(monitor, &monitor_info)) {
+                    l = sz->rgrc[0].left - monitor_info.rcWork.left;
+                    t = sz->rgrc[0].top - monitor_info.rcWork.top;
+                }
+            }
+            sz->rgrc[0].left -= l;
+            sz->rgrc[0].top -= t;
+            sz->rgrc[0].right += l;
+            sz->rgrc[0].bottom += t;
+        }
+
+    }  // namespace
+
+    FlutterDesktopEngineProperties BuildEngineProperties(
+            const flutter::DartProject &project) {
+        static std::wstring assets_path = L"data\\flutter_assets";
+        static std::wstring icu_data_path = L"data\\icudtl.dat";
+        static std::wstring aot_library_path = L"data\\app.so";
+        static std::vector <std::string> entrypoint_args_storage;
+        static std::vector<const char *> entrypoint_argv;
+
+        FlutterDesktopEngineProperties properties = {};
+        properties.assets_path = assets_path.c_str();
+        properties.icu_data_path = icu_data_path.c_str();
+        properties.aot_library_path = aot_library_path.c_str();
+        properties.dart_entrypoint = project.dart_entrypoint().empty()
+                                     ? nullptr
+                                     : project.dart_entrypoint().c_str();
+        properties.gpu_preference = static_cast<FlutterDesktopGpuPreference>(
+                project.gpu_preference());
+        properties.ui_thread_policy = static_cast<FlutterDesktopUIThreadPolicy>(
+                project.ui_thread_policy());
+        properties.accessibility_mode = static_cast<FlutterDesktopAccessibilityMode>(
+                project.accessibility_mode());
+
+        entrypoint_args_storage = project.dart_entrypoint_arguments();
+        entrypoint_argv.clear();
+        for (const auto &arg: entrypoint_args_storage) {
+            entrypoint_argv.push_back(arg.c_str());
+        }
+        properties.dart_entrypoint_argc = static_cast<int>(entrypoint_argv.size());
+        properties.dart_entrypoint_argv =
+                entrypoint_argv.empty() ? nullptr : entrypoint_argv.data();
+        return properties;
+    }
+
+    class MultiViewDesktopPlugin;
+
+    MultiViewDesktopPlugin *g_plugin_instance = nullptr;
+    FlutterDesktopEngineRef g_engine_ref = nullptr;
+
+    class MultiViewDesktopPlugin : public flutter::Plugin {
+    public:
+        static void RegisterWithRegistrar(flutter::PluginRegistrarWindows *registrar);
+
+        explicit MultiViewDesktopPlugin(flutter::PluginRegistrarWindows *registrar);
+
+        ~MultiViewDesktopPlugin() override;
+
+        std::optional <LRESULT> HandleWindowProc(HWND hwnd,
+                                                 UINT message,
+                                                 WPARAM wparam,
+                                                 LPARAM lparam);
+
+    private:
+        flutter::PluginRegistrarWindows *registrar_;
+        std::unique_ptr <flutter::MethodChannel<flutter::EncodableValue>>
+                screen_retriever_channel_;
+
+        void HandleMethodCall(
+                const flutter::MethodCall <flutter::EncodableValue> &method_call,
+                std::unique_ptr <flutter::MethodResult<flutter::EncodableValue>> result);
+
+        void HandleViewMethod(
+                const flutter::MethodCall <flutter::EncodableValue> &method_call,
+                MultiViewDesktop *window,
+                int64_t view_id,
+                std::unique_ptr <flutter::MethodResult<flutter::EncodableValue>> result);
+
+        void EmitEvent(const std::string &event_name, int64_t view_id);
+    };
+
+    void MultiViewDesktopPlugin::RegisterWithRegistrar(
+            flutter::PluginRegistrarWindows *registrar) {
+        auto plugin = std::make_unique<MultiViewDesktopPlugin>(registrar);
+        registrar->AddPlugin(std::move(plugin));
+    }
+
+    MultiViewDesktopPlugin::MultiViewDesktopPlugin(
+            flutter::PluginRegistrarWindows *registrar)
+            : registrar_(registrar) {
+        g_plugin_instance = this;
+        auto &impl = MultiViewDesktop::Instance();
+        impl.SetupChannel(registrar->messenger());
+        impl.channel()->SetMethodCallHandler(
+                [this](const auto &call, auto result) {
+                    HandleMethodCall(call, std::move(result));
+                });
+
+        MvdWindowsRegisterScreenRetriever(registrar->messenger(),
+                                          &screen_retriever_channel_);
+    }
+
+    MultiViewDesktopPlugin::~MultiViewDesktopPlugin() {
+        if (g_plugin_instance == this) {
+            g_plugin_instance = nullptr;
+        }
+        mvd_set_event_callback(nullptr);
+        mvd_set_screen_event_callback(nullptr);
+    }
+
+    void MultiViewDesktopPlugin::EmitEvent(const std::string &event_name,
+                                           int64_t view_id) {
+        MultiViewDesktop::Instance().EmitEvent(event_name, view_id);
+    }
+
+    std::optional <LRESULT> MultiViewDesktopPlugin::HandleWindowProc(
+            HWND hwnd,
+            UINT message,
+            WPARAM wparam,
+            LPARAM lparam) {
+        if (MvdWindowsHandleTaskbarMenuMessage(message, wparam, lparam)) {
+            return 0;
+        }
+
+        if (message == WM_DISPLAYCHANGE) {
+            MvdWindowsNotifyDisplayChange();
+        }
+
+        auto &impl = MultiViewDesktop::Instance();
+        MultiViewDesktop *window = impl.FindByHwnd(hwnd);
+        if (!window) {
+            return std::nullopt;
+        }
+
+        const int64_t view_id = window->view_id;
+        std::optional <LRESULT> result = std::nullopt;
+
+        if (message == WM_DPICHANGED) {
+            window->pixel_ratio_ = static_cast<float>(LOWORD(wparam)) / USER_DEFAULT_SCREEN_DPI;
+            window->ForceChildRefresh();
+        }
+
+        if (wparam && message == WM_NCCALCSIZE) {
+            if (window->IsFullScreen() && window->title_bar_style_ != "normal") {
+                if (window->is_frameless_) {
+                    AdjustNCCalcSize(hwnd, reinterpret_cast<NCCALCSIZE_PARAMS *>(lparam));
+                }
+                return 0;
+            }
+            if (window->is_frameless_) {
+                if (window->IsMaximized()) {
+                    AdjustNCCalcSize(hwnd, reinterpret_cast<NCCALCSIZE_PARAMS *>(lparam));
+                }
+                return 0;
+            }
+            if (window->title_bar_style_ == "hidden") {
+                if (window->IsMaximized()) {
+                    AdjustNCCalcSize(hwnd, reinterpret_cast<NCCALCSIZE_PARAMS *>(lparam));
+                } else {
+                    NCCALCSIZE_PARAMS *sz = reinterpret_cast<NCCALCSIZE_PARAMS *>(lparam);
+                    sz->rgrc[0].top += IsWindows11OrGreater() ? 0 : 1;
+                    sz->rgrc[0].right -= 8;
+                    sz->rgrc[0].bottom -= 8;
+                    sz->rgrc[0].left -= -8;
+                }
+                return 0;
+            }
+        } else if (message == WM_NCHITTEST) {
+            if (!window->is_resizable_) {
+                return HTNOWHERE;
+            }
+        } else if (message == WM_GETMINMAXINFO) {
+            window->RefreshPixelRatio();
+            MINMAXINFO *info = reinterpret_cast<MINMAXINFO *>(lparam);
+            if (window->minimum_size_.x != 0) {
+                info->ptMinTrackSize.x = static_cast<LONG>(
+                        window->minimum_size_.x * window->pixel_ratio_);
+            }
+            if (window->minimum_size_.y != 0) {
+                info->ptMinTrackSize.y = static_cast<LONG>(
+                        window->minimum_size_.y * window->pixel_ratio_);
+            }
+            if (window->maximum_size_.x != -1) {
+                info->ptMaxTrackSize.x = static_cast<LONG>(
+                        window->maximum_size_.x * window->pixel_ratio_);
+            }
+            if (window->maximum_size_.y != -1) {
+                info->ptMaxTrackSize.y = static_cast<LONG>(
+                        window->maximum_size_.y * window->pixel_ratio_);
+            }
+            result = 0;
+        } else if (message == WM_NCACTIVATE) {
+            EmitEvent(wparam != 0 ? "focus" : "blur", view_id);
+            if (window->title_bar_style_ == "hidden" || window->is_frameless_) {
+                return 1;
+            }
+        } else if (message == WM_EXITSIZEMOVE) {
+            if (window->is_resizing_) {
+                EmitEvent("resized", view_id);
+                window->is_resizing_ = false;
+            }
+            if (window->is_moving_) {
+                EmitEvent("moved", view_id);
+                window->is_moving_ = false;
+            }
+            window->RefreshPixelRatio();
+            return false;
+        } else if (message == WM_MOVING) {
+            window->is_moving_ = true;
+            EmitEvent("move", view_id);
+            return false;
+        } else if (message == WM_SIZING) {
+            window->is_resizing_ = true;
+            EmitEvent("resize", view_id);
+            if (window->aspect_ratio_ > 0) {
+                RECT *rect = reinterpret_cast<LPRECT>(lparam);
+                const double aspect_ratio = window->aspect_ratio_;
+                int new_width = static_cast<int>(rect->right - rect->left);
+                int new_height = static_cast<int>(rect->bottom - rect->top);
+                const bool horizontal =
+                        wparam == WMSZ_LEFT || wparam == WMSZ_RIGHT || wparam == WMSZ_TOPLEFT ||
+                        wparam == WMSZ_BOTTOMLEFT;
+                if (horizontal) {
+                    new_height = static_cast<int>(new_width / aspect_ratio);
+                } else {
+                    new_width = static_cast<int>(new_height * aspect_ratio);
+                }
+                switch (wparam) {
+                    case WMSZ_RIGHT:
+                    case WMSZ_BOTTOM:
+                        rect->right = new_width + rect->left;
+                        rect->bottom = rect->top + new_height;
+                        break;
+                    case WMSZ_TOP:
+                        rect->right = new_width + rect->left;
+                        rect->top = rect->bottom - new_height;
+                        break;
+                    case WMSZ_LEFT:
+                    case WMSZ_TOPLEFT:
+                        rect->left = rect->right - new_width;
+                        rect->top = rect->bottom - new_height;
+                        break;
+                    case WMSZ_TOPRIGHT:
+                        rect->right = rect->left + new_width;
+                        rect->top = rect->bottom - new_height;
+                        break;
+                    case WMSZ_BOTTOMLEFT:
+                        rect->left = rect->right - new_width;
+                        rect->bottom = rect->top + new_height;
+                        break;
+                    case WMSZ_BOTTOMRIGHT:
+                        rect->right = rect->left + new_width;
+                        rect->bottom = rect->top + new_height;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } else if (message == WM_SIZE) {
+//    multi_view_desktop::MultiViewDesktop::ResizeFlutterContent(window);
+            if (window->IsFullScreen() && wparam == SIZE_MAXIMIZED &&
+                window->last_state != STATE_FULLSCREEN_ENTERED) {
+                EmitEvent("enter-full-screen", view_id);
+                window->last_state = STATE_FULLSCREEN_ENTERED;
+            } else if (!window->IsFullScreen() && wparam == SIZE_RESTORED &&
+                       window->last_state == STATE_FULLSCREEN_ENTERED) {
+                window->ForceChildRefresh();
+                EmitEvent("leave-full-screen", view_id);
+                window->last_state = STATE_NORMAL;
+            } else if (window->last_state != STATE_FULLSCREEN_ENTERED) {
+                if (wparam == SIZE_MAXIMIZED) {
+                    EmitEvent("maximize", view_id);
+                    window->last_state = STATE_MAXIMIZED;
+                } else if (wparam == SIZE_MINIMIZED) {
+                    EmitEvent("minimize", view_id);
+                    window->last_state = STATE_MINIMIZED;
+                    return 0;
+                } else if (wparam == SIZE_RESTORED) {
+                    if (window->last_state == STATE_MAXIMIZED) {
+                        EmitEvent("unmaximize", view_id);
+                        window->last_state = STATE_NORMAL;
+                    } else if (window->last_state == STATE_MINIMIZED) {
+                        EmitEvent("restore", view_id);
+                        window->last_state = STATE_NORMAL;
+                    }
+                }
+            }
+        } else if (message == WM_CLOSE) {
+            if (window->is_popup_) {
+                impl.DestroyEntry(view_id);
+                EmitEvent("popup-closed", view_id);
+                return 0;
+            }
+            if (!window->is_pre_confirm_) {
+                EmitEvent("preconfirm-close", view_id);
+                return 0;
+            }
+            if (window->IsPreventClose()) {
+                EmitEvent("close", view_id);
+                return 0;
+            }
+            if (!window->IsConfirmClose()) {
+                EmitEvent("confirm-close", view_id);
+                return 0;
+            }
+            MvdLog("HandleWindowProc WM_CLOSE DestroyEntry view_id=%lld hwnd=%p "
+                   "controller=%p windows=%zu",
+                   static_cast<long long>(view_id), hwnd, window->controller,
+                   impl.windows_.size());
+            impl.DestroyEntry(view_id);
+            MvdLog("HandleWindowProc WM_CLOSE DestroyEntry returned view_id=%lld "
+                   "windows=%zu",
+                   static_cast<long long>(view_id), impl.windows_.size());
+            bool has_regular = false;
+            for (const auto &entry : impl.windows_) {
+                if (!entry.second->is_popup_) {
+                    has_regular = true;
+                    break;
+                }
+            }
+            if (!has_regular &&
+                MultiViewDesktop::terminate_after_last_window_closed_) {
+                MvdLog("HandleWindowProc WM_CLOSE PostQuitMessage(0) last window");
+                PostQuitMessage(0);
+            }
+            return 0;
+        } else if (message == WM_SHOWWINDOW) {
+            EmitEvent(wparam == TRUE ? "show" : "hide", view_id);
+        }
+
+        return result;
+    }
+
+    void MultiViewDesktopPlugin::HandleMethodCall(
+            const flutter::MethodCall <flutter::EncodableValue> &method_call,
+            std::unique_ptr <flutter::MethodResult<flutter::EncodableValue>> result) {
+        auto &impl = MultiViewDesktop::Instance();
+        const std::string &method = method_call.method_name();
+        const flutter::EncodableMap args =
+                method_call.arguments() && !method_call.arguments()->IsNull()
+                ? std::get<flutter::EncodableMap>(*method_call.arguments())
+                : flutter::EncodableMap();
+
+        if (method == "checkExistViewId") {
+            const int64_t view_id = MultiViewDesktop::Int64FromMap(args, "viewId");
+            result->Success(flutter::EncodableValue(impl.FindByViewId(view_id) != nullptr));
+            return;
+        }
+        if (method == "createWindow") {
+            result->Success(flutter::EncodableValue(impl.CreateSecondaryWindow(args)));
+            return;
+        }
+        if (method == "createModalDialog") {
+            result->Success(flutter::EncodableValue(impl.CreateModalDialogWindow(args)));
+            return;
+        }
+        if (method == "completeModalDialogCreate") {
+            impl.CompleteModalDialog(MultiViewDesktop::Int64FromMap(args, "viewId"));
+            result->Success();
+            return;
+        }
+        if (method == "createPopupWindow") {
+            result->Success(flutter::EncodableValue(impl.CreatePopupWindow(args)));
+            return;
+        }
+        if (method == "setTerminateAfterLastWindowClosed") {
+            MultiViewDesktop::terminate_after_last_window_closed_ =
+                    MultiViewDesktop::BoolFromMap(args, "terminateAfterLastWindowClosed", true);
+            result->Success();
+            return;
+        }
+        if (method == "setAnchorViewId") {
+            MultiViewDesktop::main_view_id_ =
+                    MultiViewDesktop::Int64FromMap(args, "viewId");
+            result->Success();
+            return;
+        }
+        if (method == "isHideAppFromTaskbar") {
+            if (impl.windows_.empty()) {
+                result->Success(flutter::EncodableValue(true));
+                return;
+            }
+            bool all_hidden = true;
+            for (const auto &entry: impl.windows_) {
+                if (!entry.second->IsSkipTaskbar()) {
+                    all_hidden = false;
+                    break;
+                }
+            }
+            result->Success(flutter::EncodableValue(all_hidden));
+            return;
+        }
+        if (method == "isHideAppTabFromTaskbar") {
+            const int64_t view_id = MultiViewDesktop::Int64FromMap(args, "viewId");
+            MultiViewDesktop *entry = impl.FindByViewId(view_id);
+            result->Success(flutter::EncodableValue(
+                    entry != nullptr && entry->IsSkipTaskbar()));
+            return;
+        }
+        if (method == "setProgressBar") {
+            MultiViewDesktop* window = impl.FindByViewId(impl.main_view_id());
+            if (window != nullptr) {
+                const double progress =
+                        MultiViewDesktop::DoubleFromMap(args, "progress", -1);
+                window->SetProgressBar(progress);
+            }
+            result->Success();
+            return;
+        }
+        if (method == "setTaskbarMenu") {
+            const flutter::EncodableValue* items_value = nullptr;
+            const auto items_it = args.find(flutter::EncodableValue("items"));
+            if (items_it != args.end()) {
+                items_value = &items_it->second;
+            }
+            MvdWindowsSetTaskbarMenu(items_value);
+            MvdWindowsFlushPendingTaskbarMenuSelection();
+            result->Success();
+            return;
+        }
+
+        const int64_t view_id = MultiViewDesktop::Int64FromMap(args, "viewId");
+        MultiViewDesktop *window = impl.FindByViewId(view_id);
+        if (!window) {
+            result->Error("NO_WINDOW", "No window for viewId");
+            return;
+        }
+        HandleViewMethod(method_call, window, view_id, std::move(result));
+    }
+
+    void MultiViewDesktopPlugin::HandleViewMethod(
+            const flutter::MethodCall <flutter::EncodableValue> &method_call,
+            MultiViewDesktop *window,
+            int64_t view_id,
+            std::unique_ptr <flutter::MethodResult<flutter::EncodableValue>> result) {
+        const std::string &method = method_call.method_name();
+        const flutter::EncodableMap args =
+                method_call.arguments() && !method_call.arguments()->IsNull()
+                ? std::get<flutter::EncodableMap>(*method_call.arguments())
+                : flutter::EncodableMap();
+
+        if (method == "closeWindow") {
+            window->Close();
+            result->Success();
+        } else if (method == "destroyWindow") {
+            auto &impl = MultiViewDesktop::Instance();
+            MvdLog("destroyWindow method view_id=%lld windows=%zu",
+                   static_cast<long long>(view_id), impl.windows_.size());
+            impl.DestroyEntry(view_id);
+            MvdLog("destroyWindow method returned windows=%zu", impl.windows_.size());
+            result->Success();
+        } else if (method == "isPreventClose") {
+            result->Success(flutter::EncodableValue(window->IsPreventClose()));
+        } else if (method == "hideAppFromTaskbar") {
+            window->SetSkipTaskbar(args);
+            result->Success();
+        } else if (method == "setPreventClose") {
+            window->SetPreventClose(args);
+            result->Success();
+        } else if (method == "confirmClose") {
+            window->SetConfirmClose(args);
+            result->Success();
+        } else if (method == "preConfirmClose") {
+            window->SetPreConfirmClose(args);
+            result->Success();
+        } else if (method == "setTitle") {
+            window->SetTitle(args);
+            result->Success();
+        } else if (method == "getTitle") {
+            result->Success(flutter::EncodableValue(window->GetTitle()));
+        } else if (method == "getTitleBarStyle") {
+            result->Success(flutter::EncodableValue(window->GetTitleBarStyle()));
+        } else if (method == "setTitleBarStyle") {
+            window->SetTitleBarStyle(args);
+            result->Success();
+        } else if (method == "setAsFrameless") {
+            window->SetAsFrameless();
+            result->Success();
+        } else if (method == "show") {
+            window->Show();
+            result->Success();
+        } else if (method == "hide") {
+            window->Hide();
+            result->Success();
+        } else if (method == "isVisible") {
+            result->Success(flutter::EncodableValue(window->IsVisible()));
+        } else if (method == "focus") {
+            window->Focus();
+            result->Success();
+        } else if (method == "blur") {
+            window->Blur();
+            result->Success();
+        } else if (method == "isFocused") {
+            result->Success(flutter::EncodableValue(window->IsFocused()));
+        } else if (method == "isOnActiveSpace") {
+            result->Success(flutter::EncodableValue(true));
+        } else if (method == "maximize") {
+            window->Maximize(args);
+            result->Success();
+        } else if (method == "unmaximize") {
+            window->Unmaximize();
+            result->Success();
+        } else if (method == "isMaximized") {
+            result->Success(flutter::EncodableValue(window->IsMaximized()));
+        } else if (method == "minimize") {
+            window->Minimize();
+            result->Success();
+        } else if (method == "restore") {
+            window->Restore();
+            result->Success();
+        } else if (method == "isMinimized") {
+            result->Success(flutter::EncodableValue(window->IsMinimized()));
+        } else if (method == "isFullScreen") {
+            result->Success(flutter::EncodableValue(window->IsFullScreen()));
+        } else if (method == "setFullScreen") {
+            window->SetFullScreen(args);
+            result->Success();
+        } else if (method == "getBounds") {
+            result->Success(flutter::EncodableValue(window->GetBounds(args)));
+        } else if (method == "setSize") {
+            window->SetSize(args);
+            result->Success();
+        } else if (method == "setPosition") {
+            window->SetPosition(args);
+            result->Success();
+        } else if (method == "setPopupBounds") {
+            window->SetPopupBounds(args);
+            result->Success();
+        } else if (method == "center") {
+            window->Center();
+            result->Success();
+        } else if (method == "setMinimumSize") {
+            window->SetMinimumSize(args);
+            result->Success();
+        } else if (method == "setMaximumSize") {
+            window->SetMaximumSize(args);
+            result->Success();
+        } else if (method == "setAspectRatio") {
+            window->SetAspectRatio(args);
+            result->Success();
+        } else if (method == "isResizable") {
+            result->Success(flutter::EncodableValue(window->IsResizable()));
+        } else if (method == "setResizable") {
+            window->SetResizable(args);
+            result->Success();
+        } else if (method == "isMovable") {
+            result->Success(flutter::EncodableValue(window->IsMovable()));
+        } else if (method == "setMovable") {
+            window->SetMovable(args);
+            result->Success();
+        } else if (method == "isMinimizable") {
+            result->Success(flutter::EncodableValue(window->IsMinimizable()));
+        } else if (method == "setMinimizable") {
+            window->SetMinimizable(args);
+            result->Success();
+        } else if (method == "isMaximizable") {
+            result->Success(flutter::EncodableValue(window->IsMaximizable()));
+        } else if (method == "setMaximizable") {
+            window->SetMaximizable(args);
+            result->Success();
+        } else if (method == "isClosable") {
+            result->Success(flutter::EncodableValue(window->IsClosable()));
+        } else if (method == "setClosable") {
+            window->SetClosable(args);
+            result->Success();
+        } else if (method == "isAlwaysOnTop") {
+            result->Success(flutter::EncodableValue(window->IsAlwaysOnTop()));
+        } else if (method == "setAlwaysOnTop") {
+            window->SetAlwaysOnTop(args);
+            result->Success();
+        } else if (method == "hasShadow") {
+            result->Success(flutter::EncodableValue(window->HasShadow()));
+        } else if (method == "setHasShadow") {
+            window->SetHasShadow(args);
+            result->Success();
+        } else if (method == "getOpacity") {
+            result->Success(flutter::EncodableValue(window->GetOpacity()));
+        } else if (method == "setOpacity") {
+            window->SetOpacity(args);
+            result->Success();
+        } else if (method == "setBrightness") {
+            window->SetBrightness(args);
+            result->Success();
+        } else if (method == "setBackgroundColor") {
+            window->SetBackgroundColor(args);
+            result->Success();
+        } else if (method == "setIgnoreMouseEvents") {
+            window->SetIgnoreMouseEvents(args);
+            result->Success();
+        } else if (method == "isIgnoreMouseEvents") {
+            result->Success(flutter::EncodableValue(window->IsIgnoreMouseEvents()));
+        } else if (method == "startDragging") {
+            window->StartDragging();
+            result->Success();
+        } else if (method == "startResizing") {
+            window->StartResizing(args);
+            result->Success();
+        } else if (method == "popUpWindowMenu") {
+            window->PopUpWindowMenu(args);
+            result->Success();
+        } else if (method == "setBadgeLabel" || method == "hideFromCollection" ||
+                   method == "isHideFromCollection" || method == "isVisibleOnAllWorkspaces" ||
+                   method == "setVisibleOnAllWorkspaces") {
+            result->Success();
+        } else {
+            result->NotImplemented();
+        }
+    }
+
+std::optional <LRESULT> HandleWindowProcForHwnd(HWND hwnd,
+                                                UINT message,
+                                                WPARAM wparam,
+                                                LPARAM lparam) {
+    if (g_plugin_instance == nullptr) {
+        return std::nullopt;
+    }
+    return g_plugin_instance->HandleWindowProc(hwnd, message, wparam, lparam);
+}
+
+}  // namespace multi_view_desktop
+
+namespace {
+
+void MvdLog(const char* fmt, ...) {
+#if !MVD_DEBUG_LOG
+    (void)fmt;
+#else
+    char body[1536];
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(body, sizeof(body), fmt, args);
+    va_end(args);
+
+    SYSTEMTIME st{};
+    GetLocalTime(&st);
+    char line[1792];
+    snprintf(line, sizeof(line),
+             "[%02u:%02u:%02u.%03u][tid=%lu] %s\n",
+             st.wHour, st.wMinute, st.wSecond, st.wMilliseconds,
+             GetCurrentThreadId(), body);
+
+    OutputDebugStringA(line);
+    fputs(line, stderr);
+    fflush(stderr);
+
+    static FILE* file = nullptr;
+    static bool file_init = false;
+    if (!file_init) {
+        file_init = true;
+        wchar_t dir[MAX_PATH] = {};
+        if (GetTempPathW(MAX_PATH, dir) != 0) {
+            wchar_t path[MAX_PATH] = {};
+            if (swprintf_s(path, L"%smvd_window_proc.log", dir) > 0) {
+                if (_wfopen_s(&file, path, L"a") != 0) {
+                    file = nullptr;
+                }
+                if (file) {
+                    fprintf(file, "----- session start -----\n");
+                    fflush(file);
+                }
+            }
+        }
+    }
+    if (file) {
+        fputs(line, file);
+        fflush(file);
+    }
+#endif
+}
+
+const char* MvdMessageName(UINT message) {
+    switch (message) {
+        case WM_CLOSE:
+            return "WM_CLOSE";
+        case WM_DESTROY:
+            return "WM_DESTROY";
+        case WM_NCDESTROY:
+            return "WM_NCDESTROY";
+        case WM_QUIT:
+            return "WM_QUIT";
+        case WM_QUERYENDSESSION:
+            return "WM_QUERYENDSESSION";
+        case WM_ENDSESSION:
+            return "WM_ENDSESSION";
+        case WM_SYSCOMMAND:
+            return "WM_SYSCOMMAND";
+        case WM_NCCALCSIZE:
+            return "WM_NCCALCSIZE";
+        case WM_NCHITTEST:
+            return "WM_NCHITTEST";
+        case WM_SIZE:
+            return "WM_SIZE";
+        case WM_SIZING:
+            return "WM_SIZING";
+        case WM_SHOWWINDOW:
+            return "WM_SHOWWINDOW";
+        case WM_ACTIVATE:
+            return "WM_ACTIVATE";
+        case WM_NCACTIVATE:
+            return "WM_NCACTIVATE";
+        case WM_DPICHANGED:
+            return "WM_DPICHANGED";
+        case WM_GETMINMAXINFO:
+            return "WM_GETMINMAXINFO";
+        case WM_EXITSIZEMOVE:
+            return "WM_EXITSIZEMOVE";
+        case WM_MOVING:
+            return "WM_MOVING";
+        default:
+            return nullptr;
+    }
+}
+
+bool MvdIsEngineLifecycleMessage(UINT message) {
+    switch (message) {
+        case WM_CLOSE:
+        case WM_DESTROY:
+        case WM_NCDESTROY:
+        case WM_QUIT:
+        case WM_QUERYENDSESSION:
+        case WM_ENDSESSION:
+            return true;
+        default:
+            return false;
+    }
+}
+
+bool MvdShouldLogMessage(UINT message, WPARAM wparam) {
+#if !MVD_DEBUG_LOG
+    (void)message;
+    (void)wparam;
+    return false;
+#else
+    switch (message) {
+        case WM_CLOSE:
+        case WM_DESTROY:
+        case WM_NCDESTROY:
+        case WM_QUIT:
+        case WM_QUERYENDSESSION:
+        case WM_ENDSESSION:
+        case WM_SYSCOMMAND:
+            return true;
+        default:
+            return false;
+    }
+#endif
+}
+
+class EnginePluginRegistry : public flutter::PluginRegistry {
+ public:
+  explicit EnginePluginRegistry(FlutterDesktopEngineRef engine)
+      : engine_(engine) {}
+
+  FlutterDesktopPluginRegistrarRef GetRegistrarForPlugin(
+      const std::string& plugin_name) override {
+    return FlutterDesktopEngineGetPluginRegistrar(engine_, plugin_name.c_str());
+  }
+
+ private:
+  FlutterDesktopEngineRef engine_;
+};
+
+}  // namespace
+
+void MultiViewDesktopPluginRegisterWithRegistrar(
+        FlutterDesktopPluginRegistrarRef registrar) {
+    multi_view_desktop::MultiViewDesktopPlugin::RegisterWithRegistrar(
+            flutter::PluginRegistrarManager::GetInstance()
+                    ->GetRegistrar<flutter::PluginRegistrarWindows>(registrar));
+}
+
+void MultiViewDesktopPrepareEngine(const flutter::DartProject &project,
+                                   HWND main_host_window) {
+    multi_view_desktop::MvdWindowsInitializeShellIntegration();
+    if (!multi_view_desktop::g_engine_ref) {
+        const FlutterDesktopEngineProperties properties =
+                multi_view_desktop::BuildEngineProperties(project);
+        multi_view_desktop::g_engine_ref = FlutterDesktopEngineCreate(&properties);
+        multi_view_desktop::MultiViewDesktop::Instance().SetEngine(
+                multi_view_desktop::g_engine_ref);
+        FlutterDesktopEngineRun(multi_view_desktop::g_engine_ref, nullptr);
+    }
+    multi_view_desktop::MultiViewDesktop::Instance().SetMainHostWindow(
+            main_host_window);
+    multi_view_desktop::MvdWindowsApplyAppUserModelIdToWindow(main_host_window);
+}
+
+FlutterDesktopEngineRef MultiViewDesktopGetEngineRef() {
+    return multi_view_desktop::g_engine_ref;
+}
+
+int64_t MultiViewDesktopGetMainViewId() {
+    return multi_view_desktop::MultiViewDesktop::Instance().main_view_id();
+}
+
+HWND MultiViewDesktopGetFlutterHwnd(int64_t view_id) {
+    auto *window =
+            multi_view_desktop::MultiViewDesktop::Instance().FindByViewId(view_id);
+    if (window == nullptr || window->controller == nullptr) {
+        return nullptr;
+    }
+    FlutterDesktopViewRef view =
+            FlutterDesktopViewControllerGetView(window->controller);
+    return view == nullptr ? nullptr : FlutterDesktopViewGetHWND(view);
+}
+
+void MultiViewDesktopCreateMainView(
+        HWND host_window,
+        int width,
+        int height,
+        void (*register_plugins)(flutter::PluginRegistry *registry)) {
+    auto &impl = multi_view_desktop::MultiViewDesktop::Instance();
+    MvdLog("CreateMainView engine=%p windows=%zu main_view_id=%lld",
+           impl.engine(), impl.windows_.size(),
+           static_cast<long long>(impl.main_view_id()));
+
+    FlutterDesktopViewControllerProperties properties = {width, height};
+    FlutterDesktopViewControllerRef controller =
+            FlutterDesktopEngineCreateViewController(impl.engine(), &properties);
+    if (!controller) {
+        MvdLog("CreateMainView FAIL: FlutterDesktopEngineCreateViewController returned null");
+        return;
+    }
+    const int64_t view_id =
+            static_cast<int64_t>(FlutterDesktopViewControllerGetViewId(controller));
+    FlutterDesktopViewRef view = FlutterDesktopViewControllerGetView(controller);
+    HWND flutter_hwnd = FlutterDesktopViewGetHWND(view);
+    MvdLog("CreateMainView controller=%p view_id=%lld view=%p flutter_hwnd=%p",
+           controller, static_cast<long long>(view_id), view, flutter_hwnd);
+
+    if (host_window) {
+        SetParent(flutter_hwnd, host_window);
+        RECT rect{};
+        GetClientRect(host_window, &rect);
+        SetWindowPos(flutter_hwnd, nullptr, 0, 0, rect.right - rect.left,
+                     rect.bottom - rect.top,
+                     SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_SHOWWINDOW);
+        impl.RegisterMain(host_window, view_id, controller);
+        MvdLog("CreateMainView RegisterMain host=%p view_id=%lld",
+               host_window, static_cast<long long>(view_id));
+        if (auto *main_window = impl.FindByViewId(view_id)) {
+            multi_view_desktop::MultiViewDesktop::ResizeFlutterContent(main_window);
+        }
+    } else {
+        impl.RegisterMain(flutter_hwnd, view_id, controller);
+        MvdLog("CreateMainView RegisterMain (no host) flutter_hwnd=%p view_id=%lld",
+               flutter_hwnd, static_cast<long long>(view_id));
+    }
+
+    if (register_plugins) {
+        MvdLog("CreateMainView calling register_plugins callback...");
+        EnginePluginRegistry registry(impl.engine());
+        register_plugins(&registry);
+        MvdLog("CreateMainView register_plugins callback returned");
+    } else {
+        MvdLog("CreateMainView no callback; registering MultiViewDesktopPlugin only");
+        MultiViewDesktopPluginRegisterWithRegistrar(
+                FlutterDesktopEngineGetPluginRegistrar(impl.engine(),
+                                                       "MultiViewDesktopPlugin"));
+        MvdLog("CreateMainView MultiViewDesktopPlugin registered");
+    }
+    MvdLog("CreateMainView exit windows=%zu main_view_id=%lld",
+           impl.windows_.size(),
+           static_cast<long long>(impl.main_view_id()));
+}
+
+bool MultiViewDesktopHandleWindowProc(HWND hwnd,
+                                      UINT message,
+                                      WPARAM wparam,
+                                      LPARAM lparam,
+                                      LRESULT *result) {
+    auto &impl = multi_view_desktop::MultiViewDesktop::Instance();
+    const bool log = MvdShouldLogMessage(message, wparam);
+    const char *msg_name = MvdMessageName(message);
+    char msg_buf[32];
+    if (msg_name == nullptr) {
+        snprintf(msg_buf, sizeof(msg_buf), "0x%04X", message);
+        msg_name = msg_buf;
+    }
+
+    multi_view_desktop::MultiViewDesktop *by_hwnd = impl.FindByHwnd(hwnd);
+    multi_view_desktop::MultiViewDesktop *window = by_hwnd;
+    bool used_main_fallback = false;
+    const bool lifecycle = MvdIsEngineLifecycleMessage(message);
+    // Close/destroy must not fall back to the main controller - the engine
+    // would treat that WM_CLOSE as process exit.
+    if (window == nullptr && !lifecycle) {
+        window = impl.FindByViewId(impl.main_view_id());
+        used_main_fallback = window != nullptr;
+    }
+
+    if (log) {
+        MvdLog("HandleWindowProc ENTER hwnd=%p %s wparam=0x%llX lparam=0x%llX "
+               "windows=%zu main_view_id=%lld by_hwnd=%p view_id=%lld "
+               "controller=%p fallback=%d lifecycle=%d result_ptr=%p",
+               hwnd, msg_name,
+               static_cast<unsigned long long>(wparam),
+               static_cast<unsigned long long>(lparam),
+               impl.windows_.size(),
+               static_cast<long long>(impl.main_view_id()),
+               by_hwnd,
+               window ? static_cast<long long>(window->view_id) : -1LL,
+               window ? window->controller : nullptr,
+               used_main_fallback ? 1 : 0,
+               lifecycle ? 1 : 0,
+               result);
+        if (message == WM_SYSCOMMAND) {
+            MvdLog("HandleWindowProc WM_SYSCOMMAND cmd=0x%04X (SC_CLOSE=0x%04X)",
+                   static_cast<unsigned>(wparam & 0xFFF0),
+                   static_cast<unsigned>(SC_CLOSE));
+        }
+    }
+
+    // Pump RegisterTopLevelWindowProcDelegate plugins (tray, ...). Skip
+    // close/destroy: the engine lifecycle_manager would quit the process.
+    if (!lifecycle && window != nullptr && window->controller != nullptr) {
+        if (log) {
+            MvdLog("HandleWindowProc BEFORE HandleTopLevelWindowProc "
+                   "controller=%p view_id=%lld",
+                   window->controller,
+                   static_cast<long long>(window->view_id));
+        }
+        const bool handled = FlutterDesktopViewControllerHandleTopLevelWindowProc(
+                window->controller, hwnd, message, wparam, lparam, result);
+        if (log || handled) {
+            MvdLog("HandleWindowProc AFTER HandleTopLevelWindowProc hwnd=%p %s "
+                   "handled=%d *result=%lld windows=%zu",
+                   hwnd, msg_name, handled ? 1 : 0,
+                   (handled && result) ? static_cast<long long>(*result) : -1LL,
+                   impl.windows_.size());
+        }
+        if (handled) {
+            MvdLog("HandleWindowProc RETURN true (consumed by Flutter/plugin "
+                   "delegate) - MVD HandleWindowProcForHwnd SKIPPED for %s hwnd=%p",
+                   msg_name, hwnd);
+            return true;
+        }
+    } else if (log && lifecycle) {
+        MvdLog("HandleWindowProc skip HandleTopLevelWindowProc for lifecycle %s "
+               "(MVD owns close/destroy)",
+               msg_name);
+    } else if (log) {
+        MvdLog("HandleWindowProc skip HandleTopLevelWindowProc "
+               "(window=%p controller=%p)",
+               window, window ? window->controller : nullptr);
+    }
+
+    if (log) {
+        MvdLog("HandleWindowProc BEFORE HandleWindowProcForHwnd hwnd=%p %s",
+               hwnd, msg_name);
+    }
+    const auto optional = multi_view_desktop::HandleWindowProcForHwnd(
+            hwnd, message, wparam, lparam);
+    if (optional.has_value()) {
+        *result = *optional;
+        if (log) {
+            MvdLog("HandleWindowProc AFTER HandleWindowProcForHwnd hwnd=%p %s "
+                   "handled=1 *result=%lld windows=%zu RETURN true",
+                   hwnd, msg_name, static_cast<long long>(*result),
+                   impl.windows_.size());
+        }
+        return true;
+    }
+    if (log) {
+        MvdLog("HandleWindowProc AFTER HandleWindowProcForHwnd hwnd=%p %s "
+               "handled=0 windows=%zu RETURN false",
+               hwnd, msg_name, impl.windows_.size());
+    }
+    return false;
+}
+
+bool MultiViewDesktopTryForwardTaskbarMenuActivation() {
+    return multi_view_desktop::MvdWindowsTryForwardTaskbarMenuActivation();
+}
+
+void MultiViewDesktopInitializeShellIntegration() {
+    multi_view_desktop::MvdWindowsInitializeShellIntegration();
+}

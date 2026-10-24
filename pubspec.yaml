@@ -27,6 +27,14 @@ dependencies:
   tray_manager: ^0.8.0
   lucide_icons_flutter: ^4.0.1
 
+# multiview_desktop 2.0.2 with a fix for the "Invalid state transition from
+# AppLifecycleState.hidden to AppLifecycleState.resumed" assertion when the
+# window comes back from the tray. See third_party/multiview_desktop/CHANGELOG.md.
+# Drop it once a release upstream includes the fix.
+dependency_overrides:
+  multiview_desktop:
+    path: third_party/multiview_desktop
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
