@@ -23,6 +23,7 @@ import 'package:scoreboard/widgets/charts/monthly_achievements_chart.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
 import 'package:scoreboard/model/user_profile.dart';
 import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ConsoleView extends BaseStatefulWidget {
   ConsoleView({super.key}) : super(_ConsoleViewState());
@@ -124,7 +125,13 @@ class _ConsoleViewState
                         ConsoleSection.insights => l10n.consoleStats,
                         _ => l10n.consoleCatalog,
                       },
-                      subtitle: l10n.consoleSubtitle(vmState.company!.name),
+                      subtitle: switch (vmState.section) {
+                        ConsoleSection.assign => l10n.consoleAssignSubtitle,
+                        ConsoleSection.requests => l10n.consoleRequestsSubtitle,
+                        ConsoleSection.insights =>
+                          l10n.consoleInsightsSubtitle(vmState.company!.name),
+                        _ => l10n.consoleCatalogSubtitle(vmState.company!.name),
+                      },
                     ),
                     const SizedBox(height: 24),
                     switch (vmState.section) {
@@ -143,7 +150,6 @@ class _ConsoleViewState
 
   Widget _buildCatalog() {
     final l10n = context.l10n;
-    final colorScheme = Theme.of(context).colorScheme;
     final company = vmState.company!;
     final items = vmState.visibleCatalog;
 
@@ -171,14 +177,14 @@ class _ConsoleViewState
             const Spacer(),
             FilledButton.icon(
               onPressed: viewModel.onTapNewCatalogAchievement,
-              icon: const Icon(Icons.add_rounded),
+              icon: const Icon(LucideIcons.plus),
               label: Text(l10n.newCatalogAchievement),
             ),
           ],
         ),
         const SizedBox(height: 20),
         if (items.isEmpty)
-          Text(l10n.catalogEmpty)
+          EmptyNote(icon: LucideIcons.libraryBig, message: l10n.catalogEmpty)
         else
           Wrap(
             spacing: 24,
@@ -202,26 +208,19 @@ class _ConsoleViewState
                         const SizedBox(height: 8),
                         Row(
                           children: [
+                            // The card shows the rest; a truncated
+                            // description here would say nothing.
                             if (item.archived)
                               TagChip(
                                   label: l10n.archivedLabel,
-                                  icon: Icons.archive_outlined)
-                            else
-                              Expanded(
-                                child: Text(item.description,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        color: colorScheme.onSurfaceVariant)),
-                              ),
-                            if (item.archived) const Spacer(),
+                                  icon: LucideIcons.archive),
+                            const Spacer(),
                             IconButton(
                               tooltip: l10n.commonEdit,
                               visualDensity: VisualDensity.compact,
                               onPressed: () =>
                                   viewModel.onTapEditCatalogAchievement(item),
-                              icon: const Icon(Icons.edit_outlined, size: 18),
+                              icon: const Icon(LucideIcons.pencil, size: 18),
                             ),
                             IconButton(
                               tooltip:
@@ -230,8 +229,8 @@ class _ConsoleViewState
                               onPressed: () => viewModel.onToggleArchived(item),
                               icon: Icon(
                                   item.archived
-                                      ? Icons.unarchive_outlined
-                                      : Icons.archive_outlined,
+                                      ? LucideIcons.archiveRestore
+                                      : LucideIcons.archive,
                                   size: 18),
                             ),
                           ],
@@ -332,7 +331,7 @@ class _ConsoleViewState
                           vmState.isAssigning
                       ? null
                       : () => viewModel.onAssign(_noteController.text),
-                  icon: const Icon(Icons.verified_rounded, size: 18),
+                  icon: const Icon(LucideIcons.badgeCheck, size: 18),
                   label: Text(l10n.assignButton(vmState.assignees.length)),
                 ),
               ),
@@ -422,21 +421,21 @@ class _ConsoleViewState
           StatTile(
               label: l10n.statsIssuedThisMonth,
               value: '${insights.verifiedThisMonth}',
-              icon: Icons.verified_rounded,
+              icon: LucideIcons.badgeCheck,
               color: AppColors.verified),
           StatTile(
               label: l10n.statsPeerThisMonth,
               value: '${insights.peerThisMonth}',
-              icon: Icons.handshake_rounded,
+              icon: LucideIcons.handshake,
               color: AchievementTier.peer.color),
           StatTile(
               label: l10n.statsActiveSenders,
               value: '${insights.activeSenders}',
-              icon: Icons.volunteer_activism_rounded),
+              icon: LucideIcons.heartHandshake),
           StatTile(
               label: l10n.statsCoverage,
               value: l10n.percentValue(insights.coveragePercent),
-              icon: Icons.groups_rounded,
+              icon: LucideIcons.users,
               color: AppColors.success),
         ]),
         const SizedBox(height: 16),
@@ -469,7 +468,7 @@ class _ConsoleViewState
                             visualDensity: VisualDensity.compact,
                             onPressed: () => viewModel.onTapSendAchievement(
                                 colleagueId: person.id),
-                            icon: const Icon(Icons.volunteer_activism_rounded,
+                            icon: const Icon(LucideIcons.heartHandshake,
                                 size: 18),
                           )),
             ]),
@@ -508,7 +507,9 @@ class _ConsoleViewState
 
   Widget _buildRequests() {
     final l10n = context.l10n;
-    if (vmState.requests.isEmpty) return Text(l10n.requestsEmpty);
+    if (vmState.requests.isEmpty) {
+      return EmptyNote(icon: LucideIcons.inbox, message: l10n.requestsEmpty);
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -559,7 +560,7 @@ class _ConsoleViewState
                     if (request.nominatedById != null) ...[
                       const SizedBox(height: 6),
                       TagChip(
-                          icon: Icons.how_to_reg_rounded,
+                          icon: LucideIcons.userCheck,
                           color: colorScheme.primary,
                           label: l10n.requestNominatedBy(
                               vmState.member(request.nominatedById!)?.name ??
@@ -592,7 +593,7 @@ class _ConsoleViewState
                               visualDensity: VisualDensity.compact),
                           onPressed: () =>
                               openExternalLink(request.evidenceUrl!),
-                          icon: const Icon(Icons.link_rounded, size: 16),
+                          icon: const Icon(LucideIcons.link, size: 16),
                           label: Text(l10n.evidenceLink),
                         ),
                       ),

@@ -38,11 +38,7 @@ class DialogScaffold extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title,
-                        style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: -0.4)),
+                    Text(title, style: AppText.title),
                     const SizedBox(height: 4),
                     Text(subtitle,
                         style: TextStyle(color: colorScheme.onSurfaceVariant)),

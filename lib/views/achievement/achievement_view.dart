@@ -14,6 +14,7 @@ import 'package:scoreboard/views/_base/base_state.dart';
 import 'package:scoreboard/views/_base/base_widget.dart';
 import 'package:scoreboard/views/achievement/achievement_contract.dart';
 import 'package:scoreboard/core/window_chrome.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class AchievementView extends BaseStatefulWidget {
   final Achievement achievement;
@@ -71,7 +72,7 @@ class _AchievementViewState extends BaseState<
                           IconButton.filledTonal(
                             tooltip: context.l10n.commonBack,
                             onPressed: () => Navigator.of(context).maybePop(),
-                            icon: const Icon(Icons.arrow_back_rounded),
+                            icon: const Icon(LucideIcons.arrowLeft),
                           ),
                           const SizedBox(width: 12),
                           Text(context.l10n.achievementDetailTitle,
@@ -130,7 +131,7 @@ class _AchievementViewState extends BaseState<
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.flip_rounded,
+                Icon(LucideIcons.flipHorizontal2,
                     size: 14, color: colorScheme.onSurfaceVariant),
                 const SizedBox(width: 6),
                 Text(context.l10n.flipHint,
@@ -156,26 +157,23 @@ class _AchievementViewState extends BaseState<
             if (achievement.verified == true) ...[
               TagChip(
                   label: tier.localized(context.l10n),
-                  icon: Icons.workspace_premium_rounded,
+                  icon: LucideIcons.award,
                   color: tier.color),
               TagChip(
                   label: context.l10n.verifiedByCompany,
-                  icon: Icons.verified_rounded,
+                  icon: LucideIcons.badgeCheck,
                   color: AppColors.verified),
             ] else
               TagChip(
                   label: context.l10n.fromAColleague,
-                  icon: Icons.handshake_rounded,
+                  icon: LucideIcons.handshake,
                   color: tier.color),
           ],
         ),
         const SizedBox(height: 16),
         Text(achievement.name ?? '',
-            style: const TextStyle(
-                fontSize: 34,
-                height: 1.1,
-                fontWeight: FontWeight.w800,
-                letterSpacing: -0.8)),
+            style: AppText.pageTitle
+                .copyWith(fontSize: 34, height: 1.1, letterSpacing: -1.2)),
         const SizedBox(height: 12),
         Text(achievement.description ?? '',
             style: TextStyle(
@@ -191,11 +189,11 @@ class _AchievementViewState extends BaseState<
           StatTile(
               label: context.l10n.detailExperience,
               value: context.l10n.xpValue(achievement.points ?? 0),
-              icon: Icons.bolt_rounded),
+              icon: LucideIcons.zap),
           StatTile(
               label: context.l10n.detailTier,
               value: tier.localized(context.l10n),
-              icon: Icons.workspace_premium_rounded,
+              icon: LucideIcons.award,
               color: tier.color),
         ]),
         const SizedBox(height: 12),
@@ -204,21 +202,21 @@ class _AchievementViewState extends BaseState<
             StatTile(
                 label: context.l10n.detailCompany,
                 value: achievement.company ?? '-',
-                icon: Icons.business_rounded,
+                icon: LucideIcons.building2,
                 leading: CompanyLogo(
                     name: achievement.company ?? '',
                     brand: achievement.companyBrand,
-                    size: 42))
+                    size: 16))
           else
             StatTile(
                 label: context.l10n.detailSentBy,
                 value: achievement.awardedByName ?? '-',
-                icon: Icons.person_rounded,
+                icon: LucideIcons.user,
                 color: AppColors.verified),
           StatTile(
               label: context.l10n.detailEarnedOn,
               value: formatDate(achievement.date),
-              icon: Icons.event_rounded,
+              icon: LucideIcons.calendar,
               color: AppColors.success),
         ]),
         const SizedBox(height: 20),
@@ -233,12 +231,12 @@ class _AchievementViewState extends BaseState<
               MenuAnchor(
                 menuChildren: [
                   MenuItemButton(
-                    leadingIcon: const Icon(Icons.picture_as_pdf_outlined),
+                    leadingIcon: const Icon(LucideIcons.fileText),
                     onPressed: () => viewModel.onExportPdf(achievement),
                     child: Text(context.l10n.exportPdf),
                   ),
                   MenuItemButton(
-                    leadingIcon: const Icon(Icons.data_object_rounded),
+                    leadingIcon: const Icon(LucideIcons.braces),
                     onPressed: () => viewModel.onExportOpenBadge(achievement),
                     child: Tooltip(
                         message: context.l10n.exportOpenBadgeHint,
@@ -249,7 +247,7 @@ class _AchievementViewState extends BaseState<
                   onPressed: () => controller.isOpen
                       ? controller.close()
                       : controller.open(),
-                  icon: const Icon(Icons.download_rounded, size: 18),
+                  icon: const Icon(LucideIcons.download, size: 18),
                   label: Text(context.l10n.exportMenu),
                 ),
               ),
@@ -257,7 +255,7 @@ class _AchievementViewState extends BaseState<
             ],
             FilledButton.icon(
               onPressed: () => viewModel.onTapShare(achievement),
-              icon: const Icon(Icons.share_rounded, size: 18),
+              icon: const Icon(LucideIcons.share2, size: 18),
               label: Text(context.l10n.shareOnLinkedIn),
             ),
           ],

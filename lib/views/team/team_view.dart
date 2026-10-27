@@ -16,6 +16,7 @@ import 'package:scoreboard/widgets/common/page_header.dart';
 import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 import 'package:scoreboard/widgets/dialogs/nominate_dialog.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// For managers: how each member of their team is being recognized, with
 /// shortcuts to recognize them.
@@ -58,20 +59,20 @@ class _TeamViewState
                   StatTile(
                       label: l10n.statMembers,
                       value: '${overview.members.length}',
-                      icon: Icons.groups_rounded),
+                      icon: LucideIcons.users),
                   StatTile(
                       label: l10n.teamStatNeedAttention,
                       value: '${vmState.needAttentionCount(now)}',
-                      icon: Icons.notification_important_rounded,
+                      icon: LucideIcons.bellRing,
                       color: Theme.of(context).colorScheme.error),
                   StatTile(
                       label: l10n.teamStatReceived30,
                       value: '${vmState.receivedLast30Days}',
-                      icon: Icons.emoji_events_rounded),
+                      icon: LucideIcons.trophy),
                 ]),
                 const SizedBox(height: 24),
                 if (overview.members.isEmpty)
-                  Text(l10n.teamEmpty)
+                  EmptyNote(icon: LucideIcons.users, message: l10n.teamEmpty)
                 else
                   for (final stats in overview.members)
                     _MemberCard(
@@ -132,7 +133,7 @@ class _MemberCard extends StatelessWidget {
                         if (attention)
                           TagChip(
                               label: l10n.teamNoRecent,
-                              icon: Icons.schedule_rounded,
+                              icon: LucideIcons.clock,
                               color: colorScheme.error),
                       ],
                     ),

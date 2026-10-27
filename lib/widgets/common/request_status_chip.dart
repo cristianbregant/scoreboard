@@ -3,6 +3,7 @@ import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/core/theme.dart';
 import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/widgets/common/stat_tile.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class RequestStatusChip extends StatelessWidget {
   final RequestStatus status;
@@ -16,15 +17,15 @@ class RequestStatusChip extends StatelessWidget {
     return switch (status) {
       RequestStatus.pending => TagChip(
           label: l10n.statusPending,
-          icon: Icons.hourglass_top_rounded,
+          icon: LucideIcons.hourglass,
           color: colorScheme.primary),
       RequestStatus.approved => TagChip(
           label: l10n.statusApproved,
-          icon: Icons.check_circle_rounded,
+          icon: LucideIcons.circleCheck,
           color: AppColors.success),
       RequestStatus.rejected => TagChip(
           label: l10n.statusRejected,
-          icon: Icons.cancel_rounded,
+          icon: LucideIcons.circleX,
           color: colorScheme.error),
     };
   }

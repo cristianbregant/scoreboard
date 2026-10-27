@@ -21,6 +21,7 @@ import 'package:scoreboard/widgets/common/page_header.dart';
 import 'package:scoreboard/widgets/common/podium.dart';
 import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class YourCompanyView extends BaseStatefulWidget {
   YourCompanyView({
@@ -73,7 +74,7 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                     Center(
                       child: TagChip(
                           label: l10n.earnedLabel,
-                          icon: Icons.check_circle_rounded,
+                          icon: LucideIcons.circleCheck,
                           color: AppColors.success),
                     )
                   else if (vmState.isPending(item.id))
@@ -153,22 +154,22 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                       StatTile(
                           label: context.l10n.statMembers,
                           value: "${vmState.members.length}",
-                          icon: Icons.people_rounded,
+                          icon: LucideIcons.users,
                           color: AppColors.verified),
                       StatTile(
                           label: context.l10n.statTotalXp,
                           value: "${vmState.totalPoints}",
-                          icon: Icons.bolt_rounded),
+                          icon: LucideIcons.zap),
                       StatTile(
                           label: context.l10n.statAchievements,
                           value: "${vmState.totalAchievements}",
-                          icon: Icons.emoji_events_rounded,
+                          icon: LucideIcons.trophy,
                           color: AchievementTier.gold.color),
                       StatTile(
                           label: context.l10n.statYourRank,
                           value: context.l10n
                               .rankValue('${vmState.currentUserRank ?? '-'}'),
-                          icon: Icons.leaderboard_rounded,
+                          icon: LucideIcons.chartNoAxesColumn,
                           color: AppColors.success),
                     ]),
                     if (vmState.season != null) _buildSeason(context),
@@ -209,8 +210,7 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                                   onPressed: () =>
                                       viewModel.onTapSendAchievement(
                                           colleagueId: entry.user.id),
-                                  icon: const Icon(
-                                      Icons.volunteer_activism_rounded,
+                                  icon: const Icon(LucideIcons.heartHandshake,
                                       size: 20),
                                 ),
                         )),
@@ -241,7 +241,7 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                   color: colorScheme.primary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(Icons.flag_rounded, color: colorScheme.primary),
+                child: Icon(LucideIcons.flag, color: colorScheme.primary),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -269,7 +269,7 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                     if (mine != null) ...[
                       const SizedBox(height: 10),
                       TagChip(
-                          icon: Icons.leaderboard_rounded,
+                          icon: LucideIcons.chartNoAxesColumn,
                           color: colorScheme.primary,
                           label:
                               l10n.seasonYourRank('${mine.rank}', mine.points)),
@@ -345,13 +345,13 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                 children: [
                   TagChip(
                       label: company.industry,
-                      icon: Icons.category_rounded,
+                      icon: LucideIcons.tag,
                       color: colorScheme.primary),
-                  TagChip(label: company.location, icon: Icons.place_rounded),
+                  TagChip(label: company.location, icon: LucideIcons.mapPin),
                   TagChip(
                       label:
                           context.l10n.companySince('${company.foundedYear}'),
-                      icon: Icons.history_rounded),
+                      icon: LucideIcons.history),
                 ],
               ),
             ],

@@ -13,6 +13,7 @@ import 'package:scoreboard/views/_shared/admin_screen.dart';
 import 'package:scoreboard/views/admin/company/company_settings_contract.dart';
 import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class CompanySettingsView extends BaseStatefulWidget {
   CompanySettingsView({super.key}) : super(_CompanySettingsViewState());
@@ -42,7 +43,7 @@ class _CompanySettingsViewState extends BaseState<CompanySettingsView,
               children: [
                 PageHeader(
                     title: l10n.consoleCompany,
-                    subtitle: l10n.consoleSubtitle(company.name)),
+                    subtitle: l10n.consoleCompanySubtitle(company.name)),
                 SectionTitle(l10n.brandTitle),
                 _buildBrand(settings, company.name),
                 SectionTitle(l10n.anniversariesTitle),
@@ -105,7 +106,7 @@ class _CompanySettingsViewState extends BaseState<CompanySettingsView,
                     children: [
                       OutlinedButton.icon(
                         onPressed: viewModel.onTapUploadLogo,
-                        icon: const Icon(Icons.upload_rounded),
+                        icon: const Icon(LucideIcons.upload),
                         label: Text(l10n.uploadLogo),
                       ),
                       if (settings.logoPath != null)
@@ -201,8 +202,7 @@ class _Swatch extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(color: color, shape: BoxShape.circle),
               child: selected
-                  ? const Icon(Icons.check_rounded,
-                      size: 16, color: Colors.white)
+                  ? const Icon(LucideIcons.check, size: 16, color: Colors.white)
                   : null,
             ),
           ),
@@ -306,7 +306,7 @@ class _BrandPreview extends StatelessWidget {
               const SizedBox(height: 14),
               FilledButton.icon(
                 onPressed: () {},
-                icon: const Icon(Icons.send_rounded, size: 16),
+                icon: const Icon(LucideIcons.send, size: 16),
                 label: Text(l10n.sendAchievement),
               ),
             ],

@@ -14,6 +14,7 @@ import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
 import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class FeedView extends BaseStatefulWidget {
   FeedView({super.key}) : super(_FeedViewState());
@@ -62,7 +63,9 @@ class _FeedViewState
                         subtitle: context.l10n.feedSubtitle),
                     const SizedBox(height: 24),
                     if (vmState.posts.isEmpty)
-                      Text(context.l10n.feedEmpty)
+                      EmptyNote(
+                          icon: LucideIcons.newspaper,
+                          message: context.l10n.feedEmpty)
                     else
                       for (final post in vmState.posts) _buildPost(post),
                   ],
@@ -118,7 +121,7 @@ class _FeedViewState
                                   brand: achievement.companyBrand,
                                   size: 14)
                             else
-                              Icon(Icons.person_rounded,
+                              Icon(LucideIcons.user,
                                   size: 14,
                                   color: colorScheme.onSurfaceVariant),
                             const SizedBox(width: 5),
@@ -194,8 +197,8 @@ class _FeedViewState
                         viewModel.onToggleComments(achievement.id!),
                     icon: Icon(
                         expanded
-                            ? Icons.expand_less_rounded
-                            : Icons.chat_bubble_outline_rounded,
+                            ? LucideIcons.chevronUp
+                            : LucideIcons.messageCircle,
                         size: 18),
                     label: Text(l10n.commentsCount(post.comments.length)),
                   ),
@@ -280,7 +283,7 @@ class _FeedViewState
                 tooltip: l10n.commonSend,
                 onPressed: () => viewModel.onSubmitComment(
                     post.achievement.id!, controller.text),
-                icon: const Icon(Icons.send_rounded, size: 18),
+                icon: const Icon(LucideIcons.send, size: 18),
               ),
             ],
           ),

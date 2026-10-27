@@ -9,7 +9,6 @@ import 'package:scoreboard/views/_base/base_stateful_widget.dart';
 import 'package:scoreboard/views/_base/base_widget.dart';
 import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 import 'package:scoreboard/views/base_achievements/base_achievements_contract.dart';
-import 'package:scoreboard/widgets/achievement_style.dart';
 import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/leaderboard_tile.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
@@ -17,6 +16,7 @@ import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 import 'package:scoreboard/widgets/dialogs/create_template_dialog.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class BaseAchievementsView extends BaseStatefulWidget {
   BaseAchievementsView({super.key}) : super(_BaseAchievementsViewState());
@@ -42,26 +42,26 @@ class _BaseAchievementsViewState extends BaseState<BaseAchievementsView,
                     subtitle: context.l10n.baseSubtitle,
                     trailing: FilledButton.icon(
                       onPressed: viewModel.onTapCreateTemplate,
-                      icon: const Icon(Icons.add_rounded),
+                      icon: const Icon(LucideIcons.plus),
                       label: Text(context.l10n.newBaseAchievement),
                     ),
                   ),
                   const SizedBox(height: 20),
                   _buildExplanation(context),
-                  const SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: TagChip(
-                        icon: Icons.toll_rounded,
+                  // The monthly budget sits with the library it limits.
+                  SectionTitle(
+                    context.l10n.libraryCount(vmState.templates.length),
+                    trailing: TagChip(
+                        icon: LucideIcons.coins,
                         color: Theme.of(context).colorScheme.primary,
                         label: context.l10n.budgetRemaining(
                             vmState.remainingBudget,
                             SendAchievementOptions.monthlyBudget)),
                   ),
-                  SectionTitle(
-                      context.l10n.libraryCount(vmState.templates.length)),
                   if (vmState.templates.isEmpty)
-                    Text(context.l10n.libraryEmpty)
+                    EmptyNote(
+                        icon: LucideIcons.heartHandshake,
+                        message: context.l10n.libraryEmpty)
                   else
                     Wrap(
                       spacing: 24,
@@ -82,28 +82,18 @@ class _BaseAchievementsViewState extends BaseState<BaseAchievementsView,
             )));
   }
 
+  /// How base achievements work, in a line or two.
   Widget _buildExplanation(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final peerColor = AchievementTier.peer.color;
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: peerColor.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: peerColor.withValues(alpha: 0.3)),
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.handshake_rounded, color: peerColor),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Text(
-              context.l10n
-                  .baseExplanation(AchievementTemplate.allowedPoints.last),
-              style: TextStyle(fontSize: 13, color: colorScheme.onSurface),
-            ),
-          ),
-        ],
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 620),
+        child: Text(
+          context.l10n.baseExplanation(AchievementTemplate.allowedPoints.last),
+          style: TextStyle(
+              fontSize: 13, height: 1.5, color: colorScheme.onSurfaceVariant),
+        ),
       ),
     );
   }
@@ -121,34 +111,36 @@ class _BaseAchievementsViewState extends BaseState<BaseAchievementsView,
             onPressed: () =>
                 viewModel.onTapSendAchievement(templateId: template.id),
           ),
-          const SizedBox(height: 10),
-          Text(
-              vmState.isOwn(template)
-                  ? context.l10n.createdByYou
-                  : context.l10n.createdBy(template.createdByName),
-              style:
-                  TextStyle(fontSize: 12, color: colorScheme.onSurfaceVariant)),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
+          // Who made it, and what you can do with it, on one line.
           Row(
             children: [
               Expanded(
-                child: FilledButton.tonalIcon(
-                  style: FilledButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12)),
-                  onPressed: () =>
-                      viewModel.onTapSendAchievement(templateId: template.id),
-                  icon: const Icon(Icons.send_rounded, size: 18),
-                  label: Text(context.l10n.commonSend),
-                ),
+                child: Text(
+                    vmState.isOwn(template)
+                        ? context.l10n.createdByYou
+                        : context.l10n.createdBy(template.createdByName),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 12, color: colorScheme.onSurfaceVariant)),
               ),
-              if (vmState.isOwn(template)) ...[
-                const SizedBox(width: 8),
-                IconButton.outlined(
+              if (vmState.isOwn(template))
+                IconButton(
                   tooltip: context.l10n.commonDelete,
+                  visualDensity: VisualDensity.compact,
                   onPressed: () => viewModel.onTapDeleteTemplate(template),
-                  icon: const Icon(Icons.delete_outline_rounded, size: 20),
+                  icon: const Icon(LucideIcons.trash2, size: 17),
                 ),
-              ],
+              TextButton.icon(
+                style: TextButton.styleFrom(
+                    visualDensity: VisualDensity.compact,
+                    padding: const EdgeInsets.symmetric(horizontal: 10)),
+                onPressed: () =>
+                    viewModel.onTapSendAchievement(templateId: template.id),
+                icon: const Icon(LucideIcons.send, size: 15),
+                label: Text(context.l10n.commonSend),
+              ),
             ],
           ),
         ],

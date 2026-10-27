@@ -8,6 +8,7 @@ import 'package:scoreboard/views/_shared/admin_screen.dart';
 import 'package:scoreboard/views/admin/reports/reports_contract.dart';
 import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ReportsView extends BaseStatefulWidget {
   ReportsView({super.key}) : super(_ReportsViewState());
@@ -59,31 +60,31 @@ class _ReportsViewState
                 ),
                 const SizedBox(height: 20),
                 _ExportCard(
-                  icon: Icons.emoji_events_outlined,
+                  icon: LucideIcons.trophy,
                   title: l10n.reportAchievementsTitle,
                   body: l10n.reportAchievementsBody,
                   action: FilledButton.icon(
                     onPressed: busy
                         ? null
                         : () => viewModel.onExport(ReportKind.achievements),
-                    icon: const Icon(Icons.download_rounded),
+                    icon: const Icon(LucideIcons.download),
                     label: Text(l10n.exportCsv),
                   ),
                 ),
                 _ExportCard(
-                  icon: Icons.groups_outlined,
+                  icon: LucideIcons.users,
                   title: l10n.reportPeopleTitle,
                   body: l10n.reportPeopleBody,
                   action: FilledButton.icon(
                     onPressed: busy
                         ? null
                         : () => viewModel.onExport(ReportKind.people),
-                    icon: const Icon(Icons.download_rounded),
+                    icon: const Icon(LucideIcons.download),
                     label: Text(l10n.exportCsv),
                   ),
                 ),
                 _ExportCard(
-                  icon: Icons.shield_outlined,
+                  icon: LucideIcons.shield,
                   title: l10n.personalDataTitle,
                   body: l10n.personalDataBody,
                   action: Row(
@@ -110,7 +111,7 @@ class _ReportsViewState
                         onPressed: busy || vmState.personId == null
                             ? null
                             : viewModel.onExportPersonalData,
-                        icon: const Icon(Icons.download_rounded),
+                        icon: const Icon(LucideIcons.download),
                         label: Text(l10n.exportJson),
                       ),
                     ],

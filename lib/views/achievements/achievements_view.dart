@@ -15,6 +15,7 @@ import 'package:scoreboard/views/_base/base_state.dart';
 import 'package:scoreboard/views/_base/base_widget.dart';
 import 'package:scoreboard/views/_shared/send_achievement_flow.dart';
 import 'package:scoreboard/views/achievements/achievements_contract.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class AchievementsView extends BaseStatefulWidget {
   AchievementsView({super.key}) : super(_AchievementsViewState());
@@ -43,7 +44,7 @@ class _AchievementsViewState extends BaseState<AchievementsView,
                     subtitle: context.l10n.achievementsSubtitle,
                     trailing: FilledButton.icon(
                       onPressed: () => viewModel.onTapSendAchievement(),
-                      icon: const Icon(Icons.send_rounded, size: 18),
+                      icon: const Icon(LucideIcons.send, size: 18),
                       label: Text(context.l10n.sendAchievement),
                     ),
                   ),
@@ -55,17 +56,17 @@ class _AchievementsViewState extends BaseState<AchievementsView,
                       StatTile(
                           label: context.l10n.statTotalXp,
                           value: "${vmState.totalPoints}",
-                          icon: Icons.bolt_rounded),
+                          icon: LucideIcons.zap),
                       StatTile(
                           label: context.l10n.statAchievements,
                           value: "${vmState.achievements.length}",
-                          icon: Icons.emoji_events_rounded,
+                          icon: LucideIcons.trophy,
                           color: AchievementTier.gold.color),
                       StatTile(
                           label: context.l10n.statVerified,
                           value:
                               "${vmState.verifiedCount}/${vmState.achievements.length}",
-                          icon: Icons.verified_rounded,
+                          icon: LucideIcons.badgeCheck,
                           color: AppColors.verified),
                     ]),
                     const SizedBox(height: 28),
@@ -74,13 +75,13 @@ class _AchievementsViewState extends BaseState<AchievementsView,
                     _buildTierFilter(),
                     const SizedBox(height: 24),
                     if (vmState.visibleAchievements.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 48),
-                        child: Center(
-                            child: Text(vmState.query.trim().isEmpty
-                                ? context.l10n.noAchievementsInTier
-                                : context.l10n.noSearchResults)),
-                      )
+                      vmState.query.trim().isEmpty
+                          ? EmptyNote(
+                              icon: LucideIcons.trophy,
+                              message: context.l10n.noAchievementsInTier)
+                          : EmptyNote(
+                              icon: LucideIcons.searchX,
+                              message: context.l10n.noSearchResults)
                     else
                       Wrap(
                           spacing: 24,
@@ -108,13 +109,16 @@ class _AchievementsViewState extends BaseState<AchievementsView,
       AchievementSort.points: l10n.sortPoints,
       AchievementSort.name: l10n.sortName,
     };
-    return Row(
+    // The sort button matches the search field's height.
+    return IntrinsicHeight(
+        child: Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
           child: TextField(
             onChanged: viewModel.onSearchChanged,
             decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search_rounded),
+              prefixIcon: const Icon(LucideIcons.search),
               hintText: l10n.searchAchievementsHint,
             ),
           ),
@@ -124,8 +128,8 @@ class _AchievementsViewState extends BaseState<AchievementsView,
           menuChildren: [
             for (final entry in labels.entries)
               MenuItemButton(
-                leadingIcon: Icon(
-                    entry.key == vmState.sort ? Icons.check_rounded : null),
+                leadingIcon:
+                    Icon(entry.key == vmState.sort ? LucideIcons.check : null),
                 onPressed: () => viewModel.onSortChanged(entry.key),
                 child: Text(entry.value),
               ),
@@ -133,12 +137,12 @@ class _AchievementsViewState extends BaseState<AchievementsView,
           builder: (context, controller, _) => OutlinedButton.icon(
             onPressed: () =>
                 controller.isOpen ? controller.close() : controller.open(),
-            icon: const Icon(Icons.sort_rounded, size: 18),
+            icon: const Icon(LucideIcons.arrowDownWideNarrow, size: 18),
             label: Text('${l10n.sortLabel}: ${labels[vmState.sort]}'),
           ),
         ),
       ],
-    );
+    ));
   }
 
   Widget _buildEmptyState() {
@@ -157,13 +161,11 @@ class _AchievementsViewState extends BaseState<AchievementsView,
                   color: colorScheme.primary.withValues(alpha: 0.14),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(Icons.emoji_events_outlined,
+                child: Icon(LucideIcons.trophy,
                     size: 36, color: colorScheme.primary),
               ),
               const SizedBox(height: 20),
-              Text(l10n.achievementsEmptyTitle,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w800)),
+              Text(l10n.achievementsEmptyTitle, style: AppText.title),
               const SizedBox(height: 8),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 460),
@@ -180,13 +182,12 @@ class _AchievementsViewState extends BaseState<AchievementsView,
                 children: [
                   OutlinedButton.icon(
                     onPressed: viewModel.onTapOpenCatalog,
-                    icon: const Icon(Icons.collections_bookmark_outlined,
-                        size: 18),
+                    icon: const Icon(LucideIcons.libraryBig, size: 18),
                     label: Text(l10n.emptyOpenCatalog),
                   ),
                   FilledButton.icon(
                     onPressed: () => viewModel.onTapSendAchievement(),
-                    icon: const Icon(Icons.send_rounded, size: 18),
+                    icon: const Icon(LucideIcons.send, size: 18),
                     label: Text(l10n.sendAchievement),
                   ),
                 ],

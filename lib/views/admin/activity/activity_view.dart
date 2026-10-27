@@ -9,6 +9,7 @@ import 'package:scoreboard/views/_shared/admin_screen.dart';
 import 'package:scoreboard/views/admin/activity/activity_contract.dart';
 import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ActivityView extends BaseStatefulWidget {
   ActivityView({super.key}) : super(_ActivityViewState());
@@ -23,30 +24,30 @@ class _ActivityViewState
         ActivityType.catalogUpdated ||
         ActivityType.catalogArchived ||
         ActivityType.catalogRestored =>
-          Icons.collections_bookmark_outlined,
-        ActivityType.achievementsIssued => Icons.verified_outlined,
-        ActivityType.requestApproved => Icons.check_circle_outline_rounded,
-        ActivityType.requestRejected => Icons.cancel_outlined,
-        ActivityType.nominationSubmitted => Icons.how_to_reg_outlined,
+          LucideIcons.libraryBig,
+        ActivityType.achievementsIssued => LucideIcons.badgeCheck,
+        ActivityType.requestApproved => LucideIcons.circleCheck,
+        ActivityType.requestRejected => LucideIcons.circleX,
+        ActivityType.nominationSubmitted => LucideIcons.userCheck,
         ActivityType.teamCreated ||
         ActivityType.teamUpdated ||
         ActivityType.teamDeleted ||
         ActivityType.memberMoved =>
-          Icons.groups_outlined,
+          LucideIcons.users,
         ActivityType.seasonCreated ||
         ActivityType.seasonUpdated ||
         ActivityType.seasonDeleted =>
-          Icons.flag_outlined,
-        ActivityType.brandUpdated => Icons.palette_outlined,
-        ActivityType.anniversariesUpdated => Icons.cake_outlined,
-        ActivityType.reportExported => Icons.download_outlined,
-        ActivityType.personalDataExported => Icons.shield_outlined,
+          LucideIcons.flag,
+        ActivityType.brandUpdated => LucideIcons.palette,
+        ActivityType.anniversariesUpdated => LucideIcons.cake,
+        ActivityType.reportExported => LucideIcons.download,
+        ActivityType.personalDataExported => LucideIcons.shield,
         ActivityType.memberInvited ||
         ActivityType.inviteRevoked =>
-          Icons.mail_outline_rounded,
+          LucideIcons.mail,
         ActivityType.adminGranted ||
         ActivityType.adminRevoked =>
-          Icons.admin_panel_settings_outlined,
+          LucideIcons.userCog,
       };
 
   @override
@@ -67,8 +68,8 @@ class _ActivityViewState
                     title: l10n.consoleActivity, subtitle: l10n.activityHint),
                 const SizedBox(height: 24),
                 if (vmState.entries.isEmpty)
-                  Text(l10n.activityEmpty,
-                      style: TextStyle(color: colorScheme.onSurfaceVariant))
+                  EmptyNote(
+                      icon: LucideIcons.history, message: l10n.activityEmpty)
                 else
                   Card(
                     child: Column(

@@ -1,6 +1,8 @@
 import 'package:scoreboard/core/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/widgets/common/leaderboard_tile.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:scoreboard/core/theme.dart';
 
 class PodiumEntry {
   final Widget avatar;
@@ -48,8 +50,7 @@ class Podium extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         children: [
-          if (index == 0)
-            Icon(Icons.workspace_premium_rounded, color: color, size: 26),
+          if (index == 0) Icon(LucideIcons.crown, color: color, size: 24),
           entry.avatar,
           const SizedBox(height: 8),
           Text(entry.title,
@@ -83,10 +84,7 @@ class Podium extends StatelessWidget {
             child: Column(
               children: [
                 Text("${index + 1}",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w800,
-                        color: color)),
+                    style: AppText.figure.copyWith(fontSize: 24, color: color)),
                 Text(context.l10n.xpValue(entry.points),
                     style: const TextStyle(
                         fontSize: 12, fontWeight: FontWeight.w600)),

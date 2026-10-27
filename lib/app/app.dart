@@ -22,6 +22,7 @@ class CompanyAchievements extends StatelessWidget {
         builder: (context, themeProvider, localeProvider, brand, child) =>
             MaterialApp(
           title: 'Scoreboard',
+          debugShowCheckedModeBanner: false,
           theme: brand.accentColor == null
               ? AppTheme.themeDataLight
               : AppTheme.branded(Color(brand.accentColor!)).$1,

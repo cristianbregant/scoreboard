@@ -63,7 +63,6 @@
     }
   },
   "labelVerified": "Verificato",
-  "menuLabel": "MENU",
   "navAchievements": "Traguardi",
   "navBaseAchievements": "Traguardi base",
   "navYourCompany": "La tua azienda",
@@ -87,7 +86,7 @@
   "tierGold": "Oro",
   "tierPlatinum": "Platino",
   "achievementsTitle": "I tuoi traguardi",
-  "achievementsSubtitle": "Ogni traguardo raggiunto lungo il percorso",
+  "achievementsSubtitle": "Tutto il tuo lavoro, nero su bianco",
   "sendAchievement": "Invia traguardo",
   "statTotalXp": "XP totali",
   "statAchievements": "Traguardi",
@@ -109,7 +108,7 @@
       }
     }
   },
-  "noAchievementsInTier": "Nessun traguardo in questa categoria.",
+  "noAchievementsInTier": "Ancora niente in questa categoria. Dagli tempo.",
   "achievementDetailTitle": "Traguardo",
   "flipHint": "Clicca la card per girarla",
   "verifiedByCompany": "Verificato dall'azienda",
@@ -161,14 +160,14 @@
     }
   },
   "communityTitle": "Community",
-  "communitySubtitle": "Scopri come ti posizioni rispetto agli altri",
+  "communitySubtitle": "Tutti, ovunque, in classifica. Nessuna pressione.",
   "communityPeople": "Persone",
   "communityCompanies": "Aziende",
   "searchPeopleHint": "Cerca per nome, ruolo o azienda",
   "searchCompaniesHint": "Cerca per nome o settore",
   "top3": "Top 3",
   "leaderboard": "Classifica",
-  "noSearchResults": "Nessun risultato per la tua ricerca.",
+  "noSearchResults": "Nessun risultato. Prova con meno lettere, o un'altra intuizione.",
   "statCompanyRank": "Posizione in azienda",
   "statGlobalRank": "Posizione globale",
   "recentAchievements": "Traguardi recenti",
@@ -201,7 +200,7 @@
   },
   "profileUpdated": "Profilo aggiornato",
   "profileSaveError": "Impossibile salvare il profilo. Riprova.",
-  "baseSubtitle": "Crea traguardi e inviali ai tuoi colleghi",
+  "baseSubtitle": "Piccoli grazie, XP inclusi",
   "newBaseAchievement": "Nuovo traguardo base",
   "libraryCount": "Libreria · {count}",
   "@libraryCount": {
@@ -211,7 +210,7 @@
       }
     }
   },
-  "libraryEmpty": "Ancora nessun traguardo base. Crea il primo!",
+  "libraryEmpty": "La libreria è vuota. Qualcuno deve pur iniziare: perché non tu?",
   "sentByYouCount": "Inviati da te · {count}",
   "@sentByYouCount": {
     "placeholders": {
@@ -269,7 +268,7 @@
   },
   "sendError": "Impossibile inviare il traguardo. Riprova.",
   "sendDialogSubtitle": "Riconosci il merito di un collega con uno dei tuoi traguardi base.",
-  "sendPreviewHint": "Scegli un traguardo per vedere come apparirà.",
+  "sendPreviewHint": "Scegli un traguardo: la sua carta comparirà qui, pronta a partire.",
   "fieldColleague": "Collega",
   "fieldAchievement": "Traguardo",
   "fieldMessageOptional": "Messaggio (facoltativo)",
@@ -346,7 +345,7 @@
   "passwordChangeError": "Impossibile cambiare la password. Riprova.",
   "signOutError": "Impossibile uscire. Riprova.",
   "authWelcomeBack": "Ti diamo il bentornato",
-  "authSignInSubtitle": "Accedi per vedere i tuoi traguardi.",
+  "authSignInSubtitle": "I tuoi trofei sentivano la tua mancanza.",
   "authCreateTitle": "Crea il tuo account",
   "authCreateSubtitle": "Entra nello scoreboard della tua azienda.",
   "signIn": "Accedi",
@@ -445,7 +444,7 @@
   "notificationsTitle": "Notifiche",
   "notificationsOpen": "Apri le notifiche",
   "markAllRead": "Segna tutte come lette",
-  "notificationsEmpty": "Nessuna notifica, per ora.",
+  "notificationsEmpty": "Sei in pari. Per ora nulla richiede la tua attenzione.",
   "notifPeerTitle": "Nuovo traguardo",
   "notifPeerBody": "{actor} ti ha inviato “{achievement}”",
   "@notifPeerBody": {
@@ -555,9 +554,9 @@
     }
   },
   "feedTitle": "Bacheca dell'azienda",
-  "feedSubtitle": "I traguardi dei tuoi colleghi, da festeggiare insieme",
+  "feedSubtitle": "I successi dei colleghi, appena succedono. Applausi graditi.",
   "feedEarned": "ha ottenuto",
-  "feedEmpty": "Ancora niente in bacheca.",
+  "feedEmpty": "Tutto tranquillo. Il prossimo traguardo ricevuto romperà il silenzio.",
   "reactionLike": "Mi piace",
   "reactionCelebrate": "Festeggio",
   "reactionLove": "Adoro",
@@ -571,8 +570,22 @@
     }
   },
   "commentHint": "Scrivi un commento…",
-  "consoleSubtitle": "Gestisci i traguardi verificati di {company}",
-  "@consoleSubtitle": {
+  "consoleCatalogSubtitle": "I traguardi verificati che {company} può assegnare. Clicca una carta per modificarla.",
+  "@consoleCatalogSubtitle": {
+    "placeholders": {
+      "company": {}
+    }
+  },
+  "consoleAssignSubtitle": "Scegli un traguardo, scegli le persone, svolta loro la giornata.",
+  "consoleRequestsSubtitle": "Chi chiede un riconoscimento che crede di essersi guadagnato. Decidi tu.",
+  "consoleInsightsSubtitle": "Come circola il riconoscimento in {company}, e dove si inceppa.",
+  "@consoleInsightsSubtitle": {
+    "placeholders": {
+      "company": {}
+    }
+  },
+  "consoleCompanySubtitle": "Come {company} appare e festeggia su Scoreboard",
+  "@consoleCompanySubtitle": {
     "placeholders": {
       "company": {}
     }
@@ -619,7 +632,7 @@
     }
   },
   "pickAchievementHint": "Scegli un traguardo dal catalogo.",
-  "requestsEmpty": "Nessuna richiesta.",
+  "requestsEmpty": "Nessuna richiesta. O va tutto benissimo, o sono tutti modesti.",
   "pendingSection": "In attesa",
   "decidedSection": "Già decise",
   "approve": "Approva",
@@ -868,7 +881,7 @@
   "adminGroupPeople": "PERSONE",
   "adminGroupData": "DATI",
   "adminGroupCompany": "AZIENDA",
-  "teamSubtitle": "Come viene riconosciuto il lavoro del tuo team",
+  "teamSubtitle": "Chi riceve i meriti, e chi ne meriterebbe di più",
   "teamStatNeedAttention": "Da seguire",
   "teamStatReceived30": "Ricevuti in 30 giorni",
   "teamNoRecent": "Niente da oltre 30 giorni",

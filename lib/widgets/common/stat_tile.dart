@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:scoreboard/core/theme.dart';
 
+/// One figure of a [StatRow]: a small label with its icon over a large
+/// number, like a scoreboard.
 class StatTile extends StatelessWidget {
   final String label;
   final String value;
   final IconData icon;
 
-  /// Defaults to the theme's accent.
+  /// Tints the icon; defaults to the theme's accent.
   final Color? color;
 
   /// Replaces the tinted [icon], e.g. with a company logo.
   final Widget? leading;
+
+  /// A detail under the figure, e.g. "10 verified".
+  final String? caption;
 
   const StatTile(
       {super.key,
@@ -18,56 +23,92 @@ class StatTile extends StatelessWidget {
       required this.value,
       required this.icon,
       this.color,
-      this.leading});
+      this.leading,
+      this.caption});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final color = colorScheme.legible(this.color ?? colorScheme.primary,
-        tint: 0.14, minContrast: 3);
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            leading ??
-                Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.14),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(icon, color: color, size: 22),
-                ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(value,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -0.4)),
-                  Text(label,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 12.5, color: colorScheme.onSurfaceVariant)),
-                ],
+    final color =
+        colorScheme.legible(this.color ?? colorScheme.primary, minContrast: 3);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+          AppSpace.lg + 4, AppSpace.lg, AppSpace.lg, AppSpace.lg + 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              SizedBox.square(
+                dimension: 16,
+                // Any leading is scaled to the icon's slot.
+                child: leading == null
+                    ? Icon(icon, color: color, size: 15)
+                    : FittedBox(child: leading),
               ),
-            ),
-          ],
-        ),
+              const SizedBox(width: AppSpace.sm),
+              Expanded(
+                child: Text(label,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 12.5,
+                        height: 1.3,
+                        fontWeight: FontWeight.w500,
+                        color: colorScheme.onSurfaceVariant)),
+              ),
+            ],
+          ),
+          // Figures share one line across the row; captions hang below.
+          const SizedBox(height: AppSpace.md),
+          _TickingFigure(value),
+          if (caption != null)
+            Text(caption!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 12, color: colorScheme.onSurfaceVariant)),
+        ],
       ),
     );
   }
 }
 
-/// Lays out [StatTile]s in a row of equal-width cells.
+/// [value], whose first number counts up to its final value when it first
+/// appears or changes, like a scoreboard catching up. Static when the
+/// platform asks for reduced motion.
+class _TickingFigure extends StatelessWidget {
+  final String value;
+
+  const _TickingFigure(this.value);
+
+  static final RegExp _number = RegExp(r'^(\D*)(\d+)(.*)$');
+
+  @override
+  Widget build(BuildContext context) {
+    final match = _number.firstMatch(value);
+    Widget text(String shown) => Text(shown,
+        maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.figure);
+    if (match == null || MediaQuery.disableAnimationsOf(context)) {
+      return text(value);
+    }
+    final target = int.parse(match.group(2)!);
+    // Screen readers get the final value, not every step on the way.
+    return Semantics(
+      label: value,
+      excludeSemantics: true,
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(end: target.toDouble()),
+        duration: const Duration(milliseconds: 700),
+        curve: Curves.easeOutCubic,
+        builder: (context, shown, _) =>
+            text('${match.group(1)}${shown.round()}${match.group(3)}'),
+      ),
+    );
+  }
+}
+
+/// Lays out [StatTile]s as one panel of equal-width cells split by hairlines.
 class StatRow extends StatelessWidget {
   final List<StatTile> tiles;
 
@@ -75,16 +116,19 @@ class StatRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Same height for every tile, even when a label wraps.
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (var i = 0; i < tiles.length; i++) ...[
-            if (i > 0) const SizedBox(width: 12),
-            Expanded(child: tiles[i]),
-          ]
-        ],
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      // Same height for every tile, even when a label wraps.
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (var i = 0; i < tiles.length; i++) ...[
+              if (i > 0) const VerticalDivider(width: 1),
+              Expanded(child: tiles[i]),
+            ]
+          ],
+        ),
       ),
     );
   }

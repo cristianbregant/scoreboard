@@ -201,11 +201,6 @@ class AppLocalization {
     );
   }
 
-  /// `MENU`
-  String get menuLabel {
-    return Intl.message('MENU', name: 'menuLabel', desc: '', args: []);
-  }
-
   /// `Traguardi`
   String get navAchievements {
     return Intl.message(
@@ -301,10 +296,10 @@ class AppLocalization {
     );
   }
 
-  /// `Ogni traguardo raggiunto lungo il percorso`
+  /// `Tutto il tuo lavoro, nero su bianco`
   String get achievementsSubtitle {
     return Intl.message(
-      'Ogni traguardo raggiunto lungo il percorso',
+      'Tutto il tuo lavoro, nero su bianco',
       name: 'achievementsSubtitle',
       desc: '',
       args: [],
@@ -361,10 +356,10 @@ class AppLocalization {
     );
   }
 
-  /// `Nessun traguardo in questa categoria.`
+  /// `Ancora niente in questa categoria. Dagli tempo.`
   String get noAchievementsInTier {
     return Intl.message(
-      'Nessun traguardo in questa categoria.',
+      'Ancora niente in questa categoria. Dagli tempo.',
       name: 'noAchievementsInTier',
       desc: '',
       args: [],
@@ -591,10 +586,10 @@ class AppLocalization {
     );
   }
 
-  /// `Scopri come ti posizioni rispetto agli altri`
+  /// `Tutti, ovunque, in classifica. Nessuna pressione.`
   String get communitySubtitle {
     return Intl.message(
-      'Scopri come ti posizioni rispetto agli altri',
+      'Tutti, ovunque, in classifica. Nessuna pressione.',
       name: 'communitySubtitle',
       desc: '',
       args: [],
@@ -646,10 +641,10 @@ class AppLocalization {
     return Intl.message('Classifica', name: 'leaderboard', desc: '', args: []);
   }
 
-  /// `Nessun risultato per la tua ricerca.`
+  /// `Nessun risultato. Prova con meno lettere, o un'altra intuizione.`
   String get noSearchResults {
     return Intl.message(
-      'Nessun risultato per la tua ricerca.',
+      'Nessun risultato. Prova con meno lettere, o un\'altra intuizione.',
       name: 'noSearchResults',
       desc: '',
       args: [],
@@ -756,10 +751,10 @@ class AppLocalization {
     );
   }
 
-  /// `Crea traguardi e inviali ai tuoi colleghi`
+  /// `Piccoli grazie, XP inclusi`
   String get baseSubtitle {
     return Intl.message(
-      'Crea traguardi e inviali ai tuoi colleghi',
+      'Piccoli grazie, XP inclusi',
       name: 'baseSubtitle',
       desc: '',
       args: [],
@@ -786,10 +781,10 @@ class AppLocalization {
     );
   }
 
-  /// `Ancora nessun traguardo base. Crea il primo!`
+  /// `La libreria è vuota. Qualcuno deve pur iniziare: perché non tu?`
   String get libraryEmpty {
     return Intl.message(
-      'Ancora nessun traguardo base. Crea il primo!',
+      'La libreria è vuota. Qualcuno deve pur iniziare: perché non tu?',
       name: 'libraryEmpty',
       desc: '',
       args: [],
@@ -966,10 +961,10 @@ class AppLocalization {
     );
   }
 
-  /// `Scegli un traguardo per vedere come apparirà.`
+  /// `Scegli un traguardo: la sua carta comparirà qui, pronta a partire.`
   String get sendPreviewHint {
     return Intl.message(
-      'Scegli un traguardo per vedere come apparirà.',
+      'Scegli un traguardo: la sua carta comparirà qui, pronta a partire.',
       name: 'sendPreviewHint',
       desc: '',
       args: [],
@@ -1501,10 +1496,10 @@ class AppLocalization {
     );
   }
 
-  /// `Accedi per vedere i tuoi traguardi.`
+  /// `I tuoi trofei sentivano la tua mancanza.`
   String get authSignInSubtitle {
     return Intl.message(
-      'Accedi per vedere i tuoi traguardi.',
+      'I tuoi trofei sentivano la tua mancanza.',
       name: 'authSignInSubtitle',
       desc: '',
       args: [],
@@ -1981,10 +1976,10 @@ class AppLocalization {
     );
   }
 
-  /// `Nessuna notifica, per ora.`
+  /// `Sei in pari. Per ora nulla richiede la tua attenzione.`
   String get notificationsEmpty {
     return Intl.message(
-      'Nessuna notifica, per ora.',
+      'Sei in pari. Per ora nulla richiede la tua attenzione.',
       name: 'notificationsEmpty',
       desc: '',
       args: [],
@@ -2228,10 +2223,10 @@ class AppLocalization {
     );
   }
 
-  /// `I traguardi dei tuoi colleghi, da festeggiare insieme`
+  /// `I successi dei colleghi, appena succedono. Applausi graditi.`
   String get feedSubtitle {
     return Intl.message(
-      'I traguardi dei tuoi colleghi, da festeggiare insieme',
+      'I successi dei colleghi, appena succedono. Applausi graditi.',
       name: 'feedSubtitle',
       desc: '',
       args: [],
@@ -2243,10 +2238,10 @@ class AppLocalization {
     return Intl.message('ha ottenuto', name: 'feedEarned', desc: '', args: []);
   }
 
-  /// `Ancora niente in bacheca.`
+  /// `Tutto tranquillo. Il prossimo traguardo ricevuto romperà il silenzio.`
   String get feedEmpty {
     return Intl.message(
-      'Ancora niente in bacheca.',
+      'Tutto tranquillo. Il prossimo traguardo ricevuto romperà il silenzio.',
       name: 'feedEmpty',
       desc: '',
       args: [],
@@ -2306,11 +2301,51 @@ class AppLocalization {
     );
   }
 
-  /// `Gestisci i traguardi verificati di {company}`
-  String consoleSubtitle(Object company) {
+  /// `I traguardi verificati che {company} può assegnare. Clicca una carta per modificarla.`
+  String consoleCatalogSubtitle(Object company) {
     return Intl.message(
-      'Gestisci i traguardi verificati di $company',
-      name: 'consoleSubtitle',
+      'I traguardi verificati che $company può assegnare. Clicca una carta per modificarla.',
+      name: 'consoleCatalogSubtitle',
+      desc: '',
+      args: [company],
+    );
+  }
+
+  /// `Scegli un traguardo, scegli le persone, svolta loro la giornata.`
+  String get consoleAssignSubtitle {
+    return Intl.message(
+      'Scegli un traguardo, scegli le persone, svolta loro la giornata.',
+      name: 'consoleAssignSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chi chiede un riconoscimento che crede di essersi guadagnato. Decidi tu.`
+  String get consoleRequestsSubtitle {
+    return Intl.message(
+      'Chi chiede un riconoscimento che crede di essersi guadagnato. Decidi tu.',
+      name: 'consoleRequestsSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Come circola il riconoscimento in {company}, e dove si inceppa.`
+  String consoleInsightsSubtitle(Object company) {
+    return Intl.message(
+      'Come circola il riconoscimento in $company, e dove si inceppa.',
+      name: 'consoleInsightsSubtitle',
+      desc: '',
+      args: [company],
+    );
+  }
+
+  /// `Come {company} appare e festeggia su Scoreboard`
+  String consoleCompanySubtitle(Object company) {
+    return Intl.message(
+      'Come $company appare e festeggia su Scoreboard',
+      name: 'consoleCompanySubtitle',
       desc: '',
       args: [company],
     );
@@ -2501,10 +2536,10 @@ class AppLocalization {
     );
   }
 
-  /// `Nessuna richiesta.`
+  /// `Nessuna richiesta. O va tutto benissimo, o sono tutti modesti.`
   String get requestsEmpty {
     return Intl.message(
-      'Nessuna richiesta.',
+      'Nessuna richiesta. O va tutto benissimo, o sono tutti modesti.',
       name: 'requestsEmpty',
       desc: '',
       args: [],
@@ -3865,10 +3900,10 @@ class AppLocalization {
     );
   }
 
-  /// `Come viene riconosciuto il lavoro del tuo team`
+  /// `Chi riceve i meriti, e chi ne meriterebbe di più`
   String get teamSubtitle {
     return Intl.message(
-      'Come viene riconosciuto il lavoro del tuo team',
+      'Chi riceve i meriti, e chi ne meriterebbe di più',
       name: 'teamSubtitle',
       desc: '',
       args: [],

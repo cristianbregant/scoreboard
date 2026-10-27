@@ -7,6 +7,7 @@ import 'package:scoreboard/model/user_profile.dart';
 import 'package:scoreboard/widgets/achievement_style.dart';
 import 'package:scoreboard/widgets/dialogs/dialog_scaffold.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Asks a manager which verified achievement to propose for [member], and
 /// why. Returns the catalog id and the message, or null if cancelled.
@@ -89,7 +90,7 @@ class _NominateDialogState extends State<_NominateDialog> {
                       message: _messageController.text.trim(),
                     ))
                 : null,
-            icon: const Icon(Icons.send_rounded),
+            icon: const Icon(LucideIcons.send),
             label: Text(l10n.commonSend)),
       ],
       form: Column(

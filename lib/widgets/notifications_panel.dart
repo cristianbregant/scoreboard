@@ -3,6 +3,8 @@ import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/core/theme.dart';
 import 'package:scoreboard/model/app_notification.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:scoreboard/widgets/common/content_state_view.dart';
 
 class NotificationsPanel extends StatelessWidget {
   final List<AppNotification> notifications;
@@ -16,16 +18,16 @@ class NotificationsPanel extends StatelessWidget {
       required this.onMarkAllRead});
 
   static IconData _icon(NotificationType type) => switch (type) {
-        NotificationType.peerAchievementReceived => Icons.handshake_rounded,
-        NotificationType.verifiedAchievementReceived => Icons.verified_rounded,
-        NotificationType.levelUp => Icons.military_tech_rounded,
-        NotificationType.requestApproved => Icons.check_circle_rounded,
-        NotificationType.requestRejected => Icons.cancel_rounded,
-        NotificationType.newRequest => Icons.inbox_rounded,
-        NotificationType.newNomination => Icons.how_to_reg_rounded,
-        NotificationType.feedReaction => Icons.celebration_rounded,
-        NotificationType.feedComment => Icons.chat_bubble_rounded,
-        NotificationType.weeklyRecap => Icons.insights_rounded,
+        NotificationType.peerAchievementReceived => LucideIcons.handshake,
+        NotificationType.verifiedAchievementReceived => LucideIcons.badgeCheck,
+        NotificationType.levelUp => LucideIcons.medal,
+        NotificationType.requestApproved => LucideIcons.circleCheck,
+        NotificationType.requestRejected => LucideIcons.circleX,
+        NotificationType.newRequest => LucideIcons.inbox,
+        NotificationType.newNomination => LucideIcons.userCheck,
+        NotificationType.feedReaction => LucideIcons.partyPopper,
+        NotificationType.feedComment => LucideIcons.messageCircle,
+        NotificationType.weeklyRecap => LucideIcons.trendingUp,
       };
 
   @override
@@ -36,8 +38,9 @@ class NotificationsPanel extends StatelessWidget {
 
     return Material(
       color: colorScheme.surfaceContainer,
-      elevation: 12,
-      shadowColor: Colors.black54,
+      // Enough lift to read as a popover; the border does the rest.
+      elevation: 6,
+      shadowColor: Colors.black.withValues(alpha: 0.3),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppTheme.radius),
         side: BorderSide(color: colorScheme.outlineVariant),
@@ -54,8 +57,7 @@ class NotificationsPanel extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(l10n.notificationsTitle,
-                        style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w800)),
+                        style: AppText.sectionTitle),
                   ),
                   TextButton(
                     onPressed: hasUnread ? onMarkAllRead : null,
@@ -66,11 +68,10 @@ class NotificationsPanel extends StatelessWidget {
             ),
             const Divider(),
             if (notifications.isEmpty)
-              Padding(
-                padding: const EdgeInsets.all(32),
-                child: Text(l10n.notificationsEmpty,
-                    style: TextStyle(color: colorScheme.onSurfaceVariant)),
-              )
+              EmptyNote(
+                  compact: true,
+                  icon: LucideIcons.bellOff,
+                  message: l10n.notificationsEmpty)
             else
               Flexible(
                 child: ListView.separated(

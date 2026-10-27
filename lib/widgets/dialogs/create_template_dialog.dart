@@ -5,6 +5,7 @@ import 'package:scoreboard/model/send_achievement.dart';
 import 'package:scoreboard/widgets/achievement_style.dart';
 import 'package:scoreboard/widgets/dialogs/dialog_scaffold.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Returns the [AchievementTemplateDraft] to create, or null if cancelled.
 Future<AchievementTemplateDraft?> showCreateTemplateDialog(
@@ -81,7 +82,7 @@ class _CreateTemplateDialogState extends State<_CreateTemplateDialog> {
             child: Text(context.l10n.commonCancel)),
         FilledButton.icon(
             onPressed: _onCreate,
-            icon: const Icon(Icons.add_rounded),
+            icon: const Icon(LucideIcons.plus),
             label: Text(context.l10n.commonCreate)),
       ],
       form: Form(

@@ -10,6 +10,7 @@ import 'package:scoreboard/views/admin/seasons/seasons_admin_contract.dart';
 import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
 import 'package:scoreboard/widgets/common/stat_tile.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class SeasonsAdminView extends BaseStatefulWidget {
   SeasonsAdminView({super.key}) : super(_SeasonsAdminViewState());
@@ -43,12 +44,13 @@ class _SeasonsAdminViewState extends BaseState<SeasonsAdminView,
                   subtitle: l10n.seasonsHint,
                   trailing: FilledButton.icon(
                     onPressed: viewModel.onTapNewSeason,
-                    icon: const Icon(Icons.add_rounded),
+                    icon: const Icon(LucideIcons.plus),
                     label: Text(l10n.newSeason),
                   ),
                 ),
                 const SizedBox(height: 24),
-                if (vmState.seasons.isEmpty) Text(l10n.seasonsEmpty),
+                if (vmState.seasons.isEmpty)
+                  EmptyNote(icon: LucideIcons.flag, message: l10n.seasonsEmpty),
                 for (final season in vmState.seasons) _buildSeason(season),
               ],
             );
@@ -77,12 +79,12 @@ class _SeasonsAdminViewState extends BaseState<SeasonsAdminView,
               switch (status) {
                 SeasonStatus.active => TagChip(
                     label: l10n.seasonActive,
-                    icon: Icons.play_circle_rounded,
+                    icon: LucideIcons.circlePlay,
                     color: colorScheme.primary),
-                SeasonStatus.upcoming => TagChip(
-                    label: l10n.seasonUpcoming, icon: Icons.schedule_rounded),
+                SeasonStatus.upcoming =>
+                  TagChip(label: l10n.seasonUpcoming, icon: LucideIcons.clock),
                 SeasonStatus.ended =>
-                  TagChip(label: l10n.seasonEnded, icon: Icons.flag_rounded),
+                  TagChip(label: l10n.seasonEnded, icon: LucideIcons.flag),
               },
             ],
           ),
@@ -94,11 +96,11 @@ class _SeasonsAdminViewState extends BaseState<SeasonsAdminView,
               IconButton(
                   tooltip: l10n.editSeason,
                   onPressed: () => viewModel.onTapEditSeason(season),
-                  icon: const Icon(Icons.edit_outlined, size: 20)),
+                  icon: const Icon(LucideIcons.pencil, size: 20)),
               IconButton(
                   tooltip: l10n.commonDelete,
                   onPressed: () => viewModel.onTapDeleteSeason(season),
-                  icon: Icon(Icons.delete_outline_rounded,
+                  icon: Icon(LucideIcons.trash2,
                       size: 20, color: colorScheme.error)),
             ],
           ),
@@ -167,7 +169,7 @@ class _SeasonDialogState extends State<_SeasonDialog> {
             const SizedBox(height: 8),
             OutlinedButton.icon(
               onPressed: _pickDates,
-              icon: const Icon(Icons.date_range_rounded),
+              icon: const Icon(LucideIcons.calendarRange),
               label: Text(range == null
                   ? l10n.pickDates
                   : l10n.seasonRange(

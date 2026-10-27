@@ -9,6 +9,7 @@ import 'package:scoreboard/model/user_profile.dart';
 import 'package:scoreboard/widgets/common/profile_banner.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 import 'package:scoreboard/widgets/dialogs/dialog_scaffold.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Returns the edited profile, or null if cancelled. [pickImage] opens the
 /// system file picker and returns the chosen path.
@@ -124,7 +125,7 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
                         children: [
                           OutlinedButton.icon(
                             onPressed: _pickAvatar,
-                            icon: const Icon(Icons.upload_rounded, size: 18),
+                            icon: const Icon(LucideIcons.upload, size: 18),
                             label: Text(context.l10n.uploadPhoto),
                           ),
                           if (_avatarPath != null) ...[
@@ -250,7 +251,7 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
                         border: Border.all(
                             color: colorScheme.surfaceContainer, width: 2),
                       ),
-                      child: Icon(Icons.photo_camera_rounded,
+                      child: Icon(LucideIcons.camera,
                           size: 13, color: colorScheme.onPrimary),
                     ),
                   ),
@@ -263,10 +264,7 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
             top: bannerHeight + 10,
             right: 28,
             child: Text(context.l10n.editProfile,
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w800,
-                    color: colorScheme.onSurface)),
+                style: AppText.title.copyWith(color: colorScheme.onSurface)),
           ),
         ],
       ),
@@ -327,7 +325,7 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
               ? Image.file(File(_bannerPath!), fit: BoxFit.cover)
               : Container(
                   color: colorScheme.surfaceContainerHighest,
-                  child: Icon(Icons.add_photo_alternate_outlined,
+                  child: Icon(LucideIcons.imagePlus,
                       size: 20, color: colorScheme.onSurfaceVariant),
                 ),
         ),

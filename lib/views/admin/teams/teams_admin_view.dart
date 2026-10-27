@@ -11,6 +11,7 @@ import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
 import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class TeamsAdminView extends BaseStatefulWidget {
   TeamsAdminView({super.key}) : super(_TeamsAdminViewState());
@@ -38,7 +39,6 @@ class _TeamsAdminViewState extends BaseState<TeamsAdminView,
           onRetry: viewModel.load,
           builder: (context) {
             final l10n = context.l10n;
-            final colorScheme = Theme.of(context).colorScheme;
             return ListView(
               padding: pagePadding,
               children: [
@@ -47,14 +47,13 @@ class _TeamsAdminViewState extends BaseState<TeamsAdminView,
                   subtitle: l10n.teamsHint,
                   trailing: FilledButton.icon(
                     onPressed: viewModel.onTapNewTeam,
-                    icon: const Icon(Icons.add_rounded),
+                    icon: const Icon(LucideIcons.plus),
                     label: Text(l10n.newTeam),
                   ),
                 ),
                 const SizedBox(height: 24),
                 if (vmState.teams.isEmpty)
-                  Text(l10n.teamsEmpty,
-                      style: TextStyle(color: colorScheme.onSurfaceVariant)),
+                  EmptyNote(icon: LucideIcons.users, message: l10n.teamsEmpty),
                 Wrap(
                   spacing: 16,
                   runSpacing: 16,
@@ -102,16 +101,16 @@ class _TeamsAdminViewState extends BaseState<TeamsAdminView,
                   IconButton(
                       tooltip: l10n.editTeam,
                       onPressed: () => viewModel.onTapEditTeam(team),
-                      icon: const Icon(Icons.edit_outlined, size: 20)),
+                      icon: const Icon(LucideIcons.pencil, size: 20)),
                   IconButton(
                       tooltip: l10n.commonDelete,
                       onPressed: () => viewModel.onTapDeleteTeam(team),
-                      icon: Icon(Icons.delete_outline_rounded,
+                      icon: Icon(LucideIcons.trash2,
                           size: 20, color: colorScheme.error)),
                 ],
               ),
               TagChip(
-                  icon: Icons.verified_user_outlined,
+                  icon: LucideIcons.shieldCheck,
                   color: manager == null ? null : colorScheme.primary,
                   label: manager == null
                       ? l10n.noManager

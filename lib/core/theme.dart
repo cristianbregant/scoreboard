@@ -70,6 +70,56 @@ class AppColors {
   }
 }
 
+/// Spacing scale. Layouts step through these rather than picking values.
+class AppSpace {
+  static const double xs = 4;
+  static const double sm = 8;
+  static const double md = 12;
+  static const double lg = 16;
+  static const double xl = 24;
+  static const double xxl = 32;
+}
+
+/// Type roles. Geist sets the display voice (titles, figures, the sidebar);
+/// Inter, the theme's default, sets everything meant to be read.
+class AppText {
+  static const String display = 'Geist';
+
+  static const TextStyle pageTitle = TextStyle(
+      fontFamily: display,
+      fontSize: 30,
+      height: 1.15,
+      fontWeight: FontWeight.w700,
+      letterSpacing: -1.0);
+
+  /// Dialog titles and empty states.
+  static const TextStyle title = TextStyle(
+      fontFamily: display,
+      fontSize: 22,
+      height: 1.2,
+      fontWeight: FontWeight.w700,
+      letterSpacing: -0.5);
+
+  static const TextStyle sectionTitle = TextStyle(
+      fontFamily: display,
+      fontSize: 17,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -0.3);
+
+  /// Scores and counts: tabular, so digits don't jitter as they change.
+  static const TextStyle figure = TextStyle(
+      fontFamily: display,
+      fontSize: 28,
+      height: 1.1,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -0.8,
+      fontFeatures: [FontFeature.tabularFigures()]);
+
+  /// Small caps labels above figures and groups.
+  static const TextStyle overline =
+      TextStyle(fontSize: 11, fontWeight: FontWeight.w600, letterSpacing: 0.7);
+}
+
 class AppTheme {
   static const double radius = 16;
 
@@ -205,14 +255,29 @@ class AppTheme {
     );
     final rounded = RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius * 0.75));
-    final baseTextTheme = ThemeData(brightness: brightness).textTheme;
+    final baseTextTheme = ThemeData(brightness: brightness).textTheme.apply(
+        fontFamily: 'Inter', bodyColor: onSurface, displayColor: onSurface);
+    // Dialog and sheet titles speak in the display face too.
+    TextStyle? display(TextStyle? style) => style?.copyWith(
+        fontFamily: AppText.display,
+        fontWeight: FontWeight.w700,
+        letterSpacing: -0.5);
+    final textTheme = baseTextTheme.copyWith(
+      headlineLarge: display(baseTextTheme.headlineLarge),
+      headlineMedium: display(baseTextTheme.headlineMedium),
+      headlineSmall: display(baseTextTheme.headlineSmall),
+    );
+    // Primary actions in the accent; everything else stays neutral, so the
+    // accent keeps pointing at what matters on each screen.
+    const buttonPadding = EdgeInsets.symmetric(horizontal: 18, vertical: 12);
+    const buttonText = TextStyle(
+        fontFamily: 'Inter', fontSize: 14, fontWeight: FontWeight.w600);
 
     return ThemeData(
       colorScheme: colorScheme,
       scaffoldBackgroundColor: background,
       fontFamily: 'Inter',
-      textTheme: baseTextTheme.apply(
-          fontFamily: 'Inter', bodyColor: onSurface, displayColor: onSurface),
+      textTheme: textTheme,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       splashFactory: InkSparkle.splashFactory,
       dividerTheme: DividerThemeData(color: border, thickness: 1, space: 1),
@@ -251,8 +316,21 @@ class AppTheme {
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           shape: rounded,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          padding: buttonPadding,
+          textStyle: buttonText,
         ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          shape: rounded,
+          padding: buttonPadding,
+          textStyle: buttonText,
+          foregroundColor: onSurface,
+          side: BorderSide(color: border),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(shape: rounded, textStyle: buttonText),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
         style: SegmentedButton.styleFrom(

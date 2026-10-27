@@ -80,7 +80,7 @@ void main() {
         anyOf(AppColors.adminLight, AppColors.adminDark));
 
     await _open(tester, l10n.navRequests);
-    expect(find.text(l10n.consoleSubtitle('Northwind Labs')), findsOneWidget);
+    expect(find.text(l10n.consoleRequestsSubtitle), findsOneWidget);
     expect(find.text(l10n.pendingSection), findsOneWidget);
 
     await tester.tap(find.byType(AdminModeSwitch));

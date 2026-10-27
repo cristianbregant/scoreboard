@@ -21,6 +21,7 @@ import 'package:scoreboard/widgets/achievement_style.dart';
 import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/nav_button.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class SettingsView extends BaseStatefulWidget {
   SettingsView({super.key}) : super(_SettingsViewState());
@@ -96,10 +97,7 @@ class _SettingsViewState
                         Padding(
                           padding: const EdgeInsets.fromLTRB(12, 0, 12, 16),
                           child: Text(context.l10n.navSettings,
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: -0.4)),
+                              style: AppText.title),
                         ),
                         NavButton(
                           selected: vmState.currentPage == 0,
@@ -187,13 +185,13 @@ class _SettingsViewState
           // '' stands for "follow the system".
           child: DropdownMenu<String>(
             width: 260,
-            leadingIcon: const Icon(Icons.translate_rounded),
+            leadingIcon: const Icon(LucideIcons.languages),
             initialSelection: localeProvider.locale?.languageCode ?? '',
             dropdownMenuEntries: [
               DropdownMenuEntry(
                   value: '',
                   label: context.l10n.languageSystem,
-                  leadingIcon: const Icon(Icons.computer_rounded)),
+                  leadingIcon: const Icon(LucideIcons.monitor)),
               for (final entry in _languages.entries)
                 DropdownMenuEntry(value: entry.key, label: entry.value),
             ],
@@ -243,7 +241,7 @@ class _SettingsViewState
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.mail_outline_rounded)),
+                          prefixIcon: Icon(LucideIcons.mail)),
                       validator: (value) =>
                           AuthInteractor.isValidEmail(value ?? '')
                               ? null
@@ -361,7 +359,7 @@ class _SettingsViewState
                         color: colorScheme.error.withValues(alpha: 0.5)),
                   ),
                   onPressed: viewModel.signOut,
-                  icon: const Icon(Icons.logout_rounded, size: 18),
+                  icon: const Icon(LucideIcons.logOut, size: 18),
                   label: Text(context.l10n.signOut),
                 ),
               ],
@@ -409,7 +407,7 @@ class _SettingsViewState
                     color: colorScheme.primary,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Icon(Icons.emoji_events_rounded,
+                  child: Icon(LucideIcons.trophy,
                       color: colorScheme.onPrimary, size: 30),
                 ),
                 const SizedBox(width: 16),
@@ -430,7 +428,7 @@ class _SettingsViewState
                   onPressed: vmState.isCheckingUpdates
                       ? null
                       : viewModel.onCheckForUpdates,
-                  icon: const Icon(Icons.system_update_alt_rounded, size: 18),
+                  icon: const Icon(LucideIcons.download, size: 18),
                   label: Text(context.l10n.checkForUpdates),
                 ),
               ],
@@ -442,7 +440,7 @@ class _SettingsViewState
           alignment: Alignment.centerLeft,
           child: TextButton.icon(
             onPressed: () => showOnboardingDialog(context),
-            icon: const Icon(Icons.school_outlined, size: 18),
+            icon: const Icon(LucideIcons.graduationCap, size: 18),
             label: Text(context.l10n.onboardingReplay),
           ),
         ),
@@ -597,10 +595,7 @@ class _ThemePreview extends StatelessWidget {
               const SizedBox(height: 12),
               Row(
                 children: [
-                  Icon(
-                      selected
-                          ? Icons.radio_button_checked_rounded
-                          : Icons.radio_button_off_rounded,
+                  Icon(selected ? LucideIcons.circleDot : LucideIcons.circle,
                       size: 18,
                       color: selected
                           ? colorScheme.primary

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/model/feed.dart';
 import 'package:scoreboard/widgets/achievement_style.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Compact square with the achievement's icon on its tier gradient, for
 /// lists where a full card would be too big.
@@ -28,10 +29,10 @@ class AchievementBadge extends StatelessWidget {
 
 extension ReactionTypeIcon on ReactionType {
   IconData get icon => switch (this) {
-        ReactionType.like => Icons.thumb_up_rounded,
-        ReactionType.celebrate => Icons.celebration_rounded,
-        ReactionType.love => Icons.favorite_rounded,
-        ReactionType.insightful => Icons.lightbulb_rounded,
+        ReactionType.like => LucideIcons.thumbsUp,
+        ReactionType.celebrate => LucideIcons.partyPopper,
+        ReactionType.love => LucideIcons.heart,
+        ReactionType.insightful => LucideIcons.lightbulb,
       };
 
   Color get color => switch (this) {

@@ -11,6 +11,7 @@ import 'package:scoreboard/widgets/common/page_header.dart';
 import 'package:scoreboard/widgets/common/podium.dart';
 import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class CommunityView extends BaseStatefulWidget {
   CommunityView({
@@ -42,11 +43,11 @@ class _CommunityViewState
                             segments: [
                               ButtonSegment(
                                   value: CommunityTab.people,
-                                  icon: const Icon(Icons.person_rounded),
+                                  icon: const Icon(LucideIcons.user),
                                   label: Text(context.l10n.communityPeople)),
                               ButtonSegment(
                                   value: CommunityTab.companies,
-                                  icon: const Icon(Icons.business_rounded),
+                                  icon: const Icon(LucideIcons.building2),
                                   label: Text(context.l10n.communityCompanies)),
                             ],
                             selected: {vmState.tab},
@@ -58,7 +59,7 @@ class _CommunityViewState
                         TextField(
                           onChanged: viewModel.onSearchChanged,
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search_rounded),
+                            prefixIcon: const Icon(LucideIcons.search),
                             hintText: vmState.tab == CommunityTab.people
                                 ? context.l10n.searchPeopleHint
                                 : context.l10n.searchCompaniesHint,
@@ -93,7 +94,7 @@ class _CommunityViewState
           Padding(
             padding: const EdgeInsets.only(top: 12),
             child: TagChip(
-                icon: Icons.visibility_off_rounded,
+                icon: LucideIcons.eyeOff,
                 label: context.l10n.communityHiddenNotice),
           ),
         if (_showPodium) ...[
@@ -177,7 +178,7 @@ class _CommunityViewState
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.search_off_rounded,
+          Icon(LucideIcons.searchX,
               size: 40, color: colorScheme.onSurfaceVariant),
           const SizedBox(height: 12),
           Text(context.l10n.noSearchResults,

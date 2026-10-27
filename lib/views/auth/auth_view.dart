@@ -12,6 +12,8 @@ import 'package:scoreboard/views/_base/base_widget.dart';
 import 'package:scoreboard/views/auth/auth_contract.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
 import 'package:scoreboard/core/window_chrome.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:scoreboard/core/theme.dart';
 
 class AuthView extends BaseStatefulWidget {
   AuthView({super.key}) : super(_AuthViewState());
@@ -134,10 +136,7 @@ class _AuthViewState
             signIn
                 ? context.l10n.authWelcomeBack
                 : context.l10n.authCreateTitle,
-            style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w800,
-                letterSpacing: -0.6)),
+            style: AppText.pageTitle),
         const SizedBox(height: 6),
         Text(
             signIn
@@ -173,7 +172,7 @@ class _AuthViewState
             ),
             child: Row(
               children: [
-                Icon(Icons.error_outline_rounded,
+                Icon(LucideIcons.circleAlert,
                     size: 18, color: colorScheme.error),
                 const SizedBox(width: 8),
                 Expanded(
@@ -211,15 +210,13 @@ class _AuthViewState
       onFieldSubmitted: (_) => _onSubmit(),
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: const Icon(Icons.lock_outline_rounded),
+        prefixIcon: const Icon(LucideIcons.lock),
         suffixIcon: IconButton(
           tooltip: _obscurePassword
               ? context.l10n.showPassword
               : context.l10n.hidePassword,
           onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-          icon: Icon(_obscurePassword
-              ? Icons.visibility_outlined
-              : Icons.visibility_off_outlined),
+          icon: Icon(_obscurePassword ? LucideIcons.eye : LucideIcons.eyeOff),
         ),
       ),
       validator: validator,
@@ -233,7 +230,7 @@ class _AuthViewState
       decoration: InputDecoration(
           labelText: context.l10n.workEmail,
           helperText: helperText,
-          prefixIcon: const Icon(Icons.mail_outline_rounded)),
+          prefixIcon: const Icon(LucideIcons.mail)),
       validator: (value) =>
           RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(value?.trim() ?? '')
               ? null
@@ -277,11 +274,11 @@ class _AuthViewState
               segments: [
                 ButtonSegment(
                     value: RegisterMode.join,
-                    icon: const Icon(Icons.mail_outline_rounded, size: 18),
+                    icon: const Icon(LucideIcons.mail, size: 18),
                     label: Text(context.l10n.registerJoin)),
                 ButtonSegment(
                     value: RegisterMode.createCompany,
-                    icon: const Icon(Icons.add_business_outlined, size: 18),
+                    icon: const Icon(LucideIcons.building, size: 18),
                     label: Text(context.l10n.registerCreateCompany)),
               ],
               selected: {vmState.registerMode},
@@ -295,7 +292,7 @@ class _AuthViewState
               controller: _companyNameController,
               decoration: InputDecoration(
                   labelText: context.l10n.companyNameLabel,
-                  prefixIcon: const Icon(Icons.business_outlined)),
+                  prefixIcon: const Icon(LucideIcons.building2)),
               validator: (value) =>
                   required(value, context.l10n.companyNameRequired),
             ),
@@ -355,7 +352,7 @@ class _AuthViewState
               decoration: InputDecoration(
                   labelText: context.l10n.inviteCodeLabel,
                   hintText: 'ABCD-EFGH',
-                  prefixIcon: const Icon(Icons.key_rounded)),
+                  prefixIcon: const Icon(LucideIcons.key)),
               validator: (value) =>
                   required(value, context.l10n.inviteCodeRequired),
             ),
@@ -402,8 +399,7 @@ class _AuthViewState
       ),
       child: Row(
         children: [
-          Icon(Icons.info_outline_rounded,
-              size: 18, color: colorScheme.onSurfaceVariant),
+          Icon(LucideIcons.info, size: 18, color: colorScheme.onSurfaceVariant),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -490,7 +486,7 @@ class _Showcase extends StatelessWidget {
                         color: colorScheme.primary,
                         borderRadius: BorderRadius.circular(9),
                       ),
-                      child: Icon(Icons.emoji_events_rounded,
+                      child: Icon(LucideIcons.trophy,
                           color: colorScheme.onPrimary, size: 19),
                     ),
                     const SizedBox(width: 12),
@@ -530,11 +526,8 @@ class _Showcase extends StatelessWidget {
                   ),
                 ),
                 Text(context.l10n.authTagline,
-                    style: const TextStyle(
-                        fontSize: 30,
-                        height: 1.15,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: -0.8)),
+                    style: AppText.pageTitle
+                        .copyWith(fontSize: 36, letterSpacing: -1.4)),
                 const SizedBox(height: 10),
                 Text(context.l10n.authPitch,
                     style: TextStyle(

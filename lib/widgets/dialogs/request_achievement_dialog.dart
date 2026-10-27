@@ -5,6 +5,7 @@ import 'package:scoreboard/model/catalog_achievement.dart';
 import 'package:scoreboard/model/company.dart';
 import 'package:scoreboard/widgets/dialogs/dialog_scaffold.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Asks why the user deserves [item]. Returns the message and the optional
 /// evidence link, or null if cancelled.
@@ -66,7 +67,7 @@ class _RequestAchievementDialogState extends State<_RequestAchievementDialog> {
             child: Text(l10n.commonCancel)),
         FilledButton.icon(
             onPressed: _onSubmit,
-            icon: const Icon(Icons.send_rounded, size: 18),
+            icon: const Icon(LucideIcons.send, size: 18),
             label: Text(l10n.submitRequest)),
       ],
       form: Form(
@@ -99,7 +100,7 @@ class _RequestAchievementDialogState extends State<_RequestAchievementDialog> {
               controller: _urlController,
               keyboardType: TextInputType.url,
               decoration: const InputDecoration(
-                  hintText: 'https://', prefixIcon: Icon(Icons.link_rounded)),
+                  hintText: 'https://', prefixIcon: Icon(LucideIcons.link)),
               validator: (value) {
                 final url = value?.trim() ?? '';
                 return url.isEmpty || AdminInteractor.isValidUrl(url)

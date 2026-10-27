@@ -108,178 +108,185 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m39(year) => "Since ${year}";
 
-  static String m40(count) => "Requests · ${count}";
+  static String m40(company) =>
+      "The verified achievements ${company} can issue. Click a card to edit it.";
 
-  static String m41(company) => "Manage ${company}\'s verified achievements";
+  static String m41(company) =>
+      "How ${company} looks and celebrates in Scoreboard";
 
-  static String m42(name) => "By ${name}";
+  static String m42(company) =>
+      "How recognition flows at ${company}, and where it gets stuck.";
 
-  static String m43(name) => "Delete ${name}?";
+  static String m43(count) => "Requests · ${count}";
 
-  static String m44(name) => "Delete ${name}?";
+  static String m44(name) => "By ${name}";
 
-  static String m45(name) => "Delete “${name}”?";
+  static String m45(name) => "Delete ${name}?";
 
-  static String m46(email, password) => "Demo account: ${email} / ${password}";
+  static String m46(name) => "Delete ${name}?";
 
-  static String m47(id) => "ID ${id}";
+  static String m47(name) => "Delete “${name}”?";
 
-  static String m48(template, colleague) =>
+  static String m48(email, password) => "Demo account: ${email} / ${password}";
+
+  static String m49(id) => "ID ${id}";
+
+  static String m50(template, colleague) =>
       "You already sent “${template}” to ${colleague}.";
 
-  static String m49(budget) =>
+  static String m51(budget) =>
       "You\'ve sent all ${budget} achievements for this month. The budget resets on the 1st.";
 
-  static String m50(min, max) =>
+  static String m52(min, max) =>
       "The value must be between ${min} and ${max} XP.";
 
-  static String m51(values) => "Base achievements can be worth ${values} XP.";
+  static String m53(values) => "Base achievements can be worth ${values} XP.";
 
-  static String m52(min) => "The password must be at least ${min} characters.";
+  static String m54(min) => "The password must be at least ${min} characters.";
 
-  static String m53(count) => "All · ${count}";
+  static String m55(count) => "All · ${count}";
 
-  static String m54(tier, count) => "${tier} · ${count}";
+  static String m56(tier, count) => "${tier} · ${count}";
 
-  static String m55(code) => "Code ${code}";
+  static String m57(code) => "Code ${code}";
 
-  static String m56(name, date) => "Invited by ${name} · expires ${date}";
+  static String m58(name, date) => "Invited by ${name} · expires ${date}";
 
-  static String m57(company) =>
+  static String m59(company) =>
       "They\'ll get a code by email to join ${company}. The code is valid for 7 days.";
 
-  static String m58(email) => "Revoke the invitation for ${email}?";
+  static String m60(email) => "Revoke the invitation for ${email}?";
 
-  static String m59(email) => "Invitation sent to ${email}";
+  static String m61(email) => "Invitation sent to ${email}";
 
-  static String m60(email, code) =>
+  static String m62(email, code) =>
       "Demo mode, no email sent: give ${email} the code ${code}";
 
-  static String m61(count) =>
+  static String m63(count) =>
       "${Intl.plural(count, one: 'Issued to 1 person', other: 'Issued to ${count} people')}";
 
-  static String m62(count) =>
+  static String m64(count) =>
       "${Intl.plural(count, one: 'once', other: '${count} times')}";
 
-  static String m63(level, points) => "Level ${level} · ${points} XP";
+  static String m65(level, points) => "Level ${level} · ${points} XP";
 
-  static String m64(level) => "Level ${level}";
+  static String m66(level) => "Level ${level}";
 
-  static String m65(count) => "Library · ${count}";
+  static String m67(count) => "Library · ${count}";
 
-  static String m66(date) => "Member since ${date}";
+  static String m68(date) => "Member since ${date}";
 
-  static String m67(name) => "Team of ${name}";
+  static String m69(name) => "Team of ${name}";
 
-  static String m68(count) =>
+  static String m70(count) =>
       "${Intl.plural(count, one: '1 member', other: '${count} members')}";
 
-  static String m69(name) => "For ${name}. An admin will review your proposal.";
+  static String m71(name) => "For ${name}. An admin will review your proposal.";
 
-  static String m70(achievement) =>
+  static String m72(achievement) =>
       "“${achievement}” was approved and is now in your achievements";
 
-  static String m71(actor, achievement, text) =>
+  static String m73(actor, achievement, text) =>
       "${actor} commented on “${achievement}”: ${text}";
 
-  static String m72(level) => "You reached level ${level}";
+  static String m74(level) => "You reached level ${level}";
 
-  static String m73(actor, achievement) =>
+  static String m75(actor, achievement) =>
       "${actor} requested “${achievement}”";
 
-  static String m74(actor, achievement, member) =>
+  static String m76(actor, achievement, member) =>
       "${actor} proposed “${achievement}” for ${member}";
 
-  static String m75(actor, achievement) => "${actor} sent you “${achievement}”";
+  static String m77(actor, achievement) => "${actor} sent you “${achievement}”";
 
-  static String m76(actor, achievement) =>
+  static String m78(actor, achievement) =>
       "${actor} reacted to “${achievement}”";
 
-  static String m77(xp, rank) => "This week: +${xp} XP · rank #${rank}";
+  static String m79(xp, rank) => "This week: +${xp} XP · rank #${rank}";
 
-  static String m78(achievement) => "“${achievement}” wasn\'t approved";
+  static String m80(achievement) => "“${achievement}” wasn\'t approved";
 
-  static String m79(achievement, reason) =>
+  static String m81(achievement, reason) =>
       "“${achievement}” wasn\'t approved: ${reason}";
 
-  static String m80(company, achievement) =>
+  static String m82(company, achievement) =>
       "${company} issued you “${achievement}”";
 
-  static String m81(count) =>
+  static String m83(count) =>
       "${Intl.plural(count, zero: 'No unread notifications', one: '1 unread notification', other: '${count} unread notifications')}";
 
-  static String m82(shortcut) =>
+  static String m84(shortcut) =>
       "Press ${shortcut} to send an achievement from anywhere, or use the menu bar icon.";
 
-  static String m83(budget) =>
+  static String m85(budget) =>
       "Verified achievements come from your company: you can ask for them from the catalog. Base achievements are exchanged between colleagues, up to ${budget} a month.";
 
-  static String m84(min) => "At least ${min} characters";
+  static String m86(min) => "At least ${min} characters";
 
-  static String m85(percent) => "${percent}%";
+  static String m87(percent) => "${percent}%";
 
-  static String m86(rank) => "#${rank}";
+  static String m88(rank) => "#${rank}";
 
-  static String m87(reason) => "Reason: ${reason}";
+  static String m89(reason) => "Reason: ${reason}";
 
-  static String m88(company) =>
+  static String m90(company) =>
       "An admin at ${company} will review your request.";
 
-  static String m89(name) => "Proposed by ${name}";
+  static String m91(name) => "Proposed by ${name}";
 
-  static String m90(role, company) => "${role} at ${company}";
+  static String m92(role, company) => "${role} at ${company}";
 
-  static String m91(days) =>
+  static String m93(days) =>
       "${Intl.plural(days, one: '1 day left', other: '${days} days left')}";
 
-  static String m92(start, end) => "${start} – ${end}";
+  static String m94(start, end) => "${start} – ${end}";
 
-  static String m93(rank, points) => "You\'re #${rank} with ${points} XP";
+  static String m95(rank, points) => "You\'re #${rank} with ${points} XP";
 
-  static String m94(name) => "Achievement sent to ${name}";
+  static String m96(name) => "Achievement sent to ${name}";
 
-  static String m95(count) => "Sent by you · ${count}";
+  static String m97(count) => "Sent by you · ${count}";
 
-  static String m96(count) => "${count} sent";
+  static String m98(count) => "${count} sent";
 
-  static String m97(company) =>
+  static String m99(company) =>
       "Adds it to Licenses & certifications, with ${company} as the issuer.";
 
-  static String m98(company) => "Issued by ${company}";
+  static String m100(company) => "Issued by ${company}";
 
-  static String m99(sender, name, description) =>
+  static String m101(sender, name, description) =>
       "🤝 ${sender} recognized me with the “${name}” achievement.\n\n${description}\n\n#Scoreboard";
 
-  static String m100(name, company, description) =>
+  static String m102(name, company, description) =>
       "🏆 I just earned the “${name}” achievement, issued by ${company}.\n\n${description}\n\n#Scoreboard";
 
-  static String m101(time) => "Last recognized ${time}";
+  static String m103(time) => "Last recognized ${time}";
 
-  static String m102(received, sent) =>
+  static String m104(received, sent) =>
       "${received} received · ${sent} sent in 90 days";
 
-  static String m103(name) => "“${name}” added to the library";
+  static String m105(name) => "“${name}” added to the library";
 
-  static String m104(name) => "“${name}” deleted";
+  static String m106(name) => "“${name}” deleted";
 
-  static String m105(count) =>
+  static String m107(count) =>
       "${Intl.plural(count, one: 'Yesterday', other: '${count} days ago')}";
 
-  static String m106(count) => "${count} h ago";
+  static String m108(count) => "${count} h ago";
 
-  static String m107(count) => "${count} min ago";
+  static String m109(count) => "${count} min ago";
 
-  static String m108(version) => "Version ${version} is available";
+  static String m110(version) => "Version ${version} is available";
 
-  static String m109(count) => "${count} verified";
+  static String m111(count) => "${count} verified";
 
-  static String m110(version) => "Version ${version}";
+  static String m112(version) => "Version ${version}";
 
-  static String m111(points, level) => "${points} XP to level ${level}";
+  static String m113(points, level) => "${points} XP to level ${level}";
 
-  static String m112(points) => "${points} XP";
+  static String m114(points) => "${points} XP";
 
-  static String m113(name) => "${name} (you)";
+  static String m115(name) => "${name} (you)";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -300,7 +307,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "Your first achievement is waiting",
         ),
         "achievementsSubtitle": MessageLookupByLibrary.simpleMessage(
-          "Every milestone you unlocked along the way",
+          "The receipts for all that hard work",
         ),
         "achievementsTitle": MessageLookupByLibrary.simpleMessage(
           "Your achievements",
@@ -411,7 +418,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "Collect the achievements your company issues, and recognize the colleagues who make a difference.",
         ),
         "authSignInSubtitle": MessageLookupByLibrary.simpleMessage(
-          "Sign in to see your achievements.",
+          "Your trophies missed you.",
         ),
         "authTagline": MessageLookupByLibrary.simpleMessage(
           "Every win,\non the record.",
@@ -425,7 +432,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "bannerSand": MessageLookupByLibrary.simpleMessage("Sand"),
         "baseExplanation": m30,
         "baseSubtitle": MessageLookupByLibrary.simpleMessage(
-          "Create achievements and send them to your colleagues",
+          "Small thank-yous, with XP attached",
         ),
         "bioHint": MessageLookupByLibrary.simpleMessage(
           "A line about you and what you do",
@@ -494,7 +501,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "communityPeople": MessageLookupByLibrary.simpleMessage("People"),
         "communitySubtitle": MessageLookupByLibrary.simpleMessage(
-          "See how you rank against everyone else",
+          "Everyone, everywhere, ranked. No pressure.",
         ),
         "communityTitle": MessageLookupByLibrary.simpleMessage("Community"),
         "companyCatalog":
@@ -520,20 +527,28 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "consoleActivity": MessageLookupByLibrary.simpleMessage("Activity log"),
         "consoleAssign": MessageLookupByLibrary.simpleMessage("Assign"),
+        "consoleAssignSubtitle": MessageLookupByLibrary.simpleMessage(
+          "Pick an achievement, pick the people, make their day.",
+        ),
         "consoleCatalog": MessageLookupByLibrary.simpleMessage("Catalog"),
+        "consoleCatalogSubtitle": m40,
         "consoleCompany": MessageLookupByLibrary.simpleMessage("Company"),
+        "consoleCompanySubtitle": m41,
+        "consoleInsightsSubtitle": m42,
         "consoleMembers": MessageLookupByLibrary.simpleMessage("Members"),
         "consoleReports": MessageLookupByLibrary.simpleMessage("Reports"),
-        "consoleRequests": m40,
+        "consoleRequests": m43,
+        "consoleRequestsSubtitle": MessageLookupByLibrary.simpleMessage(
+          "People asking for credit they believe they\'ve earned. You decide.",
+        ),
         "consoleSeasons": MessageLookupByLibrary.simpleMessage("Seasons"),
         "consoleStats": MessageLookupByLibrary.simpleMessage("Insights"),
-        "consoleSubtitle": m41,
         "consoleTeams": MessageLookupByLibrary.simpleMessage("Teams"),
         "createAccount": MessageLookupByLibrary.simpleMessage("Create account"),
         "createDialogSubtitle": MessageLookupByLibrary.simpleMessage(
           "Anyone in your company can send it to a colleague.",
         ),
-        "createdBy": m42,
+        "createdBy": m44,
         "createdByYou": MessageLookupByLibrary.simpleMessage("Created by you"),
         "currentPassword":
             MessageLookupByLibrary.simpleMessage("Current password"),
@@ -544,16 +559,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteSeasonBody": MessageLookupByLibrary.simpleMessage(
           "Its leaderboard disappears. The achievements are kept.",
         ),
-        "deleteSeasonTitle": m43,
+        "deleteSeasonTitle": m45,
         "deleteTeamBody": MessageLookupByLibrary.simpleMessage(
           "Its members will be left without a team. Their achievements are kept.",
         ),
-        "deleteTeamTitle": m44,
+        "deleteTeamTitle": m46,
         "deleteTemplateBody": MessageLookupByLibrary.simpleMessage(
           "It will be removed from the library. Colleagues who already received it keep their achievement.",
         ),
-        "deleteTemplateTitle": m45,
-        "demoAccount": m46,
+        "deleteTemplateTitle": m47,
+        "demoAccount": m48,
         "descriptionHint": MessageLookupByLibrary.simpleMessage(
           "What does someone do to deserve it?",
         ),
@@ -563,7 +578,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "detailCompany": MessageLookupByLibrary.simpleMessage("Company"),
         "detailEarnedOn": MessageLookupByLibrary.simpleMessage("Earned on"),
         "detailExperience": MessageLookupByLibrary.simpleMessage("Experience"),
-        "detailId": m47,
+        "detailId": m49,
         "detailSentBy": MessageLookupByLibrary.simpleMessage("Sent by"),
         "detailTier": MessageLookupByLibrary.simpleMessage("Tier"),
         "earnedLabel": MessageLookupByLibrary.simpleMessage("Earned"),
@@ -586,9 +601,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorAlreadyOwned": MessageLookupByLibrary.simpleMessage(
           "You already have this achievement.",
         ),
-        "errorAlreadySent": m48,
-        "errorBudgetExhausted": m49,
-        "errorCatalogPoints": m50,
+        "errorAlreadySent": m50,
+        "errorBudgetExhausted": m51,
+        "errorCatalogPoints": m52,
         "errorCompanyNameTaken": MessageLookupByLibrary.simpleMessage(
           "A company with this name is already on Scoreboard. Ask one of its admins to invite you.",
         ),
@@ -604,7 +619,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorInvalidInviteCode": MessageLookupByLibrary.simpleMessage(
           "This code isn\'t valid for this email, or it has expired. Ask an admin for a new invitation.",
         ),
-        "errorInvalidPoints": m51,
+        "errorInvalidPoints": m53,
         "errorLastAdmin": MessageLookupByLibrary.simpleMessage(
           "The company needs at least one admin.",
         ),
@@ -636,7 +651,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorNotTemplateOwner": MessageLookupByLibrary.simpleMessage(
           "You can only delete base achievements you created.",
         ),
-        "errorPasswordTooShort": m52,
+        "errorPasswordTooShort": m54,
         "errorRequestPending": MessageLookupByLibrary.simpleMessage(
           "You already have a pending request for this achievement.",
         ),
@@ -675,10 +690,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "exportSaved": MessageLookupByLibrary.simpleMessage("File saved"),
         "feedEarned": MessageLookupByLibrary.simpleMessage("earned"),
         "feedEmpty": MessageLookupByLibrary.simpleMessage(
-          "Nothing on the feed yet.",
+          "Quiet in here. The next achievement anyone receives will break the silence.",
         ),
         "feedSubtitle": MessageLookupByLibrary.simpleMessage(
-          "Your colleagues\' achievements, celebrated together",
+          "Your colleagues\' wins as they happen. Applause encouraged.",
         ),
         "feedTitle": MessageLookupByLibrary.simpleMessage("Company feed"),
         "fieldAchievement": MessageLookupByLibrary.simpleMessage("Achievement"),
@@ -696,8 +711,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "fieldName": MessageLookupByLibrary.simpleMessage("Name"),
         "fieldPhoto": MessageLookupByLibrary.simpleMessage("Photo"),
         "fieldRole": MessageLookupByLibrary.simpleMessage("Role"),
-        "filterAll": m53,
-        "filterTier": m54,
+        "filterAll": m55,
+        "filterTier": m56,
         "flipHint": MessageLookupByLibrary.simpleMessage(
           "Click the card to flip it",
         ),
@@ -717,14 +732,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalidUrl": MessageLookupByLibrary.simpleMessage(
           "Enter a valid http(s) link",
         ),
-        "inviteCodeChip": m55,
+        "inviteCodeChip": m57,
         "inviteCodeLabel":
             MessageLookupByLibrary.simpleMessage("Invitation code"),
         "inviteCodeRequired": MessageLookupByLibrary.simpleMessage(
           "Enter the code you received",
         ),
-        "inviteDetails": m56,
-        "inviteDialogBody": m57,
+        "inviteDetails": m58,
+        "inviteDialogBody": m59,
         "inviteDialogTitle": MessageLookupByLibrary.simpleMessage(
           "Invite a colleague",
         ),
@@ -738,42 +753,41 @@ class MessageLookup extends MessageLookupByLibrary {
         "inviteRevokeBody": MessageLookupByLibrary.simpleMessage(
           "The code will stop working. You can invite them again later.",
         ),
-        "inviteRevokeTitle": m58,
+        "inviteRevokeTitle": m60,
         "inviteRevoked":
             MessageLookupByLibrary.simpleMessage("Invitation revoked"),
         "inviteSend": MessageLookupByLibrary.simpleMessage("Send invitation"),
-        "inviteSent": m59,
-        "inviteSentDemo": m60,
+        "inviteSent": m61,
+        "inviteSentDemo": m62,
         "invitesEmpty": MessageLookupByLibrary.simpleMessage(
           "No pending invitations.",
         ),
-        "issuedCount": m61,
-        "issuedTimes": m62,
+        "issuedCount": m63,
+        "issuedTimes": m64,
         "labelVerified": MessageLookupByLibrary.simpleMessage("Verified"),
         "languageSystem": MessageLookupByLibrary.simpleMessage("System"),
         "languageTitle": MessageLookupByLibrary.simpleMessage("Language"),
         "leaderboard": MessageLookupByLibrary.simpleMessage("Leaderboard"),
         "legendPeer": MessageLookupByLibrary.simpleMessage("Peer"),
-        "levelAndXp": m63,
-        "levelN": m64,
-        "libraryCount": m65,
+        "levelAndXp": m65,
+        "levelN": m66,
+        "libraryCount": m67,
         "libraryEmpty": MessageLookupByLibrary.simpleMessage(
-          "No base achievements yet. Create the first!",
+          "The library is empty. Someone has to go first; it might as well be you.",
         ),
         "loadError": MessageLookupByLibrary.simpleMessage(
           "Something went wrong while loading data.",
         ),
         "markAllRead": MessageLookupByLibrary.simpleMessage("Mark all as read"),
-        "memberSince": m66,
-        "memberTeamLabel": m67,
-        "membersCount": m68,
+        "memberSince": m68,
+        "memberTeamLabel": m69,
+        "membersCount": m70,
         "membersHint": MessageLookupByLibrary.simpleMessage(
           "Invite people to the company and choose who can manage it.",
         ),
         "membersWithoutTeam": MessageLookupByLibrary.simpleMessage(
           "Without a team",
         ),
-        "menuLabel": MessageLookupByLibrary.simpleMessage("MENU"),
         "messageHint": MessageLookupByLibrary.simpleMessage(
           "Tell them why they deserve it",
         ),
@@ -802,17 +816,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "newSeason": MessageLookupByLibrary.simpleMessage("New season"),
         "newTeam": MessageLookupByLibrary.simpleMessage("New team"),
         "noAchievementsInTier": MessageLookupByLibrary.simpleMessage(
-          "No achievements in this tier yet.",
+          "Nothing in this tier yet. Give it time.",
         ),
         "noAchievementsYet": MessageLookupByLibrary.simpleMessage(
           "No achievements yet.",
         ),
         "noManager": MessageLookupByLibrary.simpleMessage("No manager"),
         "noSearchResults": MessageLookupByLibrary.simpleMessage(
-          "No results match your search.",
+          "Nothing matches that. Try fewer letters, or a different hunch.",
         ),
         "noTeam": MessageLookupByLibrary.simpleMessage("No team"),
-        "nominateDialogSubtitle": m69,
+        "nominateDialogSubtitle": m71,
         "nominateDialogTitle": MessageLookupByLibrary.simpleMessage(
           "Propose a verified achievement",
         ),
@@ -824,52 +838,52 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "noteAuthorFallback":
             MessageLookupByLibrary.simpleMessage("A colleague"),
-        "notifApprovedBody": m70,
+        "notifApprovedBody": m72,
         "notifApprovedTitle": MessageLookupByLibrary.simpleMessage(
           "Request approved",
         ),
-        "notifCommentBody": m71,
+        "notifCommentBody": m73,
         "notifCommentTitle":
             MessageLookupByLibrary.simpleMessage("New comment"),
-        "notifLevelUpBody": m72,
+        "notifLevelUpBody": m74,
         "notifLevelUpTitle": MessageLookupByLibrary.simpleMessage("Level up!"),
-        "notifNewRequestBody": m73,
+        "notifNewRequestBody": m75,
         "notifNewRequestTitle":
             MessageLookupByLibrary.simpleMessage("New request"),
-        "notifNominationBody": m74,
+        "notifNominationBody": m76,
         "notifNominationTitle": MessageLookupByLibrary.simpleMessage(
           "New proposal",
         ),
-        "notifPeerBody": m75,
+        "notifPeerBody": m77,
         "notifPeerTitle":
             MessageLookupByLibrary.simpleMessage("New achievement"),
-        "notifReactionBody": m76,
+        "notifReactionBody": m78,
         "notifReactionTitle":
             MessageLookupByLibrary.simpleMessage("New reaction"),
-        "notifRecapBody": m77,
+        "notifRecapBody": m79,
         "notifRecapTitle": MessageLookupByLibrary.simpleMessage(
           "Your weekly recap",
         ),
-        "notifRejectedBody": m78,
-        "notifRejectedBodyReason": m79,
+        "notifRejectedBody": m80,
+        "notifRejectedBodyReason": m81,
         "notifRejectedTitle": MessageLookupByLibrary.simpleMessage(
           "Request rejected",
         ),
-        "notifVerifiedBody": m80,
+        "notifVerifiedBody": m82,
         "notifVerifiedTitle": MessageLookupByLibrary.simpleMessage(
           "Verified achievement",
         ),
         "notificationsEmpty": MessageLookupByLibrary.simpleMessage(
-          "No notifications yet.",
+          "All caught up. Nothing needs you right now.",
         ),
         "notificationsOpen": MessageLookupByLibrary.simpleMessage(
           "Open notifications",
         ),
         "notificationsTitle":
             MessageLookupByLibrary.simpleMessage("Notifications"),
-        "notificationsUnread": m81,
+        "notificationsUnread": m83,
         "onboardingDone": MessageLookupByLibrary.simpleMessage("Get started"),
-        "onboardingFastBody": m82,
+        "onboardingFastBody": m84,
         "onboardingFastTitle":
             MessageLookupByLibrary.simpleMessage("Move fast"),
         "onboardingFeedBody": MessageLookupByLibrary.simpleMessage(
@@ -878,7 +892,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "onboardingFeedTitle": MessageLookupByLibrary.simpleMessage(
           "Celebrate together",
         ),
-        "onboardingKindsBody": m83,
+        "onboardingKindsBody": m85,
         "onboardingKindsTitle": MessageLookupByLibrary.simpleMessage(
           "Verified and peer achievements",
         ),
@@ -899,7 +913,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordChanged":
             MessageLookupByLibrary.simpleMessage("Password changed"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
-        "passwordMinLength": m84,
+        "passwordMinLength": m86,
         "passwordRequired": MessageLookupByLibrary.simpleMessage(
           "Enter your password",
         ),
@@ -911,7 +925,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "Pending invitations",
         ),
         "pendingSection": MessageLookupByLibrary.simpleMessage("Pending"),
-        "percentValue": m85,
+        "percentValue": m87,
         "periodAll": MessageLookupByLibrary.simpleMessage("All time"),
         "periodLast30": MessageLookupByLibrary.simpleMessage("Last 30 days"),
         "periodQuarter": MessageLookupByLibrary.simpleMessage("This quarter"),
@@ -939,7 +953,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "profileUpdated":
             MessageLookupByLibrary.simpleMessage("Profile updated"),
         "rankHidden": MessageLookupByLibrary.simpleMessage("Hidden"),
-        "rankValue": m86,
+        "rankValue": m88,
         "reactionCelebrate": MessageLookupByLibrary.simpleMessage("Celebrate"),
         "reactionInsightful":
             MessageLookupByLibrary.simpleMessage("Insightful"),
@@ -959,7 +973,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "rejectReasonHint": MessageLookupByLibrary.simpleMessage(
           "Reason (optional)",
         ),
-        "rejectionReason": m87,
+        "rejectionReason": m89,
         "replaceImage": MessageLookupByLibrary.simpleMessage("Replace image"),
         "reportAchievementsBody": MessageLookupByLibrary.simpleMessage(
           "One row per achievement received: date, person, team, kind, XP and who gave it.",
@@ -980,7 +994,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "requestApprovedMessage": MessageLookupByLibrary.simpleMessage(
           "Request approved",
         ),
-        "requestDialogSubtitle": m88,
+        "requestDialogSubtitle": m90,
         "requestDialogTitle": MessageLookupByLibrary.simpleMessage(
           "Request an achievement",
         ),
@@ -991,14 +1005,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "requestMessageRequired": MessageLookupByLibrary.simpleMessage(
           "Write a message",
         ),
-        "requestNominatedBy": m89,
+        "requestNominatedBy": m91,
         "requestRejectedMessage": MessageLookupByLibrary.simpleMessage(
           "Request rejected",
         ),
         "requestSent": MessageLookupByLibrary.simpleMessage("Request sent"),
-        "requestsEmpty": MessageLookupByLibrary.simpleMessage("No requests."),
+        "requestsEmpty": MessageLookupByLibrary.simpleMessage(
+          "No requests. Everyone\'s either thriving or being modest.",
+        ),
         "restore": MessageLookupByLibrary.simpleMessage("Restore"),
-        "roleAtCompany": m90,
+        "roleAtCompany": m92,
         "roleRequired": MessageLookupByLibrary.simpleMessage("Enter your role"),
         "saveProfile": MessageLookupByLibrary.simpleMessage("Save profile"),
         "searchAchievementsHint": MessageLookupByLibrary.simpleMessage(
@@ -1013,7 +1029,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "seasonActive": MessageLookupByLibrary.simpleMessage("In progress"),
         "seasonCurrent": MessageLookupByLibrary.simpleMessage("Current season"),
         "seasonDates": MessageLookupByLibrary.simpleMessage("Dates"),
-        "seasonDaysLeft": m91,
+        "seasonDaysLeft": m93,
         "seasonDeletedMessage": MessageLookupByLibrary.simpleMessage(
           "Season deleted",
         ),
@@ -1021,10 +1037,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "seasonName": MessageLookupByLibrary.simpleMessage("Name"),
         "seasonNameHint":
             MessageLookupByLibrary.simpleMessage("e.g. Autumn 2026"),
-        "seasonRange": m92,
+        "seasonRange": m94,
         "seasonSaved": MessageLookupByLibrary.simpleMessage("Season saved"),
         "seasonUpcoming": MessageLookupByLibrary.simpleMessage("Upcoming"),
-        "seasonYourRank": m93,
+        "seasonYourRank": m95,
         "seasonsEmpty": MessageLookupByLibrary.simpleMessage("No seasons yet."),
         "seasonsHint": MessageLookupByLibrary.simpleMessage(
           "Each season has its own leaderboard, counting the XP earned between its dates. Seasons can\'t overlap.",
@@ -1051,11 +1067,11 @@ class MessageLookup extends MessageLookupByLibrary {
           "Create a base achievement first.",
         ),
         "sendPreviewHint": MessageLookupByLibrary.simpleMessage(
-          "Pick an achievement to see how it will look.",
+          "Pick an achievement and its card shows up here, ready to go.",
         ),
-        "sendSuccess": m94,
-        "sentByYouCount": m95,
-        "sentCount": m96,
+        "sendSuccess": m96,
+        "sentByYouCount": m97,
+        "sentCount": m98,
         "sentEmpty": MessageLookupByLibrary.simpleMessage(
           "You haven\'t sent any achievement yet. Pick one from the library and make a colleague\'s day.",
         ),
@@ -1070,7 +1086,7 @@ class MessageLookup extends MessageLookupByLibrary {
         ),
         "shareAddToProfile":
             MessageLookupByLibrary.simpleMessage("Add to profile"),
-        "shareAddToProfileHint": m97,
+        "shareAddToProfileHint": m99,
         "shareCopyText": MessageLookupByLibrary.simpleMessage("Copy text"),
         "shareDialogSubtitle": MessageLookupByLibrary.simpleMessage(
           "Post about it, or add it to your LinkedIn profile.",
@@ -1081,7 +1097,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "shareImageHint": MessageLookupByLibrary.simpleMessage(
           "LinkedIn links can\'t attach images: save this one and add it to your post.",
         ),
-        "shareImageIssuedBy": m98,
+        "shareImageIssuedBy": m100,
         "shareImageSaved": MessageLookupByLibrary.simpleMessage("Image saved"),
         "shareOnLinkedIn": MessageLookupByLibrary.simpleMessage(
           "Share on LinkedIn",
@@ -1096,8 +1112,8 @@ class MessageLookup extends MessageLookupByLibrary {
           "Text copied: if LinkedIn doesn\'t fill it in, paste it into the post.",
         ),
         "sharePostLabel": MessageLookupByLibrary.simpleMessage("Post text"),
-        "sharePostPeer": m99,
-        "sharePostVerified": m100,
+        "sharePostPeer": m101,
+        "sharePostVerified": m102,
         "shareSaveError": MessageLookupByLibrary.simpleMessage(
           "Could not save the image. Try again.",
         ),
@@ -1173,11 +1189,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "teamEmpty": MessageLookupByLibrary.simpleMessage(
           "Nobody in your team yet.",
         ),
-        "teamLastRecognized": m101,
+        "teamLastRecognized": m103,
         "teamLeaderboard":
             MessageLookupByLibrary.simpleMessage("Team leaderboard"),
         "teamManager": MessageLookupByLibrary.simpleMessage("Manager"),
-        "teamMemberActivity": m102,
+        "teamMemberActivity": m104,
         "teamName": MessageLookupByLibrary.simpleMessage("Team name"),
         "teamNeverRecognized": MessageLookupByLibrary.simpleMessage(
           "Never recognized yet",
@@ -1196,7 +1212,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "Received in 30 days",
         ),
         "teamSubtitle": MessageLookupByLibrary.simpleMessage(
-          "How your team is being recognized",
+          "Who\'s getting the credit, and who deserves more",
         ),
         "teamsEmpty": MessageLookupByLibrary.simpleMessage(
           "No teams yet. Create the first one.",
@@ -1204,14 +1220,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "teamsHint": MessageLookupByLibrary.simpleMessage(
           "Each team has a manager, who sees how its members are recognized and can propose verified achievements for them.",
         ),
-        "templateAdded": m103,
+        "templateAdded": m105,
         "templateCreateError": MessageLookupByLibrary.simpleMessage(
           "Could not create the achievement. Try again.",
         ),
         "templateDeleteError": MessageLookupByLibrary.simpleMessage(
           "Could not delete the achievement. Try again.",
         ),
-        "templateDeleted": m104,
+        "templateDeleted": m106,
         "templateNameRequired": MessageLookupByLibrary.simpleMessage(
           "Give it a name",
         ),
@@ -1223,10 +1239,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "tierPeer": MessageLookupByLibrary.simpleMessage("Peer"),
         "tierPlatinum": MessageLookupByLibrary.simpleMessage("Platinum"),
         "tierSilver": MessageLookupByLibrary.simpleMessage("Silver"),
-        "timeDays": m105,
-        "timeHours": m106,
+        "timeDays": m107,
+        "timeHours": m108,
         "timeJustNow": MessageLookupByLibrary.simpleMessage("Just now"),
-        "timeMinutes": m107,
+        "timeMinutes": m109,
         "top3": MessageLookupByLibrary.simpleMessage("Top 3"),
         "topPerformers": MessageLookupByLibrary.simpleMessage("Top performers"),
         "trayOpen": MessageLookupByLibrary.simpleMessage("Open Scoreboard"),
@@ -1235,7 +1251,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "updateAvailableBody": MessageLookupByLibrary.simpleMessage(
           "Download it from the release page on GitHub.",
         ),
-        "updateAvailableTitle": m108,
+        "updateAvailableTitle": m110,
         "updateCheckError": MessageLookupByLibrary.simpleMessage(
           "Couldn\'t check for updates.",
         ),
@@ -1249,12 +1265,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "verifiedByCompany": MessageLookupByLibrary.simpleMessage(
           "Verified by the company",
         ),
-        "verifiedCount": m109,
-        "versionLabel": m110,
+        "verifiedCount": m111,
+        "versionLabel": m112,
         "workEmail": MessageLookupByLibrary.simpleMessage("Work email"),
-        "xpToNextLevel": m111,
-        "xpValue": m112,
+        "xpToNextLevel": m113,
+        "xpValue": m114,
         "youLabel": MessageLookupByLibrary.simpleMessage("(you)"),
-        "youSuffix": m113,
+        "youSuffix": m115,
       };
 }

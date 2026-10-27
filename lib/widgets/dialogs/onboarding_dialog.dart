@@ -6,6 +6,7 @@ import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/model/company.dart';
 import 'package:scoreboard/model/send_achievement.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Four-step introduction shown on a user's first sign-in.
 Future<void> showOnboardingDialog(BuildContext context) => showDialog<void>(
@@ -45,17 +46,17 @@ class _OnboardingDialogState extends State<_OnboardingDialog> {
       1 => (
           l10n.onboardingKindsTitle,
           l10n.onboardingKindsBody(SendAchievementOptions.monthlyBudget),
-          Icons.verified_rounded
+          LucideIcons.badgeCheck
         ),
       2 => (
           l10n.onboardingFeedTitle,
           l10n.onboardingFeedBody,
-          Icons.dynamic_feed_rounded
+          LucideIcons.newspaper
         ),
       _ => (
           l10n.onboardingFastTitle,
           l10n.onboardingFastBody(AppShortcuts.quickSendLabel),
-          Icons.keyboard_command_key_rounded
+          LucideIcons.command
         ),
     };
     final last = _step == _steps - 1;
@@ -96,12 +97,7 @@ class _OnboardingDialogState extends State<_OnboardingDialog> {
                 ),
               ),
               const SizedBox(height: 20),
-              Text(title,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.4)),
+              Text(title, textAlign: TextAlign.center, style: AppText.title),
               const SizedBox(height: 10),
               Text(body,
                   textAlign: TextAlign.center,

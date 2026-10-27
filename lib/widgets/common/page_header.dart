@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scoreboard/core/theme.dart';
 
 /// Horizontal and top padding shared by every page so content lines up.
 const EdgeInsets pagePadding = EdgeInsets.fromLTRB(32, 40, 32, 32);
@@ -20,22 +21,22 @@ class PageHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title,
-                  style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.6)),
+              Text(title, style: AppText.pageTitle),
               if (subtitle != null) ...[
-                const SizedBox(height: 4),
+                const SizedBox(height: 6),
                 Text(subtitle!,
                     style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 14.5,
+                        height: 1.4,
                         color: Theme.of(context).colorScheme.onSurfaceVariant)),
               ],
             ],
           ),
         ),
-        if (trailing != null) trailing!,
+        if (trailing != null) ...[
+          const SizedBox(width: AppSpace.lg),
+          trailing!,
+        ],
       ],
     );
   }
@@ -54,11 +55,7 @@ class SectionTitle extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text(title,
-                style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.2)),
+            child: Text(title, style: AppText.sectionTitle),
           ),
           if (trailing != null) trailing!,
         ],

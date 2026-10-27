@@ -8,6 +8,7 @@ import 'package:scoreboard/core/theme.dart';
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/widgets/dialogs/dialog_scaffold.dart';
 import 'package:scoreboard/widgets/share_image.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Preview of the image and text to share, with the LinkedIn actions.
 /// [onAddToProfile] is null for achievements that can't go on a profile.
@@ -92,11 +93,7 @@ class _ShareAchievementDialogState extends State<_ShareAchievementDialog> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.shareOnLinkedIn,
-                  style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.4)),
+              Text(l10n.shareOnLinkedIn, style: AppText.title),
               const SizedBox(height: 4),
               Text(l10n.shareDialogSubtitle,
                   style: TextStyle(color: colorScheme.onSurfaceVariant)),
@@ -132,7 +129,7 @@ class _ShareAchievementDialogState extends State<_ShareAchievementDialog> {
                               children: [
                                 OutlinedButton.icon(
                                   onPressed: _saveImage,
-                                  icon: const Icon(Icons.download_rounded,
+                                  icon: const Icon(LucideIcons.download,
                                       size: 18),
                                   label: Text(l10n.shareSaveImage),
                                 ),
@@ -166,14 +163,14 @@ class _ShareAchievementDialogState extends State<_ShareAchievementDialog> {
                               TextButton.icon(
                                 onPressed: () =>
                                     widget.onCopy(_textController.text),
-                                icon: const Icon(Icons.copy_rounded, size: 18),
+                                icon: const Icon(LucideIcons.copy, size: 18),
                                 label: Text(l10n.shareCopyText),
                               ),
                               const Spacer(),
                               FilledButton.icon(
                                 onPressed: () =>
                                     widget.onPost(_textController.text),
-                                icon: const Icon(Icons.open_in_new_rounded,
+                                icon: const Icon(LucideIcons.externalLink,
                                     size: 18),
                                 label: Text(l10n.shareOpenLinkedIn),
                               ),
@@ -192,9 +189,7 @@ class _ShareAchievementDialogState extends State<_ShareAchievementDialog> {
                                 const SizedBox(width: 12),
                                 OutlinedButton.icon(
                                   onPressed: widget.onAddToProfile,
-                                  icon: const Icon(
-                                      Icons.workspace_premium_rounded,
-                                      size: 18),
+                                  icon: const Icon(LucideIcons.award, size: 18),
                                   label: Text(l10n.shareAddToProfile),
                                 ),
                               ],

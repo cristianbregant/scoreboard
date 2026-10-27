@@ -13,6 +13,7 @@ import 'package:scoreboard/widgets/common/content_state_view.dart';
 import 'package:scoreboard/widgets/common/page_header.dart';
 import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class MembersAdminView extends BaseStatefulWidget {
   MembersAdminView({super.key}) : super(_MembersAdminViewState());
@@ -38,7 +39,6 @@ class _MembersAdminViewState extends BaseState<MembersAdminView,
           onRetry: viewModel.load,
           builder: (context) {
             final l10n = context.l10n;
-            final colorScheme = Theme.of(context).colorScheme;
             return ListView(
               padding: pagePadding,
               children: [
@@ -47,14 +47,13 @@ class _MembersAdminViewState extends BaseState<MembersAdminView,
                   subtitle: l10n.membersHint,
                   trailing: FilledButton.icon(
                     onPressed: viewModel.onTapInvite,
-                    icon: const Icon(Icons.person_add_alt_1_outlined),
+                    icon: const Icon(LucideIcons.userPlus),
                     label: Text(l10n.inviteMember),
                   ),
                 ),
                 SectionTitle(l10n.pendingInvites),
                 if (vmState.invites.isEmpty)
-                  Text(l10n.invitesEmpty,
-                      style: TextStyle(color: colorScheme.onSurfaceVariant))
+                  EmptyNote(icon: LucideIcons.mail, message: l10n.invitesEmpty)
                 else
                   Card(
                     child: Column(
@@ -89,7 +88,7 @@ class _MembersAdminViewState extends BaseState<MembersAdminView,
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: colorScheme.surfaceContainerHighest,
-        child: Icon(Icons.mail_outline_rounded,
+        child: Icon(LucideIcons.mail,
             size: 20, color: colorScheme.onSurfaceVariant),
       ),
       title: Text(invite.email),
@@ -107,12 +106,11 @@ class _MembersAdminViewState extends BaseState<MembersAdminView,
             if (expired)
               TagChip(
                   label: l10n.inviteExpired,
-                  icon: Icons.schedule_rounded,
+                  icon: LucideIcons.clock,
                   color: colorScheme.error),
             // Only in demo mode, where no email carries the code.
             if (code != null && !expired)
-              TagChip(
-                  label: l10n.inviteCodeChip(code), icon: Icons.key_rounded),
+              TagChip(label: l10n.inviteCodeChip(code), icon: LucideIcons.key),
           ],
         ),
       ),
@@ -125,7 +123,7 @@ class _MembersAdminViewState extends BaseState<MembersAdminView,
           IconButton(
               tooltip: l10n.inviteRevoke,
               onPressed: () => viewModel.onTapRevokeInvite(invite),
-              icon: Icon(Icons.close_rounded, color: colorScheme.error)),
+              icon: Icon(LucideIcons.x, color: colorScheme.error)),
         ],
       ),
     );
@@ -209,7 +207,7 @@ class _InviteDialogState extends State<_InviteDialog> {
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                   labelText: l10n.workEmail,
-                  prefixIcon: const Icon(Icons.mail_outline_rounded)),
+                  prefixIcon: const Icon(LucideIcons.mail)),
               onChanged: (_) => setState(() {}),
               onSubmitted: (_) => _submit(),
             ),

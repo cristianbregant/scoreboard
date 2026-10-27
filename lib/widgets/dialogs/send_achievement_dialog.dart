@@ -7,6 +7,7 @@ import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 import 'package:scoreboard/widgets/dialogs/dialog_scaffold.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 /// Returns what to send, or null if cancelled.
 Future<SendAchievementRequest?> showSendAchievementDialog(
@@ -108,14 +109,14 @@ class _SendAchievementDialogState extends State<_SendAchievementDialog> {
             child: Text(context.l10n.commonCancel)),
         FilledButton.icon(
             onPressed: _canSend ? _onSend : null,
-            icon: const Icon(Icons.send_rounded),
+            icon: const Icon(LucideIcons.send),
             label: Text(context.l10n.commonSend)),
       ],
       form: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TagChip(
-              icon: Icons.toll_rounded,
+              icon: LucideIcons.coins,
               color: Theme.of(context).colorScheme.primary,
               label: context.l10n.budgetRemaining(options.remainingBudget,
                   SendAchievementOptions.monthlyBudget)),

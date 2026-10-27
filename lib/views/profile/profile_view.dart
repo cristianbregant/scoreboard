@@ -20,6 +20,7 @@ import 'package:scoreboard/widgets/common/stat_tile.dart';
 import 'package:scoreboard/widgets/common/user_avatar.dart';
 import 'package:scoreboard/widgets/dialogs/edit_profile_dialog.dart';
 import 'package:scoreboard/widgets/interactive_card.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ProfileView extends BaseStatefulWidget {
   ProfileView({
@@ -55,18 +56,19 @@ class _ProfileViewState
                       StatTile(
                           label: context.l10n.statTotalXp,
                           value: "${vmState.totalPoints}",
-                          icon: Icons.bolt_rounded),
+                          icon: LucideIcons.zap),
                       StatTile(
-                          label:
-                              context.l10n.verifiedCount(vmState.verifiedCount),
+                          label: context.l10n.statAchievements,
                           value: "${vmState.achievements.length}",
-                          icon: Icons.emoji_events_rounded,
+                          caption:
+                              context.l10n.verifiedCount(vmState.verifiedCount),
+                          icon: LucideIcons.trophy,
                           color: AchievementTier.gold.color),
                       StatTile(
                           label: context.l10n.statCompanyRank,
                           value: context.l10n
                               .rankValue('${vmState.companyRank ?? '-'}'),
-                          icon: Icons.business_rounded,
+                          icon: LucideIcons.building2,
                           color: AppColors.verified),
                       StatTile(
                           label: context.l10n.statGlobalRank,
@@ -74,7 +76,7 @@ class _ProfileViewState
                               ? context.l10n.rankHidden
                               : context.l10n
                                   .rankValue('${vmState.globalRank ?? '-'}'),
-                          icon: Icons.public_rounded,
+                          icon: LucideIcons.globe,
                           color: AppColors.success),
                     ]),
                     SectionTitle(context.l10n.recentAchievements),
@@ -136,7 +138,7 @@ class _ProfileViewState
                         horizontal: 14, vertical: 10),
                   ),
                   onPressed: viewModel.onTapEditProfile,
-                  icon: const Icon(Icons.edit_rounded, size: 16),
+                  icon: const Icon(LucideIcons.pencil, size: 16),
                   label: Text(context.l10n.editProfile),
                 ),
               ),
@@ -162,10 +164,7 @@ class _ProfileViewState
                     children: [
                       const SizedBox(height: _avatarRadius - 4),
                       Text(user.name,
-                          style: const TextStyle(
-                              fontSize: 26,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: -0.5)),
+                          style: AppText.pageTitle.copyWith(fontSize: 28)),
                       const SizedBox(height: 2),
                       Text(
                           context.l10n.roleAtCompany(
@@ -184,11 +183,11 @@ class _ProfileViewState
                         spacing: 8,
                         runSpacing: 8,
                         children: [
-                          TagChip(label: user.email, icon: Icons.mail_rounded),
+                          TagChip(label: user.email, icon: LucideIcons.mail),
                           TagChip(
                               label: context.l10n
                                   .memberSince(formatDate(user.joinedAt)),
-                              icon: Icons.event_rounded),
+                              icon: LucideIcons.calendar),
                         ],
                       ),
                     ],
@@ -217,8 +216,7 @@ class _ProfileViewState
         children: [
           Row(
             children: [
-              Icon(Icons.military_tech_rounded,
-                  color: colorScheme.primary, size: 20),
+              Icon(LucideIcons.medal, color: colorScheme.primary, size: 20),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(context.l10n.levelN(level.level),

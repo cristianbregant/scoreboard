@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/model/release.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 Future<void> showUpdateDialog(BuildContext context, ReleaseInfo release,
     {required void Function(String url) onDownload}) {
@@ -8,7 +9,7 @@ Future<void> showUpdateDialog(BuildContext context, ReleaseInfo release,
   return showDialog<void>(
     context: context,
     builder: (context) => AlertDialog(
-      icon: const Icon(Icons.system_update_alt_rounded),
+      icon: const Icon(LucideIcons.download),
       title: Text(l10n.updateAvailableTitle(release.version)),
       content: Text(l10n.updateAvailableBody),
       actions: [

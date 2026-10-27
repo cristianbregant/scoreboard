@@ -240,7 +240,6 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
                 Sidebar(
                     logoPath: context.watch<BrandProvider>().logoPath,
                     adminMode: adminMode,
-                    sectionLabel: adminMode ? null : context.l10n.menuLabel,
                     items: adminMode
                         ? [
                             for (final s in ConsoleSection.values)
