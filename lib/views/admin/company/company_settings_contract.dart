@@ -13,6 +13,8 @@ abstract class CompanySettingsViewModelContract extends BaseViewModelContract<
   void onTapRemoveLogo();
   void onToggleAnniversaries(bool enabled);
   void onToggleAnniversaryYear(int years);
+  void onToggleIndividualRankings(bool enabled);
+  void onToggleRecognitionGaps(bool enabled);
 }
 
 class CompanySettingsState extends BaseVMState {

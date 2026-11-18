@@ -1,22 +1,19 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:multiview_desktop/multiview_desktop.dart';
 
 /// Per-platform window frame.
 ///
 /// On macOS the title bar is hidden and the content extends under it, next
 /// to the traffic lights. Windows and Linux keep the native title bar, which
 /// holds the minimize/maximize/close buttons, so no inset is needed there.
+/// In a browser the page has no window frame at all, even on a Mac.
 class WindowChrome {
   /// Answered by MainFlutterWindow.swift.
   static const MethodChannel _channel = MethodChannel('scoreboard/window');
 
   static bool get hasHiddenTitleBar =>
-      defaultTargetPlatform == TargetPlatform.macOS;
-
-  static TitleBarStyle get titleBarStyle =>
-      hasHiddenTitleBar ? TitleBarStyle.hidden : TitleBarStyle.normal;
+      !kIsWeb && defaultTargetPlatform == TargetPlatform.macOS;
 
   /// Height covered by the macOS traffic lights.
   static double get topInset => hasHiddenTitleBar ? 28 : 0;

@@ -24,6 +24,13 @@ class Company {
   final int foundedYear;
   final CompanyBrand? brand;
 
+  /// Mirrors [CompanySettings.individualRankings]: false keeps the
+  /// company's people out of every individual leaderboard.
+  final bool individualRankings;
+
+  /// Mirrors [CompanySettings.recognitionGaps].
+  final bool recognitionGaps;
+
   const Company(
       {required this.id,
       required this.name,
@@ -31,7 +38,23 @@ class Company {
       required this.industry,
       required this.location,
       required this.foundedYear,
-      this.brand});
+      this.brand,
+      this.individualRankings = true,
+      this.recognitionGaps = true});
+
+  /// This company with the privacy switches of its settings.
+  Company withPrivacy(
+          {required bool individualRankings, required bool recognitionGaps}) =>
+      Company(
+          id: id,
+          name: name,
+          description: description,
+          industry: industry,
+          location: location,
+          foundedYear: foundedYear,
+          brand: brand,
+          individualRankings: individualRankings,
+          recognitionGaps: recognitionGaps);
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
@@ -43,6 +66,8 @@ class Company {
       foundedYear: json['founded_year'],
       brand:
           json['brand'] != null ? CompanyBrand.fromJson(json['brand']) : null,
+      individualRankings: json['individual_rankings'] ?? true,
+      recognitionGaps: json['recognition_gaps'] ?? true,
     );
   }
 
@@ -54,5 +79,7 @@ class Company {
         'location': location,
         'founded_year': foundedYear,
         'brand': brand?.toJson(),
+        'individual_rankings': individualRankings,
+        'recognition_gaps': recognitionGaps,
       };
 }

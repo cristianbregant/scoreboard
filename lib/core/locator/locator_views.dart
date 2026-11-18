@@ -15,6 +15,7 @@ void setupLocatorViews() {
   getIt.registerFactory<ReportsView>(() => ReportsView());
   getIt.registerFactory<ActivityView>(() => ActivityView());
   getIt.registerFactory<CompanySettingsView>(() => CompanySettingsView());
+  getIt.registerFactory<IntegrationsView>(() => IntegrationsView());
   getIt.registerFactory<SettingsView>(() => SettingsView());
   getIt.registerFactory<ProfileView>(() => ProfileView());
   getIt.registerFactory<CommunityView>(() => CommunityView());

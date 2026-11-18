@@ -8,10 +8,13 @@ import 'package:scoreboard/model/admin.dart';
 import 'package:scoreboard/model/app_notification.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
+import 'package:scoreboard/model/chat_integration.dart';
 import 'package:scoreboard/model/company.dart';
 import 'package:scoreboard/model/company_settings.dart';
 import 'package:scoreboard/model/feed.dart';
 import 'package:scoreboard/model/invite.dart';
+import 'package:scoreboard/model/issued_credential.dart';
+import 'package:scoreboard/model/sso.dart';
 import 'package:scoreboard/model/season.dart';
 import 'package:scoreboard/model/send_achievement.dart';
 import 'package:scoreboard/model/team.dart';
@@ -64,6 +67,24 @@ class RestScoreboardRepository implements ScoreboardRepository {
                 'location': company.location,
               },
           })));
+
+  @override
+  Future<List<SsoProvider>> getSsoProviders() =>
+      _list(() => _api.get(ApiEndpoints.ssoProviders), SsoProvider.fromJson);
+
+  @override
+  Uri ssoStartUrl(String providerId,
+          {required Uri redirectUri, required String state}) =>
+      Uri.parse(_api.baseUrl + ApiEndpoints.ssoStart(providerId)).replace(
+          queryParameters: {
+            'redirect_uri': redirectUri.toString(),
+            'state': state
+          });
+
+  @override
+  Future<UserProfile> completeSso(String code) async =>
+      _startSession(await _object(
+          () => _api.post(ApiEndpoints.ssoExchange, data: {'code': code})));
 
   Future<UserProfile> _startSession(_Json session) async {
     final user = UserProfile.fromJson(session['user']);
@@ -240,6 +261,17 @@ class RestScoreboardRepository implements ScoreboardRepository {
   }
 
   @override
+  Future<BulkInviteResult> createInvites(List<InviteDraft> drafts,
+      {required String languageCode}) async {
+    final admin = await getCurrentUser();
+    return BulkInviteResult.fromJson(await _object(
+        () => _api.post(ApiEndpoints.bulkInvites(admin.companyId), data: {
+              'invites': [for (final draft in drafts) draft.toJson()],
+              'language': languageCode,
+            })));
+  }
+
+  @override
   Future<void> revokeInvite(String inviteId) =>
       _send(() => _api.delete(ApiEndpoints.invite(inviteId)));
 
@@ -247,6 +279,27 @@ class RestScoreboardRepository implements ScoreboardRepository {
   Future<void> setCompanyAdmin(String userId, bool isAdmin) =>
       _send(() => _api.put(ApiEndpoints.userAdmin(userId),
           data: {'is_company_admin': isAdmin}));
+
+  @override
+  Future<ChatIntegration> getChatIntegration(String companyId) async =>
+      ChatIntegration.fromJson(
+          await _object(() => _api.get(ApiEndpoints.integrations(companyId))));
+
+  @override
+  Future<ChatIntegration> updateChatIntegration(
+          String companyId, ChatIntegrationUpdate update) async =>
+      ChatIntegration.fromJson(await _object(() => _api
+          .put(ApiEndpoints.integrations(companyId), data: update.toJson())));
+
+  @override
+  Future<void> testChatIntegration(String companyId, ChatChannel channel) =>
+      _send(() => _api.post(ApiEndpoints.integrationTest(companyId),
+          data: {'channel': channel.name}));
+
+  @override
+  Future<IssuedCredential?> getCredential(String achievementId) async =>
+      IssuedCredential.fromJson(await _object(
+          () => _api.get(ApiEndpoints.credential(achievementId))));
 
   Future<List<T>> _list<T>(
       Future<dynamic> Function() request, T Function(_Json) fromJson) async {

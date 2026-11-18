@@ -14,6 +14,14 @@ enum AuthError {
 
   /// A company with that name exists: join it with an invitation instead.
   companyNameTaken,
+
+  /// Single sign-on: it failed, was abandoned, the account isn't in (nor
+  /// invited to) the company of that tenant or domain, or no company set
+  /// that tenant or domain up.
+  ssoFailed,
+  ssoCancelled,
+  ssoNoAccount,
+  ssoNotConfigured,
 }
 
 /// Carries an [AuthError] code; the UI turns it into localized text.

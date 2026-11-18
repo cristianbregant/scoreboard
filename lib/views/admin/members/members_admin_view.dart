@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scoreboard/core/formatters.dart';
 import 'package:scoreboard/core/localization_manager.dart';
+import 'package:scoreboard/generated/l10n.dart';
 import 'package:scoreboard/interactors/auth_interactor.dart';
 import 'package:scoreboard/model/invite.dart';
 import 'package:scoreboard/model/user_profile.dart';
@@ -30,6 +31,14 @@ class _MembersAdminViewState extends BaseState<MembersAdminView,
       );
 
   @override
+  Future<bool> confirmImport(InviteImport import) async =>
+      await showDialog<bool>(
+        context: context,
+        builder: (_) => _ImportDialog(import: import),
+      ) ??
+      false;
+
+  @override
   Widget build(BuildContext context) {
     return BaseWidget<MembersAdminViewModelContract, MembersAdminState>(
       model: viewModel,
@@ -45,10 +54,24 @@ class _MembersAdminViewState extends BaseState<MembersAdminView,
                 PageHeader(
                   title: l10n.consoleMembers,
                   subtitle: l10n.membersHint,
-                  trailing: FilledButton.icon(
-                    onPressed: viewModel.onTapInvite,
-                    icon: const Icon(LucideIcons.userPlus),
-                    label: Text(l10n.inviteMember),
+                  trailing: Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      Tooltip(
+                        message: l10n.importFormatHint,
+                        child: OutlinedButton.icon(
+                          onPressed: viewModel.onTapImport,
+                          icon: const Icon(LucideIcons.fileSpreadsheet),
+                          label: Text(l10n.importCsv),
+                        ),
+                      ),
+                      FilledButton.icon(
+                        onPressed: viewModel.onTapInvite,
+                        icon: const Icon(LucideIcons.userPlus),
+                        label: Text(l10n.inviteMember),
+                      ),
+                    ],
                   ),
                 ),
                 SectionTitle(l10n.pendingInvites),
@@ -161,6 +184,84 @@ class _MembersAdminViewState extends BaseState<MembersAdminView,
         ),
       ),
     );
+  }
+}
+
+/// How many people an import will invite, and which lines it leaves out.
+class _ImportDialog extends StatelessWidget {
+  final InviteImport import;
+
+  const _ImportDialog({required this.import});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
+    final count = import.drafts.length;
+    final withTeam = import.drafts.where((d) => d.teamId != null).length;
+    return AlertDialog(
+      title: Text(l10n.importTitle),
+      content: SizedBox(
+        width: 460,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.importSummary(count),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+            if (withTeam > 0) ...[
+              const SizedBox(height: 4),
+              Text(l10n.importWithTeams(withTeam),
+                  style: TextStyle(color: colorScheme.onSurfaceVariant)),
+            ],
+            if (import.problems.isNotEmpty) ...[
+              const SizedBox(height: 20),
+              Text(l10n.importLeftOut(import.problems.length),
+                  style: const TextStyle(fontWeight: FontWeight.w600)),
+              const SizedBox(height: 8),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 220),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    for (final problem in import.problems)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 3),
+                        child: Text(_describe(l10n, problem),
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: colorScheme.onSurfaceVariant)),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.commonCancel)),
+        FilledButton(
+          onPressed: count == 0 ? null : () => Navigator.of(context).pop(true),
+          child: Text(l10n.importConfirm(count)),
+        ),
+      ],
+    );
+  }
+
+  static String _describe(AppLocalization l10n, InviteImportProblem problem) {
+    final value = problem.value ?? '';
+    return l10n.importProblemLine(
+        problem.line,
+        switch (problem.type) {
+          InviteProblem.invalidEmail => l10n.importProblemInvalidEmail(value),
+          InviteProblem.duplicate => l10n.importProblemDuplicate(value),
+          InviteProblem.alreadyMember => l10n.importProblemMember(value),
+          InviteProblem.unknownTeam => l10n.importProblemTeam(value),
+        });
   }
 }
 

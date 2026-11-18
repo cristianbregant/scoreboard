@@ -71,4 +71,7 @@ void setupLocatorViewModels() {
   getIt.registerFactory<CompanySettingsViewModelContract>(() =>
       CompanySettingsViewModel(
           getIt<CompanySettingsInteractor>(), getIt<ScoreboardInteractor>()));
+  getIt.registerFactory<IntegrationsViewModelContract>(() =>
+      IntegrationsViewModel(getIt<IntegrationInteractor>(),
+          getIt<CompanySettingsInteractor>(), getIt<ScoreboardInteractor>()));
 }

@@ -47,6 +47,10 @@ class YourCompanyState extends BaseVMState {
   int get totalPoints => members.fold(0, (sum, e) => sum + e.points);
   int get totalAchievements =>
       members.fold(0, (sum, e) => sum + e.achievementsCount);
+
+  /// Whether the company ranks its people (see `Company.individualRankings`).
+  bool get ranked => company?.individualRankings ?? true;
+
   int? get currentUserRank =>
       members.where((e) => e.user.id == currentUserId).firstOrNull?.rank;
 }

@@ -33,15 +33,41 @@ class MembersAdminViewModel
     if (email != null) await _invite(email);
   }
 
+  /// An HR export: read, previewed, then sent.
+  @override
+  Future<void> onTapImport() async {
+    final csv = await _members.pickImportFile();
+    if (csv == null) return;
+    InviteImport? read;
+    if (!await runAction(() async => read = await _members.readImport(csv))) {
+      return;
+    }
+    final import = read!;
+    if (import.drafts.isEmpty && import.problems.isEmpty) {
+      sourceView.showMessage(l10n.importEmpty);
+      return;
+    }
+    if (!await sourceView.confirmImport(import)) return;
+    BulkInviteResult? result;
+    final done = await runAction(() async => result = await _members
+        .importInvites(import.drafts, languageCode: _languageCode));
+    if (!done || result == null) return;
+    sourceView.showMessage(
+        l10n.importDone(result!.created.length, result!.skipped.length));
+  }
+
   @override
   Future<void> onResendInvite(Invite invite) => _invite(invite.email);
 
-  /// The email is written in the admin's language, the best guess for a
+  /// Invitations are written in the admin's language, the best guess for a
   /// colleague's.
+  String get _languageCode =>
+      Intl.getCurrentLocale().split(RegExp('[_-]')).first;
+
   Future<void> _invite(String email) async {
     Invite? sent;
-    final done = await runAction(() async => sent = await _members.invite(email,
-        languageCode: Intl.getCurrentLocale().split(RegExp('[_-]')).first));
+    final done = await runAction(() async =>
+        sent = await _members.invite(email, languageCode: _languageCode));
     final invite = sent;
     if (!done || invite == null) return;
     // The local mock can't send emails, so the admin passes the code on.

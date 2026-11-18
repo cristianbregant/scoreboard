@@ -5,6 +5,7 @@ import 'package:scoreboard/services/image_storage_service.dart';
 import 'package:scoreboard/services/package_info_service.dart';
 import 'package:scoreboard/services/scoreboard_repository.dart';
 import 'package:scoreboard/services/share_service.dart';
+import 'package:scoreboard/services/sso_service.dart';
 import 'package:scoreboard/services/system_notification_service.dart';
 import 'package:scoreboard/services/update_service.dart';
 import 'package:scoreboard/services/shared_preferences.dart';
@@ -18,7 +19,9 @@ void setupLocatorInteractors() {
       getIt<FilePickerService>(),
       getIt<ImageStorageService>()));
   getIt.registerFactory<AuthInteractor>(() => AuthInteractor(
-      getIt<ScoreboardRepository>(), getIt<ScoreboardInteractor>()));
+      getIt<ScoreboardRepository>(),
+      getIt<ScoreboardInteractor>(),
+      getIt<SsoService>()));
   getIt.registerFactory<ShareInteractor>(
       () => ShareInteractor(getIt<ShareService>()));
   getIt.registerFactory<ActivityInteractor>(() => ActivityInteractor(
@@ -34,7 +37,8 @@ void setupLocatorInteractors() {
   getIt.registerFactory<MemberInteractor>(() => MemberInteractor(
       getIt<ScoreboardRepository>(),
       getIt<ScoreboardInteractor>(),
-      getIt<ActivityInteractor>()));
+      getIt<ActivityInteractor>(),
+      getIt<ShareService>()));
   getIt.registerFactory<SeasonInteractor>(() => SeasonInteractor(
       getIt<ScoreboardRepository>(),
       getIt<ScoreboardInteractor>(),
@@ -43,6 +47,10 @@ void setupLocatorInteractors() {
       getIt<ScoreboardRepository>(),
       getIt<ScoreboardInteractor>(),
       getIt<ShareService>(),
+      getIt<ActivityInteractor>()));
+  getIt.registerFactory<IntegrationInteractor>(() => IntegrationInteractor(
+      getIt<ScoreboardRepository>(),
+      getIt<ScoreboardInteractor>(),
       getIt<ActivityInteractor>()));
   getIt.registerFactory<CompanySettingsInteractor>(() =>
       CompanySettingsInteractor(
@@ -56,8 +64,8 @@ void setupLocatorInteractors() {
       getIt<ScoreboardRepository>(),
       getIt<ScoreboardInteractor>(),
       getIt<SystemNotificationService>()));
-  getIt.registerFactory<CredentialInteractor>(
-      () => CredentialInteractor(getIt<ShareService>()));
+  getIt.registerFactory<CredentialInteractor>(() => CredentialInteractor(
+      getIt<ShareService>(), getIt<ScoreboardRepository>()));
   getIt.registerFactory<UpdateInteractor>(() => UpdateInteractor(
       getIt<UpdateService>(),
       getIt<PackageInfoService>(),

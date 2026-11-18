@@ -7,12 +7,16 @@ import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/model/activity.dart';
 import 'package:scoreboard/model/company_settings.dart';
 import 'package:scoreboard/model/season.dart';
+import 'package:scoreboard/model/admin.dart';
 import 'package:scoreboard/model/team.dart';
 import 'package:scoreboard/model/achievement_template.dart';
 import 'package:scoreboard/model/app_notification.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
+import 'package:scoreboard/model/chat_integration.dart';
 import 'package:scoreboard/model/feed.dart';
 import 'package:scoreboard/model/invite.dart';
+import 'package:scoreboard/model/issued_credential.dart';
+import 'package:scoreboard/model/sso.dart';
 import 'package:scoreboard/model/player_level.dart';
 import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/model/auth.dart';
@@ -126,17 +130,25 @@ class MockScoreboardRepository implements ScoreboardRepository {
       throw const AuthException(AuthError.emailTaken);
     }
     final newCompany = draft.newCompany;
-    final companyId = newCompany == null
+    final invite = newCompany == null
         ? await _acceptInvite(email, draft.inviteCode ?? '')
-        : (await _createCompany(newCompany)).id;
+        : null;
+    final companyId =
+        invite?.companyId ?? (await _createCompany(newCompany!)).id;
+    // As on the server: the typed role wins, the team comes from the
+    // invitation if it still exists.
+    final teamId =
+        _teams.any((t) => t.id == invite?.teamId) ? invite!.teamId : null;
     final user = UserProfile(
       id: 'u_${DateTime.now().microsecondsSinceEpoch}',
       name: draft.name.trim(),
-      role: draft.role.trim(),
+      role:
+          draft.role.trim().isEmpty ? (invite?.role ?? '') : draft.role.trim(),
       email: email,
       companyId: companyId,
       joinedAt: DateTime.now(),
       isCompanyAdmin: newCompany != null,
+      teamId: teamId,
     );
     _users = [..._users, user];
     _storedUserIds.add(user.id);
@@ -147,9 +159,9 @@ class MockScoreboardRepository implements ScoreboardRepository {
     return user;
   }
 
-  /// The company [email] was invited to with [code], using the invitation
-  /// up. Five wrong codes cancel the email's invitations, as on the server.
-  Future<String> _acceptInvite(String email, String code) async {
+  /// The invitation [email] received with [code], used up. Five wrong codes
+  /// cancel the email's invitations, as on the server.
+  Future<Invite> _acceptInvite(String email, String code) async {
     final now = DateTime.now();
     final invite = _invites
         .where((i) =>
@@ -170,7 +182,7 @@ class MockScoreboardRepository implements ScoreboardRepository {
     _invites.removeWhere((i) => i.email == email);
     _failedInviteAttempts.remove(email);
     await _save('invites', _invites, (i) => i.toJson());
-    return invite.companyId;
+    return invite;
   }
 
   Future<Company> _createCompany(CompanyDraft draft) async {
@@ -292,7 +304,13 @@ class MockScoreboardRepository implements ScoreboardRepository {
   @override
   Future<List<Company>> getCompanies() async {
     await Future.delayed(_latency);
-    return List.unmodifiable(_companies);
+    // As the server does, the companies carry their privacy switches.
+    return List.unmodifiable([
+      for (final company in _companies)
+        company.withPrivacy(
+            individualRankings: _settingsOf(company.id).individualRankings,
+            recognitionGaps: _settingsOf(company.id).recognitionGaps),
+    ]);
   }
 
   @override
@@ -549,6 +567,65 @@ class MockScoreboardRepository implements ScoreboardRepository {
     await _save('activity', _activity, (a) => a.toJson());
   }
 
+  /// Webhook URLs per company, in memory: the mock posts nowhere.
+  final Map<String, ({String? teams, String? slack, ChatIntegration settings})>
+      _chat = {};
+
+  @override
+  Future<ChatIntegration> getChatIntegration(String companyId) async =>
+      _chat[companyId]?.settings ?? const ChatIntegration();
+
+  @override
+  Future<ChatIntegration> updateChatIntegration(
+      String companyId, ChatIntegrationUpdate update) async {
+    final current = _chat[companyId] ??
+        (teams: null, slack: null, settings: const ChatIntegration());
+    String? url(ChatChannel channel, String? change, String? old) {
+      if (change == null) return old;
+      if (change.trim().isEmpty) return null;
+      if (!ChatIntegration.isWebhookUrl(channel, change)) {
+        throw const AdminException(AdminError.invalidWebhook);
+      }
+      return change.trim();
+    }
+
+    final teams = url(ChatChannel.teams, update.teamsWebhookUrl, current.teams);
+    final slack = url(ChatChannel.slack, update.slackWebhookUrl, current.slack);
+    final old = current.settings;
+    final settings = ChatIntegration(
+      teamsConnected: teams != null,
+      slackConnected: slack != null,
+      teamsHint: teams == null ? null : '${Uri.parse(teams).host}/…',
+      slackHint: slack == null ? null : '${Uri.parse(slack).host}/…',
+      postVerified: update.postVerified ?? old.postVerified,
+      postPeer: update.postPeer ?? old.postPeer,
+      language: update.language ?? old.language,
+    );
+    _chat[companyId] = (teams: teams, slack: slack, settings: settings);
+    return settings;
+  }
+
+  @override
+  Future<void> testChatIntegration(String companyId, ChatChannel channel) =>
+      throw const AdminException(AdminError.needsBackend);
+
+  /// Single sign-on needs a backend and an identity provider.
+  @override
+  Future<List<SsoProvider>> getSsoProviders() async => const [];
+
+  @override
+  Uri ssoStartUrl(String providerId,
+          {required Uri redirectUri, required String state}) =>
+      throw UnsupportedError('Single sign-on needs the backend');
+
+  @override
+  Future<UserProfile> completeSso(String code) async =>
+      throw const AuthException(AuthError.ssoFailed);
+
+  /// The mock holds no issuer key: credentials stay unsigned.
+  @override
+  Future<IssuedCredential?> getCredential(String achievementId) async => null;
+
   @override
   Future<CompanySettings> getCompanySettings(String companyId) async {
     await Future.delayed(_latency);
@@ -603,6 +680,50 @@ class MockScoreboardRepository implements ScoreboardRepository {
     _invites.add(invite);
     await _save('invites', _invites, (i) => i.toJson());
     return invite;
+  }
+
+  @override
+  Future<BulkInviteResult> createInvites(List<InviteDraft> drafts,
+      {required String languageCode}) async {
+    final admin = _currentUser();
+    final created = <Invite>[];
+    final skipped = <({String email, String reason})>[];
+    final seen = <String>{};
+    for (final draft in drafts) {
+      final email = _normalize(draft.email);
+      final reason = !seen.add(email)
+          ? 'duplicate'
+          : !RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email)
+              ? AdminError.invalidEmail.name
+              : _users.any((u) => u.email.toLowerCase() == email)
+                  ? AdminError.alreadyMember.name
+                  : draft.teamId != null &&
+                          !_teams.any((t) =>
+                              t.id == draft.teamId &&
+                              t.companyId == admin.companyId)
+                      ? AdminError.notFound.name
+                      : null;
+      if (reason != null) {
+        skipped.add((email: email, reason: reason));
+        continue;
+      }
+      final invite = await createInvite(email, languageCode: languageCode);
+      final withDetails = Invite(
+          id: invite.id,
+          companyId: invite.companyId,
+          email: invite.email,
+          invitedById: invite.invitedById,
+          invitedByName: invite.invitedByName,
+          createdAt: invite.createdAt,
+          expiresAt: invite.expiresAt,
+          code: invite.code,
+          role: draft.role,
+          teamId: draft.teamId);
+      _upsert(_invites, withDetails, (i) => i.id == invite.id);
+      created.add(withDetails);
+    }
+    await _save('invites', _invites, (i) => i.toJson());
+    return BulkInviteResult(created: created, skipped: skipped);
   }
 
   @override
@@ -698,8 +819,13 @@ class MockScoreboardRepository implements ScoreboardRepository {
     if (weekPoints == 0) return;
     final ranking = _users.map((u) => u.id).toList()
       ..sort((a, b) => _pointsOf(b).compareTo(_pointsOf(a)));
+    final companyId = _users.firstWhere((u) => u.id == userId).companyId;
+    // No rank for people whose company turned individual rankings off.
     _notify(userId, NotificationType.weeklyRecap,
-        number: weekPoints, secondNumber: ranking.indexOf(userId) + 1);
+        number: weekPoints,
+        secondNumber: _settingsOf(companyId).individualRankings
+            ? ranking.indexOf(userId) + 1
+            : null);
     _persistNotifications();
   }
 

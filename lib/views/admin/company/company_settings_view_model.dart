@@ -49,6 +49,16 @@ class CompanySettingsViewModel
   }
 
   @override
+  Future<void> onToggleIndividualRankings(bool enabled) =>
+      runAction(() => _settings.setPrivacy(individualRankings: enabled),
+          success: l10n.settingsSavedMessage);
+
+  @override
+  Future<void> onToggleRecognitionGaps(bool enabled) =>
+      runAction(() => _settings.setPrivacy(recognitionGaps: enabled),
+          success: l10n.settingsSavedMessage);
+
+  @override
   Future<void> onToggleAnniversaryYear(int years) {
     final settings = vmState.settings!;
     final selected = {...settings.anniversaryYears};

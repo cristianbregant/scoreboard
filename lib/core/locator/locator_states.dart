@@ -20,4 +20,5 @@ void setupLocatorStates() {
   getIt.registerFactory<ReportsState>(() => ReportsState());
   getIt.registerFactory<ActivityState>(() => ActivityState());
   getIt.registerFactory<CompanySettingsState>(() => CompanySettingsState());
+  getIt.registerFactory<IntegrationsState>(() => IntegrationsState());
 }

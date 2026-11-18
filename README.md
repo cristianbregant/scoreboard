@@ -47,7 +47,12 @@ A desktop app for workplace recognition, for macOS, Windows and Linux. Companies
   - An update check against the GitHub releases.
 - **Getting started.** A short introduction on first sign-in, search and sorting for your achievements, and a helpful empty state.
 - **Accounts.** Sign in, email and password changes, sign out. Registration either joins a company with the code of an invitation or creates a new company, whose founder becomes its admin.
-- **Members** (console): invite people by email, revoke invitations, grant and revoke the admin role. A company always keeps one admin.
+- **Members** (console): invite people by email, or many at once from a CSV export (comma or semicolon, optional header, with role and team), revoke invitations, grant and revoke the admin role. A company always keeps one admin.
+- **Privacy switches** (console → Company): individual rankings and the lists of who gets little recognition can be turned off for the whole company, for agreements with employee representatives.
+- **Integrations** (console):
+  - *Teams and Slack*: recognition is posted to a channel through an incoming webhook, with a test button. Personal notes stay in Scoreboard.
+  - *Single sign-on*: people sign in with their Microsoft Entra or Google Workspace account, for the tenant or domain the company sets.
+- **Signed credentials**: with the backend, verified achievements are Open Badges 3.0 credentials signed by the company, with a public verification page linked from the certificate (QR code) and from LinkedIn.
 - **Light and dark themes**, with the choice remembered.
 
 | | |
@@ -95,6 +100,16 @@ The demo user is the admin of Northwind Labs and the manager of its *Platform & 
 | ⌘⇧N | Open notifications |
 | ⌘1 … ⌘8 | Go to a page, in sidebar order |
 | ⌘, | Settings |
+
+### In a browser
+
+The same app runs on the web, for people who can't install it:
+
+```sh
+flutter build web -t lib/main_web.dart --dart-define=SCOREBOARD_API_URL=https://api.example.com
+```
+
+The browser has no tray or native window, and images picked on the desktop (photos, banners, logos) are local files, so the web shows initials and patterns instead and doesn't offer uploads. Exports download. Single sign-on returns to the page: add its address to the backend's `SSO_WEB_REDIRECTS`.
 
 ### Platform differences
 

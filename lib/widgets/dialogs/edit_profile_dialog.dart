@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/core/localization_manager.dart';
 import 'dart:io';
@@ -72,12 +73,17 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
     super.dispose();
   }
 
+  /// Images are local files, stored by the desktop app only.
+  static const bool _canPickImages = !kIsWeb;
+
   Future<void> _pickAvatar() async {
+    if (!_canPickImages) return;
     final path = await widget.pickImage();
     if (path != null) setState(() => _newAvatar = path);
   }
 
   Future<void> _pickBanner() async {
+    if (!_canPickImages) return;
     final path = await widget.pickImage();
     if (path != null) setState(() => _newBanner = path);
   }
@@ -123,11 +129,12 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
                       FieldLabel(context.l10n.fieldPhoto),
                       Row(
                         children: [
-                          OutlinedButton.icon(
-                            onPressed: _pickAvatar,
-                            icon: const Icon(LucideIcons.upload, size: 18),
-                            label: Text(context.l10n.uploadPhoto),
-                          ),
+                          if (_canPickImages)
+                            OutlinedButton.icon(
+                              onPressed: _pickAvatar,
+                              icon: const Icon(LucideIcons.upload, size: 18),
+                              label: Text(context.l10n.uploadPhoto),
+                            ),
                           if (_avatarPath != null) ...[
                             const SizedBox(width: 8),
                             TextButton(
@@ -316,19 +323,21 @@ class _EditProfileDialogState extends State<_EditProfileDialog> {
             }),
             child: BannerPatternView(preset: preset),
           ),
-        option(
-          tooltip:
-              hasCustom ? context.l10n.replaceImage : context.l10n.uploadImage,
-          selected: hasCustom,
-          onTap: _pickBanner,
-          child: hasCustom
-              ? Image.file(File(_bannerPath!), fit: BoxFit.cover)
-              : Container(
-                  color: colorScheme.surfaceContainerHighest,
-                  child: Icon(LucideIcons.imagePlus,
-                      size: 20, color: colorScheme.onSurfaceVariant),
-                ),
-        ),
+        if (_canPickImages)
+          option(
+            tooltip: hasCustom
+                ? context.l10n.replaceImage
+                : context.l10n.uploadImage,
+            selected: hasCustom,
+            onTap: _pickBanner,
+            child: hasCustom
+                ? Image.file(File(_bannerPath!), fit: BoxFit.cover)
+                : Container(
+                    color: colorScheme.surfaceContainerHighest,
+                    child: Icon(LucideIcons.imagePlus,
+                        size: 20, color: colorScheme.onSurfaceVariant),
+                  ),
+          ),
       ],
     );
   }

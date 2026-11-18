@@ -20,6 +20,23 @@ enum AdminError {
 
   /// The invitation email could not be sent.
   emailNotSent,
+
+  /// An import beyond `ScoreboardRepository.maxBulkInvites` people.
+  tooManyInvites,
+
+  /// Single sign-on settings: not a Microsoft tenant id, not a domain, or
+  /// already used by another company.
+  invalidSsoTenant,
+  invalidSsoDomain,
+  ssoInUse,
+
+  /// Chat integrations: not a Teams or Slack webhook, the service refused
+  /// the message, the channel isn't connected, or the local mock can't
+  /// reach the service.
+  invalidWebhook,
+  webhookFailed,
+  notConfigured,
+  needsBackend,
 }
 
 /// Carries an [AdminError] code; the UI turns it into localized text.

@@ -12,4 +12,5 @@ export 'package:scoreboard/interactors/team_interactor.dart';
 export 'package:scoreboard/interactors/season_interactor.dart';
 export 'package:scoreboard/interactors/report_interactor.dart';
 export 'package:scoreboard/interactors/company_settings_interactor.dart';
+export 'package:scoreboard/interactors/integration_interactor.dart';
 export 'package:scoreboard/interactors/member_interactor.dart';

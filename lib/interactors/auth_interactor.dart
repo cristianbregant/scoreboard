@@ -1,15 +1,69 @@
 import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/model/auth.dart';
+import 'package:scoreboard/model/sso.dart';
 import 'package:scoreboard/model/user_profile.dart';
 import 'package:scoreboard/services/scoreboard_repository.dart';
+import 'package:scoreboard/services/sso_service.dart';
 
 class AuthInteractor {
   static const int minPasswordLength = 8;
 
   final ScoreboardRepository _repository;
   final ScoreboardInteractor _scoreboard;
+  final SsoService _sso;
 
-  AuthInteractor(this._repository, this._scoreboard);
+  AuthInteractor(this._repository, this._scoreboard, this._sso);
+
+  /// Providers to offer as buttons. None when the backend can't be reached:
+  /// signing in with a password still works.
+  Future<List<SsoProvider>> ssoProviders() async {
+    try {
+      return await _repository.getSsoProviders();
+    } catch (_) {
+      return const [];
+    }
+  }
+
+  /// Why the last single sign-on failed, when the page came back from one
+  /// (web); read once by the sign-in screen.
+  static AuthError? _pendingSsoError;
+
+  AuthError? takePendingSsoError() {
+    final error = _pendingSsoError;
+    _pendingSsoError = null;
+    return error;
+  }
+
+  /// Finishes a sign-in the page came back from (web): the code is traded
+  /// for a session, or the failure kept for the sign-in screen.
+  Future<void> finishSsoRedirect(
+      ({String? code, AuthError? error}) result) async {
+    final code = result.code;
+    if (code == null) {
+      _pendingSsoError = result.error ?? AuthError.ssoFailed;
+      return;
+    }
+    try {
+      await _repository.completeSso(code);
+      _scoreboard.dataChanged();
+    } on AuthException catch (e) {
+      _pendingSsoError = e.error;
+    } catch (_) {
+      _pendingSsoError = AuthError.ssoFailed;
+    }
+  }
+
+  /// Signs in through [provider] in the browser.
+  Future<UserProfile> signInWithSso(SsoProvider provider,
+      {required SsoPageTexts texts}) async {
+    final code = await _sso.authorize(
+        (redirectUri, state) => _repository.ssoStartUrl(provider.id,
+            redirectUri: redirectUri, state: state),
+        texts: texts);
+    final user = await _repository.completeSso(code);
+    _scoreboard.dataChanged();
+    return user;
+  }
 
   bool get isSignedIn => _repository.sessionUserId != null;
 

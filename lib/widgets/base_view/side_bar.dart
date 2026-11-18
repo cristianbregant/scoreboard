@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -151,7 +152,8 @@ extension on Sidebar {
           Icon(LucideIcons500.trophy, color: colorScheme.onPrimary, size: 17),
     );
     final path = logoPath;
-    if (path == null) return trophy;
+    // Local files mean nothing in a browser.
+    if (path == null || kIsWeb) return trophy;
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: Image.file(File(path),

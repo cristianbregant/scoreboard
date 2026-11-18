@@ -83,6 +83,46 @@ class CompanySettingsInteractor {
     _scoreboard.dataChanged();
   }
 
+  /// The privacy switches; see [CompanySettings.individualRankings] and
+  /// [CompanySettings.recognitionGaps].
+  Future<void> setPrivacy(
+      {bool? individualRankings, bool? recognitionGaps}) async {
+    final settings = await _adminSettings();
+    await _repository.saveCompanySettings(settings.copyWith(
+        individualRankings: individualRankings,
+        recognitionGaps: recognitionGaps));
+    await _activity.log(ActivityType.privacyUpdated);
+    _scoreboard.dataChanged();
+  }
+
+  /// Single sign-on: which Entra tenant and Workspace domain may sign in to
+  /// the company. Empty values turn a provider off. Throws
+  /// [AdminError.invalidSsoTenant] or [AdminError.invalidSsoDomain] for
+  /// values that can't be right, before asking the backend.
+  Future<void> setSso({required String tenant, required String domain}) async {
+    final settings = await _adminSettings();
+    final t = tenant.trim().toLowerCase();
+    final d = domain.trim().toLowerCase();
+    if (t.isNotEmpty && !_tenant.hasMatch(t)) {
+      throw const AdminException(AdminError.invalidSsoTenant);
+    }
+    if (d.isNotEmpty && !_domain.hasMatch(d)) {
+      throw const AdminException(AdminError.invalidSsoDomain);
+    }
+    await _repository.saveCompanySettings(settings.copyWith(
+        ssoMicrosoftTenant: t.isEmpty ? null : t,
+        clearSsoMicrosoftTenant: t.isEmpty,
+        ssoGoogleDomain: d.isEmpty ? null : d,
+        clearSsoGoogleDomain: d.isEmpty));
+    await _activity.log(ActivityType.ssoUpdated);
+    _scoreboard.dataChanged();
+  }
+
+  static final _tenant =
+      RegExp(r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$');
+  static final _domain =
+      RegExp(r'^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$');
+
   Future<CompanySettings> _adminSettings() async {
     final UserProfile user = await _scoreboard.getCurrentUser();
     if (!user.isCompanyAdmin) throw const AdminException(AdminError.notAdmin);

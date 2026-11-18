@@ -7,12 +7,14 @@ const List<Color> podiumColors = [
   Color(0xFFD08A5B),
 ];
 
+/// A person or company in a list: ranked with points, or, with [rank] and
+/// [points] null, a plain row (e.g. where individual rankings are off).
 class LeaderboardTile extends StatelessWidget {
-  final int rank;
+  final int? rank;
   final Widget leading;
   final String title;
   final String subtitle;
-  final int points;
+  final int? points;
   final bool highlighted;
 
   /// Optional button shown before the points, e.g. to send an achievement.
@@ -20,18 +22,21 @@ class LeaderboardTile extends StatelessWidget {
 
   const LeaderboardTile(
       {super.key,
-      required this.rank,
+      this.rank,
       required this.leading,
       required this.title,
       required this.subtitle,
-      required this.points,
+      this.points,
       this.highlighted = false,
       this.action});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final podiumColor = rank <= 3 ? podiumColors[rank - 1] : null;
+    final rank = this.rank;
+    final points = this.points;
+    final podiumColor =
+        rank != null && rank <= 3 ? podiumColors[rank - 1] : null;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -49,18 +54,20 @@ class LeaderboardTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            SizedBox(
-              width: 36,
-              child: Text(
-                "$rank",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                    color: podiumColor ?? colorScheme.onSurfaceVariant),
+            if (rank != null) ...[
+              SizedBox(
+                width: 36,
+                child: Text(
+                  "$rank",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: podiumColor ?? colorScheme.onSurfaceVariant),
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
+              const SizedBox(width: 8),
+            ],
             leading,
             const SizedBox(width: 14),
             Expanded(
@@ -79,7 +86,7 @@ class LeaderboardTile extends StatelessWidget {
               ),
             ),
             if (action != null) ...[action!, const SizedBox(width: 8)],
-            PointsBadge(points: points),
+            if (points != null) PointsBadge(points: points),
           ],
         ),
       ),

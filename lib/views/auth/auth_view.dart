@@ -192,9 +192,44 @@ class _AuthViewState
                   child: CircularProgressIndicator(strokeWidth: 2))
               : Text(signIn ? context.l10n.signIn : context.l10n.createAccount),
         ),
+        if (signIn && vmState.ssoProviders.isNotEmpty) ...[
+          const SizedBox(height: 20),
+          _buildSso(colorScheme),
+        ],
         if (signIn) ...[
           const SizedBox(height: 20),
           _buildDemoHint(colorScheme),
+        ],
+      ],
+    );
+  }
+
+  /// "or" and a button per single sign-on provider.
+  Widget _buildSso(ColorScheme colorScheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            const Expanded(child: Divider()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Text(context.l10n.authOr,
+                  style: TextStyle(
+                      fontSize: 13, color: colorScheme.onSurfaceVariant)),
+            ),
+            const Expanded(child: Divider()),
+          ],
+        ),
+        for (final provider in vmState.ssoProviders) ...[
+          const SizedBox(height: 12),
+          OutlinedButton.icon(
+            onPressed: vmState.isSubmitting
+                ? null
+                : () => viewModel.signInWithSso(provider),
+            icon: const Icon(LucideIcons.keyRound, size: 18),
+            label: Text(context.l10n.ssoContinueWith(provider.name)),
+          ),
         ],
       ],
     );

@@ -5,8 +5,11 @@ import 'package:scoreboard/model/season.dart';
 import 'package:scoreboard/model/team.dart';
 import 'package:scoreboard/model/app_notification.dart';
 import 'package:scoreboard/model/catalog_achievement.dart';
+import 'package:scoreboard/model/chat_integration.dart';
 import 'package:scoreboard/model/feed.dart';
 import 'package:scoreboard/model/invite.dart';
+import 'package:scoreboard/model/issued_credential.dart';
+import 'package:scoreboard/model/sso.dart';
 import 'package:scoreboard/model/verification_request.dart';
 import 'package:scoreboard/model/achievement_template.dart';
 import 'package:scoreboard/model/auth.dart';
@@ -32,6 +35,18 @@ abstract class ScoreboardRepository {
   Future<UserProfile> register(RegistrationDraft draft);
 
   Future<void> signOut();
+
+  /// Single sign-on providers the backend offers; none on the local mock.
+  Future<List<SsoProvider>> getSsoProviders();
+
+  /// Where the browser starts single sign-on with [providerId]; the backend
+  /// sends the code to [redirectUri] with [state].
+  Uri ssoStartUrl(String providerId,
+      {required Uri redirectUri, required String state});
+
+  /// Trades the one-time code of single sign-on for a session. Throws
+  /// [AuthException] with [AuthError.ssoFailed] when it's not valid.
+  Future<UserProfile> completeSso(String code);
 
   Future<void> changePassword(String currentPassword, String newPassword);
 
@@ -125,9 +140,34 @@ abstract class ScoreboardRepository {
   /// can't be reached.
   Future<Invite> createInvite(String email, {required String languageCode});
 
+  /// Invites many people at once (see [createInvite]); each draft succeeds
+  /// or is skipped on its own. At most [maxBulkInvites] per call.
+  Future<BulkInviteResult> createInvites(List<InviteDraft> drafts,
+      {required String languageCode});
+
+  /// Drafts one import may hold.
+  static const int maxBulkInvites = 500;
+
   Future<void> revokeInvite(String inviteId);
 
   /// Grants or revokes the admin role. Throws [AdminException] with
   /// [AdminError.lastAdmin] for the company's only admin.
   Future<void> setCompanyAdmin(String userId, bool isAdmin);
+
+  /// The company's Teams and Slack channels. Admins only.
+  Future<ChatIntegration> getChatIntegration(String companyId);
+
+  /// Throws [AdminException] with [AdminError.invalidWebhook] for URLs that
+  /// aren't Teams or Slack webhooks.
+  Future<ChatIntegration> updateChatIntegration(
+      String companyId, ChatIntegrationUpdate update);
+
+  /// Posts a test message to [channel]. Throws [AdminException] with
+  /// [AdminError.webhookFailed] when the service refuses it.
+  Future<void> testChatIntegration(String companyId, ChatChannel channel);
+
+  /// The verified achievement [achievementId] signed by the issuer, with
+  /// its public verification page. Null when this data source can't sign
+  /// (the local mock): only the backend holds the issuer's key.
+  Future<IssuedCredential?> getCredential(String achievementId);
 }

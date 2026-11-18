@@ -9,6 +9,7 @@ import 'package:scoreboard/model/catalog_achievement.dart';
 import 'package:scoreboard/model/feed.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/model/send_achievement.dart';
+import 'package:scoreboard/services/scoreboard_repository.dart';
 import 'package:scoreboard/widgets/achievement_style.dart';
 
 /// Localized text for values the domain layer exposes as codes.
@@ -27,6 +28,10 @@ extension AuthExceptionText on AuthException {
         AuthError.invalidInviteCode => l10n.errorInvalidInviteCode,
         AuthError.missingCompanyName => l10n.companyNameRequired,
         AuthError.companyNameTaken => l10n.errorCompanyNameTaken,
+        AuthError.ssoFailed => l10n.errorSsoFailed,
+        AuthError.ssoCancelled => l10n.errorSsoCancelled,
+        AuthError.ssoNoAccount => l10n.errorSsoNoAccount,
+        AuthError.ssoNotConfigured => l10n.errorSsoNotConfigured,
       };
 }
 
@@ -83,6 +88,15 @@ extension AdminExceptionText on AdminException {
         AdminError.alreadyMember => l10n.errorAlreadyMember,
         AdminError.lastAdmin => l10n.errorLastAdmin,
         AdminError.emailNotSent => l10n.errorEmailNotSent,
+        AdminError.tooManyInvites =>
+          l10n.errorTooManyInvites(ScoreboardRepository.maxBulkInvites),
+        AdminError.invalidSsoTenant => l10n.errorInvalidSsoTenant,
+        AdminError.invalidSsoDomain => l10n.errorInvalidSsoDomain,
+        AdminError.ssoInUse => l10n.errorSsoInUse,
+        AdminError.invalidWebhook => l10n.errorInvalidWebhook,
+        AdminError.webhookFailed => l10n.errorWebhookFailed,
+        AdminError.notConfigured => l10n.errorNotConfigured,
+        AdminError.needsBackend => l10n.errorNeedsBackend,
       };
 }
 
@@ -119,8 +133,11 @@ extension AppNotificationText on AppNotification {
       NotificationType.feedReaction => l10n.notifReactionBody(actor, name),
       NotificationType.feedComment =>
         l10n.notifCommentBody(actor, name, text ?? ''),
-      NotificationType.weeklyRecap =>
-        l10n.notifRecapBody(number ?? 0, secondNumber ?? 0),
+      // Without a rank when the company turned individual rankings off.
+      NotificationType.weeklyRecap => switch (secondNumber) {
+          null => l10n.notifRecapBodyNoRank(number ?? 0),
+          final rank => l10n.notifRecapBody(number ?? 0, rank),
+        },
     };
   }
 }
@@ -173,12 +190,16 @@ extension ActivityEntryText on ActivityEntry {
       ActivityType.seasonDeleted => l10n.activitySeasonDeleted(subject),
       ActivityType.brandUpdated => l10n.activityBrandUpdated,
       ActivityType.anniversariesUpdated => l10n.activityAnniversariesUpdated,
+      ActivityType.privacyUpdated => l10n.activityPrivacyUpdated,
+      ActivityType.ssoUpdated => l10n.activitySsoUpdated,
+      ActivityType.integrationsUpdated => l10n.activityIntegrationsUpdated,
       ActivityType.reportExported => subject == 'people'
           ? l10n.activityReportPeople(target)
           : l10n.activityReportAchievements(target),
       ActivityType.personalDataExported =>
         l10n.activityPersonalDataExported(target),
       ActivityType.memberInvited => l10n.activityMemberInvited(subject),
+      ActivityType.membersImported => l10n.activityMembersImported(count ?? 0),
       ActivityType.inviteRevoked => l10n.activityInviteRevoked(subject),
       ActivityType.adminGranted => l10n.activityAdminGranted(subject),
       ActivityType.adminRevoked => l10n.activityAdminRevoked(subject),

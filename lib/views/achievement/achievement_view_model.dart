@@ -19,6 +19,26 @@ class AchievementViewModel
   AchievementViewModel(
       this._shareInteractor, this._credentials, this._scoreboard);
 
+  /// Loads the signed credential's page, if there is one, for the export
+  /// menu, the certificate and LinkedIn. The page works without it.
+  @override
+  Future<void> loadCredential(Achievement achievement) async {
+    try {
+      vmState.verifyUrl = (await _credentials.issued(achievement))?.verifyUrl;
+      notifyListeners();
+    } catch (_) {
+      // Offline or not allowed: the achievement stays exportable unsigned.
+    }
+  }
+
+  @override
+  Future<void> onCopyVerifyLink() async {
+    final url = vmState.verifyUrl;
+    if (url == null) return;
+    await _shareInteractor.copyText(url.toString());
+    sourceView.showMessage(l10n.verifyLinkCopied);
+  }
+
   @override
   void onTapChangePage(int page) {
     vmState.currentPage = page;
@@ -54,7 +74,8 @@ class AchievementViewModel
 
   @override
   Future<void> onAddToLinkedInProfile(Achievement achievement) async {
-    final uri = _shareInteractor.linkedInCertificationUri(achievement);
+    final uri = _shareInteractor.linkedInCertificationUri(achievement,
+        verifyUrl: vmState.verifyUrl);
     if (uri == null) return;
     if (!await sourceView.openExternalLink(uri.toString())) {
       sourceView.showMessage(l10n.shareOpenError);
@@ -81,7 +102,9 @@ class AchievementViewModel
   Future<void> onExportPdf(Achievement achievement) => _export(() async {
         final user = await _scoreboard.getCurrentUser();
         final pdf = await buildCertificatePdf(l10n,
-            achievement: achievement, recipientName: user.name);
+            achievement: achievement,
+            recipientName: user.name,
+            verifyUrl: vmState.verifyUrl);
         return _credentials.saveCertificate(pdf, achievement);
       });
 

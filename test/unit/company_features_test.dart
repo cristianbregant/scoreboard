@@ -350,6 +350,52 @@ void main() {
       await getIt<AuthInteractor>().signOut();
       expect(await settings.currentSettings(), isNull);
     });
+    group('privacy switches', () {
+      late ScoreboardInteractor scoreboard;
+
+      setUp(() => scoreboard = getIt<ScoreboardInteractor>());
+
+      test('are on by default and mirrored on the company', () async {
+        final current = (await settings.currentSettings())!;
+        expect(current.individualRankings, isTrue);
+        expect(current.recognitionGaps, isTrue);
+        final company = await scoreboard.getCompany('c_northwind');
+        expect(company.individualRankings, isTrue);
+        expect(company.recognitionGaps, isTrue);
+      });
+
+      test('without individual rankings nobody of the company is ranked',
+          () async {
+        await settings.setPrivacy(individualRankings: false);
+        expect((await _activity()).first.type, ActivityType.privacyUpdated);
+        expect((await scoreboard.getCompany('c_northwind')).individualRankings,
+            isFalse);
+
+        final global = await scoreboard.getUserLeaderboard();
+        expect(global, isNotEmpty);
+        expect(global.where((e) => e.company.id == 'c_northwind'), isEmpty);
+        // Company totals aren't individual: the company still counts.
+        final companies = await scoreboard.getCompanyLeaderboard();
+        final northwind =
+            companies.firstWhere((e) => e.company.id == 'c_northwind');
+        expect(northwind.points, greaterThan(0));
+      });
+
+      test('recognition gaps are switched off on their own', () async {
+        await settings.setPrivacy(recognitionGaps: false);
+        final company = await scoreboard.getCompany('c_northwind');
+        expect(company.recognitionGaps, isFalse);
+        expect(company.individualRankings, isTrue);
+      });
+
+      test('only admins change them', () async {
+        await _signInAs('u_02');
+        await expectLater(
+            getIt<CompanySettingsInteractor>()
+                .setPrivacy(individualRankings: false),
+            throwsAdminError(AdminError.notAdmin));
+      });
+    });
   });
 
   group('work anniversaries', () {

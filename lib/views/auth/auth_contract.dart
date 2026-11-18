@@ -1,4 +1,5 @@
 import 'package:scoreboard/model/auth.dart';
+import 'package:scoreboard/model/sso.dart';
 import 'package:scoreboard/views/_base/base_contract.dart';
 
 enum AuthMode { signIn, register }
@@ -16,6 +17,7 @@ abstract class AuthViewModelContract
   void onChangeRegisterMode(RegisterMode mode);
   void signIn(String email, String password);
   void register(RegistrationDraft draft);
+  void signInWithSso(SsoProvider provider);
 }
 
 class AuthState extends BaseVMState {
@@ -23,4 +25,7 @@ class AuthState extends BaseVMState {
   RegisterMode registerMode = RegisterMode.join;
   bool isSubmitting = false;
   String? errorMessage;
+
+  /// Single sign-on buttons; empty without a backend that offers any.
+  List<SsoProvider> ssoProviders = [];
 }

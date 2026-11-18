@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'dart:math' as math;
 
@@ -48,7 +49,8 @@ class ProfileBanner extends StatelessWidget {
     return SizedBox(
       height: height,
       width: double.infinity,
-      child: imagePath != null
+      // Local files mean nothing in a browser.
+      child: imagePath != null && !kIsWeb
           ? Image.file(File(imagePath!),
               fit: BoxFit.cover,
               // The preset stays visible while the image loads.

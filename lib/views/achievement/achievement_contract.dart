@@ -11,6 +11,7 @@ abstract class AchievementViewContract extends BaseViewContract {
 
 abstract class AchievementViewModelContract
     extends BaseViewModelContract<AchievementState, AchievementViewContract> {
+  void loadCredential(Achievement achievement);
   void onTapChangePage(int page);
   void onTapShare(Achievement achievement);
   void onPostOnLinkedIn(String text);
@@ -19,8 +20,13 @@ abstract class AchievementViewModelContract
   void onSaveShareImage(Uint8List png, Achievement achievement);
   void onExportPdf(Achievement achievement);
   void onExportOpenBadge(Achievement achievement);
+  void onCopyVerifyLink();
 }
 
 class AchievementState extends BaseVMState {
   int currentPage = 0;
+
+  /// Public page of the signed credential; null for peer achievements and
+  /// without a backend.
+  Uri? verifyUrl;
 }

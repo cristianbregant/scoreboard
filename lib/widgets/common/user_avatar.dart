@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -49,7 +50,8 @@ class UserAvatar extends StatelessWidget {
             ? Border.all(color: ringColor!, width: radius * 0.1)
             : null,
       ),
-      child: imagePath != null
+      // Local files mean nothing in a browser.
+      child: imagePath != null && !kIsWeb
           ? Image.file(
               File(imagePath!),
               width: radius * 2,

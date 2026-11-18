@@ -11,6 +11,7 @@ import 'package:scoreboard/services/package_info_service.dart';
 import 'package:scoreboard/services/rest_scoreboard_repository.dart';
 import 'package:scoreboard/services/scoreboard_repository.dart';
 import 'package:scoreboard/services/share_service.dart';
+import 'package:scoreboard/services/sso_service.dart';
 import 'package:scoreboard/services/system_notification_service.dart';
 import 'package:scoreboard/services/update_service.dart';
 import 'package:scoreboard/services/shared_preferences.dart';
@@ -37,6 +38,7 @@ void setupLocatorObjects({bool isTesting = false}) {
   getIt.registerSingleton<FilePickerService>(FilePickerService());
   getIt.registerSingleton<ImageStorageService>(ImageStorageService());
   getIt.registerSingleton<ShareService>(ShareService());
+  getIt.registerSingleton<SsoService>(SsoService());
   getIt.registerSingleton<SystemNotificationService>(
       SystemNotificationService());
   getIt.registerSingleton<AppNavigation>(AppNavigation());

@@ -40,6 +40,10 @@ class _ActivityViewState
           LucideIcons.flag,
         ActivityType.brandUpdated => LucideIcons.palette,
         ActivityType.anniversariesUpdated => LucideIcons.cake,
+        ActivityType.privacyUpdated => LucideIcons.eyeOff,
+        ActivityType.ssoUpdated => LucideIcons.keyRound,
+        ActivityType.integrationsUpdated => LucideIcons.plug,
+        ActivityType.membersImported => LucideIcons.fileSpreadsheet,
         ActivityType.reportExported => LucideIcons.download,
         ActivityType.personalDataExported => LucideIcons.shield,
         ActivityType.memberInvited ||

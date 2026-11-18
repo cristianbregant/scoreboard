@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:scoreboard/core/certificate_pdf.dart';
+import 'package:scoreboard/generated/l10n.dart';
 import 'package:scoreboard/core/locator/locator.dart';
 import 'package:scoreboard/interactors/credential_interactor.dart';
 import 'package:scoreboard/interactors/share_interactor.dart';
@@ -94,6 +96,38 @@ void main() {
           share.linkedInCertificationUri(Achievement(
               name: 'Great Idea', verified: false, date: DateTime(2026))),
           isNull);
+    });
+    test('the certification links to the signed credential\'s page', () {
+      final page = Uri.parse('https://scoreboard.example/badges/ach_u_me_7');
+      final uri = share.linkedInCertificationUri(_verified, verifyUrl: page)!;
+      expect(uri.queryParameters, containsPair('certUrl', page.toString()));
+      expect(share.linkedInCertificationUri(_verified)!.queryParameters,
+          isNot(contains('certUrl')));
+    });
+  });
+
+  group('signed credentials', () {
+    test('the local mock cannot sign: nothing is issued', () async {
+      expect(await getIt<CredentialInteractor>().issued(_verified), isNull);
+    });
+
+    test('peer achievements are never issued as credentials', () async {
+      final peer =
+          Achievement(id: 'ach_x', name: 'Great Idea', verified: false);
+      expect(await getIt<CredentialInteractor>().issued(peer), isNull);
+    });
+
+    test('the certificate carries the verification link', () async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      final page = Uri.parse('https://scoreboard.example/badges/ach_u_me_7');
+      final signed = await buildCertificatePdf(AppLocalization.current,
+          achievement: _verified,
+          recipientName: 'Mario Rossi',
+          verifyUrl: page);
+      final unsigned = await buildCertificatePdf(AppLocalization.current,
+          achievement: _verified, recipientName: 'Mario Rossi');
+      expect(String.fromCharCodes(signed), contains(page.toString()));
+      expect(String.fromCharCodes(unsigned), isNot(contains(page.toString())));
     });
   });
 

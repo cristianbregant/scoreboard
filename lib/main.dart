@@ -46,7 +46,9 @@ Future<void> main() async {
         backgroundColor:
             WindowChrome.hasHiddenTitleBar ? Colors.transparent : null,
         title: 'Scoreboard',
-        titleBarStyle: WindowChrome.titleBarStyle,
+        titleBarStyle: WindowChrome.hasHiddenTitleBar
+            ? TitleBarStyle.hidden
+            : TitleBarStyle.normal,
         // Required with titleBarStyle: multiview_desktop 2.0.2 null-checks it.
         windowButtonVisibility: true,
       ),

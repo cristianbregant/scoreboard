@@ -8,9 +8,12 @@ import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/widgets/achievement_style.dart';
 
 /// A4 landscape certificate for a verified achievement, worded in the
-/// current language and set in the bundled Inter font.
+/// current language and set in the bundled Inter font. With [verifyUrl],
+/// the signed credential's page, it carries a QR code to check it.
 Future<Uint8List> buildCertificatePdf(AppLocalization l10n,
-    {required Achievement achievement, required String recipientName}) async {
+    {required Achievement achievement,
+    required String recipientName,
+    Uri? verifyUrl}) async {
   Future<pw.Font> font(String file) async =>
       pw.Font.ttf(await rootBundle.load('assets/fonts/$file'));
   final regular = await font('Inter-Regular.ttf');
@@ -95,8 +98,34 @@ Future<Uint8List> buildCertificatePdf(AppLocalization l10n,
                     l10n.certIssuedBy(achievement.company ?? '',
                         formatDate(achievement.date)),
                     style: const pw.TextStyle(fontSize: 10.5, color: ink)),
-                pw.Text(l10n.certCredentialId(achievement.id ?? '-'),
-                    style: const pw.TextStyle(fontSize: 9, color: muted)),
+                if (verifyUrl == null)
+                  pw.Text(l10n.certCredentialId(achievement.id ?? '-'),
+                      style: const pw.TextStyle(fontSize: 9, color: muted))
+                else
+                  pw.Row(children: [
+                    pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.end,
+                      children: [
+                        pw.Text(l10n.certVerify,
+                            style: pw.TextStyle(
+                                font: bold, fontSize: 9, color: ink)),
+                        pw.SizedBox(height: 2),
+                        pw.UrlLink(
+                          destination: verifyUrl.toString(),
+                          child: pw.Text(verifyUrl.toString(),
+                              style: const pw.TextStyle(
+                                  fontSize: 8, color: muted)),
+                        ),
+                      ],
+                    ),
+                    pw.SizedBox(width: 10),
+                    pw.BarcodeWidget(
+                        barcode: pw.Barcode.qrCode(),
+                        data: verifyUrl.toString(),
+                        width: 46,
+                        height: 46,
+                        color: ink),
+                  ]),
               ],
             ),
           ],

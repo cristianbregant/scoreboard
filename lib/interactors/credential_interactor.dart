@@ -3,19 +3,28 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:scoreboard/model/achievement.dart';
+import 'package:scoreboard/model/issued_credential.dart';
 import 'package:scoreboard/model/user_profile.dart';
+import 'package:scoreboard/services/scoreboard_repository.dart';
 import 'package:scoreboard/services/share_service.dart';
 
 /// Exports verified achievements as portable credentials.
 class CredentialInteractor {
   final ShareService _service;
+  final ScoreboardRepository _repository;
 
-  CredentialInteractor(this._service);
+  CredentialInteractor(this._service, this._repository);
 
-  /// An Open Badges 3.0 `OpenBadgeCredential`.
-  ///
-  /// It is unsigned: a verifiable credential needs a proof made with the
-  /// issuer's key, which only the issuer (the backend) should hold.
+  /// The achievement signed by its issuer, with its public verification
+  /// page; null for peer achievements and where nothing can sign (the mock).
+  Future<IssuedCredential?> issued(Achievement achievement) async {
+    final id = achievement.id;
+    if (achievement.verified != true || id == null) return null;
+    return _repository.getCredential(id);
+  }
+
+  /// An Open Badges 3.0 `OpenBadgeCredential`, unsigned: the fallback when
+  /// no backend can sign it with the issuer's key (see [issued]).
   Map<String, dynamic> openBadge(
       Achievement achievement, UserProfile recipient) {
     final salt = _hex(sha256.convert(utf8.encode('salt:${achievement.id}')))
@@ -65,8 +74,16 @@ class CredentialInteractor {
     };
   }
 
+  /// Saves the signed credential (a VC-JWT) when the backend issues one,
+  /// otherwise the unsigned JSON.
   Future<String?> saveOpenBadge(
-      Achievement achievement, UserProfile recipient) {
+      Achievement achievement, UserProfile recipient) async {
+    final signed = await issued(achievement);
+    if (signed != null) {
+      return _service.saveFile(Uint8List.fromList(utf8.encode(signed.jwt)),
+          suggestedName: '${_slug(achievement)}.badge.jwt',
+          type: ShareFileType.jwt);
+    }
     final json = const JsonEncoder.withIndent('  ')
         .convert(openBadge(achievement, recipient));
     return _service.saveFile(Uint8List.fromList(utf8.encode(json)),

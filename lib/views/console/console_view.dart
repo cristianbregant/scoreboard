@@ -90,6 +90,7 @@ class _ConsoleViewState
         ConsoleSection.reports => getIt<ReportsView>(),
         ConsoleSection.activity => getIt<ActivityView>(),
         ConsoleSection.company => getIt<CompanySettingsView>(),
+        ConsoleSection.integrations => getIt<IntegrationsView>(),
         ConsoleSection.catalog ||
         ConsoleSection.assign ||
         ConsoleSection.requests ||
@@ -458,26 +459,32 @@ class _ConsoleViewState
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            panel(l10n.statsUnderRecognized, l10n.statsUnderRecognizedHint, [
-              for (final (person, count) in insights.leastRecognized)
-                personRow(person, l10n.achievementsCount(count),
-                    action: person.id == vmState.currentUserId
-                        ? null
-                        : IconButton(
-                            tooltip: l10n.sendAnAchievement,
-                            visualDensity: VisualDensity.compact,
-                            onPressed: () => viewModel.onTapSendAchievement(
-                                colleagueId: person.id),
-                            icon: const Icon(LucideIcons.heartHandshake,
-                                size: 18),
-                          )),
-            ]),
-            const SizedBox(width: 12),
-            panel(l10n.statsTopSenders, l10n.statsTopSendersHint, [
-              for (final (person, count) in insights.topSenders)
-                personRow(person, l10n.sentCount(count)),
-            ]),
-            const SizedBox(width: 12),
+            // Each panel about individual people follows the company's
+            // privacy switches.
+            if (vmState.company!.recognitionGaps) ...[
+              panel(l10n.statsUnderRecognized, l10n.statsUnderRecognizedHint, [
+                for (final (person, count) in insights.leastRecognized)
+                  personRow(person, l10n.achievementsCount(count),
+                      action: person.id == vmState.currentUserId
+                          ? null
+                          : IconButton(
+                              tooltip: l10n.sendAnAchievement,
+                              visualDensity: VisualDensity.compact,
+                              onPressed: () => viewModel.onTapSendAchievement(
+                                  colleagueId: person.id),
+                              icon: const Icon(LucideIcons.heartHandshake,
+                                  size: 18),
+                            )),
+              ]),
+              const SizedBox(width: 12),
+            ],
+            if (vmState.company!.individualRankings) ...[
+              panel(l10n.statsTopSenders, l10n.statsTopSendersHint, [
+                for (final (person, count) in insights.topSenders)
+                  personRow(person, l10n.sentCount(count)),
+              ]),
+              const SizedBox(width: 12),
+            ],
             panel(l10n.statsTopCatalog, null, [
               for (final (item, count) in insights.topCatalog)
                 Padding(

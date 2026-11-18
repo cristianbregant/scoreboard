@@ -165,59 +165,92 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                           value: "${vmState.totalAchievements}",
                           icon: LucideIcons.trophy,
                           color: AchievementTier.gold.color),
-                      StatTile(
-                          label: context.l10n.statYourRank,
-                          value: context.l10n
-                              .rankValue('${vmState.currentUserRank ?? '-'}'),
-                          icon: LucideIcons.chartNoAxesColumn,
-                          color: AppColors.success),
+                      if (vmState.ranked)
+                        StatTile(
+                            label: context.l10n.statYourRank,
+                            value: context.l10n
+                                .rankValue('${vmState.currentUserRank ?? '-'}'),
+                            icon: LucideIcons.chartNoAxesColumn,
+                            color: AppColors.success),
                     ]),
                     if (vmState.season != null) _buildSeason(context),
                     ..._buildCatalog(),
                     ..._buildMyRequests(),
-                    SectionTitle(context.l10n.topPerformers),
-                    Podium(
-                      entries: vmState.members
-                          .take(3)
-                          .map((entry) => PodiumEntry(
-                                avatar: UserAvatar(
-                                    initials: entry.user.initials,
-                                    imagePath: entry.user.avatarPath,
-                                    radius: 26),
-                                title: entry.user.name,
-                                subtitle: entry.user.role,
-                                points: entry.points,
-                              ))
-                          .toList(),
-                    ),
-                    SectionTitle(context.l10n.teamLeaderboard),
-                    ...vmState.members.map((entry) => LeaderboardTile(
-                          rank: entry.rank,
-                          leading: UserAvatar(
-                              initials: entry.user.initials,
-                              imagePath: entry.user.avatarPath),
-                          title: entry.user.id == vmState.currentUserId
-                              ? context.l10n.youSuffix(entry.user.name)
-                              : entry.user.name,
-                          subtitle:
-                              "${entry.user.role} · ${context.l10n.achievementsCount(entry.achievementsCount)}",
-                          points: entry.points,
-                          highlighted: entry.user.id == vmState.currentUserId,
-                          action: entry.user.id == vmState.currentUserId
-                              ? null
-                              : IconButton(
-                                  tooltip: context.l10n.sendAnAchievement,
-                                  onPressed: () =>
-                                      viewModel.onTapSendAchievement(
-                                          colleagueId: entry.user.id),
-                                  icon: const Icon(LucideIcons.heartHandshake,
-                                      size: 20),
-                                ),
-                        )),
+                    if (vmState.ranked)
+                      ..._buildLeaderboard(context)
+                    else
+                      ..._buildColleagues(context),
                   ],
                 ),
               ));
             }));
+  }
+
+  /// Podium and full leaderboard, when the company ranks its people.
+  List<Widget> _buildLeaderboard(BuildContext context) => [
+        SectionTitle(context.l10n.topPerformers),
+        Podium(
+          entries: vmState.members
+              .take(3)
+              .map((entry) => PodiumEntry(
+                    avatar: UserAvatar(
+                        initials: entry.user.initials,
+                        imagePath: entry.user.avatarPath,
+                        radius: 26),
+                    title: entry.user.name,
+                    subtitle: entry.user.role,
+                    points: entry.points,
+                  ))
+              .toList(),
+        ),
+        SectionTitle(context.l10n.teamLeaderboard),
+        ...vmState.members.map((entry) => LeaderboardTile(
+              rank: entry.rank,
+              leading: UserAvatar(
+                  initials: entry.user.initials,
+                  imagePath: entry.user.avatarPath),
+              title: entry.user.id == vmState.currentUserId
+                  ? context.l10n.youSuffix(entry.user.name)
+                  : entry.user.name,
+              subtitle:
+                  "${entry.user.role} · ${context.l10n.achievementsCount(entry.achievementsCount)}",
+              points: entry.points,
+              highlighted: entry.user.id == vmState.currentUserId,
+              action: entry.user.id == vmState.currentUserId
+                  ? null
+                  : IconButton(
+                      tooltip: context.l10n.sendAnAchievement,
+                      onPressed: () => viewModel.onTapSendAchievement(
+                          colleagueId: entry.user.id),
+                      icon: const Icon(LucideIcons.heartHandshake, size: 20),
+                    ),
+            )),
+      ];
+
+  /// Without individual rankings: colleagues by name, no places or points.
+  List<Widget> _buildColleagues(BuildContext context) {
+    final colleagues = [...vmState.members]
+      ..sort((a, b) => a.user.name.compareTo(b.user.name));
+    return [
+      SectionTitle(context.l10n.colleaguesTitle),
+      for (final entry in colleagues)
+        LeaderboardTile(
+          leading: UserAvatar(
+              initials: entry.user.initials, imagePath: entry.user.avatarPath),
+          title: entry.user.id == vmState.currentUserId
+              ? context.l10n.youSuffix(entry.user.name)
+              : entry.user.name,
+          subtitle: entry.user.role,
+          action: entry.user.id == vmState.currentUserId
+              ? null
+              : IconButton(
+                  tooltip: context.l10n.sendAnAchievement,
+                  onPressed: () => viewModel.onTapSendAchievement(
+                      colleagueId: entry.user.id),
+                  icon: const Icon(LucideIcons.heartHandshake, size: 20),
+                ),
+        ),
+    ];
   }
 
   /// The season running today: days left, the user's place and the top 3.
@@ -266,7 +299,7 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                           l10n.seasonDaysLeft(season.daysLeft(DateTime.now())),
                         ].join(' · '),
                         style: TextStyle(color: colorScheme.onSurfaceVariant)),
-                    if (mine != null) ...[
+                    if (mine != null && vmState.ranked) ...[
                       const SizedBox(height: 10),
                       TagChip(
                           icon: LucideIcons.chartNoAxesColumn,
@@ -277,42 +310,45 @@ class _YourCompanyViewState extends BaseState<YourCompanyView,
                   ],
                 ),
               ),
-              const SizedBox(width: 16),
-              SizedBox(
-                width: 260,
-                child: Column(
-                  children: [
-                    for (final entry in vmState.seasonBoard.take(3))
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 6),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 28,
-                              child: Text(l10n.rankValue('${entry.rank}'),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700)),
-                            ),
-                            UserAvatar(
-                                initials: entry.user.initials,
-                                imagePath: entry.user.avatarPath,
-                                radius: 13),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(entry.user.name,
-                                  maxLines: 1, overflow: TextOverflow.ellipsis),
-                            ),
-                            Text(l10n.xpValue(entry.points),
-                                style: TextStyle(
-                                    fontSize: 12.5,
-                                    fontWeight: FontWeight.w600,
-                                    color: colorScheme.onSurfaceVariant)),
-                          ],
+              if (vmState.ranked) ...[
+                const SizedBox(width: 16),
+                SizedBox(
+                  width: 260,
+                  child: Column(
+                    children: [
+                      for (final entry in vmState.seasonBoard.take(3))
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 28,
+                                child: Text(l10n.rankValue('${entry.rank}'),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700)),
+                              ),
+                              UserAvatar(
+                                  initials: entry.user.initials,
+                                  imagePath: entry.user.avatarPath,
+                                  radius: 13),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(entry.user.name,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis),
+                              ),
+                              Text(l10n.xpValue(entry.points),
+                                  style: TextStyle(
+                                      fontSize: 12.5,
+                                      fontWeight: FontWeight.w600,
+                                      color: colorScheme.onSurfaceVariant)),
+                            ],
+                          ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ),

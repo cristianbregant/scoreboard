@@ -5,6 +5,9 @@ class ApiEndpoints {
   static const String logout = '/auth/logout';
   static const String password = '/auth/password';
   static const String me = '/me';
+  static const String ssoProviders = '/auth/sso/providers';
+  static String ssoStart(String provider) => '/auth/sso/$provider/start';
+  static const String ssoExchange = '/auth/sso/exchange';
 
   static const String users = '/users';
   static String userTeam(String userId) => '/users/$userId/team';
@@ -13,6 +16,8 @@ class ApiEndpoints {
   static const String achievements = '/achievements';
   static String reaction(String achievementId) =>
       '/achievements/$achievementId/reaction';
+  static String credential(String achievementId) =>
+      '/achievements/$achievementId/credential';
   static const String templates = '/templates';
   static String template(String templateId) => '/templates/$templateId';
 
@@ -34,5 +39,11 @@ class ApiEndpoints {
   static String settings(String companyId) => '/companies/$companyId/settings';
   static String invites(String companyId) => '/companies/$companyId/invites';
   static String invite(String id) => '/invites/$id';
+  static String bulkInvites(String companyId) =>
+      '/companies/$companyId/invites/bulk';
   static String userAdmin(String userId) => '/users/$userId/admin';
+  static String integrations(String companyId) =>
+      '/companies/$companyId/integrations';
+  static String integrationTest(String companyId) =>
+      '/companies/$companyId/integrations/test';
 }

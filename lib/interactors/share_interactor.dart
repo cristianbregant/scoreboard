@@ -16,7 +16,8 @@ class ShareInteractor {
 
   /// LinkedIn's "Add to profile" form for a license or certification.
   /// Only verified achievements qualify, since a company issued them.
-  Uri? linkedInCertificationUri(Achievement achievement) {
+  /// [verifyUrl], the credential's public page, becomes its link.
+  Uri? linkedInCertificationUri(Achievement achievement, {Uri? verifyUrl}) {
     final date = achievement.date;
     if (achievement.verified != true || date == null) return null;
     return Uri.https('www.linkedin.com', '/profile/add', {
@@ -26,6 +27,7 @@ class ShareInteractor {
       'issueYear': '${date.year}',
       'issueMonth': '${date.month}',
       if (achievement.id != null) 'certId': achievement.id!,
+      if (verifyUrl != null) 'certUrl': verifyUrl.toString(),
     });
   }
 

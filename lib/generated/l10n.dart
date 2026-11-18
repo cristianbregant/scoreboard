@@ -5003,6 +5003,742 @@ class AppLocalization {
       args: [subject],
     );
   }
+
+  /// `Colleghi`
+  String get colleaguesTitle {
+    return Intl.message(
+      'Colleghi',
+      name: 'colleaguesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy e monitoraggio`
+  String get privacyTitle {
+    return Intl.message(
+      'Privacy e monitoraggio',
+      name: 'privacyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cosa mostra l'app sulle singole persone. Se un accordo con le rappresentanze dei lavoratori lo richiede, spegni queste opzioni: valgono per tutta l'azienda.`
+  String get privacyBody {
+    return Intl.message(
+      'Cosa mostra l\'app sulle singole persone. Se un accordo con le rappresentanze dei lavoratori lo richiede, spegni queste opzioni: valgono per tutta l\'azienda.',
+      name: 'privacyBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Classifiche individuali`
+  String get individualRankingsTitle {
+    return Intl.message(
+      'Classifiche individuali',
+      name: 'individualRankingsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Podio, classifica del team, posizioni nel profilo e nelle stagioni, classifica Community. Spente, restano solo i totali dell'azienda.`
+  String get individualRankingsBody {
+    return Intl.message(
+      'Podio, classifica del team, posizioni nel profilo e nelle stagioni, classifica Community. Spente, restano solo i totali dell\'azienda.',
+      name: 'individualRankingsBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Segnala chi è poco riconosciuto`
+  String get recognitionGapsTitle {
+    return Intl.message(
+      'Segnala chi è poco riconosciuto',
+      name: 'recognitionGapsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Per i manager, chi non riceve nulla da un mese; per gli admin, chi ne ha ricevuti meno negli ultimi 90 giorni.`
+  String get recognitionGapsBody {
+    return Intl.message(
+      'Per i manager, chi non riceve nulla da un mese; per gli admin, chi ne ha ricevuti meno negli ultimi 90 giorni.',
+      name: 'recognitionGapsBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Questa settimana: +{xp} XP`
+  String notifRecapBodyNoRank(int xp) {
+    return Intl.message(
+      'Questa settimana: +$xp XP',
+      name: 'notifRecapBodyNoRank',
+      desc: '',
+      args: [xp],
+    );
+  }
+
+  /// `ha cambiato le impostazioni di privacy`
+  String get activityPrivacyUpdated {
+    return Intl.message(
+      'ha cambiato le impostazioni di privacy',
+      name: 'activityPrivacyUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Firmata da {company}: chiunque può verificarla dalla sua pagina pubblica.`
+  String exportOpenBadgeSignedHint(Object company) {
+    return Intl.message(
+      'Firmata da $company: chiunque può verificarla dalla sua pagina pubblica.',
+      name: 'exportOpenBadgeSignedHint',
+      desc: '',
+      args: [company],
+    );
+  }
+
+  /// `Copia il link di verifica`
+  String get copyVerifyLink {
+    return Intl.message(
+      'Copia il link di verifica',
+      name: 'copyVerifyLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Link di verifica copiato`
+  String get verifyLinkCopied {
+    return Intl.message(
+      'Link di verifica copiato',
+      name: 'verifyLinkCopied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verifica questo certificato`
+  String get certVerify {
+    return Intl.message(
+      'Verifica questo certificato',
+      name: 'certVerify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Importa CSV`
+  String get importCsv {
+    return Intl.message('Importa CSV', name: 'importCsv', desc: '', args: []);
+  }
+
+  /// `Una colonna di email, più ruolo e team se vuoi. Virgola o punto e virgola, intestazione facoltativa: va bene l'export di Excel.`
+  String get importFormatHint {
+    return Intl.message(
+      'Una colonna di email, più ruolo e team se vuoi. Virgola o punto e virgola, intestazione facoltativa: va bene l\'export di Excel.',
+      name: 'importFormatHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Importa persone`
+  String get importTitle {
+    return Intl.message(
+      'Importa persone',
+      name: 'importTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =0{Nessuno da invitare} one{1 persona riceverà un invito} other{{count} persone riceveranno un invito}}`
+  String importSummary(int count) {
+    return Intl.plural(
+      count,
+      zero: 'Nessuno da invitare',
+      one: '1 persona riceverà un invito',
+      other: '$count persone riceveranno un invito',
+      name: 'importSummary',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, one{1 entrerà direttamente nel suo team.} other{{count} entreranno direttamente nel loro team.}}`
+  String importWithTeams(int count) {
+    return Intl.plural(
+      count,
+      one: '1 entrerà direttamente nel suo team.',
+      other: '$count entreranno direttamente nel loro team.',
+      name: 'importWithTeams',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, one{1 riga esclusa} other{{count} righe escluse}}`
+  String importLeftOut(int count) {
+    return Intl.plural(
+      count,
+      one: '1 riga esclusa',
+      other: '$count righe escluse',
+      name: 'importLeftOut',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Riga {line}: {reason}`
+  String importProblemLine(int line, Object reason) {
+    return Intl.message(
+      'Riga $line: $reason',
+      name: 'importProblemLine',
+      desc: '',
+      args: [line, reason],
+    );
+  }
+
+  /// `“{value}” non è un'email valida`
+  String importProblemInvalidEmail(Object value) {
+    return Intl.message(
+      '“$value” non è un\'email valida',
+      name: 'importProblemInvalidEmail',
+      desc: '',
+      args: [value],
+    );
+  }
+
+  /// `{value} è già più in alto nel file`
+  String importProblemDuplicate(Object value) {
+    return Intl.message(
+      '$value è già più in alto nel file',
+      name: 'importProblemDuplicate',
+      desc: '',
+      args: [value],
+    );
+  }
+
+  /// `{value} ha già un account`
+  String importProblemMember(Object value) {
+    return Intl.message(
+      '$value ha già un account',
+      name: 'importProblemMember',
+      desc: '',
+      args: [value],
+    );
+  }
+
+  /// `nessun team si chiama “{value}”`
+  String importProblemTeam(Object value) {
+    return Intl.message(
+      'nessun team si chiama “$value”',
+      name: 'importProblemTeam',
+      desc: '',
+      args: [value],
+    );
+  }
+
+  /// `{count, plural, one{Invita 1 persona} other{Invita {count} persone}}`
+  String importConfirm(int count) {
+    return Intl.plural(
+      count,
+      one: 'Invita 1 persona',
+      other: 'Invita $count persone',
+      name: 'importConfirm',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Inviti inviati: {created}. Esclusi: {skipped}.`
+  String importDone(int created, int skipped) {
+    return Intl.message(
+      'Inviti inviati: $created. Esclusi: $skipped.',
+      name: 'importDone',
+      desc: '',
+      args: [created, skipped],
+    );
+  }
+
+  /// `Nessun indirizzo email in questo file.`
+  String get importEmpty {
+    return Intl.message(
+      'Nessun indirizzo email in questo file.',
+      name: 'importEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Al massimo {max} persone per importazione: dividi il file.`
+  String errorTooManyInvites(int max) {
+    return Intl.message(
+      'Al massimo $max persone per importazione: dividi il file.',
+      name: 'errorTooManyInvites',
+      desc: '',
+      args: [max],
+    );
+  }
+
+  /// `Non è un ID tenant di Microsoft: lo trovi nel portale di Entra, nella panoramica.`
+  String get errorInvalidSsoTenant {
+    return Intl.message(
+      'Non è un ID tenant di Microsoft: lo trovi nel portale di Entra, nella panoramica.',
+      name: 'errorInvalidSsoTenant',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Non è un dominio valido, ad esempio azienda.it.`
+  String get errorInvalidSsoDomain {
+    return Intl.message(
+      'Non è un dominio valido, ad esempio azienda.it.',
+      name: 'errorInvalidSsoDomain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Un'altra azienda usa già questo accesso: un tenant o un dominio vale per una sola azienda.`
+  String get errorSsoInUse {
+    return Intl.message(
+      'Un\'altra azienda usa già questo accesso: un tenant o un dominio vale per una sola azienda.',
+      name: 'errorSsoInUse',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, one{ha invitato 1 persona da un file} other{ha invitato {count} persone da un file}}`
+  String activityMembersImported(int count) {
+    return Intl.plural(
+      count,
+      one: 'ha invitato 1 persona da un file',
+      other: 'ha invitato $count persone da un file',
+      name: 'activityMembersImported',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Accesso singolo (SSO)`
+  String get ssoTitle {
+    return Intl.message(
+      'Accesso singolo (SSO)',
+      name: 'ssoTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Le persone accedono con l'account di lavoro, senza un'altra password. Vale solo per il tenant o il dominio indicati qui, e solo per chi è già membro o ha ricevuto un invito.`
+  String get ssoBody {
+    return Intl.message(
+      'Le persone accedono con l\'account di lavoro, senza un\'altra password. Vale solo per il tenant o il dominio indicati qui, e solo per chi è già membro o ha ricevuto un invito.',
+      name: 'ssoBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ID tenant Microsoft Entra`
+  String get ssoMicrosoftTenant {
+    return Intl.message(
+      'ID tenant Microsoft Entra',
+      name: 'ssoMicrosoftTenant',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nel portale di Entra, alla voce Panoramica. Lascia vuoto per non usare Microsoft.`
+  String get ssoMicrosoftTenantHint {
+    return Intl.message(
+      'Nel portale di Entra, alla voce Panoramica. Lascia vuoto per non usare Microsoft.',
+      name: 'ssoMicrosoftTenantHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dominio Google Workspace`
+  String get ssoGoogleDomain {
+    return Intl.message(
+      'Dominio Google Workspace',
+      name: 'ssoGoogleDomain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quello degli indirizzi di lavoro, ad esempio azienda.it. Lascia vuoto per non usare Google.`
+  String get ssoGoogleDomainHint {
+    return Intl.message(
+      'Quello degli indirizzi di lavoro, ad esempio azienda.it. Lascia vuoto per non usare Google.',
+      name: 'ssoGoogleDomainHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ha cambiato l'accesso singolo`
+  String get activitySsoUpdated {
+    return Intl.message(
+      'ha cambiato l\'accesso singolo',
+      name: 'activitySsoUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `oppure`
+  String get authOr {
+    return Intl.message('oppure', name: 'authOr', desc: '', args: []);
+  }
+
+  /// `Continua con {provider}`
+  String ssoContinueWith(Object provider) {
+    return Intl.message(
+      'Continua con $provider',
+      name: 'ssoContinueWith',
+      desc: '',
+      args: [provider],
+    );
+  }
+
+  /// `Accesso fatto. Puoi chiudere questa scheda e tornare a Scoreboard.`
+  String get ssoBrowserDone {
+    return Intl.message(
+      'Accesso fatto. Puoi chiudere questa scheda e tornare a Scoreboard.',
+      name: 'ssoBrowserDone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `L'accesso non è andato a buon fine. Torna a Scoreboard per vedere perché.`
+  String get ssoBrowserFailed {
+    return Intl.message(
+      'L\'accesso non è andato a buon fine. Torna a Scoreboard per vedere perché.',
+      name: 'ssoBrowserFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `L'accesso con il tuo account di lavoro non è riuscito. Riprova.`
+  String get errorSsoFailed {
+    return Intl.message(
+      'L\'accesso con il tuo account di lavoro non è riuscito. Riprova.',
+      name: 'errorSsoFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accesso annullato.`
+  String get errorSsoCancelled {
+    return Intl.message(
+      'Accesso annullato.',
+      name: 'errorSsoCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Questo account non è ancora in Scoreboard: chiedi a un admin della tua azienda di invitarti.`
+  String get errorSsoNoAccount {
+    return Intl.message(
+      'Questo account non è ancora in Scoreboard: chiedi a un admin della tua azienda di invitarti.',
+      name: 'errorSsoNoAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `La tua azienda non ha attivato l'accesso con questo account. Usa email e password, o chiedi al tuo admin.`
+  String get errorSsoNotConfigured {
+    return Intl.message(
+      'La tua azienda non ha attivato l\'accesso con questo account. Usa email e password, o chiedi al tuo admin.',
+      name: 'errorSsoNotConfigured',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Integrazioni`
+  String get consoleIntegrations {
+    return Intl.message(
+      'Integrazioni',
+      name: 'consoleIntegrations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scoreboard dentro gli strumenti che già usate: chat e account di lavoro.`
+  String get consoleIntegrationsSubtitle {
+    return Intl.message(
+      'Scoreboard dentro gli strumenti che già usate: chat e account di lavoro.',
+      name: 'consoleIntegrationsSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Teams e Slack`
+  String get chatTitle {
+    return Intl.message('Teams e Slack', name: 'chatTitle', desc: '', args: []);
+  }
+
+  /// `Ogni riconoscimento compare anche nel canale che scegli, dove il team lo vede davvero. Le note personali restano in Scoreboard.`
+  String get chatBody {
+    return Intl.message(
+      'Ogni riconoscimento compare anche nel canale che scegli, dove il team lo vede davvero. Le note personali restano in Scoreboard.',
+      name: 'chatBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collega`
+  String get chatConnect {
+    return Intl.message('Collega', name: 'chatConnect', desc: '', args: []);
+  }
+
+  /// `Collega {name}`
+  String chatConnectTitle(Object name) {
+    return Intl.message(
+      'Collega $name',
+      name: 'chatConnectTitle',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `{name} collegato`
+  String chatConnected(Object name) {
+    return Intl.message(
+      '$name collegato',
+      name: 'chatConnected',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Collegato · {hint}`
+  String chatConnectedTo(Object hint) {
+    return Intl.message(
+      'Collegato · $hint',
+      name: 'chatConnectedTo',
+      desc: '',
+      args: [hint],
+    );
+  }
+
+  /// `Non collegato`
+  String get chatNotConnected {
+    return Intl.message(
+      'Non collegato',
+      name: 'chatNotConnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scollega`
+  String get chatDisconnect {
+    return Intl.message('Scollega', name: 'chatDisconnect', desc: '', args: []);
+  }
+
+  /// `Scollegare {name}?`
+  String chatDisconnectTitle(Object name) {
+    return Intl.message(
+      'Scollegare $name?',
+      name: 'chatDisconnectTitle',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `Nel canale non arriveranno più riconoscimenti. Potrai ricollegarlo quando vuoi.`
+  String get chatDisconnectBody {
+    return Intl.message(
+      'Nel canale non arriveranno più riconoscimenti. Potrai ricollegarlo quando vuoi.',
+      name: 'chatDisconnectBody',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invia una prova`
+  String get chatSendTest {
+    return Intl.message(
+      'Invia una prova',
+      name: 'chatSendTest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Messaggio di prova inviato a {name}`
+  String chatTestSent(Object name) {
+    return Intl.message(
+      'Messaggio di prova inviato a $name',
+      name: 'chatTestSent',
+      desc: '',
+      args: [name],
+    );
+  }
+
+  /// `L'ultimo invio a {channel} non è andato a buon fine ({date}). Controlla il collegamento e invia una prova.`
+  String chatLastError(Object channel, Object date) {
+    return Intl.message(
+      'L\'ultimo invio a $channel non è andato a buon fine ($date). Controlla il collegamento e invia una prova.',
+      name: 'chatLastError',
+      desc: '',
+      args: [channel, date],
+    );
+  }
+
+  /// `Pubblica i traguardi verificati`
+  String get chatPostVerified {
+    return Intl.message(
+      'Pubblica i traguardi verificati',
+      name: 'chatPostVerified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pubblica anche quelli tra colleghi`
+  String get chatPostPeer {
+    return Intl.message(
+      'Pubblica anche quelli tra colleghi',
+      name: 'chatPostPeer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Più frequenti: utili in un canale dedicato, rumorosi in quello generale.`
+  String get chatPostPeerHint {
+    return Intl.message(
+      'Più frequenti: utili in un canale dedicato, rumorosi in quello generale.',
+      name: 'chatPostPeerHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lingua dei messaggi`
+  String get chatLanguage {
+    return Intl.message(
+      'Lingua dei messaggi',
+      name: 'chatLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `URL del webhook`
+  String get chatWebhookUrl {
+    return Intl.message(
+      'URL del webhook',
+      name: 'chatWebhookUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Teams, apri il canale, scegli «Flussi di lavoro» e il modello «Pubblica in un canale quando viene ricevuta una richiesta webhook». Copia qui l'URL che ti dà.`
+  String get chatTeamsHowTo {
+    return Intl.message(
+      'In Teams, apri il canale, scegli «Flussi di lavoro» e il modello «Pubblica in un canale quando viene ricevuta una richiesta webhook». Copia qui l\'URL che ti dà.',
+      name: 'chatTeamsHowTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Slack, crea un'app su api.slack.com/apps, attiva «Incoming Webhooks» e aggiungi un webhook per il canale. Copia qui l'URL che inizia con https://hooks.slack.com.`
+  String get chatSlackHowTo {
+    return Intl.message(
+      'In Slack, crea un\'app su api.slack.com/apps, attiva «Incoming Webhooks» e aggiungi un webhook per il canale. Copia qui l\'URL che inizia con https://hooks.slack.com.',
+      name: 'chatSlackHowTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Non è un webhook di Teams o Slack. Controlla di aver copiato l'URL intero.`
+  String get errorInvalidWebhook {
+    return Intl.message(
+      'Non è un webhook di Teams o Slack. Controlla di aver copiato l\'URL intero.',
+      name: 'errorInvalidWebhook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Il servizio ha rifiutato il messaggio. Il webhook potrebbe essere stato rimosso: collegalo di nuovo.`
+  String get errorWebhookFailed {
+    return Intl.message(
+      'Il servizio ha rifiutato il messaggio. Il webhook potrebbe essere stato rimosso: collegalo di nuovo.',
+      name: 'errorWebhookFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Questo canale non è collegato.`
+  String get errorNotConfigured {
+    return Intl.message(
+      'Questo canale non è collegato.',
+      name: 'errorNotConfigured',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disponibile con il server di Scoreboard: in questa demo non si inviano messaggi.`
+  String get errorNeedsBackend {
+    return Intl.message(
+      'Disponibile con il server di Scoreboard: in questa demo non si inviano messaggi.',
+      name: 'errorNeedsBackend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ha cambiato le integrazioni`
+  String get activityIntegrationsUpdated {
+    return Intl.message(
+      'ha cambiato le integrazioni',
+      name: 'activityIntegrationsUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Badge firmato`
+  String get exportOpenBadgeSigned {
+    return Intl.message(
+      'Open Badge firmato',
+      name: 'exportOpenBadgeSigned',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {

@@ -2,6 +2,7 @@ import 'package:scoreboard/core/localization_manager.dart';
 import 'package:scoreboard/core/l10n_messages.dart';
 import 'package:scoreboard/interactors/auth_interactor.dart';
 import 'package:scoreboard/model/auth.dart';
+import 'package:scoreboard/model/sso.dart';
 import 'package:scoreboard/views/_base/base_view_model.dart';
 import 'package:scoreboard/views/auth/auth_contract.dart';
 
@@ -10,6 +11,20 @@ class AuthViewModel extends BaseViewModel<AuthViewContract, AuthState>
   final AuthInteractor _interactor;
 
   AuthViewModel(this._interactor);
+
+  @override
+  Future<void> onInitState() async {
+    if (_interactor.takePendingSsoError() case final error?) {
+      vmState.errorMessage = AuthException(error).localized(l10n);
+    }
+    vmState.ssoProviders = await _interactor.ssoProviders();
+    notifyListeners();
+  }
+
+  @override
+  Future<void> signInWithSso(SsoProvider provider) =>
+      _submit(() => _interactor.signInWithSso(provider,
+          texts: (done: l10n.ssoBrowserDone, failed: l10n.ssoBrowserFailed)));
 
   @override
   void onChangeMode(AuthMode mode) {

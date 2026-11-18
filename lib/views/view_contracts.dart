@@ -16,3 +16,4 @@ export 'package:scoreboard/views/admin/seasons/seasons_admin_contract.dart';
 export 'package:scoreboard/views/admin/reports/reports_contract.dart';
 export 'package:scoreboard/views/admin/activity/activity_contract.dart';
 export 'package:scoreboard/views/admin/company/company_settings_contract.dart';
+export 'package:scoreboard/views/admin/integrations/integrations_contract.dart';

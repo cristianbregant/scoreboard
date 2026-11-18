@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -48,6 +49,8 @@ class _CompanySettingsViewState extends BaseState<CompanySettingsView,
                 _buildBrand(settings, company.name),
                 SectionTitle(l10n.anniversariesTitle),
                 _buildAnniversaries(settings),
+                SectionTitle(l10n.privacyTitle),
+                _buildPrivacy(settings),
               ],
             );
           },
@@ -96,31 +99,69 @@ class _CompanySettingsViewState extends BaseState<CompanySettingsView,
                         ),
                     ],
                   ),
-                  const SizedBox(height: 22),
-                  Text(l10n.brandLogo,
-                      style: const TextStyle(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: [
-                      OutlinedButton.icon(
-                        onPressed: viewModel.onTapUploadLogo,
-                        icon: const Icon(LucideIcons.upload),
-                        label: Text(l10n.uploadLogo),
-                      ),
-                      if (settings.logoPath != null)
-                        TextButton(
-                          onPressed: viewModel.onTapRemoveLogo,
-                          child: Text(l10n.commonRemove),
+                  // Logos are local files, stored by the desktop app only.
+                  if (!kIsWeb) ...[
+                    const SizedBox(height: 22),
+                    Text(l10n.brandLogo,
+                        style: const TextStyle(fontWeight: FontWeight.w600)),
+                    const SizedBox(height: 10),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        OutlinedButton.icon(
+                          onPressed: viewModel.onTapUploadLogo,
+                          icon: const Icon(LucideIcons.upload),
+                          label: Text(l10n.uploadLogo),
                         ),
-                    ],
-                  ),
+                        if (settings.logoPath != null)
+                          TextButton(
+                            onPressed: viewModel.onTapRemoveLogo,
+                            child: Text(l10n.commonRemove),
+                          ),
+                      ],
+                    ),
+                  ],
                 ],
               ),
             ),
             const SizedBox(width: 24),
             _BrandPreview(settings: settings, companyName: companyName),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// What the app ranks and flags about individual people. Some agreements
+  /// with employee representatives require turning these off.
+  Widget _buildPrivacy(CompanySettings settings) {
+    final l10n = context.l10n;
+    final colorScheme = Theme.of(context).colorScheme;
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.privacyBody,
+                style: TextStyle(color: colorScheme.onSurfaceVariant)),
+            const SizedBox(height: 8),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(l10n.individualRankingsTitle),
+              subtitle: Text(l10n.individualRankingsBody),
+              value: settings.individualRankings,
+              onChanged: viewModel.onToggleIndividualRankings,
+            ),
+            const Divider(),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(l10n.recognitionGapsTitle),
+              subtitle: Text(l10n.recognitionGapsBody),
+              value: settings.recognitionGaps,
+              onChanged: viewModel.onToggleRecognitionGaps,
+            ),
           ],
         ),
       ),
@@ -258,7 +299,7 @@ class _BrandPreview extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: logo != null
+                    child: logo != null && !kIsWeb
                         ? Image.file(File(logo),
                             width: 30,
                             height: 30,

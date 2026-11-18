@@ -6,12 +6,16 @@ import 'package:scoreboard/views/_shared/admin_screen.dart';
 abstract class MembersAdminViewContract extends AdminViewContract {
   /// Email address to invite to [companyName]; null if cancelled.
   Future<String?> askInviteEmail(String companyName);
+
+  /// Shows what an import will do; true to send the invitations.
+  Future<bool> confirmImport(InviteImport import);
 }
 
 abstract class MembersAdminViewModelContract
     extends BaseViewModelContract<MembersAdminState, MembersAdminViewContract> {
   void load();
   void onTapInvite();
+  void onTapImport();
   void onResendInvite(Invite invite);
   void onTapRevokeInvite(Invite invite);
   void onToggleAdmin(UserProfile member, bool isAdmin);

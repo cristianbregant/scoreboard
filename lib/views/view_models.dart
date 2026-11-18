@@ -16,3 +16,4 @@ export 'package:scoreboard/views/admin/seasons/seasons_admin_view_model.dart';
 export 'package:scoreboard/views/admin/reports/reports_view_model.dart';
 export 'package:scoreboard/views/admin/activity/activity_view_model.dart';
 export 'package:scoreboard/views/admin/company/company_settings_view_model.dart';
+export 'package:scoreboard/views/admin/integrations/integrations_view_model.dart';

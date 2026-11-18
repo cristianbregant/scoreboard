@@ -8,6 +8,7 @@ import 'package:scoreboard/api/error/api_error.dart';
 import 'package:scoreboard/model/admin.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/model/feed.dart';
+import 'package:scoreboard/model/invite.dart';
 import 'package:scoreboard/model/send_achievement.dart';
 import 'package:scoreboard/services/rest_scoreboard_repository.dart';
 import 'package:scoreboard/services/shared_preferences.dart';
@@ -134,5 +135,68 @@ void main() {
 
     await repository.setReaction('ach_1', 'u_me', null);
     expect(backend.requests.last.data, {'type': null});
+  });
+
+  test('reads the signed credential of an achievement', () async {
+    backend.respond = (_) => (
+          200,
+          {
+            'jwt': 'header.payload.signature',
+            'credential': {'name': 'Cloud Computing Expert'},
+            'verify_url': 'https://scoreboard.example/badges/ach_1',
+          }
+        );
+    final issued = await repository.getCredential('ach_1');
+    expect(backend.requests.last.path, '/achievements/ach_1/credential');
+    expect(issued!.jwt, 'header.payload.signature');
+    expect(issued.credential['name'], 'Cloud Computing Expert');
+    expect(issued.verifyUrl.path, '/badges/ach_1');
+  });
+
+  test('sends an import in one request and reads what was left out', () async {
+    await preferences.setSessionToken('token');
+    await preferences.setSessionUserId('u_me');
+    backend.respond = (request) => request.path == '/me'
+        ? (200, _user)
+        : (
+            201,
+            {
+              'created': [
+                {
+                  'id': 'inv_1',
+                  'company_id': 'c_northwind',
+                  'email': 'ada@northwind.dev',
+                  'invited_by_id': 'u_me',
+                  'invited_by_name': 'Mario Rossi',
+                  'created_at': '2026-10-27T10:00:00.000',
+                  'expires_at': '2026-11-03T10:00:00.000',
+                  'role': 'Engineer',
+                  'team_id': 't_1',
+                }
+              ],
+              'skipped': [
+                {
+                  'email': 'giulia.bianchi@northwind.dev',
+                  'reason': 'alreadyMember'
+                }
+              ],
+            }
+          );
+    final result = await repository.createInvites([
+      const InviteDraft(
+          email: 'ada@northwind.dev', role: 'Engineer', teamId: 't_1'),
+      const InviteDraft(email: 'giulia.bianchi@northwind.dev'),
+    ], languageCode: 'it');
+    final request = backend.requests.last;
+    expect(request.path, '/companies/c_northwind/invites/bulk');
+    expect(request.data, {
+      'invites': [
+        {'email': 'ada@northwind.dev', 'role': 'Engineer', 'team_id': 't_1'},
+        {'email': 'giulia.bianchi@northwind.dev'},
+      ],
+      'language': 'it',
+    });
+    expect(result.created.single.teamId, 't_1');
+    expect(result.skipped.single.reason, 'alreadyMember');
   });
 }

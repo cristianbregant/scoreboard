@@ -30,6 +30,7 @@ enum ConsoleSection {
   reports,
   activity,
   company,
+  integrations,
 }
 
 enum NavigationRequest { openPage, quickSend, openNotifications }

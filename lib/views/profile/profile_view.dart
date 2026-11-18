@@ -64,20 +64,22 @@ class _ProfileViewState
                               context.l10n.verifiedCount(vmState.verifiedCount),
                           icon: LucideIcons.trophy,
                           color: AchievementTier.gold.color),
-                      StatTile(
-                          label: context.l10n.statCompanyRank,
-                          value: context.l10n
-                              .rankValue('${vmState.companyRank ?? '-'}'),
-                          icon: LucideIcons.building2,
-                          color: AppColors.verified),
-                      StatTile(
-                          label: context.l10n.statGlobalRank,
-                          value: vmState.user!.hiddenFromCommunity
-                              ? context.l10n.rankHidden
-                              : context.l10n
-                                  .rankValue('${vmState.globalRank ?? '-'}'),
-                          icon: LucideIcons.globe,
-                          color: AppColors.success),
+                      if (vmState.company?.individualRankings ?? true) ...[
+                        StatTile(
+                            label: context.l10n.statCompanyRank,
+                            value: context.l10n
+                                .rankValue('${vmState.companyRank ?? '-'}'),
+                            icon: LucideIcons.building2,
+                            color: AppColors.verified),
+                        StatTile(
+                            label: context.l10n.statGlobalRank,
+                            value: vmState.user!.hiddenFromCommunity
+                                ? context.l10n.rankHidden
+                                : context.l10n
+                                    .rankValue('${vmState.globalRank ?? '-'}'),
+                            icon: LucideIcons.globe,
+                            color: AppColors.success),
+                      ],
                     ]),
                     SectionTitle(context.l10n.recentAchievements),
                     if (vmState.recentAchievements.isEmpty)

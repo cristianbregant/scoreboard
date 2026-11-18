@@ -87,16 +87,26 @@ class ScoreboardInteractor extends ChangeNotifier {
   }
 
   /// Users ranked by points, optionally restricted to one company.
-  Future<List<UserLeaderboardEntry>> getUserLeaderboard(
-      {String? companyId}) async {
+  ///
+  /// The global leaderboard leaves out who asked not to appear in it and
+  /// the people of companies that turned individual rankings off.
+  Future<List<UserLeaderboardEntry>> getUserLeaderboard({String? companyId}) =>
+      _rankUsers(companyId: companyId, honorCompanyPrivacy: true);
+
+  Future<List<UserLeaderboardEntry>> _rankUsers(
+      {String? companyId, required bool honorCompanyPrivacy}) async {
     final users = await _repository.getUsers();
     final companies = await _repository.getCompanies();
     final achievements = await _repository.getAchievements();
+    final unranked = {
+      if (honorCompanyPrivacy)
+        for (final c in companies)
+          if (!c.individualRankings) c.id
+    };
 
-    // The global leaderboard leaves out who asked not to appear in it.
     final entries = users
         .where((user) => companyId == null
-            ? !user.hiddenFromCommunity
+            ? !user.hiddenFromCommunity && !unranked.contains(user.companyId)
             : user.companyId == companyId)
         .map((user) {
       final owned = achievements.where((a) => a.userId == user.id);
@@ -121,8 +131,10 @@ class ScoreboardInteractor extends ChangeNotifier {
     ];
   }
 
+  /// Company totals aren't individual rankings, so every company counts,
+  /// whatever its privacy switches.
   Future<List<CompanyLeaderboardEntry>> getCompanyLeaderboard() async {
-    final users = await getUserLeaderboard();
+    final users = await _rankUsers(honorCompanyPrivacy: false);
     final companies = await _repository.getCompanies();
 
     final entries = companies.map((company) {

@@ -60,11 +60,12 @@ class _TeamViewState
                       label: l10n.statMembers,
                       value: '${overview.members.length}',
                       icon: LucideIcons.users),
-                  StatTile(
-                      label: l10n.teamStatNeedAttention,
-                      value: '${vmState.needAttentionCount(now)}',
-                      icon: LucideIcons.bellRing,
-                      color: Theme.of(context).colorScheme.error),
+                  if (vmState.company?.recognitionGaps ?? true)
+                    StatTile(
+                        label: l10n.teamStatNeedAttention,
+                        value: '${vmState.needAttentionCount(now)}',
+                        icon: LucideIcons.bellRing,
+                        color: Theme.of(context).colorScheme.error),
                   StatTile(
                       label: l10n.teamStatReceived30,
                       value: '${vmState.receivedLast30Days}',
@@ -77,6 +78,7 @@ class _TeamViewState
                   for (final stats in overview.members)
                     _MemberCard(
                       stats: stats,
+                      flagGaps: vmState.company?.recognitionGaps ?? true,
                       onSend: () => viewModel.onTapSendAchievement(
                           colleagueId: stats.member.id),
                       onNominate: () => viewModel.onTapNominate(stats.member),
@@ -95,8 +97,15 @@ class _MemberCard extends StatelessWidget {
   final VoidCallback onSend;
   final VoidCallback onNominate;
 
+  /// Marks who received nothing lately; off with the company's
+  /// `recognitionGaps` switch.
+  final bool flagGaps;
+
   const _MemberCard(
-      {required this.stats, required this.onSend, required this.onNominate});
+      {required this.stats,
+      required this.onSend,
+      required this.onNominate,
+      required this.flagGaps});
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +113,7 @@ class _MemberCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final member = stats.member;
     final last = stats.lastRecognizedAt;
-    final attention = stats.needsAttention(DateTime.now());
+    final attention = flagGaps && stats.needsAttention(DateTime.now());
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),

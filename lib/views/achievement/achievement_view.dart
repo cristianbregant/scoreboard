@@ -28,6 +28,12 @@ class _AchievementViewState extends BaseState<
     AchievementViewModelContract,
     AchievementState> implements AchievementViewContract {
   @override
+  void initState() {
+    super.initState();
+    viewModel.loadCredential(widget.achievement);
+  }
+
+  @override
   void openShareDialog(Achievement achievement, String postText,
       {required bool canAddToProfile}) {
     showShareAchievementDialog(
@@ -239,9 +245,20 @@ class _AchievementViewState extends BaseState<
                     leadingIcon: const Icon(LucideIcons.braces),
                     onPressed: () => viewModel.onExportOpenBadge(achievement),
                     child: Tooltip(
-                        message: context.l10n.exportOpenBadgeHint,
-                        child: Text(context.l10n.exportOpenBadge)),
+                        message: vmState.verifyUrl == null
+                            ? context.l10n.exportOpenBadgeHint
+                            : context.l10n.exportOpenBadgeSignedHint(
+                                achievement.company ?? ''),
+                        child: Text(vmState.verifyUrl == null
+                            ? context.l10n.exportOpenBadge
+                            : context.l10n.exportOpenBadgeSigned)),
                   ),
+                  if (vmState.verifyUrl != null)
+                    MenuItemButton(
+                      leadingIcon: const Icon(LucideIcons.link),
+                      onPressed: viewModel.onCopyVerifyLink,
+                      child: Text(context.l10n.copyVerifyLink),
+                    ),
                 ],
                 builder: (context, controller, _) => OutlinedButton.icon(
                   onPressed: () => controller.isOpen

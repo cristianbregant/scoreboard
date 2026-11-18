@@ -1017,5 +1017,208 @@
   "activityMemberInvited": "ha invitato {subject}",
   "activityInviteRevoked": "ha revocato l'invito per {subject}",
   "activityAdminGranted": "ha reso {subject} amministratore",
-  "activityAdminRevoked": "ha tolto a {subject} i diritti di amministratore"
+  "activityAdminRevoked": "ha tolto a {subject} i diritti di amministratore",
+  "colleaguesTitle": "Colleghi",
+  "privacyTitle": "Privacy e monitoraggio",
+  "privacyBody": "Cosa mostra l'app sulle singole persone. Se un accordo con le rappresentanze dei lavoratori lo richiede, spegni queste opzioni: valgono per tutta l'azienda.",
+  "individualRankingsTitle": "Classifiche individuali",
+  "individualRankingsBody": "Podio, classifica del team, posizioni nel profilo e nelle stagioni, classifica Community. Spente, restano solo i totali dell'azienda.",
+  "recognitionGapsTitle": "Segnala chi è poco riconosciuto",
+  "recognitionGapsBody": "Per i manager, chi non riceve nulla da un mese; per gli admin, chi ne ha ricevuti meno negli ultimi 90 giorni.",
+  "notifRecapBodyNoRank": "Questa settimana: +{xp} XP",
+  "@notifRecapBodyNoRank": {
+    "placeholders": {
+      "xp": {
+        "type": "int"
+      }
+    }
+  },
+  "activityPrivacyUpdated": "ha cambiato le impostazioni di privacy",
+  "exportOpenBadgeSignedHint": "Firmata da {company}: chiunque può verificarla dalla sua pagina pubblica.",
+  "@exportOpenBadgeSignedHint": {
+    "placeholders": {
+      "company": {}
+    }
+  },
+  "copyVerifyLink": "Copia il link di verifica",
+  "verifyLinkCopied": "Link di verifica copiato",
+  "certVerify": "Verifica questo certificato",
+  "importCsv": "Importa CSV",
+  "importFormatHint": "Una colonna di email, più ruolo e team se vuoi. Virgola o punto e virgola, intestazione facoltativa: va bene l'export di Excel.",
+  "importTitle": "Importa persone",
+  "importSummary": "{count, plural, =0{Nessuno da invitare} one{1 persona riceverà un invito} other{{count} persone riceveranno un invito}}",
+  "@importSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importWithTeams": "{count, plural, one{1 entrerà direttamente nel suo team.} other{{count} entreranno direttamente nel loro team.}}",
+  "@importWithTeams": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importLeftOut": "{count, plural, one{1 riga esclusa} other{{count} righe escluse}}",
+  "@importLeftOut": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importProblemLine": "Riga {line}: {reason}",
+  "@importProblemLine": {
+    "placeholders": {
+      "line": {
+        "type": "int"
+      },
+      "reason": {}
+    }
+  },
+  "importProblemInvalidEmail": "“{value}” non è un'email valida",
+  "@importProblemInvalidEmail": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "importProblemDuplicate": "{value} è già più in alto nel file",
+  "@importProblemDuplicate": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "importProblemMember": "{value} ha già un account",
+  "@importProblemMember": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "importProblemTeam": "nessun team si chiama “{value}”",
+  "@importProblemTeam": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "importConfirm": "{count, plural, one{Invita 1 persona} other{Invita {count} persone}}",
+  "@importConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importDone": "Inviti inviati: {created}. Esclusi: {skipped}.",
+  "@importDone": {
+    "placeholders": {
+      "created": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "importEmpty": "Nessun indirizzo email in questo file.",
+  "errorTooManyInvites": "Al massimo {max} persone per importazione: dividi il file.",
+  "@errorTooManyInvites": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "errorInvalidSsoTenant": "Non è un ID tenant di Microsoft: lo trovi nel portale di Entra, nella panoramica.",
+  "errorInvalidSsoDomain": "Non è un dominio valido, ad esempio azienda.it.",
+  "errorSsoInUse": "Un'altra azienda usa già questo accesso: un tenant o un dominio vale per una sola azienda.",
+  "activityMembersImported": "{count, plural, one{ha invitato 1 persona da un file} other{ha invitato {count} persone da un file}}",
+  "@activityMembersImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "ssoTitle": "Accesso singolo (SSO)",
+  "ssoBody": "Le persone accedono con l'account di lavoro, senza un'altra password. Vale solo per il tenant o il dominio indicati qui, e solo per chi è già membro o ha ricevuto un invito.",
+  "ssoMicrosoftTenant": "ID tenant Microsoft Entra",
+  "ssoMicrosoftTenantHint": "Nel portale di Entra, alla voce Panoramica. Lascia vuoto per non usare Microsoft.",
+  "ssoGoogleDomain": "Dominio Google Workspace",
+  "ssoGoogleDomainHint": "Quello degli indirizzi di lavoro, ad esempio azienda.it. Lascia vuoto per non usare Google.",
+  "activitySsoUpdated": "ha cambiato l'accesso singolo",
+  "authOr": "oppure",
+  "ssoContinueWith": "Continua con {provider}",
+  "@ssoContinueWith": {
+    "placeholders": {
+      "provider": {}
+    }
+  },
+  "ssoBrowserDone": "Accesso fatto. Puoi chiudere questa scheda e tornare a Scoreboard.",
+  "ssoBrowserFailed": "L'accesso non è andato a buon fine. Torna a Scoreboard per vedere perché.",
+  "errorSsoFailed": "L'accesso con il tuo account di lavoro non è riuscito. Riprova.",
+  "errorSsoCancelled": "Accesso annullato.",
+  "errorSsoNoAccount": "Questo account non è ancora in Scoreboard: chiedi a un admin della tua azienda di invitarti.",
+  "errorSsoNotConfigured": "La tua azienda non ha attivato l'accesso con questo account. Usa email e password, o chiedi al tuo admin.",
+  "consoleIntegrations": "Integrazioni",
+  "consoleIntegrationsSubtitle": "Scoreboard dentro gli strumenti che già usate: chat e account di lavoro.",
+  "chatTitle": "Teams e Slack",
+  "chatBody": "Ogni riconoscimento compare anche nel canale che scegli, dove il team lo vede davvero. Le note personali restano in Scoreboard.",
+  "chatConnect": "Collega",
+  "chatConnectTitle": "Collega {name}",
+  "@chatConnectTitle": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "chatConnected": "{name} collegato",
+  "@chatConnected": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "chatConnectedTo": "Collegato · {hint}",
+  "@chatConnectedTo": {
+    "placeholders": {
+      "hint": {}
+    }
+  },
+  "chatNotConnected": "Non collegato",
+  "chatDisconnect": "Scollega",
+  "chatDisconnectTitle": "Scollegare {name}?",
+  "@chatDisconnectTitle": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "chatDisconnectBody": "Nel canale non arriveranno più riconoscimenti. Potrai ricollegarlo quando vuoi.",
+  "chatSendTest": "Invia una prova",
+  "chatTestSent": "Messaggio di prova inviato a {name}",
+  "@chatTestSent": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "chatLastError": "L'ultimo invio a {channel} non è andato a buon fine ({date}). Controlla il collegamento e invia una prova.",
+  "@chatLastError": {
+    "placeholders": {
+      "channel": {},
+      "date": {}
+    }
+  },
+  "chatPostVerified": "Pubblica i traguardi verificati",
+  "chatPostPeer": "Pubblica anche quelli tra colleghi",
+  "chatPostPeerHint": "Più frequenti: utili in un canale dedicato, rumorosi in quello generale.",
+  "chatLanguage": "Lingua dei messaggi",
+  "chatWebhookUrl": "URL del webhook",
+  "chatTeamsHowTo": "In Teams, apri il canale, scegli «Flussi di lavoro» e il modello «Pubblica in un canale quando viene ricevuta una richiesta webhook». Copia qui l'URL che ti dà.",
+  "chatSlackHowTo": "In Slack, crea un'app su api.slack.com/apps, attiva «Incoming Webhooks» e aggiungi un webhook per il canale. Copia qui l'URL che inizia con https://hooks.slack.com.",
+  "errorInvalidWebhook": "Non è un webhook di Teams o Slack. Controlla di aver copiato l'URL intero.",
+  "errorWebhookFailed": "Il servizio ha rifiutato il messaggio. Il webhook potrebbe essere stato rimosso: collegalo di nuovo.",
+  "errorNotConfigured": "Questo canale non è collegato.",
+  "errorNeedsBackend": "Disponibile con il server di Scoreboard: in questa demo non si inviano messaggi.",
+  "activityIntegrationsUpdated": "ha cambiato le integrazioni",
+  "exportOpenBadgeSigned": "Open Badge firmato"
 }

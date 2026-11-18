@@ -14,6 +14,10 @@ class ApiClient {
   set clientAdapter(HttpClientAdapter adapter) =>
       _dio.httpClientAdapter = adapter;
 
+  /// The backend's address, for links opened outside the client, such as
+  /// single sign-on in the browser.
+  String get baseUrl => _dio.options.baseUrl;
+
   ApiClient({required String baseUrl, required String? Function() token})
       : _dio = Dio() {
     _dio.options.baseUrl = baseUrl;

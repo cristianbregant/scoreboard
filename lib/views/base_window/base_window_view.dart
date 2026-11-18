@@ -11,12 +11,12 @@ import 'package:scoreboard/core/routing/dynamic_routes.dart';
 import 'package:scoreboard/core/routing/route_names.dart';
 import 'package:scoreboard/model/achievement.dart';
 import 'package:scoreboard/widgets/notifications_panel.dart';
-import 'package:multiview_desktop/multiview_desktop.dart';
 import 'package:scoreboard/model/player_level.dart';
 import 'package:scoreboard/views/views.dart';
 import 'package:scoreboard/widgets/base_view/side_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:scoreboard/core/locator/locator.dart';
+import 'package:scoreboard/services/desktop_shell_service.dart';
 import 'package:scoreboard/views/_base/base_stateful_widget.dart';
 import 'package:scoreboard/views/_base/base_state.dart';
 import 'package:scoreboard/views/_base/base_widget.dart';
@@ -99,11 +99,7 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
   }
 
   @override
-  Future<void> bringToFront() async {
-    MultiViewDesktop.of(context)
-      ..show()
-      ..focus();
-  }
+  Future<void> bringToFront() => getIt<DesktopShellService>().showWindow();
 
   /// The sidebar's [index]-th entry: a page, or a console section in admin
   /// mode.
@@ -211,6 +207,10 @@ class _BaseWindowViewState extends BaseState<BaseWindowView,
           label: l10n.consoleCompany,
           icon: LucideIcons300.palette,
           selectedIcon: LucideIcons500.palette),
+      ConsoleSection.integrations => SidebarItem(
+          label: l10n.consoleIntegrations,
+          icon: LucideIcons300.plug,
+          selectedIcon: LucideIcons500.plug),
     };
   }
 
