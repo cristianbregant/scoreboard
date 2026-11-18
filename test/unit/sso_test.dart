@@ -17,19 +17,24 @@ import '../helpers/test_app.dart';
 
 const _texts = (done: 'done', failed: 'failed');
 
+/// The real HTTP client. Once a test has set up the Flutter test binding
+/// (`setUpApp` below), `HttpClient()` gives one that answers 400 without
+/// connecting, and the loopback server would wait forever.
+class _RealHttp extends HttpOverrides {}
+
 /// Plays the browser: once the backend is done, it goes to [back] built
 /// from the redirect address and state the service chose.
 PlatformSsoService _browser(Map<String, String> Function(String state) back) =>
     PlatformSsoService(openBrowser: (url) async {
       final redirect = Uri.parse(url.queryParameters['redirect_uri']!);
       final state = url.queryParameters['state']!;
-      Future(() async {
-        final client = HttpClient();
-        final request =
-            await client.getUrl(redirect.replace(queryParameters: back(state)));
-        await (await request.close()).drain<void>();
-        client.close();
-      });
+      Future(() => HttpOverrides.runWithHttpOverrides(() async {
+            final client = HttpClient();
+            final request = await client
+                .getUrl(redirect.replace(queryParameters: back(state)));
+            await (await request.close()).drain<void>();
+            client.close();
+          }, _RealHttp()));
       return true;
     });
 

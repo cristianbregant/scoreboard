@@ -132,12 +132,21 @@ class ScoreboardInteractor extends ChangeNotifier {
   }
 
   /// Company totals aren't individual rankings, so every company counts,
-  /// whatever its privacy switches.
+  /// whatever its privacy switches. The backend sends them: it shares only
+  /// the people who appear in the Community leaderboard.
   Future<List<CompanyLeaderboardEntry>> getCompanyLeaderboard() async {
     final users = await _rankUsers(honorCompanyPrivacy: false);
     final companies = await _repository.getCompanies();
 
     final entries = companies.map((company) {
+      if (company.totals case final totals?) {
+        return (
+          company: company,
+          points: totals.points,
+          members: totals.members,
+          count: totals.achievements,
+        );
+      }
       final members = users.where((e) => e.user.companyId == company.id);
       return (
         company: company,

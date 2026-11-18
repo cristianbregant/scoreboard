@@ -15,6 +15,27 @@ class CompanyBrand {
   Map<String, dynamic> toJson() => {'symbol': symbol, 'color': color};
 }
 
+/// A company's line in the company leaderboard, as the backend counts it:
+/// it doesn't send every company's people to everyone.
+class CompanyTotals {
+  final int points;
+  final int members;
+  final int achievements;
+
+  const CompanyTotals(
+      {required this.points,
+      required this.members,
+      required this.achievements});
+
+  factory CompanyTotals.fromJson(Map<String, dynamic> json) => CompanyTotals(
+      points: json['points'],
+      members: json['members'],
+      achievements: json['achievements']);
+
+  Map<String, dynamic> toJson() =>
+      {'points': points, 'members': members, 'achievements': achievements};
+}
+
 class Company {
   final String id;
   final String name;
@@ -31,6 +52,9 @@ class Company {
   /// Mirrors [CompanySettings.recognitionGaps].
   final bool recognitionGaps;
 
+  /// From the backend; null on the mock, where the app counts them.
+  final CompanyTotals? totals;
+
   const Company(
       {required this.id,
       required this.name,
@@ -40,7 +64,8 @@ class Company {
       required this.foundedYear,
       this.brand,
       this.individualRankings = true,
-      this.recognitionGaps = true});
+      this.recognitionGaps = true,
+      this.totals});
 
   /// This company with the privacy switches of its settings.
   Company withPrivacy(
@@ -54,7 +79,8 @@ class Company {
           foundedYear: foundedYear,
           brand: brand,
           individualRankings: individualRankings,
-          recognitionGaps: recognitionGaps);
+          recognitionGaps: recognitionGaps,
+          totals: totals);
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
@@ -68,6 +94,9 @@ class Company {
           json['brand'] != null ? CompanyBrand.fromJson(json['brand']) : null,
       individualRankings: json['individual_rankings'] ?? true,
       recognitionGaps: json['recognition_gaps'] ?? true,
+      totals: json['totals'] != null
+          ? CompanyTotals.fromJson(json['totals'])
+          : null,
     );
   }
 
@@ -81,5 +110,6 @@ class Company {
         'brand': brand?.toJson(),
         'individual_rankings': individualRankings,
         'recognition_gaps': recognitionGaps,
+        if (totals != null) 'totals': totals!.toJson(),
       };
 }

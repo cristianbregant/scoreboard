@@ -601,6 +601,7 @@
   "errorSsoCancelled": "Inicio de sesión cancelado.",
   "errorSsoNoAccount": "Esta cuenta aún no está en Scoreboard: pide a un administrador de tu empresa que te invite.",
   "errorSsoNotConfigured": "Tu empresa no ha activado el acceso con esta cuenta. Usa email y contraseña, o pregunta a tu administrador.",
+  "errorTooManyAttempts": "Demasiados intentos con este correo. Vuelve a intentarlo dentro de unos minutos.",
   "consoleIntegrations": "Integraciones",
   "consoleIntegrationsSubtitle": "Scoreboard dentro de las herramientas que ya usáis: chat y cuentas de trabajo.",
   "chatTitle": "Teams y Slack",

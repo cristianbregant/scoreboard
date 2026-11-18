@@ -22,6 +22,10 @@ enum AuthError {
   ssoCancelled,
   ssoNoAccount,
   ssoNotConfigured,
+
+  /// Too many wrong passwords for this email: the backend pauses its
+  /// sign-in for a few minutes.
+  tooManyAttempts,
 }
 
 /// Carries an [AuthError] code; the UI turns it into localized text.

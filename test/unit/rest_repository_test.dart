@@ -5,11 +5,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:scoreboard/api/api_client.dart';
 import 'package:scoreboard/api/error/api_error.dart';
+import 'package:scoreboard/interactors/scoreboard_interactor.dart';
 import 'package:scoreboard/model/admin.dart';
 import 'package:scoreboard/model/auth.dart';
 import 'package:scoreboard/model/feed.dart';
 import 'package:scoreboard/model/invite.dart';
 import 'package:scoreboard/model/send_achievement.dart';
+import 'package:scoreboard/services/file_picker_service.dart';
+import 'package:scoreboard/services/image_storage_service.dart';
 import 'package:scoreboard/services/rest_scoreboard_repository.dart';
 import 'package:scoreboard/services/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,6 +102,46 @@ void main() {
             .having((e) => e.error, 'error', SendAchievementError.alreadySent)
             .having((e) => e.templateName, 'templateName', 'Team Player')
             .having((e) => e.colleagueName, 'colleagueName', 'Luca')));
+  });
+
+  test('a paused sign-in after too many wrong passwords', () async {
+    backend.respond =
+        (_) => (429, _error('auth', 'tooManyAttempts', {'retry_after': 600}));
+    await expectLater(repository.signIn('a@b.co', 'pw'),
+        throwsAuthError(AuthError.tooManyAttempts));
+  });
+
+  test('the company leaderboard uses the totals the backend sends', () async {
+    await preferences.setSessionToken('secret');
+    await preferences.setSessionUserId('u_me');
+    Map<String, Object?> company(String id, int points) => {
+          'id': id,
+          'name': id,
+          'description': '',
+          'industry': '',
+          'location': '',
+          'founded_year': 2020,
+          'totals': {'points': points, 'members': 4, 'achievements': 9},
+        };
+    backend.respond = (request) => switch (request.path) {
+          '/me' => (200, _user),
+          // Only Mario: the backend doesn't send every company's people.
+          '/users' => (200, [_user]),
+          '/companies' => (
+              200,
+              [company('c_northwind', 300), company('c_bluepeak', 900)]
+            ),
+          '/achievements' => (200, const []),
+          _ => (404, _error('http', 'notFound')),
+        };
+    final scoreboard = ScoreboardInteractor(
+        repository, FilePickerService(), ImageStorageService());
+    final leaderboard = await scoreboard.getCompanyLeaderboard();
+    expect(leaderboard.map((e) => (e.company.id, e.points, e.membersCount)), [
+      ('c_bluepeak', 900, 4),
+      ('c_northwind', 300, 4),
+    ]);
+    expect(leaderboard.first.achievementsCount, 9);
   });
 
   test('unknown errors stay API errors', () async {

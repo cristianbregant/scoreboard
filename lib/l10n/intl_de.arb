@@ -601,6 +601,7 @@
   "errorSsoCancelled": "Anmeldung abgebrochen.",
   "errorSsoNoAccount": "Dieses Konto ist noch nicht bei Scoreboard: Bitte einen Admin deines Unternehmens um eine Einladung.",
   "errorSsoNotConfigured": "Dein Unternehmen hat die Anmeldung mit diesem Konto nicht aktiviert. Nutze E-Mail und Passwort oder frag deinen Admin.",
+  "errorTooManyAttempts": "Zu viele Versuche mit dieser E-Mail-Adresse. Versuche es in ein paar Minuten erneut.",
   "consoleIntegrations": "Integrationen",
   "consoleIntegrationsSubtitle": "Scoreboard in den Tools, die ihr schon nutzt: Chat und Arbeitskonten.",
   "chatTitle": "Teams und Slack",

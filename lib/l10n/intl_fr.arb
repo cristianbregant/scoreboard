@@ -601,6 +601,7 @@
   "errorSsoCancelled": "Connexion annulée.",
   "errorSsoNoAccount": "Ce compte n'est pas encore sur Scoreboard : demandez à un admin de votre entreprise de vous inviter.",
   "errorSsoNotConfigured": "Votre entreprise n'a pas activé la connexion avec ce compte. Utilisez e-mail et mot de passe, ou demandez à votre admin.",
+  "errorTooManyAttempts": "Trop de tentatives avec cette adresse e-mail. Réessayez dans quelques minutes.",
   "consoleIntegrations": "Intégrations",
   "consoleIntegrationsSubtitle": "Scoreboard dans les outils que vous utilisez déjà : messagerie et comptes professionnels.",
   "chatTitle": "Teams et Slack",

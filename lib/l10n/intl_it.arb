@@ -1162,6 +1162,7 @@
   "errorSsoCancelled": "Accesso annullato.",
   "errorSsoNoAccount": "Questo account non è ancora in Scoreboard: chiedi a un admin della tua azienda di invitarti.",
   "errorSsoNotConfigured": "La tua azienda non ha attivato l'accesso con questo account. Usa email e password, o chiedi al tuo admin.",
+  "errorTooManyAttempts": "Troppi tentativi con questa email. Riprova tra qualche minuto.",
   "consoleIntegrations": "Integrazioni",
   "consoleIntegrationsSubtitle": "Scoreboard dentro gli strumenti che già usate: chat e account di lavoro.",
   "chatTitle": "Teams e Slack",

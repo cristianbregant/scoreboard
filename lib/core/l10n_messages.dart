@@ -32,6 +32,7 @@ extension AuthExceptionText on AuthException {
         AuthError.ssoCancelled => l10n.errorSsoCancelled,
         AuthError.ssoNoAccount => l10n.errorSsoNoAccount,
         AuthError.ssoNotConfigured => l10n.errorSsoNotConfigured,
+        AuthError.tooManyAttempts => l10n.errorTooManyAttempts,
       };
 }
 

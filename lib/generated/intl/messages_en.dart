@@ -801,6 +801,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorTemplateNotFound": MessageLookupByLibrary.simpleMessage(
           "This base achievement no longer exists.",
         ),
+        "errorTooManyAttempts": MessageLookupByLibrary.simpleMessage(
+          "Too many attempts with this email. Try again in a few minutes.",
+        ),
         "errorTooManyInvites": m62,
         "errorWebhookFailed": MessageLookupByLibrary.simpleMessage(
           "The service refused the message. The webhook may have been removed: connect it again.",

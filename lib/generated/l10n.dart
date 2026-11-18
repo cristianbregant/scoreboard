@@ -5475,6 +5475,16 @@ class AppLocalization {
     );
   }
 
+  /// `Troppi tentativi con questa email. Riprova tra qualche minuto.`
+  String get errorTooManyAttempts {
+    return Intl.message(
+      'Troppi tentativi con questa email. Riprova tra qualche minuto.',
+      name: 'errorTooManyAttempts',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Integrazioni`
   String get consoleIntegrations {
     return Intl.message(

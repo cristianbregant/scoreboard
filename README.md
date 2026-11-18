@@ -10,7 +10,7 @@ A desktop app for workplace recognition, for macOS, Windows and Linux. Companies
   - Verified cards show the issuing company's logo, like a certificate.
   - Cards received from a colleague show the sender and their message.
 - **Two kinds of achievements.**
-  - *Verified*: issued only by the company. Worth up to 150 XP, ranked Bronze, Silver, Gold or Platinum.
+  - *Verified*: issued only by the company. Worth 50 to 200 XP, ranked Bronze, Silver, Gold or Platinum.
   - *Base* (peer): created by anyone and sent between colleagues of the same company. Worth 10, 25 or 50 XP.
 - **A shared library of base achievements.** Create your own with a name, description, icon and value, send them with an optional message, and see everything you sent.
 - **Leaderboards.**
@@ -140,6 +140,7 @@ In VS Code, pick *Scoreboard (local backend)* in Run and Debug. The demo account
 - The session is a bearer token, saved in the preferences next to the user's id. When it expires the app goes back to the sign-in screen.
 - The server's error codes come back as the usual `AuthException`, `AdminException` and `SendAchievementException`, so the screens show the same messages. Any other failure, such as a lost connection, is an `ApiError` (see [lib/api](lib/api)).
 - The server creates notifications and issues work anniversaries and weekly recaps with scheduled jobs. It also checks the business rules again.
+- Other companies' people come only as the Community leaderboard shows them (name, role, points), and the company leaderboard uses the totals the server sends with each company (`Company.totals`).
 - Profile photos, covers and the company logo are still copied into the app's support directory. The server stores only their local path, so they show only on the computer where they were picked. Moving them to the server needs an upload endpoint.
 
 [test/integration/backend_test.dart](test/integration/backend_test.dart) runs the REST repository against a real backend:

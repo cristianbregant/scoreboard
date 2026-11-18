@@ -824,6 +824,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "errorTemplateNotFound": MessageLookupByLibrary.simpleMessage(
           "Diesen Basis-Erfolg gibt es nicht mehr.",
         ),
+        "errorTooManyAttempts": MessageLookupByLibrary.simpleMessage(
+          "Zu viele Versuche mit dieser E-Mail-Adresse. Versuche es in ein paar Minuten erneut.",
+        ),
         "errorTooManyInvites": m62,
         "errorWebhookFailed": MessageLookupByLibrary.simpleMessage(
           "Der Dienst hat die Nachricht abgelehnt. Der Webhook wurde vielleicht entfernt: Verbinde ihn neu.",
