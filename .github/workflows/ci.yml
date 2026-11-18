@@ -32,6 +32,13 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: stable
           cache: true
+      # flutter test builds the plugins' native code for the host (the
+      # tray's needs GTK, X11 and XInput), like the Linux release does.
+      - name: Install Linux libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config \
+            libgtk-3-dev libx11-dev libxi-dev
       - run: flutter pub get
 
       # lib/generated is committed: editing an .arb file without running

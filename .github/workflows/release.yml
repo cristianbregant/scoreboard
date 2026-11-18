@@ -8,6 +8,11 @@
 #           notarization APPLE_ID, APPLE_TEAM_ID, APPLE_APP_PASSWORD (an
 #           app-specific password).
 #   Windows WINDOWS_CERTIFICATE (base64 .pfx) and WINDOWS_CERTIFICATE_PASSWORD.
+#
+# The packages talk to the backend at the repository variable
+# SCOREBOARD_API_URL (Settings → Secrets and variables → Actions →
+# Variables), e.g. https://api.example.com. Without it they run on the
+# built-in demo data.
 name: Release
 
 on:
@@ -38,6 +43,9 @@ jobs:
             echo "::error::Tag v$tag does not match pubspec.yaml version $version"
             exit 1
           fi
+      - name: Backend address
+        if: vars.SCOREBOARD_API_URL == ''
+        run: echo "::warning::SCOREBOARD_API_URL is not set, so the packages run on the built-in demo data."
 
   checks:
     name: Checks
@@ -61,7 +69,7 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-      - run: flutter build macos --release
+      - run: flutter build macos --release --dart-define=SCOREBOARD_API_URL=${{ vars.SCOREBOARD_API_URL }}
 
       - name: Sign the app
         if: env.HAS_CERTIFICATE == 'true'
@@ -120,7 +128,7 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-      - run: flutter build windows --release
+      - run: flutter build windows --release --dart-define=SCOREBOARD_API_URL=${{ vars.SCOREBOARD_API_URL }}
 
       - name: Sign the executable
         if: env.HAS_CERTIFICATE == 'true'
@@ -164,7 +172,7 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-      - run: flutter build linux --release
+      - run: flutter build linux --release --dart-define=SCOREBOARD_API_URL=${{ vars.SCOREBOARD_API_URL }}
       - name: Package tarball
         run: tar -czf Scoreboard-linux-x64.tar.gz -C build/linux/x64/release/bundle .
       - uses: actions/upload-artifact@v4
